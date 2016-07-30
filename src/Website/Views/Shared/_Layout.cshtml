@@ -1,0 +1,87 @@
+﻿@inject BowerVersions BowerVersions
+@inject IConfiguration Config
+@inject SiteOptions Options
+<!DOCTYPE html>
+<html lang="en-gb">
+<head prefix="og:http://ogp.me/ns#">
+    @{
+        string canonicalUri = Context.Request.Canonical();
+        string image = ViewBag.MetaImage ?? string.Empty;
+
+        if (!string.IsNullOrEmpty(image))
+        {
+            image = Url.Content(image);
+        }
+
+        var model = MetaModel.Create(
+            Options.Metadata,
+            canonicalUri: canonicalUri,
+            description: ViewBag.MetaDescription as string,
+            imageUri: image,
+            imageAltText: ViewBag.MetaImageAltText as string,
+            robots: ViewBag.MetaRobots as string,
+            title: ViewBag.Title as string);
+
+        await Html.RenderPartialAsync("_Meta", model);
+        await Html.RenderPartialAsync("_Links", canonicalUri);
+    }
+    @RenderSection("styles", required: false)
+    <script type="text/javascript">
+        if (self == top) {
+            document.documentElement.className = document.documentElement.className.replace(/\bjs-flash\b/, '');
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="link-home" asp-controller="Home" asp-action="Index" class="navbar-brand">@Options.Metadata.Domain</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a id="link-projects" asp-controller="Projects" asp-action="Index" class="navbar-brand" title="My personal projects">Projects</a></li>
+                    <li><a id="link-blog" asp-controller="Home" asp-action="Blog" class="navbar-brand" target="_blank" title="My blog">Blog</a></li>
+                    <li><a id="link-tools" asp-controller="Tools" asp-action="Index" class="navbar-brand" title="Development tools">Tools</a></li>
+                    <li><a id="link-about" asp-controller="Home" asp-action="About" class="navbar-brand" title="About me">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @Options.Metadata.Author.Name @DateTimeOffset.UtcNow.Year | <a id="link-status" href="@Options.ExternalLinks.Status.AbsoluteUri" target="_blank" title="View site uptime information">Site Status &amp; Uptime</a> | Built from <a id="link-git" href="@Options.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">@string.Join(string.Empty, GitMetadata.Commit.Take(7))</a> on <a href="@Options.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">@GitMetadata.Branch</a> | Sponsored by <a id="link-browserstack" href="https://www.browserstack.com/"><img src="~/Assets/img/browserstack.svg" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" /></a></p>
+        </footer>
+    </div><environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/assets/js/site.js" asp-append-version="true"></script>
+    </environment><environment names="Staging,Production">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/@BowerVersions["jquery"]/jquery.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/@BowerVersions["bootstrap"]/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/assets/js/site.min.js" asp-append-version="true"></script></environment>
+    @RenderSection("scripts", required: false)
+</body>
+<!--
+    Datacenter: @Config["Azure:Datacenter"]
+    Instance:   @Environment.MachineName
+    Commit:     @GitMetadata.Commit
+-->
+</html>

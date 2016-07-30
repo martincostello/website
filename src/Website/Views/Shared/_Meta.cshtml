@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@model MetaModel
+@inject IHostingEnvironment Hosting
+@inject SiteOptions Options
+    <title>@Model.Title</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="cache-control" content="no-cache, no-store" />
+    <meta http-equiv="content-type" content="text/html;" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="@Model.Author" />
+    <meta name="copyright" content="&copy; @Model.Author @DateTimeOffset.UtcNow.Date.Year" />
+    <meta name="description" content="@Model.Description" />
+    <meta name="language" content="en" />
+    <meta name="keywords" content="@Model.Keywords" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="robots" content="@Model.Robots" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
+    <meta property="fb:profile_id" content="@Model.Facebook" />
+    <meta property="og:description" content="@Model.Description" />
+    @if (!string.IsNullOrEmpty(Model.ImageUri))
+    {
+    <meta property="og:image" content="@Model.ImageUri" />
+    <meta name="twitter:image" content="@Model.ImageUri" />
+    <meta name="twitter:image:alt" content="@Model.ImageAltText" />
+    }
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="@Model.SiteName" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="@Model.SiteType" />
+    <meta property="og:url" content="@Model.CanonicalUri" />
+    <meta name="twitter:card" content="@Model.TwitterCard" />
+    <meta name="twitter:creator" content="@Model.TwitterHandle" />
+    <meta name="twitter:description" content="@Model.Description" />
+    <meta name="twitter:domain" content="@Model.HostName" />
+    <meta name="twitter:site" content="@Model.TwitterHandle" />
+    <meta name="twitter:title" content="@Model.Title" />
+    <meta name="twitter:url" content="@Model.CanonicalUri" />
+    <meta name="application-name" content="@Model.SiteName" />
+    <meta name="google-analytics" content="@(Hosting.IsProduction() ? Options.Analytics.Google : string.Empty)" />
+    <meta name="msapplication-config" content="@Url.Content("~/browserconfig.xml")" />
+    <meta name="msapplication-navbutton-color" content="#0095DA" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="msapplication-TileColor" content="#2d89ef" />
+    <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" asp-append-version="true" />

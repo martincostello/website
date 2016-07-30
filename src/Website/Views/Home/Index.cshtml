@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="jumbotron">
+    <h1>Martin Costello</h1>
+    <p class="lead">.NET Software Developer &amp; Tester</p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Projects</h2>
+        <p>Information about development projects I manage and/or work on.</p>
+        <p>@Html.ActionLink("Learn more »", "Index", "Projects", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Blog</h2>
+        <p>I occasionally blog about topics related to .NET development.</p>
+        <p>@Html.ActionLink("Visit blog »", "Blog", "Home", null, new { @class = "btn btn-default", target = "_blank" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Tools</h2>
+        <p>A few simple tools I use regularly to develop .NET applications.</p>
+        <p>@Html.ActionLink("View tools »", "Index", "Tools", null, new { @class = "btn btn-default" })</p>
+    </div>
+</div>

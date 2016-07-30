@@ -1,0 +1,71 @@
+﻿@inject BowerVersions BowerVersions
+@inject SiteOptions Options
+@{
+    ViewBag.Title = "About Martin";
+    ViewBag.MetaDescription = "Information about Martin Costello, a software developer and tester.";
+    ViewBag.MetaImage = Url.Content("~/assets/img/Martin_Small.png");
+    ViewBag.MetaImageAltText = "Martin Costello";
+    int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
+}
+<div class="row">
+    <div class="col-md-4">
+        <br />
+        <img class="center-block img-responsive lazy" data-original="@ViewBag.MetaImage" height="300" width="288" src="~/Assets/img/lazy.gif" alt="@ViewBag.MetaImageAltText" title="@ViewBag.MetaImageAltText" />
+    </div>
+    <div class="col-md-8">
+        <h1>About Martin</h1>
+        <p>Martin Costello is a C# .NET developer and tester with over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
+        <p>His experience includes various parts of the Microsoft technology stack and cloud hosting, including:</p>
+        <ul>
+            <li>ASP.NET</li>
+            <li>Amazon Web Services</li>
+            <li>EntityFramework</li>
+            <li>Git</li>
+            <li>Microsoft Azure</li>
+            <li>MSBuild</li>
+            <li>MSTest/NUnit/xunit</li>
+            <li>SQL Server</li>
+            <li>Visual Studio Team Services/Team Foundation Server</li>
+            <li>WCF</li>
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <h4>LinkedIn</h4>
+        <script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="Martin Costello" data-related="false">
+        </script>
+    </div>
+    <div class="col-md-3">
+        <h4>Twitter</h4>
+        <a href="https://twitter.com/@Options.Metadata.Author.SocialMedia.Twitter" class="twitter-follow-button" data-show-screen-name="true" data-size="large" data-show-count="false" data-lang="en">Follow me on Twitter</a>
+    </div>
+    <div class="col-md-3">
+        <h4>Stack Overflow</h4>
+        <a href="https://stackoverflow.com/users/1064169/martin-costello">
+            <img src="https://stackoverflow.com/users/flair/1064169.png?theme=clean" width="208" height="58" alt="View the profile for martin_costello on Stack Overflow" title="View the profile for martin_costello on Stack Overflow">
+        </a>
+    </div>
+    <div class="col-md-3">
+        <h4>Open Hub</h4>
+        <a href="https://www.openhub.net/accounts/524611?ref=Detailed" target="_blank">
+            <img alt="Open Hub profile for Martin Costello" title="Open Hub profile for Martin Costello" border="0" height="35" width="230" src="https://www.openhub.net/accounts/524611/widgets/account_detailed.gif" />
+        </a>
+    </div>
+</div>
+@section scripts {
+    <environment names="Development">
+        <script src="~/lib/jquery.lazyload/jquery.lazyload.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@BowerVersions["jquery.lazyload"]/jquery.lazyload.min.js" integrity="" crossorigin="anonymous"
+                asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.js"
+                asp-fallback-test="window.$.lazyload">
+        </script>
+    </environment>
+    <script src="//platform.linkedin.com/in.js"></script>
+    @* TODO Move to own script file *@
+    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    <script>$(function () { $("img.lazy").lazyload(); });</script>
+}

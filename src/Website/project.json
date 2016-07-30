@@ -1,0 +1,127 @@
+{
+  "authors": [ "Martin Costello" ],
+  "copyright": "Martin Costello (c) 2016",
+  "description": "https://martincostello.com/",
+  "title": "martincostello.com",
+  "version": "1.0.0-*",
+
+  "userSecretsId": "martincostello.com",
+
+  "buildOptions": {
+    "additionalArguments": [ "/ruleset:../../Website.ruleset", "/additionalfile:../../stylecop.json" ],
+    "emitEntryPoint": true,
+    "preserveCompilationContext": true,
+    "warningsAsErrors": true,
+    "xmlDoc": false,
+    "compile": {
+      "exclude": [ "wwwroot", "node_modules" ],
+      "excludeFiles": [],
+      "includeFiles": [ "../../AssemblyVersion.cs", "../../CommonAssemblyInfo.cs" ]
+    },
+    "copyToOutput": {
+      "includeFiles": [ "appsettings.json", "bower.json", "project.json" ]
+    }
+  },
+
+  "configurations": {
+    "Debug": {
+      "buildOptions": {
+        "define": [ "DEBUG", "TRACE" ],
+        "optimize": false
+      }
+    },
+    "Release": {
+      "buildOptions": {
+        "define": [ "RELEASE", "TRACE" ],
+        "optimize": true
+      }
+    }
+  },
+
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0",
+      "type": "platform"
+    },
+    "Autofac": "4.0.0-rc3-280",
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc3-280",
+    "Microsoft.AspNetCore.CookiePolicy": "1.0.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Microsoft.AspNetCore.HttpOverrides": "1.0.0",
+    "Microsoft.AspNetCore.Mvc": "1.0.0",
+    "Microsoft.AspNetCore.Routing": "1.0.0",
+    "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    },
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.0.0",
+    "Microsoft.Extensions.Logging.Console": "1.0.0",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0",
+    "Microsoft.Extensions.Logging.TraceSource": "1.0.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
+    "Newtonsoft.Json": "9.0.1",
+    "NodaTime": "2.0.0-alpha20160523",
+    "StyleCop.Analyzers": {
+      "version": "1.0.0",
+      "type": "build"
+    }
+  },
+
+  "packOptions": {
+    "iconUrl": "https://martincostello.com/favicon.ico",
+    "licenseUrl": "https://github.com/martincostello/website/blob/master/LICENSE",
+    "owners": [ "Martin Costello" ],
+    "projectUrl": "https://github.com/martincostello/website",
+    "releaseNotes": "https://github.com/martincostello/website/releases",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/martincostello/website.git"
+    },
+    "requireLicenseAcceptance": false,
+    "summary": "Martin Costello's website",
+    "tags": []
+  },
+
+  "runtimeOptions": {
+    "gcConcurrent": false,
+    "gcServer": true
+  },
+
+  "tooling": {
+    "defaultNamespace": "MartinCostello.Website"
+  },
+
+  "tools": {
+    "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
+    "Microsoft.Extensions.SecretManager.Tools": "1.0.0-preview2-final",
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  },
+
+  "publishOptions": {
+    "include": [ "wwwroot", "Views" ],
+    "includeFiles": [ "appsettings.json", "bower.json", "project.json", "web.config" ]
+  },
+
+  "scripts": {
+    "prebuild": [ "gulp build" ],
+    "prepublish": [ "npm install --loglevel=error", "bower install", "gulp publish" ],
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  }
+}

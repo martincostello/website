@@ -1,0 +1,26 @@
+﻿body {
+    padding-top: 50px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 1em;
+}
+
+.code-preserve-whitespace {
+  white-space: pre;
+  word-wrap: normal
+}
+
+.panel-heading {
+    font-weight: bold;
+}
+
+textarea {
+   resize: none;
+}
