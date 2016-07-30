@@ -14,7 +14,8 @@ node_modules
 obj
 packages
 project.lock.json
-src/Website/wwwroot/assets
+src/Website/wwwroot/assets/*
+!src/Website/wwwroot/assets/img/
 src/Website/wwwroot/lib/*
 TestResults
 UpgradeLog*.htm
