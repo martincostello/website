@@ -129,7 +129,7 @@ namespace MartinCostello.Website.Middleware
         {
             const string BasePolicy = @"
 default-src 'self';
-script-src 'self' ajax.googleapis.com maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com www.google-analytics.com www.openhub.net 'unsafe-inline';
+script-src 'self' ajax.googleapis.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com www.google-analytics.com www.openhub.net 'unsafe-inline';
 style-src 'self' ajax.googleapis.com fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
 img-src 'self' stackoverflow.com static.licdn.com syndication.twitter.com www.google-analytics.com www.openhub.net data:;
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
