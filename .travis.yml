@@ -7,9 +7,8 @@ env:
   - CLI_VERSION=latest
 
 branches:
-  except:
-    - deploy
-    - gh-pages
+  only:
+    - master
 
 addons:
   apt:
