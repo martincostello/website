@@ -88,7 +88,7 @@ gulp.task("lint:sass", function () {
     gulp.src(paths.sass)
       .pipe(sassLint())
       .pipe(sassLint.format())
-      .pipe(sassLint.failOnError())
+      .pipe(sassLint.failOnError());
 });
 
 gulp.task("lint", ["lint:js", "lint:less", "lint:sass", "lint:css"]);
