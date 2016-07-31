@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject SiteOptions Options
+@{
     ViewBag.Title = "Projects";
     ViewBag.MetaDescription = "About Martin Costello's personal projects.";
 }
@@ -8,29 +9,130 @@
         <div class="panel panel-default">
             <div class="panel-heading">SQL LocalDB Wrapper</div>
             <div class="panel-body">
-                <p>A .NET assembly for accessing the Microsoft SQL Server LocalDB native API.</p>
+                <p>
+                    A .NET assembly for using the Microsoft SQL Server Express
+                    <a id="link-localdb" href="https://technet.microsoft.com/en-us/library/hh234692.aspx" title="Learn about the SQL Server Express LocalDB API">
+                        LocalDB Instance API
+                    </a>.
+                </p>
                 <p>
                     <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=sqllocaldb&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
                     <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=sqllocaldb&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
                 </p>
-                <p><a href="https://github.com/martincostello/sqllocaldb" target="_blank" class="btn btn-default">Visit project site &raquo;</a></p>
                 <p>
-                <script type="text/javascript" src="https://www.openhub.net/p/644575/widgets/project_factoids_stats.js"></script></p>
+                    <a id="link-repo-localdb" href="https://github.com/martincostello/sqllocaldb" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">BrowserStack Automate Client API</div>
+            <div class="panel-heading">BrowserStack Automate REST API Client</div>
             <div class="panel-body">
-                <p>.NET client for the BrowserStack Automate REST API</p>
+                <p>
+                    A .NET client for the
+                    <a id="link-browserstack-automate" href="https://www.browserstack.com/automate" title="Learn about BrowserStack Automate">
+                        BrowserStack Automate
+                    </a>
+                    REST API.
+                </p>
                 <p>
                     <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=browserstack-automate&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
                     <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=browserstack-automate&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
                 </p>
-                <p><a href="https://martincostello.github.io/browserstack-automate/" target="_blank" class="btn btn-default">Visit project site &raquo;</a></p>
                 <p>
-                    <script type="text/javascript" src="https://www.openhub.net/p/browserstack-automate/widgets/project_factoids_stats?format=js"></script>
+                    <a id="link-repo-browserstack" href="https://martincostello.github.io/browserstack-automate/" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Project Euler</div>
+            <div class="panel-body">
+                <p>
+                    A C# implementation of solutions for
+                    <a id="link-project-euler" href="https://projecteuler.net/" title="View Project Euler" target="_blank">
+                        Project Euler
+                    </a>
+                    written as a console application.
+                </p>
+                <p>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=project-euler&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=project-euler&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                </p>
+                <p>
+                    <a id="link-repo-euler" href="https://github.com/martincostello/project-euler" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Blog</div>
+            <div class="panel-body">
+                <p>
+                    Martin's
+                    <a id="link-blog-project" href="@Options?.ExternalLinks?.Blog?.AbsoluteUri" title="Visit Martin's blog" target="_blank">blog</a>,
+                    a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" target="_blank">Middleman</a>.
+                </p>
+                <p>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=blog&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=blog&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                </p>
+                <p>
+                    <a id="link-repo-blog" href="https://github.com/martincostello/blog" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">API</div>
+            <div class="panel-body">
+                <p>
+                    A <a id="link-api" href="@Options?.ExternalLinks?.Api?.AbsoluteUri" title="Visit the API" target="_blank">REST API</a>
+                    used as an excercise in implementing an ASP.NET Core website.
+                </p>
+                <p>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=api&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=api&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                </p>
+                <p>
+                    <a id="link-repo-api" href="https://github.com/martincostello/api" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">This website</div>
+            <div class="panel-body">
+                <p>
+                    The very website you're looking at
+                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/deploy/src/Website/Views/Projects/Index.cshtml" title="View the source for this page">
+                        right now
+                    </a>
+                    which is implemented using ASP.NET Core.
+                </p>
+                <p>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=website&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=website&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                </p>
+                <p>
+                    <a id="link-repo-website" href="https://github.com/martincostello/website" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
                 </p>
             </div>
         </div>

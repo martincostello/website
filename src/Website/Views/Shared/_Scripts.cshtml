@@ -1,0 +1,22 @@
+﻿@model BowerVersions
+<environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/@Model["jquery"]/jquery.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/@Model["bootstrap"]/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@Model["jquery.lazyload"]/jquery.lazyload.min.js" integrity="sha256-rXnOfjTRp4iAm7hTAxEz3irkXzwZrElV2uRsdJAYjC4=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.min.js"
+            asp-fallback-test="window.$.fn.lazyload">
+    </script>
+    <script src="~/assets/js/site.min.js" asp-append-version="true"></script>
+</environment>
