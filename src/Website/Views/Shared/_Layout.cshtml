@@ -64,8 +64,8 @@
             <p>&copy; @Options.Metadata.Author.Name @DateTimeOffset.UtcNow.Year | <a id="link-status" href="@Options.ExternalLinks.Status.AbsoluteUri" target="_blank" title="View site uptime information">Site Status &amp; Uptime</a> | Built from <a id="link-git" href="@Options.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">@string.Join(string.Empty, GitMetadata.Commit.Take(7))</a> on <a href="@Options.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">@GitMetadata.Branch</a> | Sponsored by <a id="link-browserstack" href="https://www.browserstack.com/"><lazyimg src="~/assets/img/browserstack.svg" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" /></a></p>
         </footer>
     </div><environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
     <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
     <script src="~/assets/js/site.js" asp-append-version="true"></script>
     </environment><environment names="Staging,Production">
