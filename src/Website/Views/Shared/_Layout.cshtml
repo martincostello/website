@@ -61,11 +61,12 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @Options.Metadata.Author.Name @DateTimeOffset.UtcNow.Year | <a id="link-status" href="@Options.ExternalLinks.Status.AbsoluteUri" target="_blank" title="View site uptime information">Site Status &amp; Uptime</a> | Built from <a id="link-git" href="@Options.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">@string.Join(string.Empty, GitMetadata.Commit.Take(7))</a> on <a href="@Options.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">@GitMetadata.Branch</a> | Sponsored by <a id="link-browserstack" href="https://www.browserstack.com/"><img src="~/Assets/img/browserstack.svg" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" /></a></p>
+            <p>&copy; @Options.Metadata.Author.Name @DateTimeOffset.UtcNow.Year | <a id="link-status" href="@Options.ExternalLinks.Status.AbsoluteUri" target="_blank" title="View site uptime information">Site Status &amp; Uptime</a> | Built from <a id="link-git" href="@Options.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">@string.Join(string.Empty, GitMetadata.Commit.Take(7))</a> on <a href="@Options.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">@GitMetadata.Branch</a> | Sponsored by <a id="link-browserstack" href="https://www.browserstack.com/"><lazyimg src="~/assets/img/browserstack.svg" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" /></a></p>
         </footer>
     </div><environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
     <script src="~/assets/js/site.js" asp-append-version="true"></script>
     </environment><environment names="Staging,Production">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/@BowerVersions["jquery"]/jquery.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"
@@ -75,6 +76,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/@BowerVersions["bootstrap"]/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo=" crossorigin="anonymous"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@BowerVersions["jquery.lazyload"]/jquery.lazyload.min.js" integrity="" crossorigin="anonymous"
+            asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.min.js"
+            asp-fallback-test="window.$.fn.lazyload">
     </script>
     <script src="~/assets/js/site.min.js" asp-append-version="true"></script></environment>
     @RenderSection("scripts", required: false)
