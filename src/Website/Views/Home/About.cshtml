@@ -34,12 +34,11 @@
 <div class="row">
     <div class="col-md-3">
         <h4>LinkedIn</h4>
-        <script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="Martin Costello" data-related="false">
-        </script>
+        <script async type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="Martin Costello" data-related="false"></script>
     </div>
     <div class="col-md-3">
         <h4>Twitter</h4>
-        <a href="https://twitter.com/@Options.Metadata.Author.SocialMedia.Twitter" class="twitter-follow-button" data-show-screen-name="true" data-size="large" data-show-count="false" data-lang="en">Follow me on Twitter</a>
+        <a href="https://twitter.com/@Options.Metadata.Author.SocialMedia.Twitter" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @Options.Metadata.Author.SocialMedia.Twitter</a>
     </div>
     <div class="col-md-3">
         <h4>Stack Overflow</h4>
@@ -55,7 +54,6 @@
     </div>
 </div>
 @section scripts {
-    <script src="//platform.linkedin.com/in.js"></script>
-    @* TODO Move to own script file *@
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    <script async src="//platform.linkedin.com/in.js"></script>
+    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 }
