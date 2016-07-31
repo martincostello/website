@@ -17,6 +17,7 @@ namespace MartinCostello.Website
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Microsoft.Net.Http.Headers;
     using Newtonsoft.Json;
     using NodaTime;
     using Options;
@@ -85,7 +86,18 @@ namespace MartinCostello.Website
                    .UseStatusCodePagesWithReExecute("/error", "?id={0}");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(
+                new StaticFileOptions()
+                {
+                    OnPrepareResponse = (context) =>
+                        {
+                            var headers = context.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue()
+                            {
+                                MaxAge = TimeSpan.FromDays(7)
+                            };
+                        }
+                });
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()
