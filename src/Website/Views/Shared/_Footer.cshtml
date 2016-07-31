@@ -7,11 +7,11 @@
             Site Status &amp; Uptime
         </a>
         | Built from
-        <a id="link-git" href="@Model.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">
+        <a id="link-git-commit" href="@Model.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">
             @string.Join(string.Empty, GitMetadata.Commit.Take(7))
         </a>
         on
-        <a href="@Model.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">
+        <a id="link-git-branch" href="@Model.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">
             @GitMetadata.Branch
         </a>
         | Sponsored by
