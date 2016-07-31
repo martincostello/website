@@ -20,15 +20,17 @@ namespace MartinCostello.Website.Extensions
         /// <param name="value">The <see cref="IApplicationBuilder"/> to add the middleware to.</param>
         /// <param name="environment">The current hosting environment.</param>
         /// <param name="config">The current configuration.</param>
+        /// <param name="options">The current site options.</param>
         /// <returns>
         /// The value specified by <paramref name="value"/>.
         /// </returns>
         public static IApplicationBuilder UseCustomHttpHeaders(
             this IApplicationBuilder value,
             IHostingEnvironment environment,
-            IConfiguration config)
+            IConfiguration config,
+            SiteOptions options)
         {
-            return value.UseMiddleware<CustomHttpHeadersMiddleware>(environment, config);
+            return value.UseMiddleware<CustomHttpHeadersMiddleware>(environment, config, options);
         }
     }
 }

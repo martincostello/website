@@ -72,7 +72,7 @@ namespace MartinCostello.Website
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
-            app.UseCustomHttpHeaders(environment, Configuration);
+            app.UseCustomHttpHeaders(environment, Configuration, ServiceProvider.GetRequiredService<SiteOptions>());
 
             if (environment.IsDevelopment())
             {

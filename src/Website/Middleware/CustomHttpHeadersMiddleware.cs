@@ -11,6 +11,7 @@ namespace MartinCostello.Website.Middleware
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using Options;
 
     /// <summary>
     /// A class representing middleware for adding custom HTTP response headers. This class cannot be inherited.
@@ -48,13 +49,18 @@ namespace MartinCostello.Website.Middleware
         /// <param name="next">The delegate for the next part of the pipeline.</param>
         /// <param name="environment">The current hosting environment.</param>
         /// <param name="config">The current configuration.</param>
-        public CustomHttpHeadersMiddleware(RequestDelegate next, IHostingEnvironment environment, IConfiguration config)
+        /// <param name="options">The current site configuration options.</param>
+        public CustomHttpHeadersMiddleware(
+            RequestDelegate next,
+            IHostingEnvironment environment,
+            IConfiguration config,
+            SiteOptions options)
         {
             _next = next;
             _isProduction = environment.IsProduction();
             _environmentName = _isProduction ? null : environment.EnvironmentName;
             _datacenter = config["Azure:Datacenter"] ?? "Local";
-            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction);
+            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options);
         }
 
         /// <summary>
@@ -122,18 +128,19 @@ namespace MartinCostello.Website.Middleware
         /// Builds the Content Security Policy to use for the website.
         /// </summary>
         /// <param name="isProduction">Whether the current environment is production.</param>
+        /// <param name="options">The current site configuration options.</param>
         /// <returns>
         /// A <see cref="string"/> containing the Content Security Policy to use.
         /// </returns>
-        private static string BuildContentSecurityPolicy(bool isProduction)
+        private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
         {
-            const string BasePolicy = @"
+            var basePolicy = $@"
 default-src 'self';
 script-src 'self' ajax.googleapis.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com www.google-analytics.com www.openhub.net 'unsafe-inline';
 style-src 'self' ajax.googleapis.com fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
 img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndication.twitter.com www.google-analytics.com www.linkedin.com www.openhub.net data:;
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
-connect-src 'self';
+connect-src 'self' {options?.ExternalLinks?.Api?.Host};
 media-src 'none';
 object-src 'none';
 child-src ghbtns.com platform.linkedin.com platform.twitter.com www.openhub.net;
@@ -144,7 +151,7 @@ reflected-xss block;
 base-uri https://martincostello.com;
 manifest-src 'self';";
 
-            var builder = new StringBuilder(BasePolicy.Replace(Environment.NewLine, string.Empty));
+            var builder = new StringBuilder(basePolicy.Replace(Environment.NewLine, string.Empty));
 
             if (isProduction)
             {
