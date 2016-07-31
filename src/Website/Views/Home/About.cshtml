@@ -10,6 +10,9 @@
 <div class="row">
     <div class="col-md-4">
         <br />
+        <noscript>
+            <img class="center-block img-responsive" height="300" width="288" src="@ViewBag.MetaImage" alt="@ViewBag.MetaImageAltText" title="@ViewBag.MetaImageAltText" asp-append-version="true" />
+        </noscript>
         <lazyimg class="center-block img-responsive" height="300" width="288" src="@ViewBag.MetaImage" alt="@ViewBag.MetaImageAltText" title="@ViewBag.MetaImageAltText" asp-append-version="true" />
     </div>
     <div class="col-md-8">
@@ -34,11 +37,14 @@
 <div class="row">
     <div class="col-md-3">
         <h4>LinkedIn</h4>
+        <noscript>
+            <a href="https://www.linkedin.com/pub/martin-costello/37/253/16a" title="View Martin's LinkedIn profile">Martin Costello on LinkedIn</a>
+        </noscript>
         <script async type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="Martin Costello" data-related="false"></script>
     </div>
     <div class="col-md-3">
         <h4>Twitter</h4>
-        <a href="https://twitter.com/@Options.Metadata.Author.SocialMedia.Twitter" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @Options.Metadata.Author.SocialMedia.Twitter</a>
+        <a href="https://twitter.com/@Options.Metadata.Author.SocialMedia.Twitter" class="twitter-follow-button" data-size="large" data-show-count="false" title="@Options.Metadata.Author.SocialMedia.Twitter on Twitter">Follow @Options.Metadata.Author.SocialMedia.Twitter</a>
     </div>
     <div class="col-md-3">
         <h4>Stack Overflow</h4>
