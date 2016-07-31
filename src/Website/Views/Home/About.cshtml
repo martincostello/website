@@ -56,12 +56,12 @@
 </div>
 @section scripts {
     <environment names="Development">
-        <script src="~/lib/jquery.lazyload/jquery.lazyload.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@BowerVersions["jquery.lazyload"]/jquery.lazyload.min.js" integrity="" crossorigin="anonymous"
-                asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.js"
-                asp-fallback-test="window.$.lazyload">
+                asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.min.js"
+                asp-fallback-test="window.$.fn.lazyload">
         </script>
     </environment>
     <script src="//platform.linkedin.com/in.js"></script>
