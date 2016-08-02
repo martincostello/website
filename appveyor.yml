@@ -17,6 +17,9 @@ build_script:
   - ps: dotnet --info
   - ps: .\Build.ps1
 
+artifacts:
+  - path: artifacts\publish
+
 nuget:
   disable_publish_on_pr: true
 
