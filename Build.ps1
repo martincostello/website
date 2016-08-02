@@ -17,7 +17,7 @@ $dotnetVersion = "latest"
 
 $env:DOTNET_INSTALL_DIR = "$(Convert-Path "$PSScriptRoot")\.dotnetcli"
 
-if ($env:CI -ne $null) {
+if ($env:CI -ne $null -Or $env:WEBSITE_SITE_NAME -ne $null) {
     $RestorePackages = $true
     $PatchVersion = $true
 }
