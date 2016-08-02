@@ -22,6 +22,11 @@ if ($env:CI -ne $null -Or $env:WEBSITE_SITE_NAME -ne $null) {
     $PatchVersion = $true
 }
 
+if ($env:WEBSITE_SITE_NAME -ne $null) {
+    # See https://social.msdn.microsoft.com/Forums/en-US/460eea23-3082-4b26-a3a4-38757d70853c/powershell-webjobs-and-kudu-powershell-these-dont-support-progress-bars-so-fail-on-many-commands?forum=windowsazurewebsitespreview
+    $ProgressPreference = "SilentlyContinue"
+}
+
 if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
     mkdir $env:DOTNET_INSTALL_DIR | Out-Null
     $installScript = Join-Path $env:DOTNET_INSTALL_DIR "install.ps1"
