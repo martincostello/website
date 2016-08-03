@@ -9,6 +9,8 @@ branches:
     - master
 
 install:
+  - ps: npm install npm -g
+  - ps: npm -v
   - ps: npm cache clean --loglevel=error
   - ps: npm install -g bower --loglevel=error
   - ps: npm install -g gulp --loglevel=error
