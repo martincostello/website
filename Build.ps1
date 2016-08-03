@@ -2,6 +2,7 @@ param(
     [Parameter(Mandatory=$false)][bool]   $RestorePackages  = $false,
     [Parameter(Mandatory=$false)][string] $Configuration    = "Release",
     [Parameter(Mandatory=$false)][string] $VersionSuffix    = "",
+    [Parameter(Mandatory=$false)][string] $OutputPath       = "",
     [Parameter(Mandatory=$false)][bool]   $PatchVersion     = $false,
     [Parameter(Mandatory=$false)][bool]   $RunTests         = $true,
     [Parameter(Mandatory=$false)][bool]   $PublishWebsite   = $true
@@ -11,9 +12,12 @@ $ErrorActionPreference = "Stop"
 
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $framework     = "netcoreapp1.0"
-$outputPath    = "$(Convert-Path "$PSScriptRoot")\artifacts"
 $getDotNet     = Join-Path $solutionPath "tools\install.ps1"
 $dotnetVersion = "latest"
+
+if ($OutputPath -eq "") {
+    $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
+}
 
 $env:DOTNET_INSTALL_DIR = "$(Convert-Path "$PSScriptRoot")\.dotnetcli"
 
@@ -41,9 +45,9 @@ function DotNetRestore { param([string]$Project)
 
 function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
     if ($VersionSuffix) {
-        & $dotnet build $Project --output $outputPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
+        & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
     } else {
-        & $dotnet build $Project --output $outputPath --framework $framework --configuration $Configuration
+        & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration
     }
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet build failed with exit code $LASTEXITCODE"
@@ -51,17 +55,18 @@ function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$
 }
 
 function DotNetTest { param([string]$Project)
-    & $dotnet test $Project --output $outputPath --framework $framework --no-build
+    & $dotnet test $Project --output $OutputPath --framework $framework --no-build
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet test failed with exit code $LASTEXITCODE"
     }
 }
 
 function DotNetPublish { param([string]$Project)
+    $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
-        & $dotnet publish $Project --output (Join-Path $outputPath "publish") --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix" --no-build
+        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix" --no-build
     } else {
-        & $dotnet publish $Project --output (Join-Path $outputPath "publish") --framework $framework --configuration $Configuration --no-build
+        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --no-build
     }
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet publish failed with exit code $LASTEXITCODE"
