@@ -21,6 +21,7 @@ var scripts = assets + "Scripts/";
 var styles = assets + "Styles/";
 
 var paths = {
+    jsSrc: scripts + "js/",
     js: scripts + "js/**/*.js",
     jsDest: webroot + "js",
     minJs: webroot + "js/**/*.min.js",
@@ -94,7 +95,21 @@ gulp.task("lint:sass", function () {
 gulp.task("lint", ["lint:js", "lint:less", "lint:sass", "lint:css"]);
 
 gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs, "!" + paths.concatJsDest])
+
+    var jsPaths = [
+        paths.jsSrc + "analytics.js",
+        paths.jsSrc + "clipboard.js",
+        paths.jsSrc + "lazyload.js",
+        paths.jsSrc + "martinCostello.js",
+        paths.jsSrc + "martinCostello.website.js",
+        paths.jsSrc + "martinCostello.website.debug.js",
+        paths.jsSrc + "martinCostello.website.tools.js",
+        paths.jsSrc + "martinCostello.website.tools.guidGenerator.js",
+        "!" + paths.minJs,
+        "!" + paths.concatJsDest
+    ];
+
+    return gulp.src(jsPaths)
         .pipe(concat(paths.concatJsDest))
         .pipe(gulp.dest("."))
         .pipe(uglify())
