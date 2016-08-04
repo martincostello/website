@@ -25,6 +25,7 @@
         await Html.RenderPartialAsync("_Meta", model);
         await Html.RenderPartialAsync("_Links", canonicalUri);
     }
+    @RenderSection("meta", required: false)
     @RenderSection("styles", required: false)
     <script type="text/javascript">
         if (self == top) {
