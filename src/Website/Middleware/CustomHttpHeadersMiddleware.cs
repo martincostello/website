@@ -142,7 +142,7 @@ img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndic
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
 connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)};
 media-src 'none';
-object-src 'none';
+object-src cdnjs.cloudflare.com;
 child-src ghbtns.com platform.linkedin.com platform.twitter.com www.openhub.net;
 frame-ancestors 'none';
 form-action 'self';
