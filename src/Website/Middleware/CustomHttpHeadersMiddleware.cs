@@ -148,7 +148,7 @@ frame-ancestors 'none';
 form-action 'self';
 block-all-mixed-content;
 reflected-xss block;
-base-uri https://martincostello.com;
+base-uri 'self';
 manifest-src 'self';";
 
             var builder = new StringBuilder(basePolicy.Replace(Environment.NewLine, string.Empty));
