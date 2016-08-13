@@ -4,6 +4,7 @@
 namespace MartinCostello.Website
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
 
@@ -21,6 +22,11 @@ namespace MartinCostello.Website
         /// Gets the SHA for the Git commit the assembly was compiled from.
         /// </summary>
         public static string Commit { get; } = GetMetadataValue("CommitHash", "Local");
+
+        /// <summary>
+        /// Gets the timestamp the assembly was compiled at.
+        /// </summary>
+        public static DateTime Timestamp { get; } = DateTime.Parse(GetMetadataValue("BuildTimestamp", "0001-01-01T00:00:00Z"), CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
         /// <summary>
         /// Gets the Git commit SHA associated with this revision of the application.
