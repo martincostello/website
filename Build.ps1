@@ -77,9 +77,10 @@ if ($PatchVersion -eq $true) {
 
     $gitRevision = (git rev-parse HEAD | Out-String).Trim()
     $gitBranch   = (git rev-parse --abbrev-ref HEAD | Out-String).Trim()
+	$timestamp   = [DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssK")
 
     $assemblyVersion = Get-Content ".\AssemblyVersion.cs" -Raw
-    $assemblyVersionWithMetadata = "{0}using System.Reflection;`r`n`r`n[assembly: AssemblyMetadata(""CommitHash"", ""{1}"")]`r`n[assembly: AssemblyMetadata(""CommitBranch"", ""{2}"")]" -f $assemblyVersion, $gitRevision, $gitBranch
+    $assemblyVersionWithMetadata = "{0}using System.Reflection;`r`n`r`n[assembly: AssemblyMetadata(""CommitHash"", ""{1}"")]`r`n[assembly: AssemblyMetadata(""CommitBranch"", ""{2}"")]`r`n[assembly: AssemblyMetadata(""BuildTimestamp"", ""{3}"")]" -f $assemblyVersion, $gitRevision, $gitBranch, $timestamp
 
     Set-Content ".\AssemblyVersion.cs" $assemblyVersionWithMetadata -Encoding utf8
 }
