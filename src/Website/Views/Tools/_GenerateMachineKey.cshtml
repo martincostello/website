@@ -1,0 +1,52 @@
+﻿<form class="form-horizontal" id="generate-machine-key-container" role="form">
+    <fieldset>
+        <legend>Machine Key Generator</legend>
+        <a name="GenerateMachineKey"></a>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="key-decryption-algorithm">Decryption algorithm?</label>
+            <div class="col-md-7">
+                <select id="key-decryption-algorithm" class="form-control" title="The name of the decryption algorithm">
+                    <option value="3DES">3DES</option>
+                    <option value="AES-128">AES (128 bits)</option>
+                    <option value="AES-192">AES (192 bits)</option>
+                    <option selected="selected" value="AES-256">AES (256 bits)</option>
+                    <option value="DES">DES</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="key-validation-algorithm">Validation algorithm?</label>
+            <div class="col-md-7">
+                <select id="key-validation-algorithm" class="form-control" title="The name of the validation algorithm">
+                    <option value="3DES">3DES</option>
+                    <option value="AES">AES</option>
+                    <option value="HMACSHA256">HMAC SHA-256</option>
+                    <option value="HMACSHA384">HMAC SHA-384</option>
+                    <option value="HMACSHA512">HMAC SHA-512</option>
+                    <option value="MD5">MD5</option>
+                    <option selected="selected" value="SHA1">SHA-1</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-8">
+                <a id="generate-machine-key" class="btn btn-primary" href="#GenerateMachineKey" role="button" rel="nofollow">Generate Machine Key</a>
+            </div>
+        </div>
+        <div id="machine-key-container" class="hidden">
+            <div id="div-machine-key" class="form-group">
+                <label for="machine-key-xml" class="control-label col-md-2">Configuration Element</label>
+                <div class="col-md-7">
+                    <p id="machine-key-xml" class="code"></p>
+                </div>
+            </div>
+            <div id="div-machine-key-copy" class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <a id="copy-machine-key" href="#" rel="nofollow" class="btn btn-default copy-button" data-clipboard-target="machine-key-xml" title="Copy to clipboard">
+                        Copy to clipboard <span class="glyphicon glyphicon-save"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

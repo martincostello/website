@@ -1,8 +1,34 @@
-﻿@{
+﻿@inject BowerVersions Bower
+@inject SiteOptions Options
+@{
     ViewBag.Title = ".NET Development Tools";
     ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
+
+    var clipboardVersion = Bower["zeroclipboard"];
+    var toolsUri = Options.ExternalLinks.Api.AbsoluteUri + "tools";
+}
+@section meta {
+   <link rel="api-guid" href="@toolsUri/guid" />
+   <link rel="api-hash" href="@toolsUri/hash" />
+   <link rel="api-machine-key" href="@toolsUri/machinekey" />
+   <link rel="clipboard-swf" href="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.swf" />
+}
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.min.js" integrity="sha256-Dv7XDh3wH0KTf2EqLETkJME+/v1CTy/u7nDwEkD/zJA=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/zeroclipboard/zeroclipboard.min.js"
+            asp-fallback-test="window.ZeroClipboard">
+    </script>
 }
 <h1>@ViewBag.Title</h1>
 <div class="panel panel-default">
-    <div class="panel-body">This page contains tools and links to common .NET development tools.</div>
+    <div class="panel-body">This page contains tools and links to common development tools.</div>
+</div>
+<div>
+    @await Html.PartialAsync("_GenerateGuid")
+</div>
+<div>
+    @await Html.PartialAsync("_GenerateHash")
+</div>
+<div>
+    @await Html.PartialAsync("_GenerateMachineKey")
 </div>

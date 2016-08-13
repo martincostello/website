@@ -5,6 +5,7 @@
     "bootstrap": "3.3.6",
     "font-awesome": "4.6.3",
     "jquery": "2.2.3",
-    "jquery.lazyload": "1.9.1"
+    "jquery.lazyload": "1.9.1",
+    "zeroclipboard": "2.2.0"
   }
 }

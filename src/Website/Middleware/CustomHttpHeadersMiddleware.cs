@@ -140,9 +140,9 @@ script-src 'self' ajax.googleapis.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.c
 style-src 'self' ajax.googleapis.com fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
 img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndication.twitter.com www.google-analytics.com www.linkedin.com www.openhub.net data:;
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
-connect-src 'self' {options?.ExternalLinks?.Api?.Host};
+connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)};
 media-src 'none';
-object-src 'none';
+object-src cdnjs.cloudflare.com;
 child-src ghbtns.com platform.linkedin.com platform.twitter.com www.openhub.net;
 frame-ancestors 'none';
 form-action 'self';
@@ -156,6 +156,32 @@ manifest-src 'self';";
             if (isProduction)
             {
                 builder.Append("upgrade-insecure-requests;");
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Gets the API origin to use for the Content Security Policy.
+        /// </summary>
+        /// <param name="options">The current site options.</param>
+        /// <returns>
+        /// The origin to use for the API, if any.
+        /// </returns>
+        private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
+        {
+            var builder = new StringBuilder();
+
+            var baseUri = options?.ExternalLinks?.Api;
+
+            if (baseUri != null)
+            {
+                builder.Append($"{baseUri.Scheme}://{baseUri.Host}");
+
+                if (!baseUri.IsDefaultPort)
+                {
+                    builder.Append($":{baseUri.Port}");
+                }
             }
 
             return builder.ToString();

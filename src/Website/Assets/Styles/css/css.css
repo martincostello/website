@@ -12,11 +12,6 @@
   font-size: 1em;
 }
 
-.code-preserve-whitespace {
-  white-space: pre;
-  word-wrap: normal
-}
-
 .panel-heading {
     font-weight: bold;
 }

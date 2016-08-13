@@ -1,0 +1,51 @@
+﻿<form class="form-horizontal" id="generate-hash-container" role="form">
+    <fieldset>
+        <legend>Hash Generator</legend>
+        <a name="GenerateHash"></a>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="hash-algorithm">Algorithm?</label>
+            <div class="col-md-7">
+                <select id="hash-algorithm" class="form-control" title="Select the hash algorithm to use">
+                    <option value="MD5">MD5</option>
+                    <option value="SHA1" selected>SHA-1</option>
+                    <option value="SHA256">SHA-256</option>
+                    <option value="SHA384">SHA-384</option>
+                    <option value="SHA512">SHA-512</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="hash-format">Format?</label>
+            <div class="col-md-7">
+                <select id="hash-format" class="form-control" title="Select the hash output format to use">
+                    <option value="base64" selected>Base 64</option>
+                    <option value="hexadecimal">Hexadecimal</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="hash-plaintext">Plaintext</label>
+            <div class="col-md-7">
+                <textarea id="hash-plaintext" class="form-control" placeholder="Enter text to hash" rows="4" spellcheck="false"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <a id="generate-hash" class="btn btn-primary" href="#GenerateHash" role="button" rel="nofollow">Generate Hash</a>
+            </div>
+        </div>
+        <div id="hash-container" class="form-group hidden">
+            <label for="text-hash" class="control-label col-md-2">Hash</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    @Html.TextBox("text-hash", string.Empty, new { @class = "form-control code", id = "text-hash", disabled = string.Empty })
+                    <span class="input-group-btn">
+                        <button id="copy-hash" class="btn btn-default copy-button" data-clipboard-target="text-hash" title="Copy to clipboard">
+                            <span class="glyphicon glyphicon-save"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
