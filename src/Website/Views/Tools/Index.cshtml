@@ -5,9 +5,11 @@
     ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
 
     var clipboardVersion = Bower["zeroclipboard"];
+    var toolsUri = Options.ExternalLinks.Api.AbsoluteUri + "tools";
 }
 @section meta {
-   <link rel="api-guid" href="@(Options.ExternalLinks.Api.AbsoluteUri)tools/guid" />
+   <link rel="api-guid" href="@toolsUri/guid" />
+   <link rel="api-hash" href="@toolsUri/hash" />
    <link rel="clipboard-swf" href="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.swf" />
 }
 @section scripts {
@@ -18,8 +20,11 @@
 }
 <h1>@ViewBag.Title</h1>
 <div class="panel panel-default">
-    <div class="panel-body">This page contains tools and links to common .NET development tools.</div>
+    <div class="panel-body">This page contains tools and links to common development tools.</div>
 </div>
 <div>
     @await Html.PartialAsync("_GenerateGuid")
+</div>
+<div>
+    @await Html.PartialAsync("_GenerateHash")
 </div>

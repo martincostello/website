@@ -100,11 +100,13 @@ gulp.task("min:js", function () {
         paths.jsSrc + "analytics.js",
         paths.jsSrc + "clipboard.js",
         paths.jsSrc + "lazyload.js",
-        paths.jsSrc + "martinCostello.js",
-        paths.jsSrc + "martinCostello.website.js",
-        paths.jsSrc + "martinCostello.website.debug.js",
-        paths.jsSrc + "martinCostello.website.tools.js",
-        paths.jsSrc + "martinCostello.website.tools.guidGenerator.js",
+        paths.jsSrc + "martinCostello/martinCostello.js",
+        paths.jsSrc + "martinCostello/website/website.js",
+        paths.jsSrc + "martinCostello/website/debug.js",
+        paths.jsSrc + "martinCostello/website/track.js",
+        paths.jsSrc + "martinCostello/website/tools/tools.js",
+        paths.jsSrc + "martinCostello/website/tools/guidGenerator.js",
+        paths.jsSrc + "martinCostello/website/tools/hashGenerator.js",
         "!" + paths.minJs,
         "!" + paths.concatJsDest
     ];
