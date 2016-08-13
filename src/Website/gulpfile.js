@@ -107,6 +107,7 @@ gulp.task("min:js", function () {
         paths.jsSrc + "martinCostello/website/tools/tools.js",
         paths.jsSrc + "martinCostello/website/tools/guidGenerator.js",
         paths.jsSrc + "martinCostello/website/tools/hashGenerator.js",
+        paths.jsSrc + "martinCostello/website/tools/machineKeyGenerator.js",
         "!" + paths.minJs,
         "!" + paths.concatJsDest
     ];

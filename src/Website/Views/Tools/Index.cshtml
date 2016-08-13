@@ -10,6 +10,7 @@
 @section meta {
    <link rel="api-guid" href="@toolsUri/guid" />
    <link rel="api-hash" href="@toolsUri/hash" />
+   <link rel="api-machine-key" href="@toolsUri/machinekey" />
    <link rel="clipboard-swf" href="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.swf" />
 }
 @section scripts {
@@ -27,4 +28,7 @@
 </div>
 <div>
     @await Html.PartialAsync("_GenerateHash")
+</div>
+<div>
+    @await Html.PartialAsync("_GenerateMachineKey")
 </div>
