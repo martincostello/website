@@ -16,6 +16,11 @@ namespace MartinCostello.Website.Models
         public string Author { get; set; }
 
         /// <summary>
+        /// Gets or sets the Bitcoin address of the author.
+        /// </summary>
+        public string Bitcoin { get; set; }
+
+        /// <summary>
         /// Gets or sets the canonical URI.
         /// </summary>
         public string CanonicalUri { get; set; }
@@ -107,6 +112,7 @@ namespace MartinCostello.Website.Models
             return new MetaModel()
             {
                 Author = options.Author.Name,
+                Bitcoin = options.Author.Bitcoin,
                 CanonicalUri = canonicalUri ?? string.Empty,
                 Description = description ?? options.Description,
                 Facebook = options.Author.SocialMedia.Facebook,

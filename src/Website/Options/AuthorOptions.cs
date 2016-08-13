@@ -9,6 +9,11 @@ namespace MartinCostello.Website.Options
     public sealed class AuthorOptions
     {
         /// <summary>
+        /// Gets or sets the Bitcoin address of the author.
+        /// </summary>
+        public string Bitcoin { get; set; }
+
+        /// <summary>
         /// Gets or sets the email address of the author.
         /// </summary>
         public string Email { get; set; }
