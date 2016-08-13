@@ -69,5 +69,6 @@
     Datacenter: @Config["Azure:Datacenter"]
     Instance:   @Environment.MachineName
     Commit:     @GitMetadata.Commit
+    Timestamp:  @GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)
 -->
 </html>
