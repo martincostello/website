@@ -47,3 +47,55 @@
     <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" asp-append-version="true" />
     <meta name="x-site-branch" content="@GitMetadata.Branch" />
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
+    <script type="application/ld+json">
+    {
+        "@@context": "http://schema.org/",
+        "@@type": "Person",
+        "name": "@Model.Author",
+        "address": {
+            "addressCountry": "UK",
+            "addressLocality": "London"
+        },
+        "affiliation": {
+            "name": "JUST EAT",
+            "address": {
+                "addressCountry": "UK",
+                "addressLocality": "London",
+                "streetAddress": "Fleet Place House, 2 Fleet Place",
+                "postalCode": "EC4M 7RF"
+            },
+            "image": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
+            "logo": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
+            "sameAs": [
+                "https://www.just-eat.com",
+                "https://www.just-eat.co.uk"
+            ],
+            "url": "https://www.just-eat.com"
+        },
+        "alumniOf": {
+            "name": "University of Birmingham",
+            "address": {
+                "addressCountry": "UK",
+                "addressLocality": "Birmingham",
+                "postalCode": "B15 2TT"
+            },
+            "telephone": "0121 414 3344",
+            "url": "http://www.birmingham.ac.uk/"
+        },
+        "familyName": "Costello",
+        "gender": "http://schema.org/Male",
+        "givenName": "Martin",
+        "honorificPrefix": "Mr",
+        "honorificSuffix": "BSc (Hons)",
+        "image": "https://secure.gravatar.com/avatar/52c4a06bebd01c96ab7def5bed77ad6d",
+        "jobTitle": "Senior Engineer",
+        "nationality": "British",
+        "sameAs": [
+            "@Options.ExternalLinks.Blog.AbsoluteUri",s
+            "https://github.com/martincostello",
+            "https://keybase.io/martincostello",
+            "https://twitter.com/martin_costello"
+        ],
+        "url": "@Options.Metadata.Author.Website"
+    }
+    </script>
