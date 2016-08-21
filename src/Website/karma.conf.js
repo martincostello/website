@@ -29,10 +29,16 @@ module.exports = function (config) {
         },
 
         plugins: [
+            "karma-appveyor-reporter",
             "karma-chrome-launcher",
             "karma-html-detailed-reporter",
             "karma-jasmine",
             "karma-phantomjs-launcher"
+        ],
+
+        reporters: [
+            "progress",
+            "appveyor"
         ]
     })
 }
