@@ -1,4 +1,7 @@
-﻿/*
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
+
+/*
  * Creates a new instance of martinCostello.website.tools.hashGenerator.
  * @param {string} serviceUri - The URI of the hash generation service.
  * @param {object} container - The container for the hash generator.
