@@ -1,3 +1,6 @@
+// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
+
 /// <binding AfterBuild='build' Clean='clean' />
 "use strict";
 
@@ -9,6 +12,7 @@ var gulp = require("gulp"),
     csslint = require("gulp-csslint"),
     jasmine = require("gulp-jasmine"),
     jshint = require("gulp-jshint"),
+    karmaServer = require("karma").Server,
     less = require("gulp-less"),
     lesshint = require("gulp-lesshint"),
     rename = require("gulp-rename"),
@@ -26,7 +30,7 @@ var paths = {
     jsDest: webroot + "js",
     minJs: webroot + "js/**/*.min.js",
     minJsDest: webroot + "js/site.min.js",
-    testsJs: "js/**/*.spec.js",
+    testsJs: scripts + "**/*.spec.js",
     css: styles + "css/**/*.css",
     minCssDest: webroot + "css/**/site.min.css",
     concatJsDest: webroot + "js/site.js",
@@ -108,6 +112,7 @@ gulp.task("min:js", function () {
         paths.jsSrc + "martinCostello/website/tools/guidGenerator.js",
         paths.jsSrc + "martinCostello/website/tools/hashGenerator.js",
         paths.jsSrc + "martinCostello/website/tools/machineKeyGenerator.js",
+        "!" + paths.jsSrc + "**/*.spec.js",
         "!" + paths.minJs,
         "!" + paths.concatJsDest
     ];
@@ -136,11 +141,21 @@ gulp.task("min:css", ["css"], function () {
 
 gulp.task("min", ["min:js", "min:css"]);
 
-gulp.task("test:js", function () {
-    return gulp.src(paths.testsJs)
-      .pipe(jasmine());
+gulp.task("test:js:karma", function (done) {
+    new karmaServer({
+        configFile: __dirname + "/karma.conf.js",
+        singleRun: true
+    }, done).start();
 });
 
+gulp.task("test:js:chrome", function (done) {
+    new karmaServer({
+        configFile: __dirname + "/karma.conf.js",
+        browsers: ["Chrome"]
+    }, done).start();
+});
+
+gulp.task("test:js", ["test:js:karma"]);
 gulp.task("test", ["test:js"]);
 
 gulp.task("build", ["lint", "min"]);
