@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $framework     = "netcoreapp1.0"
 $getDotNet     = Join-Path $solutionPath "tools\install.ps1"
-$dotnetVersion = "latest"
+$dotnetVersion = "1.0.0-preview2-003121"
 
 if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
