@@ -9,7 +9,6 @@ module.exports = function (config) {
 
         browsers: ["PhantomJS"],
         frameworks: ["jasmine"],
-        reporters: ["progress", "htmlDetailed"],
 
         files: [
             "wwwroot/lib/**/dist/*.js",
