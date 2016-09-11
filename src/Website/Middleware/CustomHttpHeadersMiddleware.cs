@@ -79,11 +79,6 @@ namespace MartinCostello.Website.Middleware
                     context.Response.Headers.Remove("Server");
                     context.Response.Headers.Remove("X-Powered-By");
 
-                    if (_isProduction)
-                    {
-                        context.Response.Headers.Add("Arr-Disable-Session-Affinity", bool.TrueString);
-                    }
-
                     context.Response.Headers.Add("Content-Security-Policy", _contentSecurityPolicy);
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                     context.Response.Headers.Add("X-Download-Options", "noopen");
