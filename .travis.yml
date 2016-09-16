@@ -4,9 +4,10 @@ sudo: required
 dist: trusty
 
 env:
-  - CLI_VERSION=1.0.0-preview2-003121
-  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-  - NUGET_XMLDOC_MODE=skip
+  global:
+    - CLI_VERSION=1.0.0-preview2-003121
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - NUGET_XMLDOC_MODE=skip
 
 branches:
   only:
