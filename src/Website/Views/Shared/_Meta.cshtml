@@ -26,6 +26,12 @@
     <meta name="twitter:image" content="@Model.ImageUri" />
     <meta name="twitter:image:alt" content="@Model.ImageAltText" />
     }
+    else
+    {
+    <meta property="og:image" content="@Url.Content("~/assets/img/martin_small.png")" />
+    <meta name="twitter:image" content="@Url.Content("~/assets/img/martin_small.png")" />
+    <meta name="twitter:image:alt" content="@Model.Author" />
+    }
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="@Model.SiteName" />
     <meta property="og:title" content="@Model.Title" />
@@ -44,7 +50,7 @@
     <meta name="msapplication-navbutton-color" content="#0095DA" />
     <meta name="msapplication-starturl" content="/" />
     <meta name="msapplication-TileColor" content="#2d89ef" />
-    <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" asp-append-version="true" />
+    <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" />
     <meta name="x-site-branch" content="@GitMetadata.Branch" />
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
     <script type="application/ld+json">
