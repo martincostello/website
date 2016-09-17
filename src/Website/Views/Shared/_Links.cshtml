@@ -53,7 +53,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/@BowerVersions["bootstrap"]/flatly/bootstrap.min.css" integrity="sha256-Av2lUNJFz7FqxLquvIFyxyCQA/VHUFna3onVy+5jUBM=" crossorigin="anonymous" />
     <link rel="prefetch" href="//maxcdn.bootstrapcdn.com/font-awesome/@BowerVersions["font-awesome"]/css/font-awesome.min.css" />
     <link rel="preload" as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/@BowerVersions["font-awesome"]/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/@BowerVersions["font-awesome"]/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/@BowerVersions["font-awesome"]/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous"
+          asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+          asp-fallback-test-class="fa" asp-fallback-test-property="display" asp-fallback-test-value="inline-block" />
 <environment names="Development">
     <link rel="prefetch" href="~/assets/css/site.css" asp-append-version="true" />
     <link rel="preload" as="style" href="~/assets/css/site.css" asp-append-version="true" />
