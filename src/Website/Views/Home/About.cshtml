@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "About Martin";
     ViewBag.MetaDescription = "Information about Martin Costello, a software developer and tester.";
-    ViewBag.MetaImage = Url.Content("~/assets/img/Martin_Small.png");
-    ViewBag.MetaImageAltText = "Martin Costello";
     int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">
