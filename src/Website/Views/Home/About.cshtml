@@ -2,20 +2,22 @@
 @inject SiteOptions Options
 @{
     ViewBag.Title = "About Martin";
-    ViewBag.MetaDescription = "Information about Martin Costello, a software developer and tester.";
+    ViewBag.MetaDescription = $"Information about {Options.Metadata.Author.Name}, a software developer and tester.";
+
+    string image = Url.Content("~/assets/img/martin_small.png");
     int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">
     <div class="col-md-4">
         <br />
         <noscript>
-            <img class="center-block img-responsive" height="300" width="288" src="@ViewBag.MetaImage" alt="@ViewBag.MetaImageAltText" title="@ViewBag.MetaImageAltText" asp-append-version="true" />
+            <img class="center-block img-responsive" height="300" width="288" src="@image" alt="@Options.Metadata.Author.Name" title="@Options.Metadata.Author.Name" asp-append-version="true" />
         </noscript>
-        <lazyimg class="center-block img-responsive" height="300" width="288" src="@ViewBag.MetaImage" alt="@ViewBag.MetaImageAltText" title="@ViewBag.MetaImageAltText" asp-append-version="true" />
+        <lazyimg class="center-block img-responsive" height="300" width="288" src="@image" alt="@Options.Metadata.Author.Name" title="@Options.Metadata.Author.Name" asp-append-version="true" />
     </div>
     <div class="col-md-8">
         <h1>About Martin</h1>
-        <p>Martin Costello is a C# .NET developer and tester with over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
+        <p>@Options.Metadata.Author.Name is a C# .NET developer and tester with over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
         <p>His experience includes various parts of the Microsoft technology stack and cloud hosting, including:</p>
         <ul>
             <li>ASP.NET</li>
@@ -36,9 +38,9 @@
     <div class="col-md-3">
         <h4>LinkedIn</h4>
         <noscript>
-            <a href="https://www.linkedin.com/pub/martin-costello/37/253/16a" title="View Martin's LinkedIn profile">Martin Costello on LinkedIn</a>
+            <a href="https://www.linkedin.com/pub/martin-costello/37/253/16a" title="View Martin's LinkedIn profile">@Options.Metadata.Author.Name on LinkedIn</a>
         </noscript>
-        <script async type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="Martin Costello" data-related="false"></script>
+        <script async type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/martin-costello/37/253/16a" data-format="hover" data-text="@Options.Metadata.Author.Name" data-related="false"></script>
     </div>
     <div class="col-md-3">
         <h4>Twitter</h4>
@@ -53,7 +55,7 @@
     <div class="col-md-3">
         <h4>Open Hub</h4>
         <a href="https://www.openhub.net/accounts/524611?ref=Detailed" target="_blank">
-            <img alt="Open Hub profile for Martin Costello" title="Open Hub profile for Martin Costello" border="0" height="35" width="230" src="https://www.openhub.net/accounts/524611/widgets/account_detailed.gif" />
+            <img alt="Open Hub profile for @Options.Metadata.Author.Name" title="Open Hub profile for @Options.Metadata.Author.Name" border="0" height="35" width="230" src="https://www.openhub.net/accounts/524611/widgets/account_detailed.gif" />
         </a>
     </div>
 </div>
