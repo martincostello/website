@@ -66,7 +66,7 @@ namespace MartinCostello.Website.Middleware
             _environmentName = _isProduction ? null : environment.EnvironmentName;
             _datacenter = config["Azure:Datacenter"] ?? "Local";
             _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options);
-            _publicKeyPins = BuildPublicKeyPins(_isProduction, options);
+            _publicKeyPins = BuildPublicKeyPins(options);
         }
 
         /// <summary>
@@ -175,12 +175,11 @@ manifest-src 'self';";
         /// <summary>
         /// Builds the value to use for the <c>Public-Key-Pins</c> HTTP response header.
         /// </summary>
-        /// <param name="isProduction">Whether the current environment is production.</param>
         /// <param name="options">The current site configuration options.</param>
         /// <returns>
         /// A <see cref="string"/> containing the <c>Public-Key-Pins</c> value to use.
         /// </returns>
-        private static string BuildPublicKeyPins(bool isProduction, SiteOptions options)
+        private static string BuildPublicKeyPins(SiteOptions options)
         {
             var builder = new StringBuilder();
 
