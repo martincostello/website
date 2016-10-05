@@ -24,9 +24,14 @@ namespace MartinCostello.Website.Middleware
         private readonly RequestDelegate _next;
 
         /// <summary>
-        /// The current Content Security Policy. This field is read-only.
+        /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
         /// </summary>
         private readonly string _contentSecurityPolicy;
+
+        /// <summary>
+        /// The current <c>Public-Key-Pins</c> HTTP response header value. This field is read-only.
+        /// </summary>
+        private readonly string _publicKeyPins;
 
         /// <summary>
         /// The name of the current hosting environment. This field is read-only.
@@ -61,6 +66,7 @@ namespace MartinCostello.Website.Middleware
             _environmentName = _isProduction ? null : environment.EnvironmentName;
             _datacenter = config["Azure:Datacenter"] ?? "Local";
             _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options);
+            _publicKeyPins = BuildPublicKeyPins(options);
         }
 
         /// <summary>
@@ -88,6 +94,11 @@ namespace MartinCostello.Website.Middleware
                     if (context.Request.IsHttps)
                     {
                         context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
+
+                        if (!string.IsNullOrWhiteSpace(_publicKeyPins))
+                        {
+                            context.Response.Headers.Add("Public-Key-Pins-Report-Only", _publicKeyPins);
+                        }
                     }
 
                     context.Response.Headers.Add("X-Datacenter", _datacenter);
@@ -155,6 +166,40 @@ manifest-src 'self';";
                 if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
                 {
                     builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Builds the value to use for the <c>Public-Key-Pins</c> HTTP response header.
+        /// </summary>
+        /// <param name="options">The current site configuration options.</param>
+        /// <returns>
+        /// A <see cref="string"/> containing the <c>Public-Key-Pins</c> value to use.
+        /// </returns>
+        private static string BuildPublicKeyPins(SiteOptions options)
+        {
+            var builder = new StringBuilder();
+
+            if (options?.PublicKeyPins?.Sha256Hashes?.Length > 0)
+            {
+                builder.AppendFormat("max-age={0};", (int)options.PublicKeyPins.MaxAge.TotalSeconds);
+
+                foreach (var hash in options.PublicKeyPins.Sha256Hashes)
+                {
+                    builder.Append($@" pin-sha256=""{hash}"";");
+                }
+
+                if (options.PublicKeyPins.IncludeSubdomains)
+                {
+                    builder.Append(" includeSubDomains;");
+                }
+
+                if (options?.ExternalLinks?.Reports?.PublicKeyPinsReportOnly != null)
+                {
+                    builder.Append($" report-uri {options.ExternalLinks.Reports.PublicKeyPinsReportOnly};");
                 }
             }
 
