@@ -151,11 +151,11 @@ manifest-src 'self';";
             if (isProduction)
             {
                 builder.Append("upgrade-insecure-requests;");
-            }
 
-            if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
-            {
-                builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
+                if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
+                {
+                    builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
+                }
             }
 
             return builder.ToString();
