@@ -141,14 +141,14 @@ namespace MartinCostello.Website.Middleware
         private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
         {
             var basePolicy = $@"
-default-src 'self';
+default-src 'self' maxcdn.bootstrapcdn.com;
 script-src 'self' ajax.googleapis.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com www.google-analytics.com www.openhub.net 'unsafe-inline';
 style-src 'self' ajax.googleapis.com fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
 img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndication.twitter.com www.google-analytics.com www.linkedin.com www.openhub.net data:;
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
 connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)};
 media-src 'none';
-object-src cdnjs.cloudflare.com;
+object-src ajax.cdnjs.com cdnjs.cloudflare.com;
 child-src ghbtns.com platform.linkedin.com platform.twitter.com www.openhub.net;
 frame-ancestors 'none';
 form-action 'self';
