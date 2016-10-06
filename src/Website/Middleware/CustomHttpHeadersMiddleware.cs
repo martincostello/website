@@ -199,7 +199,7 @@ manifest-src 'self';";
 
                 if (options?.ExternalLinks?.Reports?.PublicKeyPinsReportOnly != null)
                 {
-                    builder.Append($" report-uri {options.ExternalLinks.Reports.PublicKeyPinsReportOnly};");
+                    builder.Append($" report-uri=\"{options.ExternalLinks.Reports.PublicKeyPinsReportOnly}\";");
                 }
             }
 
