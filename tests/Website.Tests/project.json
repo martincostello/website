@@ -23,16 +23,16 @@
       "version": "1.0.0"
     },
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "MyTested.AspNetCore.Mvc": "1.0.0-preview-final",
-    "NodaTime": "2.0.0-alpha20160523",
-    "NodaTime.Testing": "2.0.0-alpha20160523",
-    "Shouldly": "2.8.0",
+    "MyTested.AspNetCore.Mvc": "1.0.0",
+    "NodaTime": "2.0.0-alpha20160729",
+    "NodaTime.Testing": "2.0.0-alpha20160729",
+    "Shouldly": "2.8.2",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
     },
     "Website": "1.0.0-*",
-    "xunit": "2.2.0-beta2-build3300"
+    "xunit": "2.2.0-beta3-build3402"
   },
 
   "frameworks": {
