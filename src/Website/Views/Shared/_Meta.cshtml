@@ -55,6 +55,17 @@
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
     <script type="application/ld+json">
     {
+        "@@context": "http://schema.org",
+        "@@type": "WebSite",
+        "name": "@Model.SiteName",
+        "alternateName": "@Model.Description",
+        "description": "@Model.Description",
+        "image": "https://secure.gravatar.com/avatar/52c4a06bebd01c96ab7def5bed77ad6d",
+        "url": "@Options.Metadata.Author.Website"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
         "@@context": "http://schema.org/",
         "@@type": "Person",
         "name": "@Model.Author",
@@ -73,7 +84,6 @@
             "image": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
             "logo": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
             "sameAs": [
-                "https://www.just-eat.com",
                 "https://www.just-eat.co.uk"
             ],
             "url": "https://www.just-eat.com"
@@ -98,8 +108,11 @@
         "nationality": "British",
         "sameAs": [
             "@Options.ExternalLinks.Blog.AbsoluteUri",
+            "https://www.facebook.com/people/Martin-Costello/100013295526556",
             "https://github.com/martincostello",
             "https://keybase.io/martincostello",
+            "https://www.linkedin.com/in/martin-costello",
+            "https://plus.google.com/+MartinCostello",
             "https://twitter.com/martin_costello"
         ],
         "url": "@Options.Metadata.Author.Website"
