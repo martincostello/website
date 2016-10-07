@@ -43,8 +43,8 @@
       "version": "1.0.0",
       "type": "platform"
     },
-    "Autofac": "4.0.0-rc3-280",
-    "Autofac.Extensions.DependencyInjection": "4.0.0-rc3-280",
+    "Autofac": "4.1.1",
+    "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Microsoft.AspNetCore.CookiePolicy": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.HttpOverrides": "1.0.0",
@@ -67,7 +67,7 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Newtonsoft.Json": "9.0.1",
-    "NodaTime": "2.0.0-alpha20160523",
+    "NodaTime": "2.0.0-alpha20160729",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
