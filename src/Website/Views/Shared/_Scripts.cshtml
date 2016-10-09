@@ -3,6 +3,7 @@
     <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
     <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
+    <script src="~/lib/moment/moment.js" asp-append-version="true"></script>
     <script src="~/assets/js/site.js" asp-append-version="true"></script>
 </environment>
 <environment names="Staging,Production">
@@ -17,6 +18,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@Model["jquery.lazyload"]/jquery.lazyload.min.js" integrity="sha256-rXnOfjTRp4iAm7hTAxEz3irkXzwZrElV2uRsdJAYjC4=" crossorigin="anonymous"
             asp-fallback-src="~/lib/jquery.lazyload/jquery.lazyload.min.js"
             asp-fallback-test="window.$.fn.lazyload">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/@Model["moment"]/moment.min.js" integrity="sha384-7pfELK0arQ3VANqV4kiPWPh5wOsrfitjFGF/NdyHXUJ3JJPy/rNhasPtdkaNKhul" crossorigin="anonymous"
+            asp-fallback-src="~/lib/moment/min/moment.min.js"
+            asp-fallback-test="window.moment">
     </script>
     <script src="~/assets/js/site.min.js" asp-append-version="true"></script>
 </environment>
