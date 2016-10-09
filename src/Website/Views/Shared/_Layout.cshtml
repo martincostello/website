@@ -24,6 +24,7 @@
 
         await Html.RenderPartialAsync("_Meta", model);
         await Html.RenderPartialAsync("_Links", canonicalUri);
+        await Html.RenderPartialAsync("_Styles");
     }
     @await RenderSectionAsync("meta", required: false)
     @await RenderSectionAsync("styles", required: false)
