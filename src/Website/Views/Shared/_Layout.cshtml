@@ -24,7 +24,6 @@
     }
     @await Html.PartialAsync("_Meta", model)
     @await Html.PartialAsync("_Links", canonicalUri)
-    @await Html.PartialAsync("_Styles")
     @await RenderSectionAsync("meta", required: false)
     @await RenderSectionAsync("styles", required: false)
     <script type="text/javascript">
@@ -62,6 +61,7 @@
         @RenderBody()
         @await Html.PartialAsync("_Footer", Options)
     </div>
+    @await Html.PartialAsync("_Styles")
     @await Html.PartialAsync("_Scripts", BowerVersions)
     @await RenderSectionAsync("scripts", required: false)
 </body>
