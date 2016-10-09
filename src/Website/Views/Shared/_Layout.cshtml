@@ -21,12 +21,11 @@
             imageAltText: ViewBag.MetaImageAltText as string,
             robots: ViewBag.MetaRobots as string,
             title: ViewBag.Title as string);
-
-        await Html.RenderPartialAsync("_Meta", model);
-        await Html.RenderPartialAsync("_Links", canonicalUri);
     }
-    @RenderSection("meta", required: false)
-    @RenderSection("styles", required: false)
+    @await Html.PartialAsync("_Meta", model)
+    @await Html.PartialAsync("_Links", canonicalUri)
+    @await RenderSectionAsync("meta", required: false)
+    @await RenderSectionAsync("styles", required: false)
     <script type="text/javascript">
         if (self == top) {
             document.documentElement.className = document.documentElement.className.replace(/\bjs-flash\b/, '');
@@ -62,8 +61,9 @@
         @RenderBody()
         @await Html.PartialAsync("_Footer", Options)
     </div>
+    @await Html.PartialAsync("_Styles")
     @await Html.PartialAsync("_Scripts", BowerVersions)
-    @RenderSection("scripts", required: false)
+    @await RenderSectionAsync("scripts", required: false)
 </body>
 <!--
     Datacenter: @Config["Azure:Datacenter"]
