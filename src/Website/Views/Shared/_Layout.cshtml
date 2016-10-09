@@ -21,11 +21,10 @@
             imageAltText: ViewBag.MetaImageAltText as string,
             robots: ViewBag.MetaRobots as string,
             title: ViewBag.Title as string);
-
-        await Html.RenderPartialAsync("_Meta", model);
-        await Html.RenderPartialAsync("_Links", canonicalUri);
-        await Html.RenderPartialAsync("_Styles");
     }
+    @await Html.PartialAsync("_Meta", model)
+    @await Html.PartialAsync("_Links", canonicalUri)
+    @await Html.PartialAsync("_Styles")
     @await RenderSectionAsync("meta", required: false)
     @await RenderSectionAsync("styles", required: false)
     <script type="text/javascript">
