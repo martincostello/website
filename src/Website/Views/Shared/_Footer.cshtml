@@ -14,6 +14,7 @@
         <a id="link-git-branch" href="@Model.Metadata.Repository/tree/@GitMetadata.Branch" title="View branch @GitMetadata.Branch on GitHub">
             @GitMetadata.Branch
         </a>
+        <span id="build-date" data-format="YYYY-MM-DD HH:mm Z" data-timestamp="@GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)"></span>
         | Sponsored by
         <a id="link-browserstack" href="https://www.browserstack.com/">
             <noscript>

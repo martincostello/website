@@ -104,6 +104,7 @@ gulp.task("min:js", function () {
         paths.jsSrc + "analytics.js",
         paths.jsSrc + "clipboard.js",
         paths.jsSrc + "lazyload.js",
+        paths.jsSrc + "footer.js",
         paths.jsSrc + "martinCostello/martinCostello.js",
         paths.jsSrc + "martinCostello/website/website.js",
         paths.jsSrc + "martinCostello/website/debug.js",
