@@ -3,7 +3,7 @@
 | | Linux | Windows |
 |:-:|:-:|:-:|
 | **Build Status** | [![Build status](https://img.shields.io/travis/martincostello/website/master.svg)](https://travis-ci.org/martincostello/website) | [![Build status](https://img.shields.io/appveyor/ci/martincostello/website/master.svg)](https://ci.appveyor.com/project/martincostello/website) |
-| **Build History** | [![Build history](https://ci-buildstats.azurewebsites.net/travisci/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://travis-ci.org/martincostello/website) |  [![Build history](https://ci-buildstats.azurewebsites.net/appveyor/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://ci.appveyor.com/project/martincostello/website) |
+| **Build History** | [![Build history](https://buildstats.info/travisci/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://travis-ci.org/martincostello/website) |  [![Build history](https://buildstats.info/appveyor/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://ci.appveyor.com/project/martincostello/website) |
 
 ## Overview
 
