@@ -1,5 +1,3 @@
-language: csharp
-
 sudo: required
 dist: trusty
 
@@ -21,9 +19,6 @@ addons:
     - libicu-dev
     - libssl-dev
     - libunwind8
-
-mono:
-  - latest
 
 install:
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
