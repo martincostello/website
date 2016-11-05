@@ -5,9 +5,9 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-7">
                 <div class="input-group">
-                    @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", disabled = string.Empty })
+                    @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", @readonly = string.Empty })
                     <span class="input-group-btn">
-                        <button id="copy-guid" class="btn btn-default copy-button" data-clipboard-target="text-guid" title="Copy to clipboard">
+                        <button id="copy-guid" class="btn btn-default copy-button" data-clipboard-target="#text-guid" title="Copy to clipboard">
                             <span class="glyphicon glyphicon-save"></span>
                         </button>
                     </span>

@@ -3,19 +3,11 @@
 
 (function () {
     $(document).ready(function () {
+        if ("Clipboard" in window) {
+            var selector = ".copy-button";
+            var copyButton = $(selector);
 
-        var swfPath = $("link[rel='clipboard-swf']").attr("href");
-
-        if (swfPath) {
-
-            var copyButton = $(".copy-button");
-            var clipboardInitialized = false;
-
-            ZeroClipboard.config({
-                swfPath: swfPath
-            });
-
-            new ZeroClipboard(copyButton);
+            new Clipboard(selector);
 
             copyButton.click(function (event) {
                 event.preventDefault();

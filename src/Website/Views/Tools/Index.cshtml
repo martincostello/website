@@ -4,19 +4,18 @@
     ViewBag.Title = ".NET Development Tools";
     ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
 
-    var clipboardVersion = Bower["zeroclipboard"];
+    var clipboardVersion = Bower["clipboard"];
     var toolsUri = Options.ExternalLinks.Api.AbsoluteUri + "tools";
 }
 @section meta {
    <link rel="api-guid" href="@toolsUri/guid" />
    <link rel="api-hash" href="@toolsUri/hash" />
    <link rel="api-machine-key" href="@toolsUri/machinekey" />
-   <link rel="clipboard-swf" href="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.swf" />
 }
 @section scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/@clipboardVersion/ZeroClipboard.min.js" integrity="sha256-Dv7XDh3wH0KTf2EqLETkJME+/v1CTy/u7nDwEkD/zJA=" crossorigin="anonymous"
-            asp-fallback-src="~/lib/zeroclipboard/zeroclipboard.min.js"
-            asp-fallback-test="window.ZeroClipboard">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/@clipboardVersion/clipboard.min.js" integrity="sha256-COWXDc7n7PAqsE3y1r4CVopxWU9JI0kenz6K4zBqhT8=" crossorigin="anonymous"
+            asp-fallback-src="~/lib/clipboard/dist/clipboard.min.js"
+            asp-fallback-test="window.Clipboard">
     </script>
 }
 <h1>@ViewBag.Title</h1>
