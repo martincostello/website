@@ -16,8 +16,8 @@
                     </a>.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=sqllocaldb&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=sqllocaldb&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "sqllocaldb")
+                    @await Html.PartialAsync("_GitHubFork", "sqllocaldb")
                 </p>
                 <p>
                     <a id="link-repo-localdb" href="https://github.com/martincostello/sqllocaldb" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -39,8 +39,8 @@
                     REST API.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=browserstack-automate&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=browserstack-automate&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "browserstack-automate")
+                    @await Html.PartialAsync("_GitHubFork", "browserstack-automate")
                 </p>
                 <p>
                     <a id="link-repo-browserstack" href="https://martincostello.github.io/browserstack-automate/" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -62,8 +62,8 @@
                     written as a console application.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=project-euler&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=project-euler&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "project-euler")
+                    @await Html.PartialAsync("_GitHubFork", "project-euler")
                 </p>
                 <p>
                     <a id="link-repo-euler" href="https://github.com/martincostello/project-euler" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -83,8 +83,8 @@
                     a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" target="_blank">Middleman</a>.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=blog&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=blog&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "blog")
+                    @await Html.PartialAsync("_GitHubFork", "blog")
                 </p>
                 <p>
                     <a id="link-repo-blog" href="https://github.com/martincostello/blog" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -103,8 +103,8 @@
                     used as an excercise in implementing an ASP.NET Core website.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=api&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=api&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "api")
+                    @await Html.PartialAsync("_GitHubFork", "api")
                 </p>
                 <p>
                     <a id="link-repo-api" href="https://github.com/martincostello/api" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -126,8 +126,8 @@
                     which is implemented using ASP.NET Core.
                 </p>
                 <p>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=website&type=star&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
-                    <iframe src="https://ghbtns.com/github-btn.html?user=martincostello&repo=website&type=fork&count=true" frameborder="0" scrolling="no" width="170" height="20"></iframe>
+                    @await Html.PartialAsync("_GitHubStar", "website")
+                    @await Html.PartialAsync("_GitHubFork", "website")
                 </p>
                 <p>
                     <a id="link-repo-website" href="https://github.com/martincostello/website" target="_blank" title="View the project on GitHub" class="btn btn-default">
@@ -138,3 +138,6 @@
         </div>
     </div>
 </div>
+@section scripts {
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+}
