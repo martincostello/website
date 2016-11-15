@@ -72,8 +72,8 @@ gulp.task("css", ["css:less", "css:sass"]);
 gulp.task("lint:css", function () {
     return gulp.src(styles)
       .pipe(csslint())
-      .pipe(csslint.reporter())
-      .pipe(csslint.reporter("fail"));
+      .pipe(csslint.formatter())
+      .pipe(csslint.formatter("fail"));
 });
 
 gulp.task("lint:js", function () {
