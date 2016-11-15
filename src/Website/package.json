@@ -25,6 +25,7 @@
     "karma-html-detailed-reporter": "1.1.11",
     "karma-jasmine": "1.0.2",
     "karma-phantomjs-launcher": "1.0.2",
+    "node-sass": "3.10.1",
     "phantomjs": "2.1.7"
   }
 }
