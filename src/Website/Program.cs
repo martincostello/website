@@ -6,6 +6,7 @@ namespace MartinCostello.Website
     using System;
     using System.IO;
     using System.Threading;
+    using Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
 
@@ -42,6 +43,7 @@ namespace MartinCostello.Website
 
                 var builder = new WebHostBuilder()
                     .UseKestrel((p) => p.AddServerHeader = false)
+                    .UseAutofac()
                     .UseConfiguration(configuration)
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()

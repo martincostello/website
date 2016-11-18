@@ -4,8 +4,6 @@
 namespace MartinCostello.Website
 {
     using System;
-    using Autofac;
-    using Autofac.Extensions.DependencyInjection;
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.CookiePolicy;
@@ -58,21 +56,17 @@ namespace MartinCostello.Website
         public IHostingEnvironment HostingEnvironment { get; set; }
 
         /// <summary>
-        /// Gets or sets the service provider.
-        /// </summary>
-        public IServiceProvider ServiceProvider { get; set; }
-
-        /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
         /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, ILoggerFactory loggerFactory)
+        /// <param name="options">The <see cref="SiteOptions"/> to use.</param>
+        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, ILoggerFactory loggerFactory, SiteOptions options)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
-            app.UseCustomHttpHeaders(environment, Configuration, ServiceProvider.GetRequiredService<SiteOptions>());
+            app.UseCustomHttpHeaders(environment, Configuration, options);
 
             if (environment.IsDevelopment())
             {
@@ -122,10 +116,7 @@ namespace MartinCostello.Website
         /// Configures the services for the application.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to use.</param>
-        /// <returns>
-        /// The <see cref="IServiceProvider"/> to use.
-        /// </returns>
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
             services.Configure<SiteOptions>(Configuration.GetSection("Site"));
@@ -160,15 +151,6 @@ namespace MartinCostello.Website
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
             services.AddSingleton((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
             services.AddSingleton((p) => new BowerVersions(p.GetRequiredService<IHostingEnvironment>()));
-
-            var builder = new ContainerBuilder();
-
-            builder.Populate(services);
-
-            var container = builder.Build();
-            ServiceProvider = container.Resolve<IServiceProvider>();
-
-            return ServiceProvider;
         }
 
         /// <summary>
