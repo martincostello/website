@@ -51,6 +51,7 @@
     },
     "Microsoft.AspNetCore.ResponseCaching": "1.1.0",
     "Microsoft.AspNetCore.ResponseCompression": "1.0.0",
+    "Microsoft.AspNetCore.Rewrite": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
