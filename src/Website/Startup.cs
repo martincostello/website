@@ -139,10 +139,9 @@ namespace MartinCostello.Website
                     p.RequireSsl = !HostingEnvironment.IsDevelopment();
                 });
 
-            services.AddMemoryCache();
-            services.AddDistributedMemoryCache();
-
             services
+                .AddMemoryCache()
+                .AddDistributedMemoryCache()
                 .AddMvc(ConfigureMvc)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
@@ -152,6 +151,10 @@ namespace MartinCostello.Website
                     p.AppendTrailingSlash = true;
                     p.LowercaseUrls = true;
                 });
+
+            services
+                .AddResponseCaching()
+                .AddResponseCompression();
 
             services.AddSingleton<IConfiguration>((_) => Configuration);
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
