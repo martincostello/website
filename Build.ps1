@@ -11,9 +11,9 @@ param(
 $ErrorActionPreference = "Stop"
 
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
-$framework     = "netcoreapp1.0"
+$framework     = "netcoreapp1.1"
 $getDotNet     = Join-Path $solutionPath "tools\install.ps1"
-$dotnetVersion = "1.0.0-preview2-003121"
+$dotnetVersion = "1.0.0-preview2-1-003177"
 
 if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
@@ -28,9 +28,7 @@ if ($env:CI -ne $null -Or $env:TF_BUILD -ne $null) {
 
 if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
     mkdir $env:DOTNET_INSTALL_DIR | Out-Null
-    $installScript = Join-Path $env:DOTNET_INSTALL_DIR "install.ps1"
-    Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.ps1" -OutFile $installScript
-    & $installScript -Version "$dotnetVersion" -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath
+    & $getDotNet -Version "$dotnetVersion" -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath
 }
 
 $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
