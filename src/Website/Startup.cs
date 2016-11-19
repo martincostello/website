@@ -102,6 +102,8 @@ namespace MartinCostello.Website
 
             app.UseHttpMethodOverride();
 
+            app.UseRewriter(CreateRewriteOptions());
+
             app.UseMvc(
                 (routes) =>
                 {
@@ -111,7 +113,6 @@ namespace MartinCostello.Website
                 });
 
             app.UseCookiePolicy(CreateCookiePolicy());
-            app.UseRewriter(CreateRewriteOptions());
         }
 
         /// <summary>
@@ -212,6 +213,15 @@ namespace MartinCostello.Website
         private RewriteOptions CreateRewriteOptions()
         {
             var options = new RewriteOptions();
+
+            if (HostingEnvironment.IsDevelopment())
+            {
+                options.AddRedirectToHttps(301, 44309);
+            }
+            else
+            {
+                options.AddRedirectToHttps();
+            }
 
             if (HostingEnvironment.IsProduction())
             {
