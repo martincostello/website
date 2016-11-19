@@ -214,18 +214,9 @@ namespace MartinCostello.Website
         {
             var options = new RewriteOptions();
 
-            if (HostingEnvironment.IsDevelopment())
-            {
-                options.AddRedirectToHttps(301, 44309);
-            }
-            else
-            {
-                options.AddRedirectToHttps();
-            }
-
             if (HostingEnvironment.IsProduction())
             {
-                // TODO
+                options.AddRedirectToHttps();
             }
 
             return options;
