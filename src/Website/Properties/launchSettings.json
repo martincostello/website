@@ -20,7 +20,7 @@
     "Kestrel": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://127.0.0.1:5000/",
+      "launchUrl": "http://localhost:5000/",
       "environmentVariables": {
         "Azure:Datacenter": "Local",
         "ASPNETCORE_ENVIRONMENT": "Development"
