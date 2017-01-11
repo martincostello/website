@@ -1,5 +1,7 @@
 {
   "name": "martincostello.com",
+  "background_color": "#ffffff",
+  "theme_color": "#2c3e50",
   "gcm_sender_id": "757419576538",
   "icons": [
     {
