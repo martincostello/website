@@ -1,45 +1,33 @@
-﻿"use strict";
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-console.log("Started", self);
+"use strict";
+
+console.log("Started Service Worker.", self);
 
 self.addEventListener("install", function (event) {
-    self.skipWaiting();
-    console.log("Installed", event);
+    event.waitUntil(
+        caches.open("martincostello.com").then(function (cache) {
+            return cache.addAll([
+                "/",
+                "/assets/css/site.css",
+                "/assets/js/site.js",
+                "/assets/img/browserstack.svg"
+            ]);
+        })
+    );
+    console.log("Installed Service Worker.");
 });
 
 self.addEventListener("activate", function (event) {
-    console.log("Activated", event);
+    console.log("Activated Service Worker.");
 });
 
-self.addEventListener("push", function (event) {
-    console.log("Push message received", event);
-    var title = "martincostello.com";
-    event.waitUntil(
-      self.registration.showNotification(title, {
-          body: "Hello!",
-          icon: "https://martincostello.com/favicon-96x96.png",
-          tag: "martincostello.com"
-      }));
-});
-
-self.addEventListener("notificationclick", function (event) {
-    console.log("Notification click: tag ", event.notification.tag);
-    event.notification.close();
-    var url = "https://martincostello.com/";
-    event.waitUntil(
-        clients.matchAll({
-            type: "window"
-        })
-        .then(function (windowClients) {
-            for (var i = 0; i < windowClients.length; i++) {
-                var client = windowClients[i];
-                if (client.url === url && "focus" in client) {
-                    return client.focus();
-                }
-            }
-            if (clients.openWindow) {
-                return clients.openWindow(url);
-            }
-        })
+self.addEventListener("fetch", function (event) {
+    event.respondWith(
+        caches.match(event.request)
+            .then(function (response) {
+                return response || fetch(event.request);
+            })
     );
 });
