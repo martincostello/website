@@ -146,7 +146,7 @@ script-src 'self' ajax.googleapis.com api.github.com cdnjs.cloudflare.com button
 style-src 'self' ajax.googleapis.com buttons.github.io fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
 img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndication.twitter.com www.google-analytics.com www.linkedin.com data:;
 font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
-connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)} ajax.googleapis.com cdnjs.cloudflare.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com stats.g.doubleclick.net www.google-analytics.com;
+connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)};
 media-src 'none';
 object-src ajax.cdnjs.com;
 child-src 'self' buttons.github.io platform.linkedin.com platform.twitter.com;

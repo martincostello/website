@@ -27,6 +27,7 @@ self.addEventListener("activate", function (event) {
     console.log("Activated Service Worker.");
 });
 
+/*
 self.addEventListener("fetch", function (event) {
     if (event.request.method !== "GET") {
         return;
@@ -38,3 +39,4 @@ self.addEventListener("fetch", function (event) {
             })
     );
 });
+*/
