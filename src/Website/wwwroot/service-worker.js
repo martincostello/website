@@ -11,9 +11,13 @@ self.addEventListener("install", function (event) {
             return cache.addAll([
                 "/",
                 "/assets/css/site.css",
+                "/assets/css/site.min.css",
                 "/assets/js/site.js",
+                "/assets/js/site.min.js",
                 "/assets/img/browserstack.svg"
             ]);
+        }).then(function () {
+            return self.skipWaiting();
         })
     );
     console.log("Installed Service Worker.");
@@ -23,7 +27,11 @@ self.addEventListener("activate", function (event) {
     console.log("Activated Service Worker.");
 });
 
+/*
 self.addEventListener("fetch", function (event) {
+    if (event.request.method !== "GET") {
+        return;
+    }
     event.respondWith(
         caches.match(event.request)
             .then(function (response) {
@@ -31,3 +39,4 @@ self.addEventListener("fetch", function (event) {
             })
     );
 });
+*/
