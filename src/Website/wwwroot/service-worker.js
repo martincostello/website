@@ -16,6 +16,8 @@ self.addEventListener("install", function (event) {
                 "/assets/js/site.min.js",
                 "/assets/img/browserstack.svg"
             ]);
+        }).then(function () {
+            return self.skipWaiting();
         })
     );
     console.log("Installed Service Worker.");
