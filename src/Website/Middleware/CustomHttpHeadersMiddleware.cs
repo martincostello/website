@@ -4,8 +4,10 @@
 namespace MartinCostello.Website.Middleware
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
@@ -140,24 +142,47 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
         {
-            var basePolicy = $@"
-default-src 'self' buttons.github.io maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com data:;
-script-src 'self' ajax.googleapis.com api.github.com cdnjs.cloudflare.com buttons.github.io maxcdn.bootstrapcdn.com platform.linkedin.com platform.twitter.com www.google-analytics.com 'unsafe-inline';
-style-src 'self' ajax.googleapis.com buttons.github.io fonts.googleapis.com maxcdn.bootstrapcdn.com 'unsafe-inline';
-img-src 'self' stackoverflow.com static.licdn.com stats.g.doubleclick.net syndication.twitter.com www.google-analytics.com www.linkedin.com data:;
-font-src 'self' ajax.googleapis.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com;
-connect-src 'self' {GetApiOriginForContentSecurityPolicy(options)};
-media-src 'none';
-object-src ajax.cdnjs.com;
-child-src 'self' buttons.github.io platform.linkedin.com platform.twitter.com;
-frame-ancestors 'none';
-form-action 'self';
-block-all-mixed-content;
-reflected-xss block;
-base-uri 'self';
-manifest-src 'self';";
+            var policies = new Dictionary<string, IList<string>>()
+            {
+                { "default-src", new[] { Csp.Self, Csp.Data } },
+                { "script-src", new[] { Csp.Self, Csp.Inline } },
+                { "style-src", new[] { Csp.Self, Csp.Inline } },
+                { "img-src", new[] { Csp.Self, Csp.Data } },
+                { "font-src", new[] { Csp.Self } },
+                { "connect-src", new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) } },
+                { "media-src", new[] { Csp.None } },
+                { "object-src", Array.Empty<string>() },
+                { "child-src", new[] { Csp.Self } },
+                { "frame-ancestors", new[] { Csp.None } },
+                { "form-action", new[] { Csp.Self } },
+                { "block-all-mixed-content", Array.Empty<string>() },
+                { "reflected-xss", new[] { "block" } },
+                { "base-uri", new[] { Csp.Self } },
+                { "manifest-src", new[] { Csp.Self } },
+            };
 
-            var builder = new StringBuilder(basePolicy.Replace(Environment.NewLine, string.Empty));
+            var builder = new StringBuilder();
+
+            foreach (var pair in policies)
+            {
+                builder.Append(pair.Key);
+
+                IList<string> origins = pair.Value;
+                IList<string> configOrigins;
+
+                if (options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
+                {
+                    origins = origins.Concat(configOrigins).ToList();
+                }
+
+                if (origins.Count > 0)
+                {
+                    builder.Append(" ");
+                    builder.Append(string.Join(" ", origins));
+                }
+
+                builder.Append(";");
+            }
 
             if (isProduction)
             {
@@ -230,6 +255,32 @@ manifest-src 'self';";
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// A class containing Content Security Policy constants.
+        /// </summary>
+        private static class Csp
+        {
+            /// <summary>
+            /// The origin for a data URI.
+            /// </summary>
+            internal const string Data = "data:";
+
+            /// <summary>
+            /// The directive to allow inline content.
+            /// </summary>
+            internal const string Inline = "'unsafe-inline'";
+
+            /// <summary>
+            /// The directive to allow no origins.
+            /// </summary>
+            internal const string None = "'none'";
+
+            /// <summary>
+            /// The origin for the site itself.
+            /// </summary>
+            internal const string Self = "'self'";
         }
     }
 }
