@@ -1,0 +1,32 @@
+﻿<Project>
+  <PropertyGroup>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);SA1100;SA1101;SA1129;SA1309;SA1609;SA1633;SA1652</NoWarn>
+
+    <Authors>Martin Costello</Authors>
+    <Company>https://github.com/martincostello/website</Company>
+    <Copyright>Martin Costello (c) 2016-2017</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <WarningsAsErrors>true</WarningsAsErrors>
+
+    <PackageIconUrl>https://martincostello.com/favicon.ico</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/martincostello/website</PackageProjectUrl>
+    <PackageLicenseUrl>$(PackageProjectUrl)/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags></PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+
+  </PropertyGroup>
+</Project>

@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $framework     = "netcoreapp1.1"
 $getDotNet     = Join-Path $solutionPath "tools\install.ps1"
-$dotnetVersion = "1.0.0-preview2-1-003177"
+$dotnetVersion = "1.0.0-rc3-004530"
 
 if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
@@ -62,9 +62,9 @@ function DotNetTest { param([string]$Project)
 function DotNetPublish { param([string]$Project)
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
-        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix" --no-build
+        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
     } else {
-        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --no-build
+        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration
     }
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet publish failed with exit code $LASTEXITCODE"
@@ -89,16 +89,16 @@ if ($PatchVersion -eq $true) {
 }
 
 $projects = @(
-    (Join-Path $solutionPath "src\Website\project.json"),
-    (Join-Path $solutionPath "tests\Website.Tests\project.json")
+    (Join-Path $solutionPath "src\Website\Website.csproj"),
+    (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj")
 )
 
 $testProjects = @(
-    (Join-Path $solutionPath "tests\Website.Tests\project.json")
+    (Join-Path $solutionPath "tests\Website.Tests\Website.csproj")
 )
 
 $publishProjects = @(
-    (Join-Path $solutionPath "src\Website\project.json")
+    (Join-Path $solutionPath "src\Website\Website.csproj")
 )
 
 if ($RestorePackages -eq $true) {
