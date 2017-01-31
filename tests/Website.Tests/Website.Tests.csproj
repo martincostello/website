@@ -11,18 +11,15 @@
     <!--
     <AdditionalFiles Include="..\..\stylecop.json" />
     -->
-    <CodeAnalysisRuleSet Include="..\..\Website.ruleset" />
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
-    <Content Include="xunit.runner.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="MyTested.AspNetCore.Mvc" Version="1.0.0" />
+    <PackageReference Include="MyTested.AspNetCore.Mvc" Version="1.1.0" />
     <PackageReference Include="NodaTime" Version="2.0.0-beta20170123" />
     <PackageReference Include="NodaTime.Testing" Version="2.0.0-beta20170123" />
     <PackageReference Include="Shouldly" Version="2.8.2" />
