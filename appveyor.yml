@@ -11,13 +11,11 @@ branches:
     - master
 
 install:
-  - ps: npm install npm@3.10.6 -g
-  - ps: npm -v
+  - ps: npm install -g npm@3.10.6
   - ps: npm install -g bower --loglevel=error
   - ps: npm install -g gulp --loglevel=error
 
 build_script:
-  - ps: dotnet --info
   - ps: .\Build.ps1
 
 artifacts:
