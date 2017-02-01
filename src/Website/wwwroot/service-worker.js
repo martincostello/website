@@ -13,8 +13,7 @@ self.addEventListener("install", function (event) {
                 "/assets/css/site.css",
                 "/assets/css/site.min.css",
                 "/assets/js/site.js",
-                "/assets/js/site.min.js",
-                "/assets/img/browserstack.svg"
+                "/assets/js/site.min.js"
             ]);
         }).then(function () {
             return self.skipWaiting();
