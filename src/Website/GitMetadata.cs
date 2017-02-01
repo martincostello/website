@@ -21,12 +21,12 @@ namespace MartinCostello.Website
         /// <summary>
         /// Gets the SHA for the Git commit the assembly was compiled from.
         /// </summary>
-        public static string Commit { get; } = GetMetadataValue("CommitHash", "Local");
+        public static string Commit { get; } = GetMetadataValue("CommitHash", "HEAD");
 
         /// <summary>
         /// Gets the timestamp the assembly was compiled at.
         /// </summary>
-        public static DateTime Timestamp { get; } = DateTime.Parse(GetMetadataValue("BuildTimestamp", "0001-01-01T00:00:00Z"), CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+        public static DateTime Timestamp { get; } = DateTime.Parse(GetMetadataValue("BuildTimestamp", DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
         /// <summary>
         /// Gets the Git commit SHA associated with this revision of the application.
