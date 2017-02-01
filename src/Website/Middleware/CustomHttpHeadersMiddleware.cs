@@ -142,12 +142,14 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
         {
+            var cdn = GetCdnOriginForContentSecurityPolicy(options);
+
             var policies = new Dictionary<string, IList<string>>()
             {
                 { "default-src", new[] { Csp.Self, Csp.Data } },
                 { "script-src", new[] { Csp.Self, Csp.Inline } },
                 { "style-src", new[] { Csp.Self, Csp.Inline } },
-                { "img-src", new[] { Csp.Self, Csp.Data } },
+                { "img-src", new[] { Csp.Self, Csp.Data, cdn } },
                 { "font-src", new[] { Csp.Self } },
                 { "connect-src", new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) } },
                 { "media-src", new[] { Csp.None } },
@@ -240,18 +242,40 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
         {
-            var builder = new StringBuilder();
+            return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
+        }
 
-            var baseUri = options?.ExternalLinks?.Api;
+        /// <summary>
+        /// Gets the CDN origin to use for the Content Security Policy.
+        /// </summary>
+        /// <param name="options">The current site options.</param>
+        /// <returns>
+        /// The origin to use for the CDN, if any.
+        /// </returns>
+        private static string GetCdnOriginForContentSecurityPolicy(SiteOptions options)
+        {
+            return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Cdn);
+        }
 
-            if (baseUri != null)
+        /// <summary>
+        /// Gets the origin to use for the Content Security Policy from the specified URI.
+        /// </summary>
+        /// <param name="baseUri">The base URI to get the origin for.</param>
+        /// <returns>
+        /// The origin to use for the URI, if any.
+        /// </returns>
+        private static string GetOriginForContentSecurityPolicy(Uri baseUri)
+        {
+            if (baseUri == null)
             {
-                builder.Append($"{baseUri.Scheme}://{baseUri.Host}");
+                return string.Empty;
+            }
 
-                if (!baseUri.IsDefaultPort)
-                {
-                    builder.Append($":{baseUri.Port}");
-                }
+            var builder = new StringBuilder($"{baseUri.Host}");
+
+            if (!baseUri.IsDefaultPort)
+            {
+                builder.Append($":{baseUri.Port}");
             }
 
             return builder.ToString();
