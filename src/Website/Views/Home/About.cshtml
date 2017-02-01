@@ -4,7 +4,7 @@
     ViewBag.Title = "About Martin";
     ViewBag.MetaDescription = $"Information about {Options.Metadata.Author.Name}, a software developer and tester.";
 
-    string image = Url.Content("~/assets/img/martin_small.png");
+    string image = Url.CdnContent("martin_small.png", Options);
     int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">

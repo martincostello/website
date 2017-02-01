@@ -1,29 +1,35 @@
-﻿@model string
+﻿@model Tuple<string, SiteOptions>
+@{
+    string canonical = Model.Item1;
+    SiteOptions options = Model.Item2;
+}
 @inject BowerVersions BowerVersions
-    <link rel="canonical" href="@Model" />
+    <link rel="canonical" href="@canonical" />
     <link rel="manifest" href="@Url.Content("~/manifest.json")" asp-append-version="true" />
     <link rel="sitemap" type="application/xml" href="@Url.Content("~/sitemap.xml")" asp-append-version="true" />
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="57x57" href="@Url.Content("~/apple-touch-icon-57x57.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="60x60" href="@Url.Content("~/apple-touch-icon-60x60.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/apple-touch-icon-72x72.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="76x76" href="@Url.Content("~/apple-touch-icon-76x76.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/apple-touch-icon-114x114.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="120x120" href="@Url.Content("~/apple-touch-icon-120x120.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/apple-touch-icon-144x144.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="152x152" href="@Url.Content("~/apple-touch-icon-152x152.png")" asp-append-version="true" />
-    <link rel="apple-touch-icon" sizes="180x180" href="@Url.Content("~/apple-touch-icon-180x180.png")" asp-append-version="true" />
-    <link rel="icon" type="image/png" href="@Url.Content("~/android-chrome-192x192.png")" sizes="192x192" asp-append-version="true" />
-    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-32x32.png")" sizes="32x32" asp-append-version="true" />
-    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-96x96.png")" sizes="96x96" asp-append-version="true" />
-    <link rel="icon" type="image/png" href="@Url.Content("~/favicon-16x16.png")" sizes="16x16" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="57x57" href="@Url.CdnContent("~/apple-touch-icon-57x57.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="60x60" href="@Url.CdnContent("~/apple-touch-icon-60x60.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.CdnContent("~/apple-touch-icon-72x72.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="76x76" href="@Url.CdnContent("~/apple-touch-icon-76x76.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.CdnContent("~/apple-touch-icon-114x114.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="120x120" href="@Url.CdnContent("~/apple-touch-icon-120x120.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.CdnContent("~/apple-touch-icon-144x144.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="152x152" href="@Url.CdnContent("~/apple-touch-icon-152x152.png", options)" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="180x180" href="@Url.CdnContent("~/apple-touch-icon-180x180.png", options)" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="@Url.CdnContent("~/android-chrome-192x192.png", options)" sizes="192x192" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-32x32.png", options)" sizes="32x32" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-96x96.png", options)" sizes="96x96" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-16x16.png", options)" sizes="16x16" asp-append-version="true" />
 <environment names="Staging,Production">
     <link rel="dns-prefetch" href="//ajax.googleapis.com" />
+    <link rel="dns-prefetch" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com" />
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
     <link rel="preconnect" href="//ajax.googleapis.com" />
+    <link rel="preconnect" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="preconnect" href="//fonts.googleapis.com" />
     <link rel="preconnect" href="//fonts.gstatic.com" />
     <link rel="preconnect" href="//maxcdn.bootstrapcdn.com" />

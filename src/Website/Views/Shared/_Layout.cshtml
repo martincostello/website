@@ -23,7 +23,7 @@
             title: ViewBag.Title as string);
     }
     @await Html.PartialAsync("_Meta", model)
-    @await Html.PartialAsync("_Links", canonicalUri)
+    @await Html.PartialAsync("_Links", Tuple.Create(canonicalUri, Options))
     @await RenderSectionAsync("meta", required: false)
     <script type="text/javascript">
         if (self == top) {

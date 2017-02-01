@@ -21,6 +21,11 @@ namespace MartinCostello.Website.Options
         public Uri Blog { get; set; }
 
         /// <summary>
+        /// Gets or sets the URI of the CDN.
+        /// </summary>
+        public Uri Cdn { get; set; }
+
+        /// <summary>
         /// Gets or sets the URI of the status website.
         /// </summary>
         public Uri Status { get; set; }

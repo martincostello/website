@@ -28,8 +28,8 @@
     }
     else
     {
-    <meta property="og:image" content="@Url.AbsoluteContent("~/assets/img/martin_small.png")" />
-    <meta name="twitter:image" content="@Url.AbsoluteContent("~/assets/img/martin_small.png")" />
+    <meta property="og:image" content="@Url.CdnContent("martin_small.png", Options)" />
+    <meta name="twitter:image" content="@Url.CdnContent("martin_small.png", Options)" />
     <meta name="twitter:image:alt" content="@Model.Author" />
     }
     <meta property="og:locale" content="en_GB" />
@@ -50,7 +50,7 @@
     <meta name="msapplication-navbutton-color" content="#2c3e50" />
     <meta name="msapplication-starturl" content="/" />
     <meta name="msapplication-TileColor" content="#2c3e50" />
-    <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" />
+    <meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", Options)" />
     <meta name="x-site-branch" content="@GitMetadata.Branch" />
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
     <script type="application/ld+json">
