@@ -6,20 +6,14 @@
           asp-fallback-test-property="position"
           asp-fallback-test-value="absolute" />
 </noscript>
+<link id="bootstrap-css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/@BowerVersions["bootstrap"]/flatly/bootstrap.min.css" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous" media="none"
+      asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+      asp-fallback-test-class="sr-only"
+      asp-fallback-test-property="position"
+      asp-fallback-test-value="absolute" />
 <script>
-    var loadDeferredStyles = function () {
-        var addStylesNode = document.getElementById("deferred-styles");
-        var replacement = document.createElement("div");
-        replacement.innerHTML = addStylesNode.textContent;
-        document.body.appendChild(replacement)
-        addStylesNode.parentElement.removeChild(addStylesNode);
-        window.setTimeout(function () { $("img.lazy").lazyload(); }, 1000);
+    var css = document.getElementById("bootstrap-css");
+    css.onload = function () {
+        css.media = "all";
     };
-    var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
-    if (raf) {
-        raf(function () { window.setTimeout(loadDeferredStyles, 0); });
-    }
-    else {
-        window.addEventListener("load", loadDeferredStyles);
-    }
 </script>
