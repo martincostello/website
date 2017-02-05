@@ -1,7 +1,7 @@
 ﻿@model SiteOptions
 <hr />
 <footer>
-    <p>
+    <p class="hidden-sm hidden-xs">
         &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
         <a id="link-status" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
             Site Status &amp; Uptime
@@ -23,4 +23,21 @@
             <lazyimg src="@Url.CdnContent("browserstack.svg", Model)" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" />
         </a>
     </p>
+    <div class="row hidden-md hidden-lg">
+        <div class="col-sm-12 col-xs-12">
+            &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
+            <a id="link-status" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
+                Site Status &amp; Uptime
+            </a>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            Sponsored by
+            <a id="link-browserstack" href="https://www.browserstack.com/">
+                <noscript>
+                    <img src="@Url.CdnContent("browserstack.svg", Model)" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" asp-append-version="true" />
+                </noscript>
+                <lazyimg src="@Url.CdnContent("browserstack.svg", Model)" viewBox="0 0 428.5 92.3" height="20" alt="Sponsored by BrowserStack" title="Sponsored by BrowserStack" />
+            </a>
+        </div>
+    </div>
 </footer>
