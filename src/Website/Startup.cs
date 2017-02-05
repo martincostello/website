@@ -5,6 +5,7 @@ namespace MartinCostello.Website
 {
     using System;
     using Extensions;
+    using Microsoft.ApplicationInsights.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.CookiePolicy;
     using Microsoft.AspNetCore.Hosting;
@@ -36,10 +37,14 @@ namespace MartinCostello.Website
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsDevelopment())
+            bool isDevelopment = env.IsDevelopment();
+
+            if (isDevelopment)
             {
                 builder.AddUserSecrets();
             }
+
+            builder.AddApplicationInsightsSettings(developerMode: isDevelopment);
 
             Configuration = builder.Build();
             HostingEnvironment = env;
@@ -118,6 +123,7 @@ namespace MartinCostello.Website
         /// <param name="services">The <see cref="IServiceCollection"/> to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.AddOptions();
             services.Configure<SiteOptions>(Configuration.GetSection("Site"));
 
