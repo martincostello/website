@@ -13,7 +13,7 @@
         replacement.innerHTML = addStylesNode.textContent;
         document.body.appendChild(replacement)
         addStylesNode.parentElement.removeChild(addStylesNode);
-        window.setTimeout(function () { $("img.lazy").lazyload(); }, 1000);
+        window.setTimeout(function () { $("img.lazy").lazyload(); }, 750);
     };
     var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
     if (raf) {
