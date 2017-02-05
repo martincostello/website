@@ -1,15 +1,9 @@
 ﻿@inject BowerVersions BowerVersions
-<environment names="Development">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
-</environment>
-<environment names="Staging,Production">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/@BowerVersions["bootstrap"]/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
-          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-          asp-fallback-test-class="sr-only"
-          asp-fallback-test-property="position"
-          asp-fallback-test-value="absolute" />
-</environment>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/@BowerVersions["bootstrap"]/flatly/bootstrap.min.css" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/@BowerVersions["bootstrap"]/flatly/bootstrap.min.css" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous"
+      asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+      asp-fallback-test-class="sr-only"
+      asp-fallback-test-property="position"
+      asp-fallback-test-value="absolute" />
 <environment names="Development">
     <link rel="stylesheet" href="~/assets/css/site.css" asp-append-version="true" />
 </environment>
