@@ -35,6 +35,11 @@ namespace MartinCostello.Website.TagHelpers
         private const string MinifyInlinedAttributeName = "asp-minify-inlined";
 
         /// <summary>
+        /// An array containing the <see cref="Environment.NewLine"/> string.
+        /// </summary>
+        private static readonly string[] NewLine = new[] { Environment.NewLine };
+
+        /// <summary>
         /// An array containing the <c>~</c> character.
         /// </summary>
         private static readonly char[] Tilde = new[] { '~' };
@@ -129,7 +134,7 @@ namespace MartinCostello.Website.TagHelpers
         private static string MinifyCss(string css)
         {
             // Remove all blank lines, trim space between line contents and turn into a single line
-            string[] lines = css.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = css.Split(NewLine, StringSplitOptions.RemoveEmptyEntries);
             string minified = string.Join(string.Empty, lines.Select((p) => p.Trim()));
 
             var builder = new StringBuilder(minified);
