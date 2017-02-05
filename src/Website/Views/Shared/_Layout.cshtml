@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en-gb">
 <head prefix="og:http://ogp.me/ns#">
-    @await Html.PartialAsync("_Styles")
-    @await RenderSectionAsync("styles", required: false)
+    @await Html.PartialAsync("_StylesHead")
+    @await RenderSectionAsync("stylesHead", required: false)
     @{
         string canonicalUri = Context.Request.Canonical();
         string image = ViewBag.MetaImage ?? string.Empty;
@@ -63,6 +63,8 @@
         @RenderBody()
         @await Html.PartialAsync("_Footer", Options)
     </div>
+    @await Html.PartialAsync("_StylesBody")
+    @await RenderSectionAsync("stylesBody", required: false)
     @await Html.PartialAsync("_Scripts", BowerVersions)
     @await RenderSectionAsync("scripts", required: false)
 </body>

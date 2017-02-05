@@ -1,0 +1,24 @@
+﻿@inject BowerVersions BowerVersions
+<noscript id="deferred-styles">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/@BowerVersions["bootstrap"]/flatly/bootstrap.min.css" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only"
+          asp-fallback-test-property="position"
+          asp-fallback-test-value="absolute" />
+</noscript>
+<script>
+      var loadDeferredStyles = function() {
+        var addStylesNode = document.getElementById("deferred-styles");
+        var replacement = document.createElement("div");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement)
+        addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) {
+          raf(function () { window.setTimeout(loadDeferredStyles, 0); });
+      }
+      else {
+          window.addEventListener("load", loadDeferredStyles);
+      }
+</script>
