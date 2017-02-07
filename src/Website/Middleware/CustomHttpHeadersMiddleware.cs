@@ -166,7 +166,6 @@ namespace MartinCostello.Website.Middleware
                 { "frame-ancestors", new[] { Csp.None } },
                 { "form-action", new[] { Csp.Self } },
                 { "block-all-mixed-content", Array.Empty<string>() },
-                { "reflected-xss", new[] { "block" } },
                 { "base-uri", new[] { Csp.Self } },
                 { "manifest-src", new[] { Csp.Self } },
             };
