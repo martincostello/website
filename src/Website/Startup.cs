@@ -5,7 +5,6 @@ namespace MartinCostello.Website
 {
     using System;
     using Extensions;
-    using Microsoft.ApplicationInsights.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.CookiePolicy;
     using Microsoft.AspNetCore.Hosting;
@@ -33,8 +32,8 @@ namespace MartinCostello.Website
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             bool isDevelopment = env.IsDevelopment();
@@ -66,8 +65,12 @@ namespace MartinCostello.Website
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
         /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
-        /// <param name="options">The <see cref="SiteOptions"/> to use.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, ILoggerFactory loggerFactory, SiteOptions options)
+        /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment environment,
+            ILoggerFactory loggerFactory,
+            IOptionsSnapshot<SiteOptions> options)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
@@ -155,8 +158,8 @@ namespace MartinCostello.Website
 
             services.AddSingleton<IConfiguration>((_) => Configuration);
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
-            services.AddSingleton((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
             services.AddSingleton((p) => new BowerVersions(p.GetRequiredService<IHostingEnvironment>()));
+            services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
         }
 
         /// <summary>
