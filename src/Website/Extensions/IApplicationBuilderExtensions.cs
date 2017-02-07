@@ -6,6 +6,7 @@ namespace MartinCostello.Website.Extensions
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
     using Middleware;
     using Options;
 
@@ -28,7 +29,7 @@ namespace MartinCostello.Website.Extensions
             this IApplicationBuilder value,
             IHostingEnvironment environment,
             IConfiguration config,
-            SiteOptions options)
+            IOptionsSnapshot<SiteOptions> options)
         {
             return value.UseMiddleware<CustomHttpHeadersMiddleware>(environment, config, options);
         }

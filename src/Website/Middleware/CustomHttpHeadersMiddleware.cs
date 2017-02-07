@@ -13,6 +13,7 @@ namespace MartinCostello.Website.Middleware
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
     using Options;
 
     /// <summary>
@@ -24,6 +25,16 @@ namespace MartinCostello.Website.Middleware
         /// The delegate for the next part of the pipeline. This field is read-only.
         /// </summary>
         private readonly RequestDelegate _next;
+
+        /// <summary>
+        /// The <see cref="IConfiguration"/> to use. This field is read-only.
+        /// </summary>
+        private readonly IConfiguration _config;
+
+        /// <summary>
+        /// The options snapshot to use. This field is read-only.
+        /// </summary>
+        private readonly IOptionsSnapshot<SiteOptions> _options;
 
         /// <summary>
         /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
@@ -41,11 +52,6 @@ namespace MartinCostello.Website.Middleware
         private readonly string _environmentName;
 
         /// <summary>
-        /// The current datacenter name. This field is read-only.
-        /// </summary>
-        private readonly string _datacenter;
-
-        /// <summary>
         /// Whether the current hosting environment is production. This field is read-only.
         /// </summary>
         private readonly bool _isProduction;
@@ -61,14 +67,16 @@ namespace MartinCostello.Website.Middleware
             RequestDelegate next,
             IHostingEnvironment environment,
             IConfiguration config,
-            SiteOptions options)
+            IOptionsSnapshot<SiteOptions> options)
         {
             _next = next;
+            _config = config;
+            _options = options;
+
             _isProduction = environment.IsProduction();
             _environmentName = _isProduction ? null : environment.EnvironmentName;
-            _datacenter = config["Azure:Datacenter"] ?? "Local";
-            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options);
-            _publicKeyPins = BuildPublicKeyPins(options);
+            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options.Value);
+            _publicKeyPins = BuildPublicKeyPins(options.Value);
         }
 
         /// <summary>
@@ -103,7 +111,7 @@ namespace MartinCostello.Website.Middleware
                         }
                     }
 
-                    context.Response.Headers.Add("X-Datacenter", _datacenter);
+                    context.Response.Headers.Add("X-Datacenter", _config["Azure:Datacenter"] ?? "Local");
 
 #if DEBUG
                     context.Response.Headers.Add("X-Debug", "true");
