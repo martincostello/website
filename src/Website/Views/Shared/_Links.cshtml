@@ -7,7 +7,7 @@
     <link rel="canonical" href="@canonical" />
     <link rel="manifest" href="@Url.Content("~/manifest.json")" asp-append-version="true" />
     <link rel="sitemap" type="application/xml" href="@Url.Content("~/sitemap.xml")" asp-append-version="true" />
-    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.CdnContent("~/favicon.ico", options)" asp-append-version="true" />
     <link rel="apple-touch-icon" sizes="57x57" href="@Url.CdnContent("~/apple-touch-icon-57x57.png", options)" asp-append-version="true" />
     <link rel="apple-touch-icon" sizes="60x60" href="@Url.CdnContent("~/apple-touch-icon-60x60.png", options)" asp-append-version="true" />
     <link rel="apple-touch-icon" sizes="72x72" href="@Url.CdnContent("~/apple-touch-icon-72x72.png", options)" asp-append-version="true" />
