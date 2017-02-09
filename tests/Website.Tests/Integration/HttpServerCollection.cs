@@ -6,7 +6,7 @@ namespace MartinCostello.Website.Integration
     using Xunit;
 
     /// <summary>
-    /// A class representing the collection fixture for an HTTP server.
+    /// A class representing the collection fixture for an HTTP server. This class cannot be inherited.
     /// </summary>
     [CollectionDefinition(Name)]
     public sealed class HttpServerCollection : ICollectionFixture<HttpServerFixture>
