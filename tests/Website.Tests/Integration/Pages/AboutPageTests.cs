@@ -8,6 +8,15 @@ namespace MartinCostello.Website.Integration.Pages
     /// </summary>
     public class AboutPageTests : HtmlPageTest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutPageTests"/> class.
+        /// </summary>
+        /// <param name="fixture">The fixture to use.</param>
+        public AboutPageTests(HttpServerFixture fixture)
+            : base(fixture)
+        {
+        }
+
         /// <inheritdoc/>
         protected override string Path => "/home/about/";
     }

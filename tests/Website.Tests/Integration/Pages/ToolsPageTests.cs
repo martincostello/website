@@ -8,6 +8,15 @@ namespace MartinCostello.Website.Integration.Pages
     /// </summary>
     public class ToolsPageTests : HtmlPageTest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToolsPageTests"/> class.
+        /// </summary>
+        /// <param name="fixture">The fixture to use.</param>
+        public ToolsPageTests(HttpServerFixture fixture)
+            : base(fixture)
+        {
+        }
+
         /// <inheritdoc/>
         protected override string Path => "/tools/";
     }

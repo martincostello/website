@@ -16,8 +16,9 @@ namespace MartinCostello.Website.Integration
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlPageTest"/> class.
         /// </summary>
-        protected HtmlPageTest()
-            : base()
+        /// <param name="fixture">The fixture to use.</param>
+        protected HtmlPageTest(HttpServerFixture fixture)
+            : base(fixture)
         {
         }
 
@@ -70,6 +71,6 @@ namespace MartinCostello.Website.Integration
         /// <returns>
         /// A <see cref="Task{TResult}"/> representing the operation to load the page.
         /// </returns>
-        protected async Task<HttpResponseMessage> GetPageAsync() => await Client.GetAsync(Path);
+        protected async Task<HttpResponseMessage> GetPageAsync() => await Fixture.Client.GetAsync(Path);
     }
 }
