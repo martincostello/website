@@ -105,6 +105,8 @@ namespace MartinCostello.Website
             app.UseStaticFiles(
                 new StaticFileOptions()
                 {
+                    DefaultContentType = "application.json",
+                    ServeUnknownFileTypes = true,
                     OnPrepareResponse = (context) =>
                         {
                             var headers = context.Context.Response.GetTypedHeaders();

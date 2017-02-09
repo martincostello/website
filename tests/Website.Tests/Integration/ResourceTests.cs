@@ -23,6 +23,9 @@ namespace MartinCostello.Website.Integration
 
         [Theory]
         [InlineData("/", "text/html")]
+        [InlineData("/apple-app-site-association", null)]
+        [InlineData("/.well-known/apple-app-site-association", null)]
+        [InlineData("/.well-known/assetlinks.json", "application/json")]
         [InlineData("BingSiteAuth.xml", "text/xml")]
         [InlineData("browserconfig.xml", "text/xml")]
         [InlineData("/favicon.ico", "image/x-icon")]
@@ -42,7 +45,7 @@ namespace MartinCostello.Website.Integration
             using (var response = await Fixture.Client.GetAsync(requestUri))
             {
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                Assert.Equal(contentType, response.Content.Headers.ContentType.MediaType);
+                Assert.Equal(contentType, response.Content.Headers.ContentType?.MediaType);
             }
         }
 
