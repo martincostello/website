@@ -179,7 +179,8 @@ namespace MartinCostello.Website.Middleware
                 IList<string> origins = pair.Value;
                 IList<string> configOrigins;
 
-                if (options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
+                if (options.ContentSecurityPolicyOrigins != null &&
+                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
                 {
                     origins = origins.Concat(configOrigins).ToList();
                 }

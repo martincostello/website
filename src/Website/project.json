@@ -5,8 +5,6 @@
   "title": "martincostello.com",
   "version": "1.0.0-*",
 
-  "userSecretsId": "martincostello.com",
-
   "buildOptions": {
     "additionalArguments": [ "/ruleset:../../Website.ruleset", "/additionalfile:../../stylecop.json" ],
     "emitEntryPoint": true,
