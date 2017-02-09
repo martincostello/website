@@ -40,7 +40,7 @@ namespace MartinCostello.Website
 
             if (isDevelopment)
             {
-                builder.AddUserSecrets();
+                builder.AddUserSecrets("martincostello.com");
             }
 
             builder.AddApplicationInsightsSettings(developerMode: isDevelopment);
