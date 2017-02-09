@@ -16,6 +16,11 @@ namespace MartinCostello.Website.Options
         public AnalyticsOptions Analytics { get; set; }
 
         /// <summary>
+        /// Gets or sets the options for the API.
+        /// </summary>
+        public ApiOptions Api { get; set; }
+
+        /// <summary>
         /// Gets or sets the Content Security Policy origins for the site.
         /// </summary>
         public IDictionary<string, IList<string>> ContentSecurityPolicyOrigins { get; set; }

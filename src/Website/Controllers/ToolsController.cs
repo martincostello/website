@@ -5,6 +5,7 @@ namespace MartinCostello.Website.Controllers
 {
     using System.Threading.Tasks;
     using Api.Models;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Services;
 
@@ -52,6 +53,7 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated GUID.
         /// </returns>
+        [EnableCors(Startup.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(GuidResponse))]
         [Route("tools/guid")]
@@ -67,6 +69,7 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated hash value.
         /// </returns>
+        [EnableCors(Startup.DefaultCorsPolicyName)]
         [HttpPost]
         [Produces("application/json", Type = typeof(HashResponse))]
         [Route("tools/hash")]
@@ -83,6 +86,7 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated machine key.
         /// </returns>
+        [EnableCors(Startup.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(MachineKeyResponse))]
         [Route("tools/machinekey")]

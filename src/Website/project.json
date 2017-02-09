@@ -41,6 +41,7 @@
     "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Microsoft.ApplicationInsights.AspNetCore": "2.0.0",
     "Microsoft.AspNetCore.CookiePolicy": "1.1.0",
+    "Microsoft.AspNetCore.Cors": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.HttpOverrides": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.1",
