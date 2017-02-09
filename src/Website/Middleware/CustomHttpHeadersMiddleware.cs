@@ -185,6 +185,8 @@ namespace MartinCostello.Website.Middleware
                     origins = origins.Concat(configOrigins).ToList();
                 }
 
+                origins = origins.Where((p) => !string.IsNullOrWhiteSpace(p)).ToList();
+
                 if (origins.Count > 0)
                 {
                     builder.Append(" ");
@@ -250,7 +252,14 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
         {
-            return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
+            if (options?.ExternalLinks?.Api.IsAbsoluteUri == true)
+            {
+                return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         /// <summary>
