@@ -23,6 +23,7 @@ namespace MartinCostello.Website.Integration
 
         [Theory]
         [InlineData("/", "text/html")]
+        [InlineData("/.well-known/assetlinks.json", "application/json")]
         [InlineData("BingSiteAuth.xml", "text/xml")]
         [InlineData("browserconfig.xml", "text/xml")]
         [InlineData("/favicon.ico", "image/x-icon")]
