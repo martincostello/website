@@ -19,6 +19,7 @@ namespace MartinCostello.Website
     using Newtonsoft.Json;
     using NodaTime;
     using Options;
+    using Services;
 
     /// <summary>
     /// A class representing the startup logic for the application.
@@ -159,7 +160,10 @@ namespace MartinCostello.Website
             services.AddSingleton<IConfiguration>((_) => Configuration);
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
             services.AddSingleton((p) => new BowerVersions(p.GetRequiredService<IHostingEnvironment>()));
+
+            services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
             services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
+            services.AddScoped<IToolsService, ToolsService>();
         }
 
         /// <summary>
