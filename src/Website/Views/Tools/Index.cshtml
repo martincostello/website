@@ -1,11 +1,8 @@
 ﻿@inject BowerVersions Bower
 @inject SiteOptions Options
 @{
-    ViewBag.Title = ".NET Development Tools";
-    ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
-
     var clipboardVersion = Bower["clipboard"];
-    var toolsUri = Options.ExternalLinks.Api.AbsoluteUri + "tools";
+    string toolsUri = ViewBag.ToolsUri;
 }
 @section meta {
    <link rel="api-guid" href="@toolsUri/guid" />
