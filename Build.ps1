@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $framework     = "netcoreapp1.1"
-$dotnetVersion = "1.0.0-rc3-004530"
+$dotnetVersion = "1.0.0-rc4-004788"
 
 if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
@@ -35,14 +35,20 @@ if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
 $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
 $dotnet   = "$env:DOTNET_INSTALL_DIR\dotnet"
 
-function DotNetRestore { param([string]$Project)
+function DotNetRestore {
+
+    param([string]$Project)
+
     & $dotnet restore $Project --verbosity minimal
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet restore failed with exit code $LASTEXITCODE"
     }
 }
 
-function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
+function DotNetBuild {
+
+    param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
+
     if ($VersionSuffix) {
         & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
     } else {
@@ -53,14 +59,20 @@ function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$
     }
 }
 
-function DotNetTest { param([string]$Project)
+function DotNetTest {
+
+    param([string]$Project)
+
     & $dotnet test $Project --output $OutputPath --framework $framework --no-build
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet test failed with exit code $LASTEXITCODE"
     }
 }
 
-function DotNetPublish { param([string]$Project)
+function DotNetPublish {
+
+    param([string]$Project)
+
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
         & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"

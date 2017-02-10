@@ -8,9 +8,6 @@
     <Summary>Tests for Martin Costello's website</Summary>
   </PropertyGroup>
   <ItemGroup>
-    <!--
-    <AdditionalFiles Include="..\..\stylecop.json" />
-    -->
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
