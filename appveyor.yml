@@ -2,7 +2,7 @@ os: Visual Studio 2015
 version: 1.0.{build}
 
 environment:
-  CLI_VERSION: 1.0.0-preview2-003121
+  CLI_VERSION: 1.0.0-rc4-004788
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   NUGET_XMLDOC_MODE: skip
 
@@ -11,13 +11,11 @@ branches:
     - master
 
 install:
-  - ps: npm install npm@3.10.6 -g
-  - ps: npm -v
+  - ps: npm install -g npm@3.10.6
   - ps: npm install -g bower --loglevel=error
   - ps: npm install -g gulp --loglevel=error
 
 build_script:
-  - ps: dotnet --info
   - ps: .\Build.ps1
 
 artifacts:

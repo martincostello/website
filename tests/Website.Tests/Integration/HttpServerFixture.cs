@@ -43,7 +43,7 @@ namespace MartinCostello.Website.Integration
             var builder = new WebHostBuilder()
                 .UseContentRoot(projectPath)
                 .UseEnvironment("Development")
-                .UseStartup<Startup>();
+                .UseStartup<TestStartup>();
 
             _server = new TestServer(builder);
             _client = _server.CreateClient();

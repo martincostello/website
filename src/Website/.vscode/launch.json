@@ -6,8 +6,8 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/Website.dll",
-      "args": [ ],
+      "program": "${workspaceRoot}/bin/Debug/netcoreapp1.1/Website.dll",
+      "args": [],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -15,10 +15,10 @@
       "stopAtEntry": false,
       "launchBrowser": {
         "enabled": true,
-        "args": "http://127.0.0.1:5000/",
+        "args": "http://localhost:5000/",
         "windows": {
           "command": "cmd.exe",
-          "args": "/C start http://127.0.0.1:5000/"
+          "args": "/C start http://localhost:5000/"
         },
         "osx": {
           "command": "open"
