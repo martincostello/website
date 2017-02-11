@@ -14,6 +14,7 @@ namespace MartinCostello.Website
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Rewrite;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -124,6 +125,8 @@ namespace MartinCostello.Website
                 });
 
             app.UseHttpMethodOverride();
+
+            app.UseRewriter(CreateRewriteOptions());
 
             app.UseMvc(
                 (routes) =>
@@ -268,6 +271,24 @@ namespace MartinCostello.Website
                 HttpOnly = HttpOnlyPolicy.Always,
                 Secure = HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
             };
+        }
+
+        /// <summary>
+        /// Creates the <see cref="RewriteOptions"/> to use.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="RewriteOptions"/> to use for the application.
+        /// </returns>
+        private RewriteOptions CreateRewriteOptions()
+        {
+            var options = new RewriteOptions();
+
+            if (HostingEnvironment.IsProduction())
+            {
+                options.AddRedirectToHttps();
+            }
+
+            return options;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace MartinCostello.Website.Middleware
                     context.Response.Headers.Add("X-Frame-Options", "DENY");
                     context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
 
-                    if (context.Request.IsHttps)
+                    if (context.Request.IsHttps && _isProduction)
                     {
                         context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
 
