@@ -3,7 +3,7 @@ dist: trusty
 
 env:
   global:
-    - CLI_VERSION=1.0.0-preview2-1-003177
+    - CLI_VERSION=1.0.0-rc4-004788
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
     - NUGET_XMLDOC_MODE=skip
 
@@ -22,10 +22,11 @@ addons:
 
 install:
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
-  - ./tools/install.sh --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  - curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"
   - npm install -g bower
   - npm install -g gulp
+  - dotnet --info
 
 script:
   - ./build.sh

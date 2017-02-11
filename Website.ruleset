@@ -2,6 +2,7 @@
 <RuleSet Name="Website Rules" Description="This rule set contains rules for the Website solution." ToolsVersion="14.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="AD0001" Action="None" />
     <Rule Id="SA1100" Action="None" />
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1129" Action="None" />

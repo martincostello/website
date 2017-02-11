@@ -3,14 +3,10 @@
 
 using System;
 using System.Reflection;
-using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("https://github.com/martincostello/website")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("Martin Costello's website")]
 [assembly: AssemblyTrademark("")]
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
-[assembly: NeutralResourcesLanguage("en-US")]
