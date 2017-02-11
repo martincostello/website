@@ -9,7 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
-    <Content Include="appsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="testsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
