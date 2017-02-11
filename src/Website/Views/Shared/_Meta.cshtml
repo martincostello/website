@@ -28,8 +28,8 @@
     }
     else
     {
-    <meta property="og:image" content="@Url.AbsoluteContent("~/assets/img/martin_small.png")" />
-    <meta name="twitter:image" content="@Url.AbsoluteContent("~/assets/img/martin_small.png")" />
+    <meta property="og:image" content="@Url.CdnContent("martin_small.png", Options)" />
+    <meta name="twitter:image" content="@Url.CdnContent("martin_small.png", Options)" />
     <meta name="twitter:image:alt" content="@Model.Author" />
     }
     <meta property="og:locale" content="en_GB" />
@@ -46,11 +46,14 @@
     <meta name="twitter:url" content="@Model.CanonicalUri" />
     <meta name="application-name" content="@Model.SiteName" />
     <meta name="google-analytics" content="@(Hosting.IsProduction() ? Options.Analytics.Google : string.Empty)" />
+    <meta name="google-site-verification" content="ao6JIWbKFHZ8DmbV52hf43MrjiHCFRf0GiJYYHDeRMo" />
+    <meta name="google-site-verification" content="I9S9DiGCLTG_JdMlSwt2YnNVcyFPo1DT1jeHa_X-p_0" />
+    <meta name="google-site-verification" content="ji6SNsPQEbNQmF252sQgQFswh-b6cDnNOa3AHvgo4J0" />
     <meta name="msapplication-config" content="@Url.Content("~/browserconfig.xml")" />
     <meta name="msapplication-navbutton-color" content="#2c3e50" />
     <meta name="msapplication-starturl" content="/" />
     <meta name="msapplication-TileColor" content="#2c3e50" />
-    <meta name="msapplication-TileImage" content="@Url.Content("~/mstile-144x144.png")" />
+    <meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", Options)" />
     <meta name="x-site-branch" content="@GitMetadata.Branch" />
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
     <script type="application/ld+json">
@@ -60,7 +63,7 @@
         "name": "@Model.SiteName",
         "alternateName": "@Model.Description",
         "description": "@Model.Description",
-        "image": "https://secure.gravatar.com/avatar/52c4a06bebd01c96ab7def5bed77ad6d",
+        "image": "@Options.Metadata.Author.Avatar",
         "url": "@Options.Metadata.Author.Website"
     }
     </script>
@@ -103,7 +106,7 @@
         "givenName": "Martin",
         "honorificPrefix": "Mr",
         "honorificSuffix": "BSc (Hons)",
-        "image": "https://secure.gravatar.com/avatar/52c4a06bebd01c96ab7def5bed77ad6d",
+        "image": "@Options.Metadata.Author.Avatar",
         "jobTitle": "Senior Engineer",
         "nationality": "British",
         "sameAs": [

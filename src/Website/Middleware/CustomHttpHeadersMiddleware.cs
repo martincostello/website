@@ -13,6 +13,7 @@ namespace MartinCostello.Website.Middleware
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
     using Options;
 
     /// <summary>
@@ -24,6 +25,16 @@ namespace MartinCostello.Website.Middleware
         /// The delegate for the next part of the pipeline. This field is read-only.
         /// </summary>
         private readonly RequestDelegate _next;
+
+        /// <summary>
+        /// The <see cref="IConfiguration"/> to use. This field is read-only.
+        /// </summary>
+        private readonly IConfiguration _config;
+
+        /// <summary>
+        /// The options snapshot to use. This field is read-only.
+        /// </summary>
+        private readonly IOptionsSnapshot<SiteOptions> _options;
 
         /// <summary>
         /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
@@ -41,11 +52,6 @@ namespace MartinCostello.Website.Middleware
         private readonly string _environmentName;
 
         /// <summary>
-        /// The current datacenter name. This field is read-only.
-        /// </summary>
-        private readonly string _datacenter;
-
-        /// <summary>
         /// Whether the current hosting environment is production. This field is read-only.
         /// </summary>
         private readonly bool _isProduction;
@@ -61,14 +67,16 @@ namespace MartinCostello.Website.Middleware
             RequestDelegate next,
             IHostingEnvironment environment,
             IConfiguration config,
-            SiteOptions options)
+            IOptionsSnapshot<SiteOptions> options)
         {
             _next = next;
+            _config = config;
+            _options = options;
+
             _isProduction = environment.IsProduction();
             _environmentName = _isProduction ? null : environment.EnvironmentName;
-            _datacenter = config["Azure:Datacenter"] ?? "Local";
-            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options);
-            _publicKeyPins = BuildPublicKeyPins(options);
+            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options.Value);
+            _publicKeyPins = BuildPublicKeyPins(options.Value);
         }
 
         /// <summary>
@@ -103,7 +111,7 @@ namespace MartinCostello.Website.Middleware
                         }
                     }
 
-                    context.Response.Headers.Add("X-Datacenter", _datacenter);
+                    context.Response.Headers.Add("X-Datacenter", _config["Azure:Datacenter"] ?? "Local");
 
 #if DEBUG
                     context.Response.Headers.Add("X-Debug", "true");
@@ -142,12 +150,14 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
         {
+            var cdn = GetCdnOriginForContentSecurityPolicy(options);
+
             var policies = new Dictionary<string, IList<string>>()
             {
                 { "default-src", new[] { Csp.Self, Csp.Data } },
                 { "script-src", new[] { Csp.Self, Csp.Inline } },
                 { "style-src", new[] { Csp.Self, Csp.Inline } },
-                { "img-src", new[] { Csp.Self, Csp.Data } },
+                { "img-src", new[] { Csp.Self, Csp.Data, cdn } },
                 { "font-src", new[] { Csp.Self } },
                 { "connect-src", new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) } },
                 { "media-src", new[] { Csp.None } },
@@ -156,7 +166,6 @@ namespace MartinCostello.Website.Middleware
                 { "frame-ancestors", new[] { Csp.None } },
                 { "form-action", new[] { Csp.Self } },
                 { "block-all-mixed-content", Array.Empty<string>() },
-                { "reflected-xss", new[] { "block" } },
                 { "base-uri", new[] { Csp.Self } },
                 { "manifest-src", new[] { Csp.Self } },
             };
@@ -170,10 +179,13 @@ namespace MartinCostello.Website.Middleware
                 IList<string> origins = pair.Value;
                 IList<string> configOrigins;
 
-                if (options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
+                if (options.ContentSecurityPolicyOrigins != null &&
+                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
                 {
                     origins = origins.Concat(configOrigins).ToList();
                 }
+
+                origins = origins.Where((p) => !string.IsNullOrWhiteSpace(p)).ToList();
 
                 if (origins.Count > 0)
                 {
@@ -240,18 +252,47 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
         {
-            var builder = new StringBuilder();
-
-            var baseUri = options?.ExternalLinks?.Api;
-
-            if (baseUri != null)
+            if (options?.ExternalLinks?.Api.IsAbsoluteUri == true)
             {
-                builder.Append($"{baseUri.Scheme}://{baseUri.Host}");
+                return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
-                if (!baseUri.IsDefaultPort)
-                {
-                    builder.Append($":{baseUri.Port}");
-                }
+        /// <summary>
+        /// Gets the CDN origin to use for the Content Security Policy.
+        /// </summary>
+        /// <param name="options">The current site options.</param>
+        /// <returns>
+        /// The origin to use for the CDN, if any.
+        /// </returns>
+        private static string GetCdnOriginForContentSecurityPolicy(SiteOptions options)
+        {
+            return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Cdn);
+        }
+
+        /// <summary>
+        /// Gets the origin to use for the Content Security Policy from the specified URI.
+        /// </summary>
+        /// <param name="baseUri">The base URI to get the origin for.</param>
+        /// <returns>
+        /// The origin to use for the URI, if any.
+        /// </returns>
+        private static string GetOriginForContentSecurityPolicy(Uri baseUri)
+        {
+            if (baseUri == null)
+            {
+                return string.Empty;
+            }
+
+            var builder = new StringBuilder($"{baseUri.Host}");
+
+            if (!baseUri.IsDefaultPort)
+            {
+                builder.Append($":{baseUri.Port}");
             }
 
             return builder.ToString();
