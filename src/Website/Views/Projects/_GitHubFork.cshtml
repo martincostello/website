@@ -1,5 +1,18 @@
 ﻿@model string
 @{
-    var user = "martincostello";
+    string[] split = Model.Split('/');
+    string user;
+    string project;
+
+    if (split.Length == 2)
+    {
+        user = split[0];
+        project = split[1];
+    }
+    else
+    {
+        user = "martincostello";
+        project = Model;
+    }
 }
-<a class="github-button" href="https://github.com/@user/@Model/fork" data-icon="octicon-repo-forked" data-style="mega" data-count-href="/@user/@Model/network" data-count-api="/repos/@user/@Model#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork @user/@Model on GitHub">Fork</a>
+<a class="github-button" href="https://github.com/@user/@project/fork" data-icon="octicon-repo-forked" data-style="mega" data-count-href="/@user/@project/network" data-count-api="/repos/@user/@project#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork @user/@project on GitHub">Fork</a>
