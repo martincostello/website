@@ -1,5 +1,18 @@
 ﻿@model string
 @{
-    var user = "martincostello";
+    string[] split = Model.Split('/');
+    string user;
+    string project;
+
+    if (split.Length == 2)
+    {
+        user = split[0];
+        project = split[1];
+    }
+    else
+    {
+        user = "martincostello";
+        project = Model;
+    }
 }
-<a class="github-button" href="https://github.com/@user/@Model" data-icon="octicon-star" data-style="mega" data-count-href="/@user/@Model/stargazers" data-count-api="/repos/@user/@Model#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star @user/@Model on GitHub">Star</a>
+<a class="github-button" href="https://github.com/@user/@project" data-icon="octicon-star" data-style="mega" data-count-href="/@user/@project/stargazers" data-count-api="/repos/@user/@project#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star @user/@project on GitHub">Star</a>
