@@ -13,9 +13,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
-    <Content Update="appsettings.json;bower.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="appsettings.json;bower.json;parameters.xml;web.config" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="wwwroot\**\*;Views\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="parameters.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\.well-known\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
