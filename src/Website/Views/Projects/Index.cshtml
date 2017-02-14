@@ -52,6 +52,67 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
+            <div class="panel-heading">Alexa London Travel</div>
+            <div class="panel-body">
+                <p>
+                    An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>. You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "alexa-london-travel")
+                    @await Html.PartialAsync("_GitHubFork", "alexa-london-travel")
+                </p>
+                <p>
+                    <a id="link-repo-alexa" href="https://github.com/martincostello/alexa-london-travel" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">This website</div>
+            <div class="panel-body">
+                <p>
+                    The very website you're looking at
+                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/@GitMetadata.Commit/src/Website/Views/Projects/Index.cshtml#L@(this.CurrentLineNumber())" title="View the source for this page">
+                        right now
+                    </a>
+                    which is implemented using ASP.NET Core.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "website")
+                    @await Html.PartialAsync("_GitHubFork", "website")
+                </p>
+                <p>
+                    <a id="link-repo-website" href="https://github.com/martincostello/website" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Apple Pay JS Sample Code</div>
+            <div class="panel-body">
+                <p>
+                    Sample code for integrating <a id="link-apple-pay" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "ApplePayJSSample")
+                    @await Html.PartialAsync("_GitHubFork", "ApplePayJSSample")
+                </p>
+                <p>
+                    <a id="link-repo-apple-pay" href="https://github.com/martincostello/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
             <div class="panel-heading">Project Euler</div>
             <div class="panel-body">
                 <p>
@@ -107,67 +168,6 @@
                 </p>
                 <p>
                     <a id="link-repo-api" href="https://github.com/martincostello/api" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">This website</div>
-            <div class="panel-body">
-                <p>
-                    The very website you're looking at
-                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/@GitMetadata.Commit/src/Website/Views/Projects/Index.cshtml#L@(this.CurrentLineNumber())" title="View the source for this page">
-                        right now
-                    </a>
-                    which is implemented using ASP.NET Core.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "website")
-                    @await Html.PartialAsync("_GitHubFork", "website")
-                </p>
-                <p>
-                    <a id="link-repo-website" href="https://github.com/martincostello/website" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Alexa London Travel</div>
-            <div class="panel-body">
-                <p>
-                    An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a> to find disruption on London public transport.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "alexa-london-travel")
-                    @await Html.PartialAsync("_GitHubFork", "alexa-london-travel")
-                </p>
-                <p>
-                    <a id="link-repo-alexa" href="https://github.com/martincostello/alexa-london-travel" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Apple Pay JS Sample Code</div>
-            <div class="panel-body">
-                <p>
-                    Sample code for integrating <a id="link-apple-pay" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "ApplePayJSSample")
-                    @await Html.PartialAsync("_GitHubFork", "ApplePayJSSample")
-                </p>
-                <p>
-                    <a id="link-repo-apple-pay" href="https://github.com/martincostello/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
