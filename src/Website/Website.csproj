@@ -52,7 +52,7 @@
     <Exec Command="bower install --loglevel=error" />
     <Exec Command="gulp publish" />
   </Target>
-  <Target Name="AddGeneratedContentItems" AfterTargets="PrepublishScript">
+  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" DependsOnTargets="PrepareForPublish">
     <ItemGroup>
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
