@@ -13,9 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
-    <Content Update="appsettings.json;bower.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="appsettings.json;bower.json;parameters.xml;web.config" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="wwwroot\**\*;Views\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="parameters.xml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
@@ -53,5 +51,10 @@
     <Exec Command="npm install --loglevel=error" />
     <Exec Command="bower install --loglevel=error" />
     <Exec Command="gulp publish" />
+  </Target>
+  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" DependsOnTargets="PrepareForPublish">
+    <ItemGroup>
+      <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
+    </ItemGroup>
   </Target>
 </Project>
