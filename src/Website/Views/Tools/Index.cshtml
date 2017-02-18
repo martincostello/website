@@ -1,7 +1,5 @@
-﻿@inject BowerVersions Bower
-@inject SiteOptions Options
+﻿@inject SiteOptions Options
 @{
-    var clipboardVersion = Bower["clipboard"];
     string toolsUri = ViewBag.ToolsUri;
 }
 @section meta {
@@ -10,10 +8,7 @@
    <link rel="api-machine-key" href="@toolsUri/machinekey" />
 }
 @section scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/@clipboardVersion/clipboard.min.js" integrity="sha256-COWXDc7n7PAqsE3y1r4CVopxWU9JI0kenz6K4zBqhT8=" crossorigin="anonymous"
-            asp-fallback-src="~/lib/clipboard/dist/clipboard.min.js"
-            asp-fallback-test="window.Clipboard">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js" integrity="sha256-dFEb+kXsOlXDFU4a9+EwfHE8z1hUJhEGTUb3zkhybYM=" crossorigin="anonymous"></script>
 }
 <h1>@ViewBag.Title</h1>
 <div class="panel panel-default">
