@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170217-05" />
     <PackageReference Include="NodaTime" Version="2.0.0-beta20170123" />
     <PackageReference Include="NodaTime.Testing" Version="2.0.0-beta20170123" />
     <PackageReference Include="Shouldly" Version="2.8.2" />
