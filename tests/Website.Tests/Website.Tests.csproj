@@ -5,6 +5,7 @@
     <AssemblyTitle>martincostello.com.Tests</AssemblyTitle>
     <Description>Tests for https://martincostello.com/</Description>
     <PackageId>Website.Tests</PackageId>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
     <Summary>Tests for Martin Costello's website</Summary>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
