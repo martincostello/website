@@ -7,7 +7,6 @@
     <CodeAnalysisRuleSet>../../Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
     <Copyright>Martin Costello (c) 2016-2017</Copyright>
-    <DefineConstants>$(DefineConstants)</DefineConstants>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
@@ -20,8 +19,6 @@
     <PackageTags></PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
     <VersionPrefix>1.0.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <WarningsAsErrors>true</WarningsAsErrors>
