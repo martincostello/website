@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Website.Common.props" />
   <PropertyGroup>
     <AssemblyName>Website.Tests</AssemblyName>
     <AssemblyTitle>martincostello.com.Tests</AssemblyTitle>
@@ -24,5 +25,4 @@
     <PackageReference Include="xunit" Version="2.2.0-beta6-build3495" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0-beta6-build1242" />
   </ItemGroup>
-  <Import Project="..\..\Website.Common.props" />
 </Project>
