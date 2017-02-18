@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="..\..\Website.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <AssemblyName>Website</AssemblyName>
     <AssemblyTitle>martincostello.com</AssemblyTitle>
@@ -9,6 +8,7 @@
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Summary>Martin Costello's website</Summary>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
@@ -57,4 +57,5 @@
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
   </Target>
+  <Import Project="..\..\Website.Common.props" />
 </Project>
