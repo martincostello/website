@@ -1,29 +1,28 @@
-﻿@inject BowerVersions BowerVersions
-@inject IConfiguration Config
+﻿@inject IConfiguration Config
 @inject SiteOptions Options
 <!DOCTYPE html>
 <html lang="en-gb">
 <head prefix="og:http://ogp.me/ns#">
     @await Html.PartialAsync("_StylesHead")
     @await RenderSectionAsync("stylesHead", required: false)
-    @{
-        string canonicalUri = Context.Request.Canonical();
-        string image = ViewBag.MetaImage ?? string.Empty;
+@{
+    string canonicalUri = Context.Request.Canonical();
+    string image = ViewBag.MetaImage ?? string.Empty;
 
-        if (!string.IsNullOrEmpty(image))
-        {
-            image = Url.Content(image);
-        }
-
-        var model = MetaModel.Create(
-            Options.Metadata,
-            canonicalUri: canonicalUri,
-            description: ViewBag.MetaDescription as string,
-            imageUri: image,
-            imageAltText: ViewBag.MetaImageAltText as string,
-            robots: ViewBag.MetaRobots as string,
-            title: ViewBag.Title as string);
+    if (!string.IsNullOrEmpty(image))
+    {
+        image = Url.Content(image);
     }
+
+    var model = MetaModel.Create(
+        Options.Metadata,
+        canonicalUri: canonicalUri,
+        description: ViewBag.MetaDescription as string,
+        imageUri: image,
+        imageAltText: ViewBag.MetaImageAltText as string,
+        robots: ViewBag.MetaRobots as string,
+        title: ViewBag.Title as string);
+}
     @await Html.PartialAsync("_Meta", model)
     @await Html.PartialAsync("_Links", Tuple.Create(canonicalUri, Options))
     @await RenderSectionAsync("meta", required: false)
@@ -65,7 +64,7 @@
     </div>
     @await Html.PartialAsync("_StylesBody")
     @await RenderSectionAsync("stylesBody", required: false)
-    @await Html.PartialAsync("_Scripts", BowerVersions)
+    @await Html.PartialAsync("_Scripts")
     @await RenderSectionAsync("scripts", required: false)
 </body>
 <!--

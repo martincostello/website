@@ -2,10 +2,9 @@
   "name": "martincostello.com",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.7",
-    "clipboard": "1.5.15",
-    "jquery": "2.2.3",
+    "clipboard": "1.6.0",
+    "jquery": "2.2.4",
     "jquery.lazyload": "1.9.1",
-    "moment": "2.15.1"
+    "moment": "2.17.1"
   }
 }

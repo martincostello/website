@@ -3,7 +3,6 @@
     string canonical = Model.Item1;
     SiteOptions options = Model.Item2;
 }
-@inject BowerVersions BowerVersions
     <link rel="canonical" href="@canonical" />
     <link rel="manifest" href="@Url.Content("~/manifest.json")" asp-append-version="true" />
     <link rel="sitemap" type="application/xml" href="@Url.Content("~/sitemap.xml")" asp-append-version="true" />

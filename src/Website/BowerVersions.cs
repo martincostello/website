@@ -22,6 +22,7 @@ namespace MartinCostello.Website
         /// <summary>
         /// Initializes a new instance of the <see cref="BowerVersions"/> class.
         /// </summary>
+        /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
         public BowerVersions(IHostingEnvironment environment)
         {
             IFileInfo path = environment.ContentRootFileProvider.GetFileInfo("bower.json");

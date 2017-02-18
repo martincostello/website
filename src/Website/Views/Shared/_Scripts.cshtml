@@ -1,19 +1,10 @@
-﻿@model BowerVersions
+﻿    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha256-rXnOfjTRp4iAm7hTAxEz3irkXzwZrElV2uRsdJAYjC4=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js" integrity="sha256-Gn7MUQono8LUxTfRA0WZzJgTua52Udm1Ifrk5421zkA=" crossorigin="anonymous" defer></script>
 <environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery.lazyload/jquery.lazyload.min.js" asp-append-version="true"></script>
-    <script src="~/lib/moment/moment.js" asp-append-version="true"></script>
-    <script src="~/assets/js/site.js" asp-append-version="true"></script>
+    <script src="~/assets/js/site.js" asp-append-version="true" defer></script>
 </environment>
 <environment names="Staging,Production">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/@Model["jquery"]/jquery.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous" defer>
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/@Model["bootstrap"]/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" defer>
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/@Model["jquery.lazyload"]/jquery.lazyload.min.js" integrity="sha256-rXnOfjTRp4iAm7hTAxEz3irkXzwZrElV2uRsdJAYjC4=" crossorigin="anonymous" defer>
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/@Model["moment"]/moment.min.js" integrity="sha384-7pfELK0arQ3VANqV4kiPWPh5wOsrfitjFGF/NdyHXUJ3JJPy/rNhasPtdkaNKhul" crossorigin="anonymous" defer>
-    </script>
     <script src="~/assets/js/site.min.js" asp-append-version="true" defer></script>
 </environment>
