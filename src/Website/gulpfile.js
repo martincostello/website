@@ -20,7 +20,7 @@ var gulp = require("gulp"),
     sassLint = require("gulp-sass-lint"),
     sourcemaps = require("gulp-sourcemaps");
 
-var webroot = "./wwwroot/Assets/";
+var webroot = "./wwwroot/assets/";
 var assets = "./Assets/";
 var scripts = assets + "Scripts/";
 var styles = assets + "Styles/";
