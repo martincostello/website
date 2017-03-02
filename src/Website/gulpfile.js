@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 /// <binding AfterBuild='build' Clean='clean' />
@@ -17,9 +17,10 @@ var gulp = require("gulp"),
     lesshint = require("gulp-lesshint"),
     rename = require("gulp-rename"),
     sass = require("gulp-sass"),
-    sassLint = require("gulp-sass-lint");
+    sassLint = require("gulp-sass-lint"),
+    sourcemaps = require("gulp-sourcemaps");
 
-var webroot = "./wwwroot/Assets/";
+var webroot = "./wwwroot/assets/";
 var assets = "./Assets/";
 var scripts = assets + "Scripts/";
 var styles = assets + "Styles/";
@@ -122,8 +123,10 @@ gulp.task("min:js", function () {
     return gulp.src(jsPaths)
         .pipe(concat(paths.concatJsDest))
         .pipe(gulp.dest("."))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
         .pipe(rename(paths.minJsDest))
+        .pipe(sourcemaps.write("."))
         .pipe(gulp.dest("."));
 });
 
@@ -136,8 +139,10 @@ gulp.task("min:css", ["css"], function () {
             "!" + paths.concatCssDest])
         .pipe(concat(paths.concatCssDest))
         .pipe(gulp.dest("."))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(cssmin())
         .pipe(rename({ suffix: ".min" }))
+        .pipe(sourcemaps.write("."))
         .pipe(gulp.dest("."));
 });
 

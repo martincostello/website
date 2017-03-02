@@ -40,6 +40,9 @@ namespace MartinCostello.Website.Integration
         [InlineData("/service-worker.js", "application/javascript")]
         [InlineData("/sitemap.xml", "text/xml")]
         [InlineData("/tools", "text/html")]
+        [InlineData("/assets/js/site.js", "application/javascript")]
+        [InlineData("/assets/js/site.min.js", "application/javascript")]
+        [InlineData("/assets/js/site.min.js.map", "text/plain")]
         public async Task Can_Load_Resource(string requestUri, string contentType)
         {
             using (var response = await Fixture.Client.GetAsync(requestUri))
