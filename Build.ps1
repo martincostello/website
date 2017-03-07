@@ -18,31 +18,51 @@ if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
 }
 
-$env:DOTNET_INSTALL_DIR = "$(Convert-Path "$PSScriptRoot")\.dotnetcli"
-
 if ($env:CI -ne $null -Or $env:TF_BUILD -ne $null) {
     $RestorePackages = $true
     $PatchVersion = $true
 }
 
-if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
-    mkdir $env:DOTNET_INSTALL_DIR | Out-Null
-    $installScript = Join-Path $env:DOTNET_INSTALL_DIR "install.ps1"
-    Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.ps1" -OutFile $installScript
-    & $installScript -Version "$dotnetVersion" -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath
+$installDotNetSdk = $false;
+
+if ((Get-Command "dotnet.exe" -ErrorAction SilentlyContinue) -eq $null)  {
+    Write-Host "The .NET Core SDK is not installed."
+    $installDotNetSdk = $true
+}
+else {
+    $installedDotNetVersion = (dotnet --version | Out-String).Trim()
+    if ($installedDotNetVersion -ne $dotnetVersion) {
+        Write-Host "The .NET Core SDK is not installed. Expected v$dotnetVersion but v$installedDotNetVersion was found."
+        $installDotNetSdk = $true
+    }
 }
 
-$env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
-$dotnet   = "$env:DOTNET_INSTALL_DIR\dotnet"
+if ($installDotNetSdk -eq $true) {
+    $env:DOTNET_INSTALL_DIR = "$(Convert-Path "$PSScriptRoot")\.dotnetcli"
 
-function DotNetRestore { param([string]$Project)
+    if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
+        mkdir $env:DOTNET_INSTALL_DIR | Out-Null
+        $installScript = Join-Path $env:DOTNET_INSTALL_DIR "install.ps1"
+        Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.ps1" -OutFile $installScript
+        & $installScript -Version "$dotnetVersion" -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath
+    }
+
+    $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
+    $dotnet   = "$env:DOTNET_INSTALL_DIR\dotnet"
+} else {
+    $dotnet   = "dotnet"
+}
+
+function DotNetRestore {
+    param([string]$Project)
     & $dotnet restore $Project --verbosity minimal
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet restore failed with exit code $LASTEXITCODE"
     }
 }
 
-function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
+function DotNetBuild {
+    param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
     if ($VersionSuffix) {
         & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
     } else {
@@ -53,14 +73,16 @@ function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$
     }
 }
 
-function DotNetTest { param([string]$Project)
+function DotNetTest {
+    param([string]$Project)
     & $dotnet test $Project --output $OutputPath --framework $framework --no-build
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet test failed with exit code $LASTEXITCODE"
     }
 }
 
-function DotNetPublish { param([string]$Project)
+function DotNetPublish {
+    param([string]$Project)
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
         & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
