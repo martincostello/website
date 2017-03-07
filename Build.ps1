@@ -32,7 +32,7 @@ if ((Get-Command "dotnet.exe" -ErrorAction SilentlyContinue) -eq $null)  {
 else {
     $installedDotNetVersion = (dotnet --version | Out-String).Trim()
     if ($installedDotNetVersion -ne $dotnetVersion) {
-        Write-Host "The .NET Core SDK is not installed. Expected v$dotnetVersion but v$installedDotNetVersion was found."
+        Write-Host "The required version of the .NET Core SDK is not installed. Expected $dotnetVersion but $installedDotNetVersion was found."
         $installDotNetSdk = $true
     }
 }
