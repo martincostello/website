@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $framework     = "netcoreapp1.1"
-$dotnetVersion = "1.0.0"
+$dotnetVersion = "1.0.1"
 
 if ($OutputPath -eq "") {
     $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
