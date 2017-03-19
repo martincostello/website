@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Website Rules" Description="This rule set contains rules for the Website solution." ToolsVersion="14.0">
+<RuleSet Name="Website Rules" Description="This rule set contains rules for the Website solution." ToolsVersion="15.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="AD0001" Action="None" />
