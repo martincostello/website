@@ -1,4 +1,4 @@
-os: Visual Studio 2015
+os: Visual Studio 2017
 version: 1.0.{build}
 
 environment:
@@ -11,7 +11,6 @@ branches:
     - master
 
 install:
-  - ps: npm install -g npm@3.10.6
   - ps: npm install -g bower --loglevel=error
   - ps: npm install -g gulp --loglevel=error
 
