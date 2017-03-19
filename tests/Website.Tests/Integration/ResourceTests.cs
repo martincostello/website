@@ -23,12 +23,19 @@ namespace MartinCostello.Website.Integration
 
         [Theory]
         [InlineData("/", "text/html")]
-        [InlineData("/apple-app-site-association", null)]
-        [InlineData("/.well-known/apple-app-site-association", null)]
+        [InlineData("/apple-app-site-association", "application/json")]
+        [InlineData("/assets/css/site.css", "text/css")]
+        [InlineData("/assets/css/site.min.css", "text/css")]
+        [InlineData("/assets/js/site.js", "application/javascript")]
+        [InlineData("/assets/js/site.min.js", "application/javascript")]
+        [InlineData("/assets/js/site.min.js.map", "text/plain")]
+        [InlineData("/.well-known/apple-app-site-association", "application/json")]
         [InlineData("/.well-known/assetlinks.json", "application/json")]
         [InlineData("BingSiteAuth.xml", "text/xml")]
         [InlineData("browserconfig.xml", "text/xml")]
+        [InlineData("/error.html", "text/html")]
         [InlineData("/favicon.ico", "image/x-icon")]
+        [InlineData("/googled1107923138d0b79.html", "text/html")]
         [InlineData("/home/about", "text/html")]
         [InlineData("/home/about/", "text/html")]
         [InlineData("/HOME/ABOUT", "text/html")]
@@ -40,9 +47,6 @@ namespace MartinCostello.Website.Integration
         [InlineData("/service-worker.js", "application/javascript")]
         [InlineData("/sitemap.xml", "text/xml")]
         [InlineData("/tools", "text/html")]
-        [InlineData("/assets/js/site.js", "application/javascript")]
-        [InlineData("/assets/js/site.min.js", "application/javascript")]
-        [InlineData("/assets/js/site.min.js.map", "text/plain")]
         public async Task Can_Load_Resource(string requestUri, string contentType)
         {
             using (var response = await Fixture.Client.GetAsync(requestUri))
@@ -63,7 +67,6 @@ namespace MartinCostello.Website.Integration
                 "X-Download-Options",
                 "X-Frame-Options",
                 "X-Instance",
-                "X-Request-Duration",
                 "X-Request-Id",
                 "X-Revision",
                 "X-XSS-Protection",
