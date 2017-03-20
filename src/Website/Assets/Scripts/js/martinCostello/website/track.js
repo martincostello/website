@@ -1,20 +1,36 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-/*
+/**
  * Tracks an analytics event.
- * @param {string} category - The event category.
- * @param {string} action - The event action.
- * @param {string} label - The event label.
- * @param {string} [value] - The optional event value.
- * @param {object} [fields] - The optional event data.
+ * @param {String} category - The event category.
+ * @param {String} action - The event action.
+ * @param {String} label - The event label.
  * @returns {Boolean} - Whether the analytics event was tracked.
  */
-martinCostello.website.track = function (category, action, label, value, fields) {
+martinCostello.website.track = function (category, action, label) {
     if ("ga" in window) {
-        ga("send", "event", category, action, label, value, fields);
+        ga("send", {
+            hitType: "event",
+            eventCategory: category,
+            eventAction: action,
+            eventLabel: label
+        });
         return true;
     } else {
         return false;
     }
 };
+
+(function () {
+    $("a, button, input, .ga-track-click").on("click", function () {
+        var element = $(this);
+        var label = element.attr("data-ga-label") || element.attr("id");
+        if (label) {
+            martinCostello.website.track(
+                element.attr("data-ga-category") || "General",
+                element.attr("data-ga-action") || "clicked",
+                label);
+        }
+    });
+})();

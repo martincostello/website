@@ -123,9 +123,9 @@ namespace MartinCostello.Website.Models
                 Robots = robots ?? options.Robots,
                 SiteName = options.Name ?? "Personal Website of Martin Costello",
                 SiteType = options.Type ?? "website",
-                Title = title + " - " + options.Name,
+                Title = $"{title} - {options.Name}",
                 TwitterCard = "summary",
-                TwitterHandle = options.Author.SocialMedia.Twitter,
+                TwitterHandle = options?.Author?.SocialMedia?.Twitter,
             };
         }
     }

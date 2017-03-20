@@ -28,7 +28,7 @@ namespace MartinCostello.Website
 
             if (isDevelopment)
             {
-                builder.AddUserSecrets("martincostello.com");
+                builder.AddUserSecrets<Startup>();
             }
 
             builder.AddApplicationInsightsSettings(developerMode: isDevelopment);

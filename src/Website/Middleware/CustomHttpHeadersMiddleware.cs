@@ -5,7 +5,6 @@ namespace MartinCostello.Website.Middleware
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -42,6 +41,11 @@ namespace MartinCostello.Website.Middleware
         private readonly string _contentSecurityPolicy;
 
         /// <summary>
+        /// The current <c>Content-Security-Policy-Report-Only</c> HTTP response header value. This field is read-only.
+        /// </summary>
+        private readonly string _contentSecurityPolicyReportOnly;
+
+        /// <summary>
         /// The current <c>Public-Key-Pins</c> HTTP response header value. This field is read-only.
         /// </summary>
         private readonly string _publicKeyPins;
@@ -75,8 +79,10 @@ namespace MartinCostello.Website.Middleware
 
             _isProduction = environment.IsProduction();
             _environmentName = _isProduction ? null : environment.EnvironmentName;
-            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, options.Value);
             _publicKeyPins = BuildPublicKeyPins(options.Value);
+
+            _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, false, options.Value);
+            _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
         }
 
         /// <summary>
@@ -88,14 +94,14 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         public async Task Invoke(HttpContext context)
         {
-            var stopwatch = Stopwatch.StartNew();
-
             context.Response.OnStarting(() =>
                 {
                     context.Response.Headers.Remove("Server");
                     context.Response.Headers.Remove("X-Powered-By");
 
                     context.Response.Headers.Add("Content-Security-Policy", _contentSecurityPolicy);
+                    context.Response.Headers.Add("Content-Security-Policy-Report-Only", _contentSecurityPolicyReportOnly);
+                    context.Response.Headers.Add("Referrer-Policy", "origin-when-cross-origin");
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                     context.Response.Headers.Add("X-Download-Options", "noopen");
                     context.Response.Headers.Add("X-Frame-Options", "DENY");
@@ -126,14 +132,6 @@ namespace MartinCostello.Website.Middleware
                     context.Response.Headers.Add("X-Request-Id", context.TraceIdentifier);
                     context.Response.Headers.Add("X-Revision", GitMetadata.Commit);
 
-                    stopwatch.Stop();
-
-                    string duration = stopwatch.Elapsed.TotalMilliseconds.ToString(
-                        "0.00ms",
-                        CultureInfo.InvariantCulture);
-
-                    context.Response.Headers.Add("X-Request-Duration", duration);
-
                     return Task.CompletedTask;
                 });
 
@@ -144,11 +142,12 @@ namespace MartinCostello.Website.Middleware
         /// Builds the Content Security Policy to use for the website.
         /// </summary>
         /// <param name="isProduction">Whether the current environment is production.</param>
+        /// <param name="isReport">Whether the policy is being generated for the report.</param>
         /// <param name="options">The current site configuration options.</param>
         /// <returns>
         /// A <see cref="string"/> containing the Content Security Policy to use.
         /// </returns>
-        private static string BuildContentSecurityPolicy(bool isProduction, SiteOptions options)
+        private static string BuildContentSecurityPolicy(bool isProduction, bool isReport, SiteOptions options)
         {
             var cdn = GetCdnOriginForContentSecurityPolicy(options);
 
@@ -177,10 +176,9 @@ namespace MartinCostello.Website.Middleware
                 builder.Append(pair.Key);
 
                 IList<string> origins = pair.Value;
-                IList<string> configOrigins;
 
                 if (options.ContentSecurityPolicyOrigins != null &&
-                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out configOrigins))
+                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string> configOrigins))
                 {
                     origins = origins.Concat(configOrigins).ToList();
                 }
@@ -196,14 +194,14 @@ namespace MartinCostello.Website.Middleware
                 builder.Append(";");
             }
 
-            if (isProduction)
+            if (!isReport && isProduction)
             {
                 builder.Append("upgrade-insecure-requests;");
+            }
 
-                if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
-                {
-                    builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
-                }
+            if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
+            {
+                builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
             }
 
             return builder.ToString();

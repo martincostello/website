@@ -90,7 +90,7 @@ namespace MartinCostello.Website
             app.UseStaticFiles(
                 new StaticFileOptions()
                 {
-                    DefaultContentType = "application.json",
+                    DefaultContentType = "application/json",
                     ServeUnknownFileTypes = true,
                     OnPrepareResponse = (context) =>
                         {
@@ -251,8 +251,13 @@ namespace MartinCostello.Website
             return new CookiePolicyOptions()
             {
                 HttpOnly = HttpOnlyPolicy.Always,
-                Secure = HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
+                Secure = CookiePolicy(),
             };
+        }
+
+        private CookieSecurePolicy CookiePolicy()
+        {
+            return HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
         }
     }
 }

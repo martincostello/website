@@ -158,7 +158,8 @@ gulp.task("test:js:karma", function (done) {
 gulp.task("test:js:chrome", function (done) {
     new karmaServer({
         configFile: __dirname + "/karma.conf.js",
-        browsers: ["Chrome"]
+        browsers: ["Chrome"],
+        preprocessors: []
     }, done).start();
 });
 

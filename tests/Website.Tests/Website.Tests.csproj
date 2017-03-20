@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\Website.Common.props" />
   <PropertyGroup>
-    <AssemblyName>Website.Tests</AssemblyName>
-    <AssemblyTitle>martincostello.com.Tests</AssemblyTitle>
     <Description>Tests for https://martincostello.com/</Description>
-    <PackageId>Website.Tests</PackageId>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+    <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Tests for Martin Costello's website</Summary>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
@@ -17,7 +15,7 @@
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="NodaTime" Version="2.0.0-beta20170123" />
     <PackageReference Include="NodaTime.Testing" Version="2.0.0-beta20170123" />
