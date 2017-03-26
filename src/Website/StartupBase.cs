@@ -163,7 +163,6 @@ namespace MartinCostello.Website
 
             services.AddSingleton<IConfiguration>((_) => Configuration);
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
-            services.AddSingleton((p) => new BowerVersions(p.GetRequiredService<IHostingEnvironment>()));
 
             services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
             services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
