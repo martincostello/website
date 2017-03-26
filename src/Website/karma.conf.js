@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 module.exports = function (config) {
@@ -8,20 +8,16 @@ module.exports = function (config) {
         concurrency: Infinity,
 
         browsers: ["PhantomJS"],
-        frameworks: ["jasmine"],
+        frameworks: ["jasmine", "karma-typescript"],
 
         files: [
             "wwwroot/lib/**/dist/*.js",
-            "Assets/Scripts/js/martinCostello/martinCostello.js",
-            "Assets/Scripts/js/martinCostello/website/website.js",
-            "Assets/Scripts/js/martinCostello/website/debug.js",
-            "Assets/Scripts/js/martinCostello/website/track.js",
-            "Assets/Scripts/js/martinCostello/website/tools/tools.js",
-            "Assets/Scripts/js/martinCostello/website/tools/guidGenerator.js",
-            "Assets/Scripts/js/martinCostello/website/tools/hashGenerator.js",
-            "Assets/Scripts/js/martinCostello/website/tools/machineKeyGenerator.js",
-            "Assets/Scripts/**/*.spec.js"
+            "Assets/Scripts/**/*.ts"
         ],
+
+        preprocessors: {
+            "**/*.ts": ["karma-typescript"]
+        },
 
         htmlDetailed: {
             splitResults: false
@@ -32,12 +28,14 @@ module.exports = function (config) {
             "karma-chrome-launcher",
             "karma-html-detailed-reporter",
             "karma-jasmine",
-            "karma-phantomjs-launcher"
+            "karma-phantomjs-launcher",
+            "karma-typescript"
         ],
 
         reporters: [
             "progress",
-            "appveyor"
+            "appveyor",
+            "karma-typescript"
         ]
-    })
-}
+    });
+};

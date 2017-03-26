@@ -1,0 +1,18 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "inlineSources": true,
+    "inlineSourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noEmitOnError": true,
+    "outDir": "./wwwroot/Assets/js",
+    "removeComments": true,
+    "sourceMap": false,
+    "target": "es5"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

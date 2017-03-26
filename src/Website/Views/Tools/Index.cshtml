@@ -8,7 +8,13 @@
    <link rel="api-machine-key" href="@toolsUri/machinekey" />
 }
 @section scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js" integrity="sha256-dFEb+kXsOlXDFU4a9+EwfHE8z1hUJhEGTUb3zkhybYM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js" integrity="sha256-dFEb+kXsOlXDFU4a9+EwfHE8z1hUJhEGTUb3zkhybYM=" crossorigin="anonymous" defer></script>
+    <environment names="Development">
+        <script src="~/assets/js/site.tools.js" defer asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/assets/js/site.tools.min.js" defer asp-append-version="true"></script>
+    </environment>
 }
 <h1>@ViewBag.Title</h1>
 <div class="panel panel-default">
