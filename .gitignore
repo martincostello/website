@@ -1,4 +1,4 @@
-.DS_Store
+﻿.DS_Store
 .dotnetcli
 .metadata
 .settings
@@ -12,6 +12,7 @@ Backup*/
 bin
 Bin
 BuildOutput
+coverage
 node_modules
 obj
 packages

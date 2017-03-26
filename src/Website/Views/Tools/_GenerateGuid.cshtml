@@ -7,7 +7,7 @@
                 <div class="input-group">
                     @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", @readonly = string.Empty })
                     <span class="input-group-btn">
-                        <button id="copy-guid" class="btn btn-default copy-button" data-clipboard-target="#text-guid" title="Copy to clipboard">
+                        <button id="copy-guid" class="btn btn-default copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard">
                             <span class="glyphicon glyphicon-copy"></span>
                         </button>
                     </span>
@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-2">
-                <a id="generate-guid" class="btn btn-primary" role="button" href="#GenerateGuid" rel="nofollow" title="Generate a new GUID">New GUID</a>
+                <a id="generate-guid" class="btn btn-primary" role="button" href="#GenerateGuid" rel="nofollow" title="Generate a new GUID" data-ga-category="tools" data-ga-label="Generate GUID">New GUID</a>
             </div>
         </div>
         <div class="form-group">

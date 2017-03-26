@@ -1,152 +1,122 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿/// <binding Clean='clean' ProjectOpened='watch' />
+
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-/// <binding AfterBuild='build' Clean='clean' />
 "use strict";
 
-var gulp = require("gulp"),
-    del = require("del"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify"),
-    csslint = require("gulp-csslint"),
-    jasmine = require("gulp-jasmine"),
-    jshint = require("gulp-jshint"),
-    karmaServer = require("karma").Server,
-    less = require("gulp-less"),
-    lesshint = require("gulp-lesshint"),
-    rename = require("gulp-rename"),
-    sass = require("gulp-sass"),
-    sassLint = require("gulp-sass-lint"),
-    sourcemaps = require("gulp-sourcemaps");
+var gulp = require("gulp");
+var bundleconfig = require("./bundleconfig.json");
+var concat = require("gulp-concat");
+var csslint = require("gulp-csslint");
+var cssmin = require("gulp-cssmin");
+var del = require("del");
+var jasmine = require("gulp-jasmine");
+var jshint = require("gulp-jshint");
+var karmaServer = require("karma").Server;
+var merge = require("merge-stream");
+var path = require("path");
+var sourcemaps = require("gulp-sourcemaps");
+var ts = require("gulp-typescript");
+var tslint = require("gulp-tslint");
+var uglify = require("gulp-uglify");
 
-var webroot = "./wwwroot/assets/";
 var assets = "./Assets/";
 var scripts = assets + "Scripts/";
 var styles = assets + "Styles/";
+var cssSrc = styles + "css/";
+var jsSrc = scripts + "js/";
+var tsSrc = scripts + "ts/";
 
 var paths = {
-    jsSrc: scripts + "js/",
-    js: scripts + "js/**/*.js",
-    jsDest: webroot + "js",
-    minJs: webroot + "js/**/*.min.js",
-    minJsDest: webroot + "js/site.min.js",
-    testsJs: scripts + "**/*.spec.js",
-    css: styles + "css/**/*.css",
-    minCssDest: webroot + "css/**/site.min.css",
-    concatJsDest: webroot + "js/site.js",
-    concatCssDest: webroot + "css/site.css",
-    less: styles + "/less/site.less",
-    lessDest: webroot + "css",
-    sass: styles + "/sass/site.scss",
-    sassDest: webroot + "css",
-    cssClean: webroot + "css/**/*.css",
-    jsClean: webroot + "js/**/*.js"
+    css: cssSrc + "**/*.css",
+    js: jsSrc + "**/*.js",
+    ts: tsSrc + "**/*.ts",
+    testsJs: jsSrc + "**/*.spec.js"
 };
 
-gulp.task("clean:js", function (cb) {
-    return del([paths.jsClean]);
+var regex = {
+    css: /\.css$/,
+    js: /\.js$/
+};
+
+function getBundles(regexPattern) {
+    return bundleconfig.filter(function (bundle) {
+        return regexPattern.test(bundle.outputFileName);
+    });
+}
+
+gulp.task("clean", function () {
+    var files = bundleconfig.map(function (bundle) {
+        return bundle.outputFileName;
+    });
+    return del(files);
 });
-
-gulp.task("clean:css", function (cb) {
-    return del([paths.cssClean]);
-});
-
-gulp.task("clean", ["clean:js", "clean:css"]);
-
-gulp.task("css:less", function () {
-    return gulp.src(paths.less)
-      .pipe(less())
-      .pipe(rename("less.css"))
-      .pipe(gulp.dest(paths.lessDest));
-});
-
-gulp.task("css:sass", function () {
-    return gulp.src(paths.sass)
-      .pipe(sass().on("error", sass.logError))
-      .pipe(rename("sass.css"))
-      .pipe(gulp.dest(paths.sassDest));
-});
-
-gulp.task("css", ["css:less", "css:sass"]);
 
 gulp.task("lint:css", function () {
-    return gulp.src(styles)
-      .pipe(csslint())
-      .pipe(csslint.formatter())
-      .pipe(csslint.formatter("fail"));
+    return gulp.src(paths.css)
+        .pipe(csslint())
+        .pipe(csslint.formatter())
+        .pipe(csslint.formatter("fail"));
 });
 
 gulp.task("lint:js", function () {
     return gulp.src(paths.js)
-      .pipe(jshint())
-      .pipe(jshint.reporter("default"))
-      .pipe(jshint.reporter("fail"));
+        .pipe(jshint())
+        .pipe(jshint.reporter("default"))
+        .pipe(jshint.reporter("fail"));
 });
 
-gulp.task("lint:less", function () {
-    return gulp.src(paths.less)
-        .pipe(lesshint())
-        .pipe(lesshint.reporter());
+gulp.task("lint:ts", function () {
+    gulp.src(paths.ts)
+        .pipe(tslint({
+            formatter: "msbuild"
+        }))
+        .pipe(tslint.report());
 });
 
-gulp.task("lint:sass", function () {
-    gulp.src(paths.sass)
-      .pipe(sassLint())
-      .pipe(sassLint.format())
-      .pipe(sassLint.failOnError());
+gulp.task("lint", ["lint:css", "lint:js", "lint:ts"]);
+
+gulp.task("min:css", ["lint:css"], function () {
+    var tasks = getBundles(regex.css).map(function (bundle) {
+
+        var css = gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(sourcemaps.init())
+            .pipe(concat(bundle.outputFileName));
+
+        if (bundle.minify.enabled === true) {
+            css = css.pipe(cssmin());
+        }
+
+        return css
+            .pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
+    });
+    return merge(tasks);
 });
 
-gulp.task("lint", ["lint:js", "lint:less", "lint:sass", "lint:css"]);
+gulp.task("min:js", ["lint:js", "lint:ts"], function () {
+    var tasks = getBundles(regex.js).map(function (bundle) {
 
-gulp.task("min:js", function () {
+        var tsProject = ts.createProject("tsconfig.json");
+        var tsResult = gulp.src(bundle.inputFiles, { base: "." })
+            .pipe(sourcemaps.init())
+            .pipe(tsProject());
 
-    var jsPaths = [
-        paths.jsSrc + "analytics.js",
-        paths.jsSrc + "clipboard.js",
-        paths.jsSrc + "lazyload.js",
-        paths.jsSrc + "footer.js",
-        paths.jsSrc + "serviceWorker.js",
-        paths.jsSrc + "martinCostello/martinCostello.js",
-        paths.jsSrc + "martinCostello/website/website.js",
-        paths.jsSrc + "martinCostello/website/debug.js",
-        paths.jsSrc + "martinCostello/website/track.js",
-        paths.jsSrc + "martinCostello/website/tools/tools.js",
-        paths.jsSrc + "martinCostello/website/tools/guidGenerator.js",
-        paths.jsSrc + "martinCostello/website/tools/hashGenerator.js",
-        paths.jsSrc + "martinCostello/website/tools/machineKeyGenerator.js",
-        "!" + paths.jsSrc + "**/*.spec.js",
-        "!" + paths.minJs,
-        "!" + paths.concatJsDest
-    ];
+        var compiled = tsResult.js
+            .pipe(concat(bundle.outputFileName));
 
-    return gulp.src(jsPaths)
-        .pipe(concat(paths.concatJsDest))
-        .pipe(gulp.dest("."))
-        .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(uglify())
-        .pipe(rename(paths.minJsDest))
-        .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest("."));
+        if (bundle.minify.enabled === true) {
+            compiled = compiled.pipe(uglify());
+        }
+
+        return compiled.pipe(sourcemaps.write("."))
+            .pipe(gulp.dest("."));
+    });
+    return merge(tasks);
 });
 
-gulp.task("min:css", ["css"], function () {
-    return gulp.src([
-            paths.lessDest + "/less.css",
-            paths.sassDest + "/sass.css",
-            paths.css,
-            "!" + paths.minCss,
-            "!" + paths.concatCssDest])
-        .pipe(concat(paths.concatCssDest))
-        .pipe(gulp.dest("."))
-        .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(cssmin())
-        .pipe(rename({ suffix: ".min" }))
-        .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest("."));
-});
-
-gulp.task("min", ["min:js", "min:css"]);
+gulp.task("min", ["min:css", "min:js"]);
 
 gulp.task("test:js:karma", function (done) {
     new karmaServer({
@@ -163,8 +133,19 @@ gulp.task("test:js:chrome", function (done) {
     }, done).start();
 });
 
-gulp.task("test:js", ["test:js:karma"]);
 gulp.task("test", ["test:js"]);
+gulp.task("test:js", ["test:js:karma"]);
+
+gulp.task("watch", function () {
+    getBundles(regex.js).forEach(function (bundle) {
+        gulp.watch(bundle.inputFiles, ["min:js"]);
+    });
+    getBundles(regex.css).forEach(function (bundle) {
+        gulp.watch(bundle.inputFiles, ["min:css"]);
+    });
+});
 
 gulp.task("build", ["lint", "min"]);
 gulp.task("publish", ["build", "test"]);
+
+gulp.task("default", ["build"]);

@@ -13,9 +13,10 @@
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
     <Content Include="parameters.xml" CopyToOutputDirectory="PreserveNewest" />
-    <Content Update="appsettings.json;bower.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
     <DotNetCliToolReference Include="dotnet-sourcelink" Version="2.0.2" />
     <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.0.2" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
@@ -41,9 +42,12 @@
     <PackageReference Include="NodaTime" Version="2.0.0-beta20170123" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm install --loglevel=error" />
-    <Exec Command="bower install --loglevel=error" />
+  <Target Name="BundleAssets" BeforeTargets="PrepareForPublish">
+    <Exec Command="bower install --loglevel=error" Condition=" '$(InstallWebPackages)' == 'true' " />
+    <Exec Command="npm install --loglevel=error" Condition=" '$(InstallWebPackages)' == 'true' " />
+    <Exec Command="gulp build" />
+  </Target>
+  <Target Name="PrepublishScript" DependsOnTargets="BundleAssets" BeforeTargets="Publish">
     <Exec Command="gulp publish" />
   </Target>
   <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" DependsOnTargets="PrepareForPublish">
