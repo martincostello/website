@@ -52,25 +52,6 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Alexa London Travel</div>
-            <div class="panel-body">
-                <p>
-                    An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>. You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "alexa-london-travel")
-                    @await Html.PartialAsync("_GitHubFork", "alexa-london-travel")
-                </p>
-                <p>
-                    <a id="link-repo-alexa" href="https://github.com/martincostello/alexa-london-travel" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
             <div class="panel-heading">This website</div>
             <div class="panel-body">
                 <p>
@@ -94,17 +75,114 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
+            <div class="panel-heading">Alexa London Travel</div>
+            <div class="panel-body">
+                <p>
+                    An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>. You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "alexa-london-travel")
+                    @await Html.PartialAsync("_GitHubFork", "alexa-london-travel")
+                </p>
+                <p>
+                    <a id="link-repo-alexa" href="https://github.com/martincostello/alexa-london-travel" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Alexa London Travel Site</div>
+            <div class="panel-body">
+                <p>
+                    A companion website for the London Travel Alexa skill using ASP.NET Core Identity.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "alexa-london-travel-site")
+                    @await Html.PartialAsync("_GitHubFork", "alexa-london-travel-site")
+                </p>
+                <p>
+                    <a id="link-repo-alexa-site" href="https://github.com/martincostello/alexa-london-travel-site" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Blog</div>
+            <div class="panel-body">
+                <p>
+                    Martin's
+                    <a id="link-blog-project" href="@Options?.ExternalLinks?.Blog?.AbsoluteUri" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
+                    a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "blog")
+                    @await Html.PartialAsync("_GitHubFork", "blog")
+                </p>
+                <p>
+                    <a id="link-repo-blog" href="https://github.com/martincostello/blog" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
             <div class="panel-heading">Apple Pay JS Sample Code</div>
             <div class="panel-body">
                 <p>
-                    Sample code for integrating <a id="link-apple-pay" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
+                    Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
                 </p>
                 <p>
                     @await Html.PartialAsync("_GitHubStar", "justeat/ApplePayJSSample")
                     @await Html.PartialAsync("_GitHubFork", "justeat/ApplePayJSSample")
                 </p>
                 <p>
-                    <a id="link-repo-apple-pay" href="https://github.com/justeat/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                    <a id="link-repo-apple-pay-sample" href="https://github.com/justeat/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Apple Pay JS Polyfill</div>
+            <div class="panel-body">
+                <p>
+                    A <a href="https://bower.io/" rel="noopener" target="_blank" title="View the Bower website">Bower</a> package containing a polyfill for the Apple Pay JS SDK to use for testing.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "justeat/applepayjs-polyfill")
+                    @await Html.PartialAsync("_GitHubFork", "justeat/applepayjs-polyfill")
+                </p>
+                <p>
+                    <a id="link-repo-apple-pay-polyfill" href="https://github.com/justeat/applepayjs-polyfill" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                        Visit project site &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Apple Pay JS Type Definitions</div>
+            <div class="panel-body">
+                <p>
+                    A <a href="https://www.npmjs.com/package/@@types/applepayjs" rel="noopener" target="_blank" title="View the package on npm">npm</a> package containing type definitions for Apple Pay JS, such as for use with TypeScript.
+                </p>
+                <p>
+                    @await Html.PartialAsync("_GitHubStar", "applepayjs-typings")
+                    @await Html.PartialAsync("_GitHubFork", "applepayjs-typings")
+                </p>
+                <p>
+                    <a id="link-repo-apple-pay-typings" href="https://github.com/martincostello/applepayjs-typings" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
@@ -128,27 +206,6 @@
                 </p>
                 <p>
                     <a id="link-repo-euler" href="https://github.com/martincostello/project-euler" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Blog</div>
-            <div class="panel-body">
-                <p>
-                    Martin's
-                    <a id="link-blog-project" href="@Options?.ExternalLinks?.Blog?.AbsoluteUri" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
-                    a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "blog")
-                    @await Html.PartialAsync("_GitHubFork", "blog")
-                </p>
-                <p>
-                    <a id="link-repo-blog" href="https://github.com/martincostello/blog" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
