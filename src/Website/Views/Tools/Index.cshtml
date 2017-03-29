@@ -1,11 +1,8 @@
 ﻿@inject SiteOptions Options
-@{
-    string toolsUri = ViewBag.ToolsUri;
-}
 @section meta {
-   <link rel="api-guid" href="@toolsUri/guid" />
-   <link rel="api-hash" href="@toolsUri/hash" />
-   <link rel="api-machine-key" href="@toolsUri/machinekey" />
+   <link rel="api-guid" href="@Url.RouteUrl(SiteRoutes.GenerateGuid)" />
+   <link rel="api-hash" href="@Url.RouteUrl(SiteRoutes.GenerateHash)" />
+   <link rel="api-machine-key" href="@Url.RouteUrl(SiteRoutes.GenerateMachineKey)" />
 }
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js" integrity="sha256-El0fEiD3YOM7uIVZztyQzmbbPlgEj0oJVxRWziUh4UE=" crossorigin="anonymous" defer></script>

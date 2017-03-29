@@ -215,11 +215,6 @@ namespace MartinCostello.Website.Services
             return new OkObjectResult(value);
         }
 
-        public string GetApiUri()
-        {
-            return (_apiUri?.IsAbsoluteUri == true ? _apiUri.AbsoluteUri : "/") + "tools";
-        }
-
         /// <summary>
         /// Returns a <see cref="string"/> containing a hexadecimal representation of the specified <see cref="Array"/> of bytes.
         /// </summary>
