@@ -41,13 +41,5 @@ namespace MartinCostello.Website.Services
         /// An <see cref="IActionResult"/> containing the generated machine key.
         /// </returns>
         IActionResult GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm);
-
-        /// <summary>
-        /// Returns the URI of the API endpoint.
-        /// </summary>
-        /// <returns>
-        /// A string containing the URL of the API endpoint.
-        /// </returns>
-        string GetApiUri();
     }
 }

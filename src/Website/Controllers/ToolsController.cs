@@ -40,8 +40,6 @@ namespace MartinCostello.Website.Controllers
             ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
             ViewBag.Title = ".NET Development Tools";
 
-            ViewBag.ToolsUri = _service.GetApiUri();
-
             return View();
         }
 
@@ -53,10 +51,10 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated GUID.
         /// </returns>
-        [EnableCors(Startup.DefaultCorsPolicyName)]
+        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(GuidResponse))]
-        [Route("tools/guid")]
+        [Route("tools/guid", Name = SiteRoutes.GenerateGuid)]
         public IActionResult Guid([FromQuery]string format = null, [FromQuery]bool? uppercase = null)
         {
             return _service.GenerateGuid(format, uppercase);
@@ -69,10 +67,10 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated hash value.
         /// </returns>
-        [EnableCors(Startup.DefaultCorsPolicyName)]
+        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpPost]
         [Produces("application/json", Type = typeof(HashResponse))]
-        [Route("tools/hash")]
+        [Route("tools/hash", Name = SiteRoutes.GenerateHash)]
         public async Task<IActionResult> HashAsync([FromBody]HashRequest request)
         {
             return await _service.GenerateHashAsync(request);
@@ -86,10 +84,10 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated machine key.
         /// </returns>
-        [EnableCors(Startup.DefaultCorsPolicyName)]
+        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(MachineKeyResponse))]
-        [Route("tools/machinekey")]
+        [Route("tools/machinekey", Name = SiteRoutes.GenerateMachineKey)]
         public IActionResult MachineKey([FromQuery]string decryptionAlgorithm, [FromQuery]string validationAlgorithm)
         {
             return _service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
