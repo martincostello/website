@@ -43,6 +43,7 @@ namespace MartinCostello.Website
 
                 var builder = new WebHostBuilder()
                     .UseKestrel((p) => p.AddServerHeader = false)
+                    .UseAzureAppServices()
                     .UseAutofac()
                     .UseConfiguration(configuration)
                     .UseContentRoot(Directory.GetCurrentDirectory())
