@@ -5,7 +5,6 @@ namespace MartinCostello.Website.Middleware
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -46,6 +45,11 @@ namespace MartinCostello.Website.Middleware
         private readonly string _contentSecurityPolicyReportOnly;
 
         /// <summary>
+        /// The current <c>Expect-CT</c> HTTP response header value. This field is read-only.
+        /// </summary>
+        private readonly string _expectCTValue;
+
+        /// <summary>
         /// The current <c>Public-Key-Pins</c> HTTP response header value. This field is read-only.
         /// </summary>
         private readonly string _publicKeyPins;
@@ -79,10 +83,11 @@ namespace MartinCostello.Website.Middleware
 
             _isProduction = environment.IsProduction();
             _environmentName = _isProduction ? null : environment.EnvironmentName;
-            _publicKeyPins = BuildPublicKeyPins(options.Value);
 
             _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, false, options.Value);
             _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
+            _expectCTValue = BuildExpectCT(options.Value, reportOnly: true);
+            _publicKeyPins = BuildPublicKeyPins(options.Value);
         }
 
         /// <summary>
@@ -109,6 +114,7 @@ namespace MartinCostello.Website.Middleware
 
                     if (context.Request.IsHttps)
                     {
+                        context.Response.Headers.Add("Expect-CT", _expectCTValue);
                         context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
 
                         if (!string.IsNullOrWhiteSpace(_publicKeyPins))
@@ -202,6 +208,44 @@ namespace MartinCostello.Website.Middleware
             if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
             {
                 builder.Append($"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Builds the value to use for the <c>Expect-CT</c> HTTP response header.
+        /// </summary>
+        /// <param name="options">The current site configuration options.</param>
+        /// <param name="reportOnly">Whether to report on the value only.</param>
+        /// <returns>
+        /// A <see cref="string"/> containing the <c>Expect-CT</c> value to use.
+        /// </returns>
+        private static string BuildExpectCT(SiteOptions options, bool reportOnly)
+        {
+            var builder = new StringBuilder();
+
+            if (!reportOnly)
+            {
+                builder.Append("enforce; ");
+            }
+
+            // TODO Extend and make configurable at a later date
+            builder.AppendFormat("max-age={0};", 0);
+
+            if (reportOnly)
+            {
+                if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly != null)
+                {
+                    builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTReportOnly}");
+                }
+            }
+            else
+            {
+                if (options?.ExternalLinks?.Reports?.ExpectCTEnforce != null)
+                {
+                    builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTEnforce}");
+                }
             }
 
             return builder.ToString();
