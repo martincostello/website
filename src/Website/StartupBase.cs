@@ -71,7 +71,10 @@ namespace MartinCostello.Website
             ILoggerFactory loggerFactory,
             IOptionsSnapshot<SiteOptions> options)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            if (environment.IsDevelopment())
+            {
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            }
 
             app.UseCustomHttpHeaders(environment, Configuration, options);
 
