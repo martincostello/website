@@ -21,6 +21,11 @@ namespace MartinCostello.Website.Options
         public ApiOptions Api { get; set; }
 
         /// <summary>
+        /// Gets or sets the certificate transparency options to use.
+        /// </summary>
+        public CertificateTransparencyOptions CertificateTransparency { get; set; }
+
+        /// <summary>
         /// Gets or sets the Content Security Policy origins for the site.
         /// </summary>
         public IDictionary<string, IList<string>> ContentSecurityPolicyOrigins { get; set; }

@@ -86,7 +86,7 @@ namespace MartinCostello.Website.Middleware
 
             _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, false, options.Value);
             _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
-            _expectCTValue = BuildExpectCT(options.Value, reportOnly: true);
+            _expectCTValue = BuildExpectCT(options.Value);
             _publicKeyPins = BuildPublicKeyPins(options.Value);
         }
 
@@ -217,34 +217,34 @@ namespace MartinCostello.Website.Middleware
         /// Builds the value to use for the <c>Expect-CT</c> HTTP response header.
         /// </summary>
         /// <param name="options">The current site configuration options.</param>
-        /// <param name="reportOnly">Whether to report on the value only.</param>
         /// <returns>
         /// A <see cref="string"/> containing the <c>Expect-CT</c> value to use.
         /// </returns>
-        private static string BuildExpectCT(SiteOptions options, bool reportOnly)
+        private static string BuildExpectCT(SiteOptions options)
         {
             var builder = new StringBuilder();
 
-            if (!reportOnly)
+            bool enforce = options.CertificateTransparency?.Enforce == true;
+
+            if (enforce)
             {
                 builder.Append("enforce; ");
             }
 
-            // TODO Extend and make configurable at a later date
-            builder.AppendFormat("max-age={0};", 0);
+            builder.AppendFormat("max-age={0};", (int)options.CertificateTransparency?.MaxAge.TotalSeconds);
 
-            if (reportOnly)
-            {
-                if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly != null)
-                {
-                    builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTReportOnly}");
-                }
-            }
-            else
+            if (enforce)
             {
                 if (options?.ExternalLinks?.Reports?.ExpectCTEnforce != null)
                 {
                     builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTEnforce}");
+                }
+            }
+            else
+            {
+                if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly != null)
+                {
+                    builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTReportOnly}");
                 }
             }
 
