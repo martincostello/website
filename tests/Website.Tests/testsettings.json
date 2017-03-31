@@ -11,6 +11,10 @@
     "Analytics": {
       "Google": "UA-42907618-1"
     },
+    "CertificateTransparency": {
+      "Enforce": false,
+      "MaxAge": "00.00:30:00"
+    },
     "ContentSecurityPolicyOrigins": {},
     "ExternalLinks": {
       "Api": "/",
