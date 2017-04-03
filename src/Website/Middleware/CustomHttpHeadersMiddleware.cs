@@ -8,6 +8,7 @@ namespace MartinCostello.Website.Middleware
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
@@ -82,7 +83,7 @@ namespace MartinCostello.Website.Middleware
             _options = options;
 
             _isProduction = environment.IsProduction();
-            _environmentName = _isProduction ? null : environment.EnvironmentName;
+            _environmentName = config.AzureEnvironment();
 
             _contentSecurityPolicy = BuildContentSecurityPolicy(_isProduction, false, options.Value);
             _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
@@ -123,7 +124,7 @@ namespace MartinCostello.Website.Middleware
                         }
                     }
 
-                    context.Response.Headers.Add("X-Datacenter", _config["Azure:Datacenter"] ?? "Local");
+                    context.Response.Headers.Add("X-Datacenter", _config.AzureDatacenter());
 
 #if DEBUG
                     context.Response.Headers.Add("X-Debug", "true");
