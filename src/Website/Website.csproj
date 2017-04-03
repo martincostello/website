@@ -40,7 +40,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.TraceSource" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink.Loader" Version="14.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
-    <PackageReference Include="NodaTime" Version="2.0.0-rc3" />
+    <PackageReference Include="NodaTime" Version="2.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.1.1" />
   </ItemGroup>
