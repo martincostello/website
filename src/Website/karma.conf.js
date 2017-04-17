@@ -11,7 +11,8 @@ module.exports = function (config) {
         frameworks: ["jasmine", "karma-typescript"],
 
         files: [
-            "wwwroot/lib/**/dist/*.js",
+            "https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js",
             "Assets/Scripts/**/*.ts"
         ],
 
