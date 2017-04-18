@@ -16,7 +16,7 @@ $framework     = "netcoreapp1.1"
 $dotnetVersion = "1.0.1"
 
 if ($OutputPath -eq "") {
-    $OutputPath = "$(Convert-Path "$PSScriptRoot")\artifacts"
+    $OutputPath = Join-Path "$(Convert-Path "$PSScriptRoot")" "artifacts"
 }
 
 if ($env:CI -ne $null -Or $env:TF_BUILD -ne $null) {
@@ -26,7 +26,7 @@ if ($env:CI -ne $null -Or $env:TF_BUILD -ne $null) {
 
 $installDotNetSdk = $false;
 
-if ((Get-Command "dotnet.exe" -ErrorAction SilentlyContinue) -eq $null)  {
+if ((Get-Command "dotnet.exe" -ErrorAction SilentlyContinue) -eq $null) {
     Write-Host "The .NET Core SDK is not installed."
     $installDotNetSdk = $true
 }
@@ -39,7 +39,7 @@ else {
 }
 
 if ($installDotNetSdk -eq $true) {
-    $env:DOTNET_INSTALL_DIR = "$(Convert-Path "$PSScriptRoot")\.dotnetcli"
+    $env:DOTNET_INSTALL_DIR = Join-Path "$(Convert-Path "$PSScriptRoot")" ".dotnetcli"
 
     if (!(Test-Path $env:DOTNET_INSTALL_DIR)) {
         mkdir $env:DOTNET_INSTALL_DIR | Out-Null
@@ -49,7 +49,7 @@ if ($installDotNetSdk -eq $true) {
     }
 
     $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
-    $dotnet   = "$env:DOTNET_INSTALL_DIR\dotnet"
+    $dotnet   = Join-Path "$env:DOTNET_INSTALL_DIR" "dotnet"
 } else {
     $dotnet   = "dotnet"
 }
@@ -108,11 +108,6 @@ if ($PatchVersion -eq $true) {
     Set-Content ".\AssemblyVersion.cs" $assemblyVersionWithMetadata -Encoding utf8
 }
 
-$projects = @(
-    (Join-Path $solutionPath "src\Website\Website.csproj"),
-    (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj")
-)
-
 $testProjects = @(
     (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj")
 )
@@ -126,10 +121,8 @@ if ($RestorePackages -eq $true) {
     DotNetRestore $solutionFile
 }
 
-Write-Host "Building $($projects.Count) projects..." -ForegroundColor Green
-ForEach ($project in $projects) {
-    DotNetBuild $project $Configuration $PrereleaseSuffix
-}
+Write-Host "Building solution..." -ForegroundColor Green
+DotNetBuild $solutionFile $Configuration $PrereleaseSuffix
 
 if ($RunTests -eq $true) {
     Write-Host "Testing $($testProjects.Count) project(s)..." -ForegroundColor Green
