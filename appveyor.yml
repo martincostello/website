@@ -10,6 +10,11 @@ branches:
   only:
     - master
 
+cache:
+  - src\Website\node_modules
+  - '%APPDATA%\npm\node_modules'
+  - '%APPDATA%\npm-cache'
+
 install:
   - ps: npm install -g npm --loglevel=error
   - ps: npm install -g gulp --loglevel=error

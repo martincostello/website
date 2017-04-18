@@ -11,6 +11,12 @@ branches:
   only:
     - master
 
+cache:
+  directories:
+    - /home/travis/.npm
+    - /home/travis/.nuget/packages
+    - src/Website/node_modules
+
 addons:
   apt:
     packages:
