@@ -63,6 +63,17 @@ namespace MartinCostello.Website.Integration
             }
         }
 
+        [Theory]
+        [InlineData("/Content/browserstack.svg", "https://martincostello.azureedge.net/browserstack.svg")]
+        public async Task Resource_Is_Redirect(string requestUri, string location)
+        {
+            using (var response = await Fixture.Client.GetAsync(requestUri))
+            {
+                Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+                Assert.StartsWith(location, response.Headers.Location?.OriginalString);
+            }
+        }
+
         [Fact]
         public async Task Response_Headers_Contains_Expected_Headers()
         {
