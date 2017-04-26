@@ -21,7 +21,7 @@ namespace MartinCostello.Website.Extensions
         public static string AbsoluteContent(this IUrlHelper value, string contentPath)
         {
             var request = value.ActionContext.HttpContext.Request;
-            return value.ToAbsolute(request.Host.Value, contentPath);
+            return value.ToAbsolute(request.Host.Value, contentPath, forceHttps: false);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace MartinCostello.Website.Extensions
             }
 
             // Azure Blob storage is case-sensitive, so force all URLs to lowercase
-            string url = value.ToAbsolute(cdn.Host, contentPath.ToLowerInvariant());
+            string url = value.ToAbsolute(cdn.Host, contentPath.ToLowerInvariant(), forceHttps: true);
 
             // asp-append-version="true" does not work for non-local resources
             if (appendVersion)
@@ -58,12 +58,15 @@ namespace MartinCostello.Website.Extensions
         /// Converts a virtual (relative) path to an absolute URI.
         /// </summary>
         /// <param name="value">The <see cref="IUrlHelper"/>.</param>
+        /// <param name="host">The hostname.</param>
         /// <param name="contentPath">The virtual path of the content.</param>
+        /// <param name="forceHttps">Whether to force the use of HTTPS.</param>
         /// <returns>The application absolute URI.</returns>
-        private static string ToAbsolute(this IUrlHelper value, string host, string contentPath)
+        private static string ToAbsolute(this IUrlHelper value, string host, string contentPath, bool forceHttps)
         {
             var request = value.ActionContext.HttpContext.Request;
-            return new Uri(new Uri(request.Scheme + "://" + host), value.Content(contentPath)).ToString();
+            var scheme = forceHttps ? "https" : request.Scheme;
+            return new Uri(new Uri($"{scheme}://{host}"), value.Content(contentPath)).ToString();
         }
     }
 }
