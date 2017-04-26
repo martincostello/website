@@ -4,6 +4,7 @@
 namespace MartinCostello.Website.Integration
 {
     using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Xunit;
 
@@ -54,12 +55,26 @@ namespace MartinCostello.Website.Integration
         [InlineData("/service-worker.js", "application/javascript")]
         [InlineData("/sitemap.xml", "text/xml")]
         [InlineData("/tools", "text/html")]
-        public async Task Can_Load_Resource(string requestUri, string contentType)
+        public async Task Can_Load_Resource_As_Get(string requestUri, string contentType)
         {
             using (var response = await Fixture.Client.GetAsync(requestUri))
             {
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
                 Assert.Equal(contentType, response.Content.Headers.ContentType?.MediaType);
+            }
+        }
+
+        [Theory]
+        [InlineData("/", "text/html")]
+        public async Task Can_Load_Resource_As_Head(string requestUri, string contentType)
+        {
+            using (var message = new HttpRequestMessage(HttpMethod.Head, requestUri))
+            {
+                using (var response = await Fixture.Client.SendAsync(message))
+                {
+                    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                    Assert.Equal(contentType, response.Content.Headers.ContentType?.MediaType);
+                }
             }
         }
 

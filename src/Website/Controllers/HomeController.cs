@@ -51,6 +51,7 @@ namespace MartinCostello.Website.Controllers
         /// The result for the <c>/</c> action.
         /// </returns>
         [HttpGet]
+        [HttpHead]
         public IActionResult Index() => View();
     }
 }
