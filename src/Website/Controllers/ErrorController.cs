@@ -60,6 +60,8 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// The result for the action.
         /// </returns>
+        [HttpGet]
+        [HttpHead]
         [Route("account/login")]
         [Route("admin.php")]
         [Route("admin/login.php")]
