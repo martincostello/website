@@ -19,7 +19,7 @@
     "ExternalLinks": {
       "Api": "/",
       "Blog": "https://blog.martincostello.com/",
-      "Cdn": "https://martincostello.azureedge.net/",
+      "Cdn": "https://cdn.martincostello.com/",
       "Status": "http://status.martincostello.com/",
       "Reports": {
         "ContentSecurityPolicy": "https://martincostello.report-uri.io/r/default/csp/enforce",
