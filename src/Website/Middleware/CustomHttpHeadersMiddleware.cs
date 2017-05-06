@@ -120,6 +120,11 @@ namespace MartinCostello.Website.Middleware
 
                         if (!string.IsNullOrWhiteSpace(_publicKeyPins))
                         {
+                            if (_options.Value.PublicKeyPins.IsEnabled)
+                            {
+                                context.Response.Headers.Add("Public-Key-Pins", _publicKeyPins);
+                            }
+
                             context.Response.Headers.Add("Public-Key-Pins-Report-Only", _publicKeyPins);
                         }
                     }
