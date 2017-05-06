@@ -79,7 +79,7 @@ namespace MartinCostello.Website.Integration
         }
 
         [Theory]
-        [InlineData("/Content/browserstack.svg", "https://martincostello.azureedge.net/browserstack.svg")]
+        [InlineData("/Content/browserstack.svg", "https://cdn.martincostello.com/browserstack.svg")]
         public async Task Resource_Is_Redirect(string requestUri, string location)
         {
             using (var response = await Fixture.Client.GetAsync(requestUri))
