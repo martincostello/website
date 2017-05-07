@@ -95,6 +95,8 @@ namespace MartinCostello.Website.Integration
             string[] expectedHeaders = new[]
             {
                 "content-security-policy",
+                "content-security-policy-report-only",
+                "Referrer-Policy",
                 "X-Content-Type-Options",
                 "X-Datacenter",
                 "X-Download-Options",
