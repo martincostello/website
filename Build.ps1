@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 $solutionPath  = Split-Path $MyInvocation.MyCommand.Definition
 $solutionFile  = Join-Path $solutionPath "Website.sln"
 $framework     = "netcoreapp1.1"
-$dotnetVersion = "1.0.1"
+$dotnetVersion = "1.0.4"
 
 if ($OutputPath -eq "") {
     $OutputPath = Join-Path "$(Convert-Path "$PSScriptRoot")" "artifacts"
@@ -50,7 +50,8 @@ if ($installDotNetSdk -eq $true) {
 
     $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
     $dotnet   = Join-Path "$env:DOTNET_INSTALL_DIR" "dotnet"
-} else {
+}
+ else {
     $dotnet   = "dotnet"
 }
 
@@ -64,7 +65,8 @@ function DotNetRestore { param([string]$Project)
 function DotNetBuild { param([string]$Project, [string]$Configuration, [string]$VersionSuffix)
     if ($VersionSuffix) {
         & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix" /maxcpucount:1
-    } else {
+    }
+ else {
         & $dotnet build $Project --output $OutputPath --framework $framework --configuration $Configuration /maxcpucount:1
     }
     if ($LASTEXITCODE -ne 0) {
@@ -83,7 +85,8 @@ function DotNetPublish { param([string]$Project)
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
         & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
-    } else {
+    }
+ else {
         & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration
     }
     if ($LASTEXITCODE -ne 0) {
