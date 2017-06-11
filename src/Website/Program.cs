@@ -9,6 +9,7 @@ namespace MartinCostello.Website
     using Extensions;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// A class representing the entry-point to the application. This class cannot be inherited.
@@ -48,6 +49,7 @@ namespace MartinCostello.Website
                     .UseConfiguration(configuration)
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
+                    .UseLoggerFactory(new LoggerFactory(configuration))
                     .UseStartup<Startup>()
                     .CaptureStartupErrors(true);
 
