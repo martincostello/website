@@ -45,6 +45,12 @@ namespace MartinCostello.Website.Integration
                 .UseContentRoot(projectPath)
                 .UseEnvironment("Development")
                 .UseLoggerFactory(new LoggerFactory())
+                .ConfigureLogging<LoggerFactory>(
+                    (hostingContext, factory) =>
+                    {
+                        factory.AddDebug();
+                        factory.AddConsole(hostingContext.Configuration);
+                    })
                 .UseStartup<TestStartup>();
 
             _server = new TestServer(builder);

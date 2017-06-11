@@ -49,7 +49,15 @@ namespace MartinCostello.Website
                     .UseConfiguration(configuration)
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
-                    .UseLoggerFactory(new LoggerFactory(configuration))
+                    .UseLoggerFactory(new LoggerFactory())
+                    .ConfigureLogging<LoggerFactory>(
+                        (hostingContext, factory) =>
+                        {
+                            if (hostingContext.HostingEnvironment.IsDevelopment())
+                            {
+                                factory.AddDebug();
+                            }
+                        })
                     .UseStartup<Startup>()
                     .CaptureStartupErrors(true);
 
