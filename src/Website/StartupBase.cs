@@ -65,22 +65,17 @@ namespace MartinCostello.Website
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
         /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
         /// <param name="appLifetime">The <see cref="IApplicationLifetime"/> to use.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
+        /// <param name="loggerFactory">The <see cref="LoggerFactory"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
         public void Configure(
             IApplicationBuilder app,
             IHostingEnvironment environment,
             IApplicationLifetime appLifetime,
-            ILoggerFactory loggerFactory,
+            LoggerFactory loggerFactory,
             IOptionsSnapshot<SiteOptions> options)
         {
             loggerFactory.AddSerilog();
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
-
-            if (environment.IsDevelopment())
-            {
-                loggerFactory.AddDebug();
-            }
 
             app.UseCustomHttpHeaders(environment, Configuration, options);
 
