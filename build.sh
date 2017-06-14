@@ -35,7 +35,7 @@ while :; do
     shift
 done
 
-export CLI_VERSION="2.0.0-preview1-005977"
+export CLI_VERSION="2.0.0-preview2-006120"
 export DOTNET_INSTALL_DIR="$root/.dotnetcli"
 export PATH="$DOTNET_INSTALL_DIR:$PATH"
 
