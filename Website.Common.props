@@ -7,8 +7,6 @@
     <CodeAnalysisRuleSet>../../Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
     <Copyright>Martin Costello (c) 2016-2017</Copyright>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>embedded</DebugType>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
