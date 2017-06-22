@@ -62,6 +62,7 @@ namespace MartinCostello.Website.Controllers
         /// </returns>
         [HttpGet]
         [HttpHead]
+        [HttpPost]
         [Route("account/login")]
         [Route("admin.php")]
         [Route("admin-console")]
