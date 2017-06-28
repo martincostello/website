@@ -49,8 +49,7 @@ namespace MartinCostello.Website
                     .UseConfiguration(configuration)
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseIISIntegration()
-                    .UseLoggerFactory(new LoggerFactory())
-                    .ConfigureLogging<LoggerFactory>(
+                    .ConfigureLogging(
                         (hostingContext, factory) =>
                         {
                             if (hostingContext.HostingEnvironment.IsDevelopment())
