@@ -26,7 +26,7 @@ namespace martinCostello.website.tools {
          */
         public initialize(): void {
 
-            this.endpoint = $("link[rel='api-hash']").attr("href");
+            this.endpoint = $("link[name='api-hash']").attr("href");
 
             if (this.endpoint) {
 
