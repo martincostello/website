@@ -25,7 +25,7 @@ namespace martinCostello.website.tools {
          */
         public initialize(): void {
 
-            this.endpoint = $("link[rel='api-machine-key']").attr("href");
+            this.endpoint = $("link[name='api-machine-key']").attr("href");
 
             if (this.endpoint) {
 
