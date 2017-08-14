@@ -10,7 +10,6 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <LangVersion>latest</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageIconUrl>https://martincostello.com/favicon.ico</PackageIconUrl>
     <PackageProjectUrl>https://github.com/martincostello/website</PackageProjectUrl>
