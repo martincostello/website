@@ -66,7 +66,7 @@ function DotNetTest {
     param([string]$Project)
 
     if ($DisableCodeCoverage -eq $true) {
-        & $dotnet test $Project --output $OutputPath --framework $framework
+        & $dotnet test $Project --output $OutputPath
     }
     else {
 
@@ -103,10 +103,10 @@ function DotNetPublish {
     param([string]$Project)
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
-        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration --version-suffix "$VersionSuffix"
+        & $dotnet publish $Project --output $publishPath --configuration $Configuration --version-suffix "$VersionSuffix"
     }
     else {
-        & $dotnet publish $Project --output $publishPath --framework $framework --configuration $Configuration
+        & $dotnet publish $Project --output $publishPath --configuration $Configuration
     }
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet publish failed with exit code $LASTEXITCODE"
