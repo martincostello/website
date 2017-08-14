@@ -27,13 +27,12 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0-beta6" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.AzureAppServicesIntegration" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging.TraceSource" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.TraceSource" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink.Loader" Version="14.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="NodaTime" Version="2.0.2" />
@@ -44,7 +43,6 @@
     <PackageReference Include="Serilog.Sinks.Literate" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.UDP" Version="2.3.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="4.4.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.1.4" />
   </ItemGroup>
   <Target Name="BundleAssets" BeforeTargets="PrepareForPublish">
