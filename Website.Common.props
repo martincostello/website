@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
@@ -6,7 +6,7 @@
     <Authors>Martin Costello</Authors>
     <CodeAnalysisRuleSet>../../Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
-    <Copyright>Martin Costello (c) 2016-2017</Copyright>
+    <Copyright>Martin Costello (c) 2016-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
@@ -20,7 +20,8 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CI)' != '' or '$(TF_BUILD)' != '' ">

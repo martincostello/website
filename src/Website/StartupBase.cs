@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website
@@ -77,17 +77,10 @@ namespace MartinCostello.Website
             loggerFactory.AddSerilog();
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
-            if (environment.IsDevelopment())
-            {
-                loggerFactory.AddDebug();
-            }
-
             app.UseCustomHttpHeaders(environment, Configuration, options);
 
             if (environment.IsDevelopment())
             {
-                loggerFactory.AddDebug();
-
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -146,10 +139,11 @@ namespace MartinCostello.Website
             services.AddAntiforgery(
                 (p) =>
                 {
-                    p.CookieName = "_anti-forgery";
+                    p.Cookie.HttpOnly = true;
+                    p.Cookie.Name = "_anti-forgery";
+                    p.Cookie.SecurePolicy = CookiePolicy();
                     p.FormFieldName = "_anti-forgery";
                     p.HeaderName = "x-anti-forgery";
-                    p.RequireSsl = !HostingEnvironment.IsDevelopment();
                 });
 
             services
@@ -263,6 +257,12 @@ namespace MartinCostello.Website
             };
         }
 
+        /// <summary>
+        /// Creates the <see cref="CookieSecurePolicy"/> to use.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="CookieSecurePolicy"/> to use for the application.
+        /// </returns>
         private CookieSecurePolicy CookiePolicy()
         {
             return HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;

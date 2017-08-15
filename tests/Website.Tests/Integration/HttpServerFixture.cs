@@ -9,6 +9,7 @@ namespace MartinCostello.Website.Integration
     using System.Reflection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.TestHost;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
 
     /// <summary>
@@ -43,6 +44,7 @@ namespace MartinCostello.Website.Integration
             var builder = new WebHostBuilder()
                 .UseContentRoot(projectPath)
                 .UseEnvironment("Development")
+                .ConfigureLogging((p) => p.AddDebug())
                 .UseStartup<TestStartup>();
 
             _server = new TestServer(builder);
