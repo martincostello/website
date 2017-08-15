@@ -3,6 +3,7 @@
   <PropertyGroup>
     <DebugType>full</DebugType>
     <Description>https://martincostello.com/</Description>
+    <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>

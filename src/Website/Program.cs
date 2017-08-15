@@ -44,6 +44,7 @@ namespace MartinCostello.Website
                 .UseKestrel((p) => p.AddServerHeader = false)
                 .UseAutofac()
                 .UseAzureAppServices()
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .CaptureStartupErrors(true)
                 .Build();
