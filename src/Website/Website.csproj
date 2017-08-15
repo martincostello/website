@@ -3,7 +3,6 @@
   <PropertyGroup>
     <DebugType>full</DebugType>
     <Description>https://martincostello.com/</Description>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
     <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
@@ -53,7 +52,7 @@
   <Target Name="PrepublishScript" DependsOnTargets="BundleAssets" BeforeTargets="Publish">
     <Exec Command="gulp publish" />
   </Target>
-  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" DependsOnTargets="PrepareForPublish">
+  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths">
     <ItemGroup>
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
