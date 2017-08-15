@@ -1,4 +1,4 @@
-﻿@inject IConfiguration Config
+@inject IConfiguration Config
 <!DOCTYPE html>
 <html lang="en-gb">
 <head prefix="og:http://ogp.me/ns#">
@@ -25,7 +25,6 @@
     @await RenderSectionAsync("meta", required: false)
     @await Html.PartialAsync("_StylesHead")
     @await RenderSectionAsync("stylesHead", required: false)
-    @Html.Raw(JavaScriptSnippet.FullScript)
     <script type="text/javascript">
         if (self == top) {
             document.documentElement.className = document.documentElement.className.replace(/\bjs-flash\b/, '');
