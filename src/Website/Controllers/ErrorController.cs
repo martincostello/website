@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Controllers
@@ -70,19 +70,26 @@ namespace MartinCostello.Website.Controllers
         [Route("administrator/index.php")]
         [Route("ajaxproxy/proxy.php")]
         [Route("bitrix/admin/index.php")]
+        [Route("blog/{*catchall}")]
+        [Route("cms/{*catchall}")]
         [Route("index.php")]
         [Route("invoker/JMXInvokerServlet")]
         [Route("jmx-console/HtmlAdaptor")]
         [Route("license.php")]
         [Route("magmi/web/magmi.php")]
         [Route("modules/{*catchall}")]
+        [Route("phpmyadmin")]
         [Route("readme.html")]
+        [Route("site/{*catchall}")]
         [Route("sites/{*catchall}")]
         [Route("tiny_mce/{*catchall}")]
         [Route("uploadify/{*catchall}")]
         [Route("web-console/Invoker")]
+        [Route("wordpress/{*catchall}")]
+        [Route("wp/{*catchall}")]
         [Route("wp-admin/{*catchall}")]
         [Route("wp-content/{*catchall}")]
+        [Route("wp-includes/{*catchall}")]
         [Route("wp-links-opml.php")]
         [Route("wp-login.php")]
         [Route("xmlrpc.php")]
