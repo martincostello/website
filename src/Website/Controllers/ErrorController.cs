@@ -24,7 +24,6 @@ namespace MartinCostello.Website.Controllers
             "https://www.youtube.com/watch?v=eh7lp9umG2I",
             "https://www.youtube.com/watch?v=z9Uz1icjwrM",
             "https://www.youtube.com/watch?v=Sagg08DrO5U",
-            "https://www.youtube.com/watch?v=ER97mPHhgtM",
             "https://www.youtube.com/watch?v=jI-kpVh6e1U",
             "https://www.youtube.com/watch?v=jScuYd3_xdQ",
             "https://www.youtube.com/watch?v=S5PvBzDlZGs",
@@ -35,13 +34,12 @@ namespace MartinCostello.Website.Controllers
             "https://www.youtube.com/watch?v=jwGfwbsF4c4",
             "https://www.youtube.com/watch?v=8ZcmTl_1ER8",
             "https://www.youtube.com/watch?v=gLmcGkvJ-e0",
-            "https://www.youtube.com/watch?v=ozPPwl53c_4",
-            "https://www.youtube.com/watch?v=KMFOVSWn0mI",
             "https://www.youtube.com/watch?v=clU0Sh9ngmY",
             "https://www.youtube.com/watch?v=sCNrK-n68CM",
             "https://www.youtube.com/watch?v=hgwpZvTWLmE",
-            "https://www.youtube.com/watch?v=CgBJ5irINqU",
             "https://www.youtube.com/watch?v=jAckVuEY_Rc",
+            "https://www.youtube.com/watch?v=NkWkHBxfXf0",
+            "https://www.youtube.com/watch?v=DoyBgTAZrFw",
         };
 
         /// <summary>
