@@ -24,7 +24,6 @@ namespace MartinCostello.Website.Controllers
             "https://www.youtube.com/watch?v=eh7lp9umG2I",
             "https://www.youtube.com/watch?v=z9Uz1icjwrM",
             "https://www.youtube.com/watch?v=Sagg08DrO5U",
-            "https://www.youtube.com/watch?v=ER97mPHhgtM",
             "https://www.youtube.com/watch?v=jI-kpVh6e1U",
             "https://www.youtube.com/watch?v=jScuYd3_xdQ",
             "https://www.youtube.com/watch?v=S5PvBzDlZGs",
@@ -35,13 +34,12 @@ namespace MartinCostello.Website.Controllers
             "https://www.youtube.com/watch?v=jwGfwbsF4c4",
             "https://www.youtube.com/watch?v=8ZcmTl_1ER8",
             "https://www.youtube.com/watch?v=gLmcGkvJ-e0",
-            "https://www.youtube.com/watch?v=ozPPwl53c_4",
-            "https://www.youtube.com/watch?v=KMFOVSWn0mI",
             "https://www.youtube.com/watch?v=clU0Sh9ngmY",
             "https://www.youtube.com/watch?v=sCNrK-n68CM",
             "https://www.youtube.com/watch?v=hgwpZvTWLmE",
-            "https://www.youtube.com/watch?v=CgBJ5irINqU",
             "https://www.youtube.com/watch?v=jAckVuEY_Rc",
+            "https://www.youtube.com/watch?v=NkWkHBxfXf0",
+            "https://www.youtube.com/watch?v=DoyBgTAZrFw",
         };
 
         /// <summary>
@@ -66,17 +64,18 @@ namespace MartinCostello.Website.Controllers
         [Route("account/login")]
         [Route("admin.php")]
         [Route("admin-console")]
-        [Route("admin/login.php")]
-        [Route("administrator/index.php")]
-        [Route("ajaxproxy/proxy.php")]
-        [Route("bitrix/admin/index.php")]
+        [Route("admin/{*catchall}")]
+        [Route("administrator/{*catchall}")]
+        [Route("ajaxproxy/{*catchall}")]
+        [Route("bitrix/{*catchall}")]
         [Route("blog/{*catchall}")]
         [Route("cms/{*catchall}")]
         [Route("index.php")]
-        [Route("invoker/JMXInvokerServlet")]
-        [Route("jmx-console/HtmlAdaptor")]
+        [Route("invoker/{*catchall}")]
+        [Route("jmx-console/{*catchall}")]
         [Route("license.php")]
-        [Route("magmi/web/magmi.php")]
+        [Route("magmi/{*catchall}")]
+        [Route("manager/{*catchall}")]
         [Route("modules/{*catchall}")]
         [Route("phpmyadmin")]
         [Route("readme.html")]
@@ -84,7 +83,7 @@ namespace MartinCostello.Website.Controllers
         [Route("sites/{*catchall}")]
         [Route("tiny_mce/{*catchall}")]
         [Route("uploadify/{*catchall}")]
-        [Route("web-console/Invoker")]
+        [Route("web-console/{*catchall}")]
         [Route("wordpress/{*catchall}")]
         [Route("wp/{*catchall}")]
         [Route("wp-admin/{*catchall}")]
