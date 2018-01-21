@@ -1,4 +1,4 @@
-﻿@model Tuple<string, SiteOptions>
+@model Tuple<string, SiteOptions>
 @{
     string canonical = Model.Item1;
     SiteOptions options = Model.Item2;
@@ -20,13 +20,11 @@
     <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-32x32.png", options)" sizes="32x32" asp-append-version="true" />
     <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-96x96.png", options)" sizes="96x96" asp-append-version="true" />
     <link rel="icon" type="image/png" href="@Url.CdnContent("~/favicon-16x16.png", options)" sizes="16x16" asp-append-version="true" />
-    <link rel="dns-prefetch" href="//ajax.googleapis.com" />
     <link rel="dns-prefetch" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com" />
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
-    <link rel="preconnect" href="//ajax.googleapis.com" />
     <link rel="preconnect" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="preconnect" href="//fonts.googleapis.com" />
     <link rel="preconnect" href="//fonts.gstatic.com" />
