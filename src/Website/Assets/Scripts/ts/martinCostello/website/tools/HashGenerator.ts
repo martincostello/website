@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace martinCostello.website.tools {
@@ -51,7 +51,7 @@ namespace martinCostello.website.tools {
          * Generates a the hash for the current values on the page.
          * @param event - The event object.
          */
-        private generate = (event: JQueryEventObject): void => {
+        private generate = (event: JQuery.Event): void => {
 
             event.preventDefault();
 
