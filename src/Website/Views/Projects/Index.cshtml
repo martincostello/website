@@ -1,4 +1,4 @@
-﻿@inject SiteOptions Options
+@inject SiteOptions Options
 @{
     ViewBag.Title = "Projects";
     ViewBag.MetaDescription = "About Martin Costello's personal projects.";
@@ -29,21 +29,20 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">BrowserStack Automate REST API Client</div>
+            <div class="panel-heading">HttpClient Interception</div>
             <div class="panel-body">
                 <p>
-                    A .NET client for the
-                    <a id="link-browserstack-automate" href="https://www.browserstack.com/automate" title="Learn about BrowserStack Automate">
-                        BrowserStack Automate
-                    </a>
-                    REST API.
+                    A .NET Standard library for
+                    <a id="link-httpinterception" href="https://tech.just-eat.com/2017/10/02/reliably-testing-http-integrations-in-a-dotnet-application/" title="Reliably Testing HTTP Integrations in a .NET Application">
+                        intercepting server-side HTTP dependencies
+                    </a>.
                 </p>
                 <p>
-                    @await Html.PartialAsync("_GitHubStar", "browserstack-automate")
-                    @await Html.PartialAsync("_GitHubFork", "browserstack-automate")
+                    @await Html.PartialAsync("_GitHubStar", "justeat/httpclient-interception")
+                    @await Html.PartialAsync("_GitHubFork", "justeat/httpclient-interception")
                 </p>
                 <p>
-                    <a id="link-repo-browserstack" href="https://martincostello.github.io/browserstack-automate/" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                    <a id="link-repo-httpinterception" href="https://github.com/justeat/httpclient-interception" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
@@ -52,21 +51,17 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">This website</div>
+            <div class="panel-heading">Apple Pay JS Sample Code</div>
             <div class="panel-body">
                 <p>
-                    The very website you're looking at
-                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/@GitMetadata.Commit/src/Website/Views/Projects/Index.cshtml#L@(this.CurrentLineNumber())" title="View the source for this page">
-                        right now
-                    </a>
-                    which is implemented using ASP.NET Core.
+                    Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
                 </p>
                 <p>
-                    @await Html.PartialAsync("_GitHubStar", "website")
-                    @await Html.PartialAsync("_GitHubFork", "website")
+                    @await Html.PartialAsync("_GitHubStar", "justeat/ApplePayJSSample")
+                    @await Html.PartialAsync("_GitHubFork", "justeat/ApplePayJSSample")
                 </p>
                 <p>
-                    <a id="link-repo-website" href="https://github.com/martincostello/website" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                    <a id="link-repo-apple-pay-sample" href="https://github.com/justeat/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
@@ -134,55 +129,21 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Apple Pay JS Sample Code</div>
+            <div class="panel-heading">BrowserStack Automate REST API Client</div>
             <div class="panel-body">
                 <p>
-                    Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "justeat/ApplePayJSSample")
-                    @await Html.PartialAsync("_GitHubFork", "justeat/ApplePayJSSample")
-                </p>
-                <p>
-                    <a id="link-repo-apple-pay-sample" href="https://github.com/justeat/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
+                    A .NET client for the
+                    <a id="link-browserstack-automate" href="https://www.browserstack.com/automate" title="Learn about BrowserStack Automate">
+                        BrowserStack Automate
                     </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Apple Pay JS Polyfill</div>
-            <div class="panel-body">
-                <p>
-                    A <a href="https://bower.io/" rel="noopener" target="_blank" title="View the Bower website">Bower</a> package containing a polyfill for the Apple Pay JS SDK to use for testing.
+                    REST API.
                 </p>
                 <p>
-                    @await Html.PartialAsync("_GitHubStar", "justeat/applepayjs-polyfill")
-                    @await Html.PartialAsync("_GitHubFork", "justeat/applepayjs-polyfill")
+                    @await Html.PartialAsync("_GitHubStar", "browserstack-automate")
+                    @await Html.PartialAsync("_GitHubFork", "browserstack-automate")
                 </p>
                 <p>
-                    <a id="link-repo-apple-pay-polyfill" href="https://github.com/justeat/applepayjs-polyfill" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Apple Pay JS Type Definitions</div>
-            <div class="panel-body">
-                <p>
-                    A <a href="https://www.npmjs.com/package/@@types/applepayjs" rel="noopener" target="_blank" title="View the package on npm">npm</a> package containing type definitions for Apple Pay JS, such as for use with TypeScript.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "applepayjs-typings")
-                    @await Html.PartialAsync("_GitHubFork", "applepayjs-typings")
-                </p>
-                <p>
-                    <a id="link-repo-apple-pay-typings" href="https://github.com/martincostello/applepayjs-typings" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                    <a id="link-repo-browserstack" href="https://martincostello.github.io/browserstack-automate/" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
@@ -214,36 +175,21 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">API</div>
+            <div class="panel-heading">This website</div>
             <div class="panel-body">
                 <p>
-                    A REST API used as an excercise in implementing an ASP.NET Core website.
-                </p>
-                <p>
-                    @await Html.PartialAsync("_GitHubStar", "api")
-                    @await Html.PartialAsync("_GitHubFork", "api")
-                </p>
-                <p>
-                    <a id="link-repo-api" href="https://github.com/martincostello/api" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
-                        Visit project site &raquo;
+                    The very website you're looking at
+                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/@GitMetadata.Commit/src/Website/Views/Projects/Index.cshtml#L@(this.CurrentLineNumber())" title="View the source for this page">
+                        right now
                     </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">CDN</div>
-            <div class="panel-body">
-                <p>
-                    The source repository for the content served from this website's CDN.
+                    which is implemented using ASP.NET Core.
                 </p>
                 <p>
-                    @await Html.PartialAsync("_GitHubStar", "cdn")
-                    @await Html.PartialAsync("_GitHubFork", "cdn")
+                    @await Html.PartialAsync("_GitHubStar", "website")
+                    @await Html.PartialAsync("_GitHubFork", "website")
                 </p>
                 <p>
-                    <a id="link-repo-cdn" href="https://github.com/martincostello/cdn" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
+                    <a id="link-repo-website" href="https://github.com/martincostello/website" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-default">
                         Visit project site &raquo;
                     </a>
                 </p>
