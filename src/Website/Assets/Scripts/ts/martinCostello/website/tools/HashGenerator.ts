@@ -51,7 +51,7 @@ namespace martinCostello.website.tools {
          * Generates a the hash for the current values on the page.
          * @param event - The event object.
          */
-        private generate = (event: Event): void => {
+        private generate = (event: any): void => {
 
             event.preventDefault();
 

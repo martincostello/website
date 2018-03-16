@@ -49,7 +49,7 @@ namespace martinCostello.website.tools {
          * Generates a new machine key.
          * @param event - The event object.
          */
-        private generate = (event: Event): void => {
+        private generate = (event: any): void => {
 
             event.preventDefault();
 
