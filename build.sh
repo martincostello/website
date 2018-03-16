@@ -3,8 +3,6 @@
 root=$(cd "$(dirname "$0")"; pwd -P)
 artifacts=$root/artifacts
 configuration=Release
-
-restorePackages=0
 skipTests=0
 
 while :; do
@@ -19,10 +17,6 @@ while :; do
             exit 1
             ;;
 
-        --restore-packages)
-            restorePackages=1
-            ;;
-
         --skip-tests)
             skipTests=1
             ;;
@@ -35,18 +29,14 @@ while :; do
     shift
 done
 
-export CLI_VERSION="2.1.4"
+export CLI_VERSION=`cat ./global.json | grep -E '[0-9]\.[0-9]\.[a-zA-Z0-9\-]*' -o`
 export DOTNET_INSTALL_DIR="$root/.dotnetcli"
 export PATH="$DOTNET_INSTALL_DIR:$PATH"
 
 dotnet_version=$(dotnet --version)
 
 if [ "$dotnet_version" != "$CLI_VERSION" ]; then
-    curl -sSL https://raw.githubusercontent.com/dotnet/cli/release/2.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
-fi
-
-if [ $restorePackages == 1 ]; then
-    dotnet restore ./Website.sln --verbosity minimal || exit 1
+    curl -sSL https://raw.githubusercontent.com/dotnet/cli/v$CLI_VERSION/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
 fi
 
 dotnet publish ./src/Website/Website.csproj --output $artifacts/publish --configuration $configuration || exit 1

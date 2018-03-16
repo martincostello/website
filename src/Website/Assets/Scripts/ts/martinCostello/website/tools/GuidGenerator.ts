@@ -47,7 +47,7 @@ namespace martinCostello.website.tools {
          * Handles the button for generating a new GUID being clicked.
          * @param event - The event object.
          */
-        private generateGuid = (event: JQuery.Event): void => {
+        private generateGuid = (event: any): void => {
 
             event.preventDefault();
 

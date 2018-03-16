@@ -40,7 +40,7 @@ namespace martinCostello.website {
 }
 
 (() => {
-    $("a, button, input, .ga-track-click").on("click", (e: JQuery.Event): void => {
+    $("a, button, input, .ga-track-click").on("click", (e: any): void => {
 
         const element = $(e.target);
         const label = element.attr("data-ga-label") || element.attr("id");

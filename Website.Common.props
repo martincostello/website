@@ -1,6 +1,7 @@
 <Project>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+    <PackageReference Include="OpenCover" Version="4.6.519" />
   </ItemGroup>
   <PropertyGroup>
     <Authors>Martin Costello</Authors>
