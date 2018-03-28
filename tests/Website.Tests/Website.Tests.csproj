@@ -1,23 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Website.Common.props" />
   <PropertyGroup>
     <Description>Tests for https://martincostello.com/</Description>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Tests for Martin Costello's website</Summary>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\AssemblyVersion.cs;..\..\CommonAssemblyInfo.cs" />
     <Content Include="testsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
-    <PackageReference Include="NodaTime.Testing" Version="2.2.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.0-preview1-final" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.2" />
+    <PackageReference Include="NodaTime.Testing" Version="2.2.5" />
     <PackageReference Include="Shouldly" Version="3.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
     <PackageReference Include="xunit" Version="2.3.1" />

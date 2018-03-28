@@ -4,8 +4,6 @@
 namespace MartinCostello.Website
 {
     using System;
-    using Autofac;
-    using Autofac.Extensions.DependencyInjection;
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.CookiePolicy;
@@ -16,7 +14,6 @@ namespace MartinCostello.Website
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
     using Newtonsoft.Json;
@@ -64,18 +61,15 @@ namespace MartinCostello.Website
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
         /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
-        /// <param name="appLifetime">The <see cref="IApplicationLifetime"/> to use.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/> to use.</param>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
         public void Configure(
             IApplicationBuilder app,
             IHostingEnvironment environment,
-            IApplicationLifetime appLifetime,
-            ILoggerFactory loggerFactory,
+            IServiceProvider serviceProvider,
             IOptionsSnapshot<SiteOptions> options)
         {
-            loggerFactory.AddSerilog();
-            appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
+            ServiceProvider = serviceProvider;
 
             app.UseCustomHttpHeaders(environment, Configuration, options);
 
@@ -88,6 +82,9 @@ namespace MartinCostello.Website
                 app.UseExceptionHandler("/error")
                    .UseStatusCodePagesWithReExecute("/error", "?id={0}");
             }
+
+            app.UseHsts()
+               .UseHttpsRedirection();
 
             app.UseStaticFiles(
                 new StaticFileOptions()
@@ -112,13 +109,7 @@ namespace MartinCostello.Website
 
             app.UseHttpMethodOverride();
 
-            app.UseMvc(
-                (routes) =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
-                });
+            app.UseMvcWithDefaultRoute();
 
             app.UseCookiePolicy(CreateCookiePolicy());
         }
@@ -127,11 +118,9 @@ namespace MartinCostello.Website
         /// Configures the services for the application.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to use.</param>
-        /// <returns>
-        /// The <see cref="IServiceProvider"/> to use.
-        /// </returns>
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging((p) => p.AddSerilog(dispose: true));
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddOptions();
             services.Configure<SiteOptions>(Configuration.GetSection("Site"));
@@ -160,6 +149,14 @@ namespace MartinCostello.Website
                     p.LowercaseUrls = true;
                 });
 
+            services.AddHsts(
+                (p) =>
+                {
+                    p.MaxAge = TimeSpan.FromDays(365);
+                    p.IncludeSubDomains = false;
+                    p.Preload = false;
+                });
+
             services
                 .AddResponseCaching()
                 .AddResponseCompression();
@@ -170,15 +167,6 @@ namespace MartinCostello.Website
             services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
             services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
             services.AddScoped<IToolsService, ToolsService>();
-
-            var builder = new ContainerBuilder();
-
-            builder.Populate(services);
-
-            var container = builder.Build();
-            ServiceProvider = container.Resolve<IServiceProvider>();
-
-            return ServiceProvider;
         }
 
         /// <summary>
