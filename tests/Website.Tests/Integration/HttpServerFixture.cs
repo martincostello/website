@@ -4,20 +4,27 @@
 namespace MartinCostello.Website.Integration
 {
     using System;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
 
     /// <summary>
     /// A test fixture representing an HTTP server hosting the website.
     /// </summary>
-    public class HttpServerFixture : WebApplicationTestFixture<TestStartup>
+    public class HttpServerFixture : WebApplicationFactory<Startup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpServerFixture"/> class.
         /// </summary>
         public HttpServerFixture()
-            : base("src/Website")
+            : base()
         {
-            Client.BaseAddress = new Uri("https://localhost");
+            ClientOptions.BaseAddress = new Uri("https://localhost");
+        }
+
+        /// <inheritdoc />
+        protected override IWebHostBuilder CreateWebHostBuilder()
+        {
+            return base.CreateWebHostBuilder().UseStartup<TestStartup>();
         }
     }
 }
