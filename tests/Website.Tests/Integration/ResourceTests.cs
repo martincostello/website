@@ -103,7 +103,7 @@ namespace MartinCostello.Website.Integration
                 {
                     // Assert
                     response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-                    response.Headers.Location?.OriginalString?.ShouldBe(location);
+                    response.Headers.Location?.OriginalString?.ShouldStartWith(location);
                 }
             }
         }

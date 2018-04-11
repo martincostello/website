@@ -18,7 +18,14 @@ namespace MartinCostello.Website.Integration
         public HttpServerFixture()
             : base()
         {
+            ClientOptions.AllowAutoRedirect = false;
             ClientOptions.BaseAddress = new Uri("https://localhost");
+        }
+
+        /// <inheritdoc />
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Development");
         }
 
         /// <inheritdoc />
