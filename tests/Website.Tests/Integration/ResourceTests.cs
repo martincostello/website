@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Integration
@@ -49,7 +49,7 @@ namespace MartinCostello.Website.Integration
         [InlineData("/HOME/ABOUT", "text/html")]
         [InlineData("/humans.txt", "text/plain")]
         [InlineData("/keybase.txt", "text/plain")]
-        [InlineData("/manifest.json", "application/json")]
+        [InlineData("/manifest.webmanifest", "application/json")]
         [InlineData("/projects", "text/html")]
         [InlineData("/robots.txt", "text/plain")]
         [InlineData("/service-worker.js", "application/javascript")]

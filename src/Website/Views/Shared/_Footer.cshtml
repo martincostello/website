@@ -1,9 +1,9 @@
-﻿@model SiteOptions
+@model SiteOptions
 <hr />
 <footer>
-    <p class="hidden-sm hidden-xs">
+    <p class="d-none d-md-block">
         &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
-        <a id="link-status" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
+        <a id="link-status-d" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
             Site Status &amp; Uptime
         </a>
         | Built from
@@ -16,14 +16,12 @@
         </a>
         <span id="build-date" data-format="YYYY-MM-DD HH:mm Z" data-timestamp="@GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)"></span>
     </p>
-    <div class="row hidden-md hidden-lg">
-        <div class="col-sm-12 col-xs-12">
-            <p>
-                &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
-                <a id="link-status" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
-                    Site Status &amp; Uptime
-                </a>
-            </p>
-        </div>
+    <div class="d-md-none">
+        <p>
+            &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
+            <a id="link-status-m" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
+                Site Status &amp; Uptime
+            </a>
+        </p>
     </div>
 </footer>

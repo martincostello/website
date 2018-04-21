@@ -4,7 +4,7 @@
     SiteOptions options = Model.Item2;
 }
     <link rel="canonical" href="@canonical" />
-    <link rel="manifest" href="@Url.Content("~/manifest.json")" asp-append-version="true" />
+    <link rel="manifest" href="@Url.Content("~/manifest.webmanifest")" asp-append-version="true" />
     <link rel="sitemap" type="application/xml" href="@Url.Content("~/sitemap.xml")" asp-append-version="true" />
     <link rel="shortcut icon" type="image/x-icon" href="@Url.CdnContent("~/favicon.ico", options)" asp-append-version="true" />
     <link rel="apple-touch-icon" sizes="57x57" href="@Url.CdnContent("~/apple-touch-icon-57x57.png", options)" asp-append-version="true" />
@@ -23,10 +23,10 @@
     <link rel="dns-prefetch" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com" />
+    <link rel="dns-prefetch" href="//stackpath.bootstrapcdn.com" />
     <link rel="dns-prefetch" href="//www.google-analytics.com" />
     <link rel="preconnect" href="//@options?.ExternalLinks?.Cdn?.Host" />
     <link rel="preconnect" href="//fonts.googleapis.com" />
     <link rel="preconnect" href="//fonts.gstatic.com" />
-    <link rel="preconnect" href="//maxcdn.bootstrapcdn.com" />
+    <link rel="preconnect" href="//stackpath.bootstrapcdn.com" />
     <link rel="preconnect" href="//www.google-analytics.com" />

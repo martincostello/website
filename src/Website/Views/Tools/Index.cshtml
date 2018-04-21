@@ -1,7 +1,7 @@
-﻿@section meta {
-   <link name="api-guid" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateGuid)" />
-   <link name="api-hash" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateHash)" />
-   <link name="api-machine-key" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateMachineKey)" />
+@section meta {
+    <link name="api-guid" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateGuid)" />
+    <link name="api-hash" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateHash)" />
+    <link name="api-machine-key" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateMachineKey)" />
 }
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js" integrity="sha256-El0fEiD3YOM7uIVZztyQzmbbPlgEj0oJVxRWziUh4UE=" crossorigin="anonymous" defer></script>
@@ -12,11 +12,15 @@
         <script src="~/assets/js/site.tools.min.js" defer asp-append-version="true"></script>
     </environment>
 }
+@section stylesHead {
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous" async>
+}
 <h1>@ViewBag.Title</h1>
-<div class="panel panel-default">
-    <div class="panel-body">This page contains tools and links to common development tools.</div>
+<div class="card">
+    <div class="card-body">This page contains tools and links to common development tools.</div>
 </div>
 <noscript>
+    <hr />
     <div class="alert alert-warning" role="alert">JavaScript must be enabled in your browser to use these tools.</div>
 </noscript>
 <hr />
