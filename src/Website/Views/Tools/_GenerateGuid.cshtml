@@ -4,7 +4,8 @@
         <a name="GenerateGuid"></a>
         <div class="form-group">
             <div class="row">
-                <div class="col-lg-7 offset-lg-2">
+                <label class="col-form-label col-lg-2 text-lg-right" for="text-guid">GUID</label>
+                <div class="col-lg-7">
                     <div class="input-group">
                         @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", label = "The generated GUID", @readonly = string.Empty })
                         <span class="input-group-append">
