@@ -1,1 +1,7 @@
-﻿<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.0/flatly/bootstrap.min.css" integrity="sha384-kCsv8pSAWtRge/+zcLDeqwoWhTQSUX2esQPYOsocgrg1eMj7T2wrTJP348T3mpBU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.0/flatly/bootstrap.min.css" integrity="sha384-kCsv8pSAWtRge/+zcLDeqwoWhTQSUX2esQPYOsocgrg1eMj7T2wrTJP348T3mpBU" crossorigin="anonymous">
+<environment names="Development">
+    <link rel="stylesheet" href="~/assets/css/site.css" asp-append-version="true" asp-inline="false" asp-minify-inlined="false" />
+</environment>
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="~/assets/css/site.min.css" asp-append-version="true" asp-inline="true" />
+</environment>

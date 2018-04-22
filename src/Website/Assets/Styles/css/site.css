@@ -3,8 +3,23 @@
     Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 */
 
+@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-size: 1rem;
+    }
+}
+
+a {
+    color: #0F7661;
+}
+
 .body-content {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 .card-header {
@@ -12,7 +27,11 @@
 }
 
 .code {
-  word-break: unset;
+    word-break: unset;
+}
+
+.form-control {
+    color: #596364;
 }
 
 .no-resize {
