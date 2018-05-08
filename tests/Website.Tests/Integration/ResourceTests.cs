@@ -50,7 +50,7 @@ namespace MartinCostello.Website.Integration
         [InlineData("/HOME/ABOUT", "text/html")]
         [InlineData("/humans.txt", "text/plain")]
         [InlineData("/keybase.txt", "text/plain")]
-        [InlineData("/manifest.json", "application/json")]
+        [InlineData("/manifest.webmanifest", "application/json")]
         [InlineData("/projects", "text/html")]
         [InlineData("/robots.txt", "text/plain")]
         [InlineData("/service-worker.js", "application/javascript")]

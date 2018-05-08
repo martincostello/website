@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a id="link-home" asp-controller="Home" asp-action="Index" class="navbar-brand">@Options.Metadata.Domain</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site-navbar" aria-controls="site-navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="site-navbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a id="link-projects" asp-controller="Projects" asp-action="Index" class="nav-link" title="My personal projects">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a id="link-blog" asp-controller="Home" asp-action="Blog" class="nav-link" rel="noopener" target="_blank" title="My blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a id="link-tools" asp-controller="Tools" asp-action="Index" class="nav-link" title="Development tools">Tools</a>
+            </li>
+            <li class="nav-item">
+                <a id="link-about" asp-controller="Home" asp-action="About" class="nav-link" title="About me">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>

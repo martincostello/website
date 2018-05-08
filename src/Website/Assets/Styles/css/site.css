@@ -1,26 +1,39 @@
-﻿/*
+/*
     Copyright (c) Martin Costello, 2016. All rights reserved.
     Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 */
 
-body {
-    padding-top: 70px;
+@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-size: 1rem;
+    }
+}
+
+a {
+    color: #0F7661;
 }
 
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 10px;
 }
 
-.code {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 1em;
-}
-
-.panel-heading {
+.card-header {
     font-weight: bold;
 }
 
-textarea {
+.code {
+    word-break: unset;
+}
+
+.form-control {
+    color: #596364;
+}
+
+.no-resize {
    resize: none;
 }

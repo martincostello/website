@@ -1,40 +1,50 @@
-﻿<form class="form-horizontal" id="generate-guid-container" role="form">
+<form id="generate-guid-container" role="form">
     <fieldset>
         <legend>GUID Generator</legend>
         <a name="GenerateGuid"></a>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-7">
-                <div class="input-group">
-                    @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", @readonly = string.Empty })
-                    <span class="input-group-btn">
-                        <button id="copy-guid" class="btn btn-default copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard">
-                            <span class="glyphicon glyphicon-copy"></span>
-                        </button>
-                    </span>
+            <div class="row">
+                <label class="col-form-label col-lg-2 text-lg-right" for="text-guid">GUID</label>
+                <div class="col-lg-7">
+                    <div class="input-group">
+                        @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control code", id = "text-guid", label = "The generated GUID", @readonly = string.Empty })
+                        <span class="input-group-append">
+                            <button id="copy-guid" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard">
+                                <i class="far fa-clipboard"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-2">
-                <a id="generate-guid" class="btn btn-primary" role="button" href="#GenerateGuid" rel="nofollow" title="Generate a new GUID" data-ga-category="tools" data-ga-label="Generate GUID">New GUID</a>
+            <div class="row">
+                <div class="col-lg-2 offset-lg-2">
+                    <a id="generate-guid" class="btn btn-primary" role="button" href="#GenerateGuid" rel="nofollow" title="Generate a new GUID" data-ga-category="tools" data-ga-label="Generate GUID">New GUID</a>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2" for="guid-format">Format?</label>
-            <div class="col-md-7">
-                <select id="guid-format" class="form-control" title="Select the format to generate a GUID in">
-                    <option value="D" selected>Default</option>
-                    <option value="N">Numeric</option>
-                    <option value="B">With braces</option>
-                    <option value="P">With parentheses</option>
-                    <option value="X">Hexadecimal with braces</option>
-                </select>
+            <div class="row">
+                <label class="col-form-label col-lg-2 text-lg-right" for="guid-format">Format?</label>
+                <div class="col-lg-7">
+                    <select id="guid-format" class="form-control form-control-lg" title="Select the format to generate a GUID in">
+                        <option value="D" selected>Default</option>
+                        <option value="N">Numeric</option>
+                        <option value="B">With braces</option>
+                        <option value="P">With parentheses</option>
+                        <option value="X">Hexadecimal with braces</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-7">
-                <div class="checkbox">
-                    <label for="guid-uppercase"><input id="guid-uppercase" type="checkbox" value="false" title="Select to generate with upper case letters">Upper case?</label>
+            <div class="row">
+                <div class="col-lg-7 offset-lg-2">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="guid-uppercase" title="Select to generate with upper case letters">
+                        <label class="custom-control-label" for="guid-uppercase">Upper case?</label>
+                    </div>
                 </div>
             </div>
         </div>

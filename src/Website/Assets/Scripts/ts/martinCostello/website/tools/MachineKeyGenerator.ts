@@ -62,7 +62,7 @@ namespace martinCostello.website.tools {
 
             $.get(uri).then((data) => {
                 this.text.text(data.machineKeyXml);
-                this.textContainer.removeClass("hidden");
+                this.textContainer.removeClass("d-none");
             });
         }
     }
