@@ -7,7 +7,6 @@ namespace MartinCostello.Website
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.CookiePolicy;
-    using Microsoft.AspNetCore.Cors.Infrastructure;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
@@ -27,11 +26,6 @@ namespace MartinCostello.Website
     /// </summary>
     public abstract class StartupBase
     {
-        /// <summary>
-        /// The name of the default CORS policy.
-        /// </summary>
-        internal const string DefaultCorsPolicyName = "DefaultCorsPolicy";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StartupBase"/> class.
         /// </summary>
@@ -138,7 +132,6 @@ namespace MartinCostello.Website
             services
                 .AddMemoryCache()
                 .AddDistributedMemoryCache()
-                .AddCors(ConfigureCors)
                 .AddMvc(ConfigureMvc)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
@@ -188,34 +181,6 @@ namespace MartinCostello.Website
             options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
 
             return options.SerializerSettings;
-        }
-
-        /// <summary>
-        /// Configures CORS.
-        /// </summary>
-        /// <param name="corsOptions">The <see cref="CorsOptions"/> to configure.</param>
-        private void ConfigureCors(CorsOptions corsOptions)
-        {
-            var siteOptions = ServiceProvider.GetService<SiteOptions>();
-
-            corsOptions.AddPolicy(
-                DefaultCorsPolicyName,
-                (builder) =>
-                {
-                    builder
-                        .WithExposedHeaders(siteOptions?.Api?.Cors?.ExposedHeaders ?? Array.Empty<string>())
-                        .WithHeaders(siteOptions?.Api?.Cors?.Headers ?? Array.Empty<string>())
-                        .WithMethods(siteOptions?.Api?.Cors?.Methods ?? Array.Empty<string>());
-
-                    if (HostingEnvironment.IsDevelopment())
-                    {
-                        builder.AllowAnyOrigin();
-                    }
-                    else
-                    {
-                        builder.WithOrigins(siteOptions?.Api?.Cors?.Origins ?? Array.Empty<string>());
-                    }
-                });
         }
 
         /// <summary>
