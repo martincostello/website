@@ -4,8 +4,10 @@
 namespace MartinCostello.Website.Integration
 {
     using System;
+    using System.IO;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// A test fixture representing an HTTP server hosting the website.
@@ -25,13 +27,20 @@ namespace MartinCostello.Website.Integration
         /// <inheritdoc />
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("Development");
+            builder.ConfigureAppConfiguration(ConfigureTests);
         }
 
-        /// <inheritdoc />
-        protected override IWebHostBuilder CreateWebHostBuilder()
+        private static void ConfigureTests(IConfigurationBuilder builder)
         {
-            return base.CreateWebHostBuilder().UseStartup<TestStartup>();
+            // Remove the application's normal configuration
+            builder.Sources.Clear();
+
+            string directory = Path.GetDirectoryName(typeof(HttpServerFixture).Assembly.Location);
+            string fullPath = Path.Combine(directory, "testsettings.json");
+
+            // Apply new configuration for tests
+            builder.AddJsonFile(fullPath)
+                   .AddEnvironmentVariables();
         }
     }
 }

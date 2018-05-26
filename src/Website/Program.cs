@@ -4,8 +4,10 @@
 namespace MartinCostello.Website
 {
     using System;
+    using Extensions;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// A class representing the entry-point to the application. This class cannot be inherited.
@@ -39,6 +41,8 @@ namespace MartinCostello.Website
                 .UseKestrel((p) => p.AddServerHeader = false)
                 .UseAzureAppServices()
                 .UseApplicationInsights()
+                .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
+                .ConfigureLogging((context, builder) => builder.ConfigureLogging(context))
                 .UseStartup<Startup>()
                 .CaptureStartupErrors(true);
         }

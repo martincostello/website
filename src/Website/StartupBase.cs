@@ -18,7 +18,6 @@ namespace MartinCostello.Website
     using Newtonsoft.Json;
     using NodaTime;
     using Options;
-    using Serilog;
     using Services;
 
     /// <summary>
@@ -29,21 +28,23 @@ namespace MartinCostello.Website
         /// <summary>
         /// Initializes a new instance of the <see cref="StartupBase"/> class.
         /// </summary>
-        /// <param name="env">The <see cref="IHostingEnvironment"/> to use.</param>
-        protected StartupBase(IHostingEnvironment env)
+        /// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
+        /// <param name="hostingEnvironment">The <see cref="IHostingEnvironment"/> to use.</param>
+        protected StartupBase(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            HostingEnvironment = env;
+            Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
-        /// Gets or sets the current configuration.
+        /// Gets the current configuration.
         /// </summary>
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// Gets or sets the current hosting environment.
+        /// Gets the current hosting environment.
         /// </summary>
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         /// <summary>
         /// Gets or sets the service provider.
@@ -54,20 +55,15 @@ namespace MartinCostello.Website
         /// Configures the application.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
-        /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
         /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
-        public void Configure(
-            IApplicationBuilder app,
-            IHostingEnvironment environment,
-            IServiceProvider serviceProvider,
-            IOptionsSnapshot<SiteOptions> options)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IOptionsSnapshot<SiteOptions> options)
         {
             ServiceProvider = serviceProvider;
 
-            app.UseCustomHttpHeaders(environment, Configuration, options);
+            app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
 
-            if (environment.IsDevelopment())
+            if (HostingEnvironment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -114,7 +110,6 @@ namespace MartinCostello.Website
         /// <param name="services">The <see cref="IServiceCollection"/> to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging((p) => p.AddSerilog(dispose: true));
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddOptions();
             services.Configure<SiteOptions>(Configuration.GetSection("Site"));
@@ -154,7 +149,6 @@ namespace MartinCostello.Website
                 .AddResponseCaching()
                 .AddResponseCompression();
 
-            services.AddSingleton<IConfiguration>((_) => Configuration);
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
 
             services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
