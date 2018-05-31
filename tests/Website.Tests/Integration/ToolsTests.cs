@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Integration
@@ -8,6 +8,7 @@ namespace MartinCostello.Website.Integration
     using System.Text;
     using System.Threading.Tasks;
     using Newtonsoft.Json.Linq;
+    using Shouldly;
     using Xunit;
 
     /// <summary>
@@ -42,6 +43,7 @@ namespace MartinCostello.Website.Integration
         [InlineData("sha512", "hexadecimal", "martincostello.com", "3be0167275455dcf1e34f8818d48b7ae4a61fb8549153f42d0d035464fdccee97022d663549eb249d4796956e4016ad83d5e64ba766fb751c8fb2c03b2b4eb9a")]
         public async Task Tools_Post_Hash_Returns_Correct_Response(string algorithm, string format, string plaintext, string expected)
         {
+            // Arrange
             var request = new
             {
                 algorithm = algorithm,
@@ -53,15 +55,20 @@ namespace MartinCostello.Website.Integration
 
             using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
             {
-                using (HttpResponseMessage response = await Fixture.Client.PostAsync("/tools/hash", content))
+                // Act
+                using (HttpClient client = Fixture.CreateClient())
                 {
-                    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
+                    {
+                        // Assert
+                        response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-                    string json = await response.Content.ReadAsStringAsync();
+                        string json = await response.Content.ReadAsStringAsync();
 
-                    JObject hash = JObject.Parse(json);
+                        JObject hash = JObject.Parse(json);
 
-                    Assert.Equal(expected, (string)hash["hash"]);
+                        ((string)hash["hash"]).ShouldBe(expected);
+                    }
                 }
             }
         }

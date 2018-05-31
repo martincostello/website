@@ -1,11 +1,10 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Controllers
 {
     using System.Threading.Tasks;
     using Api.Models;
-    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Mvc;
     using Services;
 
@@ -51,7 +50,6 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated GUID.
         /// </returns>
-        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(GuidResponse))]
         [Route("tools/guid", Name = SiteRoutes.GenerateGuid)]
@@ -67,7 +65,6 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated hash value.
         /// </returns>
-        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpPost]
         [Produces("application/json", Type = typeof(HashResponse))]
         [Route("tools/hash", Name = SiteRoutes.GenerateHash)]
@@ -84,7 +81,6 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// An <see cref="IActionResult"/> containing the generated machine key.
         /// </returns>
-        [EnableCors(StartupBase.DefaultCorsPolicyName)]
         [HttpGet]
         [Produces("application/json", Type = typeof(MachineKeyResponse))]
         [Route("tools/machinekey", Name = SiteRoutes.GenerateMachineKey)]

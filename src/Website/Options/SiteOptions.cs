@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Options
@@ -14,11 +14,6 @@ namespace MartinCostello.Website.Options
         /// Gets or sets the analytics options for the site.
         /// </summary>
         public AnalyticsOptions Analytics { get; set; }
-
-        /// <summary>
-        /// Gets or sets the options for the API.
-        /// </summary>
-        public ApiOptions Api { get; set; }
 
         /// <summary>
         /// Gets or sets the certificate transparency options to use.

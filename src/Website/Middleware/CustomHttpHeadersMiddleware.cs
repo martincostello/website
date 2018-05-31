@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Middleware
@@ -124,11 +124,6 @@ namespace MartinCostello.Website.Middleware
                     if (context.Request.IsHttps)
                     {
                         context.Response.Headers.Add("Expect-CT", _expectCTValue);
-
-                        if (_isProduction)
-                        {
-                            context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000");
-                        }
 
                         if (_options.Value.PublicKeyPins.IsEnabled && !string.IsNullOrWhiteSpace(_publicKeyPins))
                         {

@@ -6,6 +6,7 @@ namespace MartinCostello.Website.Integration
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Shouldly;
     using Xunit;
 
     /// <summary>
@@ -57,10 +58,16 @@ namespace MartinCostello.Website.Integration
         [InlineData("/tools", "text/html")]
         public async Task Can_Load_Resource_As_Get(string requestUri, string contentType)
         {
-            using (var response = await Fixture.Client.GetAsync(requestUri))
+            // Arrange
+            using (var client = Fixture.CreateClient())
             {
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                Assert.Equal(contentType, response.Content.Headers.ContentType?.MediaType);
+                // Act
+                using (var response = await client.GetAsync(requestUri))
+                {
+                    // Assert
+                    response.StatusCode.ShouldBe(HttpStatusCode.OK);
+                    response.Content.Headers.ContentType?.MediaType?.ShouldBe(contentType);
+                }
             }
         }
 
@@ -68,12 +75,18 @@ namespace MartinCostello.Website.Integration
         [InlineData("/", "text/html")]
         public async Task Can_Load_Resource_As_Head(string requestUri, string contentType)
         {
-            using (var message = new HttpRequestMessage(HttpMethod.Head, requestUri))
+            // Arrange
+            using (var client = Fixture.CreateClient())
             {
-                using (var response = await Fixture.Client.SendAsync(message))
+                using (var message = new HttpRequestMessage(HttpMethod.Head, requestUri))
                 {
-                    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                    Assert.Equal(contentType, response.Content.Headers.ContentType?.MediaType);
+                    // Act
+                    using (var response = await client.SendAsync(message))
+                    {
+                        // Assert
+                        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+                        response.Content.Headers.ContentType?.MediaType?.ShouldBe(contentType);
+                    }
                 }
             }
         }
@@ -82,16 +95,23 @@ namespace MartinCostello.Website.Integration
         [InlineData("/Content/browserstack.svg", "https://cdn.martincostello.com/browserstack.svg")]
         public async Task Resource_Is_Redirect(string requestUri, string location)
         {
-            using (var response = await Fixture.Client.GetAsync(requestUri))
+            // Arrange
+            using (var client = Fixture.CreateClient())
             {
-                Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
-                Assert.StartsWith(location, response.Headers.Location?.OriginalString);
+                // Act
+                using (var response = await client.GetAsync(requestUri))
+                {
+                    // Assert
+                    response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
+                    response.Headers.Location?.OriginalString?.ShouldStartWith(location);
+                }
             }
         }
 
         [Fact]
         public async Task Response_Headers_Contains_Expected_Headers()
         {
+            // Arrange
             string[] expectedHeaders = new[]
             {
                 "content-security-policy",
@@ -107,11 +127,16 @@ namespace MartinCostello.Website.Integration
                 "X-XSS-Protection",
             };
 
-            using (var response = await Fixture.Client.GetAsync("/"))
+            using (var client = Fixture.CreateClient())
             {
-                foreach (string expected in expectedHeaders)
+                // Act
+                using (var response = await client.GetAsync("/"))
                 {
-                    Assert.True(response.Headers.Contains(expected), $"The '{expected}' response header was not found.");
+                    // Assert
+                    foreach (string expected in expectedHeaders)
+                    {
+                        response.Headers.Contains(expected).ShouldBeTrue($"The '{expected}' response header was not found.");
+                    }
                 }
             }
         }

@@ -1,7 +1,10 @@
 <Project>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
-    <PackageReference Include="OpenCover" Version="4.6.519" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommonAssemblyInfo.cs" />
+    <PackageReference Include="OpenCover" Version="4.6.519" PrivateAssets="All" />
+    <PackageReference Include="ReportGenerator" Version="3.1.2" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
   </ItemGroup>
   <PropertyGroup>
     <Authors>Martin Costello</Authors>
@@ -10,8 +13,11 @@
     <Copyright>Martin Costello (c) 2016-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <GenerateGitMetadata Condition=" ('$(CI)' != '' or '$(TF_BUILD)' != '') and '$(GenerateGitMetadata)' == '' ">true</GenerateGitMetadata>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <LangVersion>latest</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <NoWarn>$(NoWarn);</NoWarn>
     <PackageIconUrl>https://martincostello.com/favicon.ico</PackageIconUrl>
     <PackageProjectUrl>https://github.com/martincostello/website</PackageProjectUrl>
     <PackageLicenseUrl>$(PackageProjectUrl)/blob/master/LICENSE</PackageLicenseUrl>
@@ -22,7 +28,7 @@
     <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>2.1.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CI)' != '' or '$(TF_BUILD)' != '' ">

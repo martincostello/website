@@ -14,16 +14,18 @@
       "launchUrl": "https://localhost:44309/",
       "environmentVariables": {
         "Azure:Datacenter": "Local",
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HTTPS_PORT": "44309"
       }
     },
     "Kestrel": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://127.0.0.1:5000/",
+      "launchUrl": "https://localhost:5001/",
       "environmentVariables": {
         "Azure:Datacenter": "Local",
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HTTPS_PORT": "5001"
       }
     }
   }

@@ -1,74 +1,218 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website
 {
+    using System;
     using Extensions;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.CookiePolicy;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Serilog;
+    using Microsoft.Extensions.Options;
+    using Microsoft.Net.Http.Headers;
+    using Newtonsoft.Json;
+    using NodaTime;
+    using Options;
+    using Services;
 
     /// <summary>
     /// A class representing the startup logic for the application.
     /// </summary>
-    public class Startup : StartupBase
+    public class Startup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="env">The <see cref="IHostingEnvironment"/> to use.</param>
-        public Startup(IHostingEnvironment env)
-            : base(env)
+        /// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
+        /// <param name="hostingEnvironment">The <see cref="IHostingEnvironment"/> to use.</param>
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            bool isDevelopment = env.IsDevelopment();
-
-            if (isDevelopment)
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
-            builder.AddApplicationInsightsSettings(developerMode: isDevelopment);
-
-            Configuration = builder.Build();
-
-            ConfigureSerilog(env, Configuration);
+            Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
-        /// Configures Serilog for the application.
+        /// Gets the current configuration.
         /// </summary>
-        /// <param name="environment">The <see cref="IHostingEnvironment"/> to use.</param>
-        /// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
-        private static void ConfigureSerilog(IHostingEnvironment environment, IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// Gets the current hosting environment.
+        /// </summary>
+        public IHostingEnvironment HostingEnvironment { get; }
+
+        /// <summary>
+        /// Gets or sets the service provider.
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; set; }
+
+        /// <summary>
+        /// Configures the application.
+        /// </summary>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to use.</param>
+        /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IOptionsSnapshot<SiteOptions> options)
         {
-            var loggerConfig = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("AspNetCoreEnvironment", environment.EnvironmentName)
-                .Enrich.WithProperty("AzureDatacenter", configuration.AzureDatacenter())
-                .Enrich.WithProperty("AzureEnvironment", configuration.AzureEnvironment())
-                .Enrich.WithProperty("Version", GitMetadata.Commit)
-                .ReadFrom.Configuration(configuration)
-                .WriteTo.ApplicationInsightsEvents(configuration.ApplicationInsightsKey());
+            ServiceProvider = serviceProvider;
 
-            if (environment.IsDevelopment())
+            app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
+
+            if (HostingEnvironment.IsDevelopment())
             {
-                loggerConfig = loggerConfig.WriteTo.LiterateConsole();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error")
+                   .UseStatusCodePagesWithReExecute("/error", "?id={0}");
             }
 
-            string papertrailHostname = configuration.PapertrailHostname();
+            app.UseHsts()
+               .UseHttpsRedirection();
 
-            if (!string.IsNullOrWhiteSpace(papertrailHostname))
+            app.UseStaticFiles(
+                new StaticFileOptions()
+                {
+                    DefaultContentType = "application/json",
+                    ServeUnknownFileTypes = true,
+                    OnPrepareResponse = (context) =>
+                        {
+                            var headers = context.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue()
+                            {
+                                MaxAge = TimeSpan.FromDays(7)
+                            };
+                        }
+                });
+
+            app.UseForwardedHeaders(
+                new ForwardedHeadersOptions()
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+
+            app.UseHttpMethodOverride();
+
+            app.UseMvcWithDefaultRoute();
+
+            app.UseCookiePolicy(CreateCookiePolicy());
+        }
+
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to use.</param>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddOptions();
+            services.Configure<SiteOptions>(Configuration.GetSection("Site"));
+
+            services.AddAntiforgery(
+                (p) =>
+                {
+                    p.Cookie.HttpOnly = true;
+                    p.Cookie.Name = "_anti-forgery";
+                    p.Cookie.SecurePolicy = CookiePolicy();
+                    p.FormFieldName = "_anti-forgery";
+                    p.HeaderName = "x-anti-forgery";
+                });
+
+            services
+                .AddMemoryCache()
+                .AddDistributedMemoryCache()
+                .AddMvc(ConfigureMvc)
+                .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
+
+            services.AddRouting(
+                (p) =>
+                {
+                    p.AppendTrailingSlash = true;
+                    p.LowercaseUrls = true;
+                });
+
+            services.AddHsts(
+                (p) =>
+                {
+                    p.MaxAge = TimeSpan.FromDays(365);
+                    p.IncludeSubDomains = false;
+                    p.Preload = false;
+                });
+
+            services
+                .AddResponseCaching()
+                .AddResponseCompression();
+
+            services.AddSingleton<IClock>((_) => SystemClock.Instance);
+
+            services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
+            services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
+            services.AddScoped<IToolsService, ToolsService>();
+        }
+
+        /// <summary>
+        /// Configures the JSON serializer for MVC.
+        /// </summary>
+        /// <param name="options">The <see cref="MvcJsonOptions"/> to configure.</param>
+        /// <returns>
+        /// The <see cref="JsonSerializerSettings"/> to use.
+        /// </returns>
+        private static JsonSerializerSettings ConfigureJsonFormatter(MvcJsonOptions options)
+        {
+            // Make JSON easier to read for debugging at the expense of larger payloads
+            options.SerializerSettings.Formatting = Formatting.Indented;
+
+            // Omit nulls to reduce payload size
+            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
+            // Explicitly define behavior when serializing DateTime values
+            options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
+
+            return options.SerializerSettings;
+        }
+
+        /// <summary>
+        /// Configures MVC.
+        /// </summary>
+        /// <param name="options">The <see cref="MvcOptions"/> to configure.</param>
+        private void ConfigureMvc(MvcOptions options)
+        {
+            if (!HostingEnvironment.IsDevelopment())
             {
-                loggerConfig.WriteTo.Papertrail(papertrailHostname, configuration.PapertrailPort());
+                options.Filters.Add(new RequireHttpsAttribute());
             }
+        }
 
-            Log.Logger = loggerConfig.CreateLogger();
+        /// <summary>
+        /// Creates the <see cref="CookiePolicyOptions"/> to use.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="CookiePolicyOptions"/> to use for the application.
+        /// </returns>
+        private CookiePolicyOptions CreateCookiePolicy()
+        {
+            return new CookiePolicyOptions()
+            {
+                HttpOnly = HttpOnlyPolicy.Always,
+                Secure = CookiePolicy(),
+            };
+        }
+
+        /// <summary>
+        /// Creates the <see cref="CookieSecurePolicy"/> to use.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="CookieSecurePolicy"/> to use for the application.
+        /// </returns>
+        private CookieSecurePolicy CookiePolicy()
+        {
+            return HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
         }
     }
 }
