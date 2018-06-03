@@ -1,4 +1,4 @@
-﻿{
+{
   "Logging": {
     "IncludeScopes": false,
     "LogLevel": {
@@ -26,9 +26,7 @@
         "ContentSecurityPolicyReportOnly": "https://martincostello.report-uri.io/r/default/csp/reportOnly",
         "ExpectCTEnforce": "https://martincostello.report-uri.io/r/default/ct/enforce",
         "ExpectCTReportOnly": "https://martincostello.report-uri.io/r/default/ct/reportOnly",
-        "ExpectStaple": "https://martincostello.report-uri.io/r/default/staple/reportOnly",
-        "PublicKeyPins": "https://martincostello.report-uri.io/r/default/hpkp/enforce",
-        "PublicKeyPinsReportOnly": "https://martincostello.report-uri.io/r/default/hpkp/reportOnly"
+        "ExpectStaple": "https://martincostello.report-uri.io/r/default/staple/reportOnly"
       }
     },
     "Metadata": {
@@ -50,13 +48,6 @@
       "Repository": "https://github.com/martincostello/website",
       "Robots": "INDEX",
       "Type": "website"
-    },
-    "PublicKeyPins": {
-      "MaxAge": "60.00:00:00",
-      "IncludeSubdomains": false,
-      "Sha256Hashes": [
-        "wvMoN/75fGqUXeGDMNIe704oXvDghZhTNYhtQ7td+aY="
-      ]
     }
   }
 }
