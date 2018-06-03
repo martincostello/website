@@ -51,16 +51,6 @@ namespace MartinCostello.Website.Middleware
         private readonly string _expectCTValue;
 
         /// <summary>
-        /// The current <c>Public-Key-Pins</c> HTTP response header value. This field is read-only.
-        /// </summary>
-        private readonly string _publicKeyPins;
-
-        /// <summary>
-        /// The current <c>Public-Key-Pins-Report-Only</c> HTTP response header value. This field is read-only.
-        /// </summary>
-        private readonly string _publicKeyPinsReportOnly;
-
-        /// <summary>
         /// The name of the current hosting environment. This field is read-only.
         /// </summary>
         private readonly string _environmentName;
@@ -94,9 +84,6 @@ namespace MartinCostello.Website.Middleware
             _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
 
             _expectCTValue = BuildExpectCT(options.Value);
-
-            _publicKeyPins = BuildPublicKeyPins(options.Value, reportOnly: false);
-            _publicKeyPinsReportOnly = BuildPublicKeyPins(options.Value, reportOnly: true);
         }
 
         /// <summary>
@@ -124,16 +111,6 @@ namespace MartinCostello.Website.Middleware
                     if (context.Request.IsHttps)
                     {
                         context.Response.Headers.Add("Expect-CT", _expectCTValue);
-
-                        if (_options.Value.PublicKeyPins.IsEnabled && !string.IsNullOrWhiteSpace(_publicKeyPins))
-                        {
-                            context.Response.Headers.Add("Public-Key-Pins", _publicKeyPins);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(_publicKeyPinsReportOnly))
-                        {
-                            context.Response.Headers.Add("Public-Key-Pins-Report-Only", _publicKeyPinsReportOnly);
-                        }
                     }
 
                     context.Response.Headers.Add("X-Datacenter", _config.AzureDatacenter());
@@ -258,46 +235,6 @@ namespace MartinCostello.Website.Middleware
                 if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly != null)
                 {
                     builder.Append($" report-uri {options.ExternalLinks.Reports.ExpectCTReportOnly}");
-                }
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Builds the value to use for the <c>Public-Key-Pins</c> HTTP response header.
-        /// </summary>
-        /// <param name="options">The current site configuration options.</param>
-        /// <param name="reportOnly">Whether to generate the header as report-only.</param>
-        /// <returns>
-        /// A <see cref="string"/> containing the <c>Public-Key-Pins</c> value to use.
-        /// </returns>
-        private static string BuildPublicKeyPins(SiteOptions options, bool reportOnly)
-        {
-            var builder = new StringBuilder();
-
-            if (options?.PublicKeyPins?.Sha256Hashes?.Length > 0)
-            {
-                builder.AppendFormat("max-age={0};", (int)options.PublicKeyPins.MaxAge.TotalSeconds);
-
-                foreach (var hash in options.PublicKeyPins.Sha256Hashes)
-                {
-                    builder.Append($@" pin-sha256=""{hash}"";");
-                }
-
-                if (options.PublicKeyPins.IncludeSubdomains)
-                {
-                    builder.Append(" includeSubDomains;");
-                }
-
-                if (reportOnly && options?.ExternalLinks?.Reports?.PublicKeyPinsReportOnly != null)
-                {
-                    builder.Append($" report-uri=\"{options.ExternalLinks.Reports.PublicKeyPinsReportOnly}\";");
-                }
-
-                if (!reportOnly)
-                {
-                    builder.Append($" report-uri=\"{options.ExternalLinks.Reports.PublicKeyPins}\";");
                 }
             }
 
