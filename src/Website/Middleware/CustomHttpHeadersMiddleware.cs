@@ -5,6 +5,7 @@ namespace MartinCostello.Website.Middleware
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -93,7 +94,7 @@ namespace MartinCostello.Website.Middleware
         /// <returns>
         /// A <see cref="Task"/> representing the actions performed by the middleware.
         /// </returns>
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context)
         {
             context.Response.OnStarting(() =>
                 {
@@ -131,7 +132,7 @@ namespace MartinCostello.Website.Middleware
                     return Task.CompletedTask;
                 });
 
-            await _next(context);
+            return _next(context);
         }
 
         /// <summary>
@@ -221,7 +222,10 @@ namespace MartinCostello.Website.Middleware
                 builder.Append("enforce; ");
             }
 
-            builder.AppendFormat("max-age={0};", (int)options.CertificateTransparency?.MaxAge.TotalSeconds);
+            builder.AppendFormat(
+                CultureInfo.InvariantCulture,
+                "max-age={0};",
+                (int)options.CertificateTransparency?.MaxAge.TotalSeconds);
 
             if (enforce)
             {

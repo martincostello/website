@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Extensions
@@ -43,7 +43,9 @@ namespace MartinCostello.Website.Extensions
             }
 
             // Azure Blob storage is case-sensitive, so force all URLs to lowercase
+#pragma warning disable CA1308 // Normalize strings to uppercase
             string url = value.ToAbsolute(cdn.Host, contentPath.ToLowerInvariant(), forceHttps: true);
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
             // asp-append-version="true" does not work for non-local resources
             if (appendVersion)

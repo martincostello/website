@@ -46,9 +46,9 @@ namespace MartinCostello.Website.Integration
             // Arrange
             var request = new
             {
-                algorithm = algorithm,
-                format = format,
-                plaintext = plaintext,
+                algorithm,
+                format,
+                plaintext,
             };
 
             JObject requestJson = JObject.FromObject(request);

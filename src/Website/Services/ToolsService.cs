@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Services
@@ -72,7 +72,7 @@ namespace MartinCostello.Website.Services
 
             try
             {
-                guid = Guid.NewGuid().ToString(format ?? "D");
+                guid = Guid.NewGuid().ToString(format ?? "D", CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
@@ -139,7 +139,7 @@ namespace MartinCostello.Website.Services
             {
                 using (var writer = new StreamWriter(stream, Encoding.ASCII, MaxPlaintextLength, true))
                 {
-                    await writer.WriteAsync(request.Plaintext ?? string.Empty);
+                    await writer.WriteAsync(request.Plaintext ?? string.Empty).ConfigureAwait(false);
                     writer.Flush();
                 }
 
@@ -167,17 +167,14 @@ namespace MartinCostello.Website.Services
         /// <inheritdoc/>
         public IActionResult GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm)
         {
-            int decryptionKeyLength;
-            int validationKeyLength;
-
             if (string.IsNullOrEmpty(decryptionAlgorithm) ||
-                !HashSizes.TryGetValue(decryptionAlgorithm + "-D", out decryptionKeyLength))
+                !HashSizes.TryGetValue(decryptionAlgorithm + "-D", out int decryptionKeyLength))
             {
                 return BadRequest($"The specified decryption algorithm '{decryptionAlgorithm}' is invalid.");
             }
 
             if (string.IsNullOrEmpty(validationAlgorithm) ||
-                !HashSizes.TryGetValue(validationAlgorithm + "-V", out validationKeyLength))
+                !HashSizes.TryGetValue(validationAlgorithm + "-V", out int validationKeyLength))
             {
                 return BadRequest($"The specified validation algorithm '{validationAlgorithm}' is invalid.");
             }
@@ -239,11 +236,15 @@ namespace MartinCostello.Website.Services
         {
             if (string.Equals(name, HashAlgorithmName.MD5.Name, StringComparison.OrdinalIgnoreCase))
             {
+#pragma warning disable CA5351 // Do not use insecure cryptographic algorithm MD5.
                 return MD5.Create();
+#pragma warning restore CA5351 // Do not use insecure cryptographic algorithm MD5.
             }
             else if (string.Equals(name, HashAlgorithmName.SHA1.Name, StringComparison.OrdinalIgnoreCase))
             {
+#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
                 return SHA1.Create();
+#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
             }
             else if (string.Equals(name, HashAlgorithmName.SHA256.Name, StringComparison.OrdinalIgnoreCase))
             {

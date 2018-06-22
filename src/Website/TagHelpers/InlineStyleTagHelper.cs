@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.TagHelpers
@@ -81,7 +81,7 @@ namespace MartinCostello.Website.TagHelpers
             if (!shouldProcess)
             {
                 // Not enabled or not a stylesheet
-                await base.ProcessAsync(context, output);
+                await base.ProcessAsync(context, output).ConfigureAwait(false);
                 return;
             }
 
@@ -91,7 +91,7 @@ namespace MartinCostello.Website.TagHelpers
             if (!fileInfo.Exists)
             {
                 // Not a local file
-                await base.ProcessAsync(context, output);
+                await base.ProcessAsync(context, output).ConfigureAwait(false);
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace MartinCostello.Website.TagHelpers
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        css = await reader.ReadToEndAsync();
+                        css = await reader.ReadToEndAsync().ConfigureAwait(false);
                     }
                 }
 
@@ -194,13 +194,13 @@ namespace MartinCostello.Website.TagHelpers
             {
                 const string SourceMapPreamble = "sourceMappingURL=";
 
-                int startIndex = css.IndexOf(SourceMapPreamble);
+                int startIndex = css.IndexOf(SourceMapPreamble, StringComparison.Ordinal);
 
                 if (startIndex > -1)
                 {
                     startIndex += SourceMapPreamble.Length;
 
-                    int endIndex = css.IndexOf(" ", startIndex);
+                    int endIndex = css.IndexOf(" ", startIndex, StringComparison.Ordinal);
 
                     if (endIndex > -1)
                     {
