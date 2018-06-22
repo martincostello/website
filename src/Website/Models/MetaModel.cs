@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Models
@@ -90,7 +90,6 @@ namespace MartinCostello.Website.Models
         /// </summary>
         /// <param name="options">The options to use.</param>
         /// <param name="canonicalUri">The optional canonical URI of the page.</param>
-        /// <param name="hostName">The optional host name.</param>
         /// <param name="description">The optional page description.</param>
         /// <param name="imageUri">The optional image URI.</param>
         /// <param name="imageAltText">The optional image alternate text.</param>
@@ -102,7 +101,6 @@ namespace MartinCostello.Website.Models
         public static MetaModel Create(
             MetadataOptions options,
             string canonicalUri = null,
-            string hostName = null,
             string description = null,
             string imageUri = null,
             string imageAltText = null,

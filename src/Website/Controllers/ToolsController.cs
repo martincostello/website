@@ -68,9 +68,9 @@ namespace MartinCostello.Website.Controllers
         [HttpPost]
         [Produces("application/json", Type = typeof(HashResponse))]
         [Route("tools/hash", Name = SiteRoutes.GenerateHash)]
-        public async Task<IActionResult> HashAsync([FromBody]HashRequest request)
+        public Task<IActionResult> HashAsync([FromBody]HashRequest request)
         {
-            return await _service.GenerateHashAsync(request);
+            return _service.GenerateHashAsync(request);
         }
 
         /// <summary>
