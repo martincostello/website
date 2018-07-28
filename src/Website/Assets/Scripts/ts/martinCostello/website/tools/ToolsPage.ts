@@ -30,12 +30,12 @@ namespace martinCostello.website.tools {
             this.hash.initialize();
             this.key.initialize();
 
-            if ("Clipboard" in window && Clipboard !== undefined) {
+            if ("ClipboardJS" in window && ClipboardJS !== undefined) {
 
                 let selector = ".copy-button";
                 let copyButton = $(selector);
 
-                let clipboard = new Clipboard(selector);
+                let clipboard = new ClipboardJS(selector);
 
                 copyButton.on("click", (event) => {
                     event.preventDefault();
