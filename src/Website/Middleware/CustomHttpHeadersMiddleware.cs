@@ -103,6 +103,7 @@ namespace MartinCostello.Website.Middleware
 
                     context.Response.Headers.Add("Content-Security-Policy", _contentSecurityPolicy);
                     context.Response.Headers.Add("Content-Security-Policy-Report-Only", _contentSecurityPolicyReportOnly);
+                    context.Response.Headers.Add("Feature-Policy", "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'");
                     context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade");
                     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                     context.Response.Headers.Add("X-Download-Options", "noopen");
