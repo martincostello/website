@@ -116,6 +116,7 @@ namespace MartinCostello.Website.Integration
             {
                 "content-security-policy",
                 "content-security-policy-report-only",
+                "feature-policy",
                 "Referrer-Policy",
                 "X-Content-Type-Options",
                 "X-Datacenter",
