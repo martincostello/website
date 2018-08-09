@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 describe("Given the namespaces are defined", () => {
@@ -33,11 +33,11 @@ describe("Google Analytics", () => {
 
         it("then an event is not published", () => {
 
-            let category = "category";
-            let action = "action";
-            let label = "label";
+            const category = "category";
+            const action = "action";
+            const label = "label";
 
-            let result = martinCostello.website.Tracking.track(category, action, label);
+            const result = martinCostello.website.Tracking.track(category, action, label);
 
             expect(result).toBe(false);
         });
@@ -46,7 +46,7 @@ describe("Google Analytics", () => {
     describe("Given ga is defined", () => {
 
         beforeEach(() => {
-            let spy = jasmine.createSpy("ga");
+            const spy = jasmine.createSpy("ga");
             ga = (spy as any) as UniversalAnalytics.ga;
         });
 
@@ -56,11 +56,11 @@ describe("Google Analytics", () => {
 
         it("then an event is published", () => {
 
-            let category = "category";
-            let action = "action";
-            let label = "label";
+            const category = "category";
+            const action = "action";
+            const label = "label";
 
-            let result = martinCostello.website.Tracking.track(category, action, label);
+            const result = martinCostello.website.Tracking.track(category, action, label);
 
             expect(result).toBe(true);
             expect(ga).toHaveBeenCalledWith("send", jasmine.objectContaining({

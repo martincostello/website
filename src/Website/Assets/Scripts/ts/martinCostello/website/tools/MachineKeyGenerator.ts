@@ -29,7 +29,7 @@ namespace martinCostello.website.tools {
 
             if (this.endpoint) {
 
-                let container = $("#generate-machine-key-container");
+                const container = $("#generate-machine-key-container");
 
                 // Inputs
                 this.decryptionAlgorithm = container.find("#key-decryption-algorithm");
@@ -53,12 +53,12 @@ namespace martinCostello.website.tools {
 
             event.preventDefault();
 
-            let query = $.param({
+            const query = $.param({
                 decryptionAlgorithm: this.decryptionAlgorithm.val(),
                 validationAlgorithm: this.validationAlgorithm.val()
             });
 
-            let uri = `${this.endpoint}?${query}`;
+            const uri = `${this.endpoint}?${query}`;
 
             $.get(uri).then((data) => {
                 this.text.text(data.machineKeyXml);

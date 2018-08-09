@@ -55,13 +55,13 @@ namespace martinCostello.website.tools {
 
             event.preventDefault();
 
-            let data = {
+            const data = {
                 algorithm: this.algorithm.val() || "sha1",
                 format: this.format.val() || "base64",
                 plaintext: this.plaintext.val() || ""
             };
 
-            let settings = {
+            const settings = {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 method: "POST",

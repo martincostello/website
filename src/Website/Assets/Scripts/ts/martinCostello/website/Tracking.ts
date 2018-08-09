@@ -21,8 +21,8 @@ namespace martinCostello.website {
 
             if ("ga" in window && ga) {
 
-                let command = "send";
-                let fields = {
+                const command = "send";
+                const fields = {
                     hitType: "event",
                     eventCategory: category,
                     eventAction: action,
