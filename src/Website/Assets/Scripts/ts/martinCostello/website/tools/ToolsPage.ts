@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace martinCostello.website.tools {
@@ -32,10 +32,10 @@ namespace martinCostello.website.tools {
 
             if ("ClipboardJS" in window && ClipboardJS !== undefined) {
 
-                let selector = ".copy-button";
-                let copyButton = $(selector);
+                const selector = ".copy-button";
+                const copyButton = $(selector);
 
-                let clipboard = new ClipboardJS(selector);
+                const clipboard = new ClipboardJS(selector);
 
                 copyButton.on("click", (event) => {
                     event.preventDefault();

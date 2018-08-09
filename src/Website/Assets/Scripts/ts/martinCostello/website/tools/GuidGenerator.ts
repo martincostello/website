@@ -28,7 +28,7 @@ namespace martinCostello.website.tools {
 
             if (this.endpoint) {
 
-                let container = $("#generate-guid-container");
+                const container = $("#generate-guid-container");
 
                 // Inputs
                 this.format = container.find("#guid-format");
@@ -51,12 +51,12 @@ namespace martinCostello.website.tools {
 
             event.preventDefault();
 
-            let query = $.param({
+            const query = $.param({
                 format: this.format.val(),
                 uppercase: this.uppercase.is(":checked")
             });
 
-            let uri = `${this.endpoint}?${query}`;
+            const uri = `${this.endpoint}?${query}`;
 
             $.get(uri).then((data) => {
                 this.text.val(data.guid);
