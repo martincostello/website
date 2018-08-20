@@ -5,9 +5,13 @@ namespace MartinCostello.Website.Integration
 {
     using System;
     using System.IO;
+    using MartinCostello.Logging.XUnit;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Xunit.Abstractions;
 
     /// <summary>
     /// A test fixture representing an HTTP server hosting the website.
@@ -22,12 +26,35 @@ namespace MartinCostello.Website.Integration
         {
             ClientOptions.AllowAutoRedirect = false;
             ClientOptions.BaseAddress = new Uri("https://localhost");
+
+            // HACK Force HTTP server startup
+            using (CreateDefaultClient())
+            {
+            }
+        }
+
+        /// <summary>
+        /// Clears the current <see cref="ITestOutputHelper"/>.
+        /// </summary>
+        public void ClearOutputHelper()
+        {
+            Server.Host.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = null;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="ITestOutputHelper"/> to use.
+        /// </summary>
+        /// <param name="value">The <see cref="ITestOutputHelper"/> to use.</param>
+        public void SetOutputHelper(ITestOutputHelper value)
+        {
+            Server.Host.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = value;
         }
 
         /// <inheritdoc />
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration(ConfigureTests);
+            builder.ConfigureAppConfiguration(ConfigureTests)
+                   .ConfigureLogging((loggingBuilder) => loggingBuilder.ClearProviders().AddXUnit());
         }
 
         private static void ConfigureTests(IConfigurationBuilder builder)

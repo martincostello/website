@@ -10,6 +10,7 @@ namespace MartinCostello.Website.Integration
     using Newtonsoft.Json.Linq;
     using Shouldly;
     using Xunit;
+    using Xunit.Abstractions;
 
     /// <summary>
     /// A class containing tests for the <c>/tools</c> resource. This class cannot be inherited.
@@ -20,8 +21,9 @@ namespace MartinCostello.Website.Integration
         /// Initializes a new instance of the <see cref="ToolsTests"/> class.
         /// </summary>
         /// <param name="fixture">The fixture to use.</param>
-        public ToolsTests(HttpServerFixture fixture)
-            : base(fixture)
+        /// <param name="outputHelper">The test output helper to use.</param>
+        public ToolsTests(HttpServerFixture fixture, ITestOutputHelper outputHelper)
+            : base(fixture, outputHelper)
         {
         }
 

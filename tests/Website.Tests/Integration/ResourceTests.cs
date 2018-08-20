@@ -8,6 +8,7 @@ namespace MartinCostello.Website.Integration
     using System.Threading.Tasks;
     using Shouldly;
     using Xunit;
+    using Xunit.Abstractions;
 
     /// <summary>
     /// A class containing tests for loading resources in the website.
@@ -18,8 +19,9 @@ namespace MartinCostello.Website.Integration
         /// Initializes a new instance of the <see cref="ResourceTests"/> class.
         /// </summary>
         /// <param name="fixture">The fixture to use.</param>
-        public ResourceTests(HttpServerFixture fixture)
-            : base(fixture)
+        /// <param name="outputHelper">The test output helper to use.</param>
+        public ResourceTests(HttpServerFixture fixture, ITestOutputHelper outputHelper)
+            : base(fixture, outputHelper)
         {
         }
 
