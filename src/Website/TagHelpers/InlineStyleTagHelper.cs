@@ -114,7 +114,12 @@ namespace MartinCostello.Website.TagHelpers
 
                 css = FixSourceMapPath(css, filePath);
 
-                Cache.Set(cacheKey, css);
+                var options = new MemoryCacheEntryOptions()
+                {
+                    Size = css.Length,
+                };
+
+                Cache.Set(cacheKey, css, options);
             }
 
             output.Content.SetHtmlContent(css);
