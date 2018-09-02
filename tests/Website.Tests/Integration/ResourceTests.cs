@@ -20,7 +20,7 @@ namespace MartinCostello.Website.Integration
         /// </summary>
         /// <param name="fixture">The fixture to use.</param>
         /// <param name="outputHelper">The test output helper to use.</param>
-        public ResourceTests(HttpServerFixture fixture, ITestOutputHelper outputHelper)
+        public ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHelper)
             : base(fixture, outputHelper)
         {
         }
