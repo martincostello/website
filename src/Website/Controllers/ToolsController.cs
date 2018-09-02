@@ -34,6 +34,7 @@ namespace MartinCostello.Website.Controllers
         /// The result for the <c>/tools</c> action.
         /// </returns>
         [HttpGet]
+        [HttpHead]
         public IActionResult Index()
         {
             ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, machine keys and hashing text.";
