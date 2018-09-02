@@ -10,7 +10,7 @@ namespace MartinCostello.Website.Integration
     /// <summary>
     /// The base class for integration tests.
     /// </summary>
-    [Collection(HttpServerCollection.Name)]
+    [Collection(TestServerCollection.Name)]
     public abstract class IntegrationTest : IDisposable
     {
         private bool _disposed;
@@ -20,7 +20,7 @@ namespace MartinCostello.Website.Integration
         /// </summary>
         /// <param name="fixture">The fixture to use.</param>
         /// <param name="outputHelper">The test output helper to use.</param>
-        protected IntegrationTest(HttpServerFixture fixture, ITestOutputHelper outputHelper)
+        protected IntegrationTest(TestServerFixture fixture, ITestOutputHelper outputHelper)
         {
             Fixture = fixture;
             Fixture.SetOutputHelper(outputHelper);
@@ -35,9 +35,9 @@ namespace MartinCostello.Website.Integration
         }
 
         /// <summary>
-        /// Gets the <see cref="HttpServerFixture"/> to use.
+        /// Gets the <see cref="TestServerFixture"/> to use.
         /// </summary>
-        protected HttpServerFixture Fixture { get; }
+        protected TestServerFixture Fixture { get; }
 
         /// <inheritdoc />
         public void Dispose()

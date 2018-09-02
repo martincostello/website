@@ -16,7 +16,7 @@ module.exports = function (config) {
         files: [
             "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
             "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js",
-            "Assets/Scripts/**/*.ts"
+            "assets/scripts/**/*.ts"
         ],
 
         preprocessors: {

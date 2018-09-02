@@ -21,9 +21,9 @@ var ts = require("gulp-typescript");
 var tslint = require("gulp-tslint");
 var uglify = require("gulp-uglify");
 
-var assets = "./Assets/";
-var scripts = assets + "Scripts/";
-var styles = assets + "Styles/";
+var assets = "./assets/";
+var scripts = assets + "scripts/";
+var styles = assets + "styles/";
 var cssSrc = styles + "css/";
 var jsSrc = scripts + "js/";
 var tsSrc = scripts + "ts/";

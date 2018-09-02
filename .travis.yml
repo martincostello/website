@@ -3,7 +3,6 @@ dist: trusty
 
 os:
   - linux
-  - osx
 
 env:
   global:
@@ -22,8 +21,11 @@ cache:
 
 addons:
   apt:
+    sources:
+    - google-chrome
     packages:
     - gettext
+    - google-chrome-stable
     - libcurl4-openssl-dev
     - libicu-dev
     - libssl-dev
