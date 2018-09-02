@@ -1,71 +1,71 @@
-﻿[
+[
   {
-    "outputFileName": "wwwroot/Assets/css/site.css",
+    "outputFileName": "wwwroot/assets/css/site.css",
     "inputFiles": [
-      "Assets/Styles/css/site.css"
+      "assets/Styles/css/site.css"
     ],
     "minify": {
       "enabled": false
     }
   },
   {
-    "outputFileName": "wwwroot/Assets/css/site.min.css",
+    "outputFileName": "wwwroot/assets/css/site.min.css",
     "inputFiles": [
-      "Assets/Styles/css/site.css"
+      "assets/Styles/css/site.css"
     ],
     "minify": {
       "enabled": true
     }
   },
   {
-    "outputFileName": "wwwroot/Assets/js/site.js",
+    "outputFileName": "wwwroot/assets/js/site.js",
     "inputFiles": [
-      "Assets/Scripts/ts/martinCostello/website/Debug.ts",
-      "Assets/Scripts/ts/martinCostello/website/Tracking.ts",
-      "Assets/Scripts/ts/Analytics.ts",
-      "Assets/Scripts/ts/Footer.ts",
-      "Assets/Scripts/ts/LazyLoad.ts",
-      "Assets/Scripts/ts/ServiceWorker.ts"
+      "assets/Scripts/ts/martinCostello/website/Debug.ts",
+      "assets/Scripts/ts/martinCostello/website/Tracking.ts",
+      "assets/Scripts/ts/Analytics.ts",
+      "assets/Scripts/ts/Footer.ts",
+      "assets/Scripts/ts/LazyLoad.ts",
+      "assets/Scripts/ts/ServiceWorker.ts"
     ],
     "minify": {
       "enabled": false
     }
   },
   {
-    "outputFileName": "wwwroot/Assets/js/site.min.js",
+    "outputFileName": "wwwroot/assets/js/site.min.js",
     "inputFiles": [
-      "Assets/Scripts/ts/martinCostello/website/Debug.ts",
-      "Assets/Scripts/ts/martinCostello/website/Tracking.ts",
-      "Assets/Scripts/ts/Analytics.ts",
-      "Assets/Scripts/ts/Footer.ts",
-      "Assets/Scripts/ts/LazyLoad.ts",
-      "Assets/Scripts/ts/ServiceWorker.ts"
+      "assets/Scripts/ts/martinCostello/website/Debug.ts",
+      "assets/Scripts/ts/martinCostello/website/Tracking.ts",
+      "assets/Scripts/ts/Analytics.ts",
+      "assets/Scripts/ts/Footer.ts",
+      "assets/Scripts/ts/LazyLoad.ts",
+      "assets/Scripts/ts/ServiceWorker.ts"
     ],
     "minify": {
       "enabled": true
     }
   },
   {
-    "outputFileName": "wwwroot/Assets/js/site.tools.js",
+    "outputFileName": "wwwroot/assets/js/site.tools.js",
     "inputFiles": [
-      "Assets/Scripts/ts/martinCostello/website/tools/Generator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/GuidGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/HashGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/MachineKeyGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/ToolsPage.ts"
+      "assets/Scripts/ts/martinCostello/website/tools/Generator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/GuidGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/HashGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/MachineKeyGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/ToolsPage.ts"
     ],
     "minify": {
       "enabled": false
     }
   },
   {
-    "outputFileName": "wwwroot/Assets/js/site.tools.min.js",
+    "outputFileName": "wwwroot/assets/js/site.tools.min.js",
     "inputFiles": [
-      "Assets/Scripts/ts/martinCostello/website/tools/Generator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/GuidGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/HashGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/MachineKeyGenerator.ts",
-      "Assets/Scripts/ts/martinCostello/website/tools/ToolsPage.ts"
+      "assets/Scripts/ts/martinCostello/website/tools/Generator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/GuidGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/HashGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/MachineKeyGenerator.ts",
+      "assets/Scripts/ts/martinCostello/website/tools/ToolsPage.ts"
     ],
     "minify": {
       "enabled": true

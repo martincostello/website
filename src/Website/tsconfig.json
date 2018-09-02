@@ -11,7 +11,7 @@
     "noEmitOnError": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "outDir": "./wwwroot/Assets/js",
+    "outDir": "./wwwroot/assets/js",
     "removeComments": true,
     "sourceMap": false,
     "target": "es5"
