@@ -4,11 +4,10 @@
 namespace MartinCostello.Website.Services
 {
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
-    using System.Net;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
@@ -63,10 +62,7 @@ namespace MartinCostello.Website.Services
         }
 
         /// <inheritdoc/>
-        [HttpGet]
-        [Produces("application/json", Type = typeof(GuidResponse))]
-        [Route("tools/guid")]
-        public IActionResult GenerateGuid(string format, bool? uppercase)
+        public ActionResult<GuidResponse> GenerateGuid(string format, bool? uppercase)
         {
             string guid;
 
@@ -84,23 +80,16 @@ namespace MartinCostello.Website.Services
                 guid = guid.ToUpperInvariant();
             }
 
-            var value = new GuidResponse()
+            return new GuidResponse()
             {
                 Guid = guid,
             };
-
-            return new OkObjectResult(value);
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> GenerateHashAsync(HashRequest request)
+        public async Task<ActionResult<HashResponse>> GenerateHashAsync(HashRequest request)
         {
-            if (request == null)
-            {
-                return BadRequest("No hash request specified.");
-            }
-
-            if (string.IsNullOrWhiteSpace(request.Algorithm))
+            if (request == null || string.IsNullOrWhiteSpace(request.Algorithm))
             {
                 return BadRequest("No hash algorithm name specified.");
             }
@@ -140,7 +129,7 @@ namespace MartinCostello.Website.Services
                 using (var writer = new StreamWriter(stream, Encoding.ASCII, MaxPlaintextLength, true))
                 {
                     await writer.WriteAsync(request.Plaintext ?? string.Empty).ConfigureAwait(false);
-                    writer.Flush();
+                    await writer.FlushAsync().ConfigureAwait(false);
                 }
 
                 stream.Seek(0, SeekOrigin.Begin);
@@ -156,16 +145,14 @@ namespace MartinCostello.Website.Services
                 }
             }
 
-            var value = new HashResponse()
+            return new HashResponse()
             {
                 Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash),
             };
-
-            return new OkObjectResult(value);
         }
 
         /// <inheritdoc/>
-        public IActionResult GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm)
+        public ActionResult<MachineKeyResponse> GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm)
         {
             if (string.IsNullOrEmpty(decryptionAlgorithm) ||
                 !HashSizes.TryGetValue(decryptionAlgorithm + "-D", out int decryptionKeyLength))
@@ -179,49 +166,61 @@ namespace MartinCostello.Website.Services
                 return BadRequest($"The specified validation algorithm '{validationAlgorithm}' is invalid.");
             }
 
-            byte[] decryptionKeyBytes = new byte[decryptionKeyLength];
-            byte[] validationKeyBytes = new byte[validationKeyLength];
-
-            var value = new MachineKeyResponse();
+            var pool = ArrayPool<byte>.Shared;
+            var decryptionKeyBytes = pool.Rent(decryptionKeyLength);
+            var validationKeyBytes = pool.Rent(validationKeyLength);
 
             try
             {
-                using (RandomNumberGenerator random = RandomNumberGenerator.Create())
+                var decryptionKey = decryptionKeyBytes.AsSpan(0, decryptionKeyLength);
+                var validationKey = validationKeyBytes.AsSpan(0, validationKeyLength);
+
+                using (var random = RandomNumberGenerator.Create())
                 {
-                    random.GetBytes(decryptionKeyBytes);
-                    random.GetBytes(validationKeyBytes);
+                    random.GetBytes(decryptionKey);
+                    random.GetBytes(validationKey);
                 }
 
-                value.DecryptionKey = BytesToHexString(decryptionKeyBytes).ToUpperInvariant();
-                value.ValidationKey = BytesToHexString(validationKeyBytes).ToUpperInvariant();
+                var result = new MachineKeyResponse()
+                {
+                    DecryptionKey = BytesToHexString(decryptionKey).ToUpperInvariant(),
+                    ValidationKey = BytesToHexString(validationKey).ToUpperInvariant(),
+                };
 
-                value.MachineKeyXml = string.Format(
+                result.MachineKeyXml = string.Format(
                     CultureInfo.InvariantCulture,
                     @"<machineKey validationKey=""{0}"" decryptionKey=""{1}"" validation=""{2}"" decryption=""{3}"" />",
-                    value.ValidationKey,
-                    value.DecryptionKey,
+                    result.ValidationKey,
+                    result.DecryptionKey,
                     validationAlgorithm,
                     decryptionAlgorithm);
+
+                return result;
             }
             finally
             {
-                Array.Clear(decryptionKeyBytes, 0, decryptionKeyBytes.Length);
-                Array.Clear(validationKeyBytes, 0, validationKeyBytes.Length);
+                pool.Return(decryptionKeyBytes, true);
+                pool.Return(validationKeyBytes, true);
             }
-
-            return new OkObjectResult(value);
         }
 
         /// <summary>
         /// Returns a <see cref="string"/> containing a hexadecimal representation of the specified <see cref="Array"/> of bytes.
         /// </summary>
-        /// <param name="buffer">The buffer to generate the hash string for.</param>
+        /// <param name="span">The buffer to generate the hash string for.</param>
         /// <returns>
-        /// A <see cref="string"/> containing the hexadecimal representation of <paramref name="buffer"/>.
+        /// A <see cref="string"/> containing the hexadecimal representation of <paramref name="span"/>.
         /// </returns>
-        private static string BytesToHexString(byte[] buffer)
+        private static string BytesToHexString(ReadOnlySpan<byte> span)
         {
-            return string.Concat(buffer.Select((p) => p.ToString("x2", CultureInfo.InvariantCulture)));
+            var format = new StringBuilder(span.Length);
+
+            foreach (var b in span)
+            {
+                format.Append(b.ToString("x2", CultureInfo.InvariantCulture));
+            }
+
+            return format.ToString();
         }
 
         /// <summary>
@@ -269,15 +268,15 @@ namespace MartinCostello.Website.Services
         /// </summary>
         /// <param name="message">The error message.</param>
         /// <returns>
-        /// An <see cref="IActionResult"/> that represents an invalid API request.
+        /// An <see cref="ActionResult"/> that represents an invalid API request.
         /// </returns>
-        private IActionResult BadRequest(string message)
+        private ActionResult BadRequest(string message)
         {
             var error = new ErrorResponse()
             {
                 Message = message,
                 RequestId = _traceId,
-                StatusCode = (int)HttpStatusCode.BadRequest,
+                StatusCode = StatusCodes.Status400BadRequest,
             };
 
             return new BadRequestObjectResult(error);

@@ -27,6 +27,94 @@ namespace MartinCostello.Website.Integration
         {
         }
 
+        [Fact]
+        public async Task Tools_Get_Guid_Returns_Correct_Response_If_Format_Is_Invalid()
+        {
+            // Arrange
+            using (HttpClient client = Fixture.CreateClient())
+            {
+                // Act
+                using (HttpResponseMessage response = await client.GetAsync("/tools/guid?format=foo"))
+                {
+                    // Assert
+                    response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    JObject error = JObject.Parse(json);
+                    error.Value<string>("message").ShouldBe("The specified format 'foo' is invalid.");
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("", "base64", "foo", "No hash algorithm name specified.")]
+        [InlineData("sha1", "", "foo", "No hash output format specified.")]
+        [InlineData("sha1", "foo", "bar", "The specified hash format 'foo' is invalid.")]
+        [InlineData("foo", "base64", "bar", "The specified hash algorithm 'foo' is not supported.")]
+        public async Task Tools_Post_Hash_Returns_Correct_Response_If_Request_Is_Invalid(string algorithm, string format, string plaintext, string expected)
+        {
+            // Arrange
+            var request = new
+            {
+                algorithm,
+                format,
+                plaintext,
+            };
+
+            JObject requestJson = JObject.FromObject(request);
+
+            using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
+            {
+                // Act
+                using (HttpClient client = Fixture.CreateClient())
+                {
+                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
+                    {
+                        // Assert
+                        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+                        string json = await response.Content.ReadAsStringAsync();
+
+                        JObject error = JObject.Parse(json);
+                        error.Value<string>("message").ShouldBe(expected);
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public async Task Tools_Post_Hash_Returns_Correct_Response_If_Request_Is_Too_Long()
+        {
+            // Arrange
+            var request = new
+            {
+                algorithm = "sha1",
+                format = "base64",
+                plaintext = new string(' ', 4097),
+            };
+
+            JObject requestJson = JObject.FromObject(request);
+
+            using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
+            {
+                // Act
+                using (HttpClient client = Fixture.CreateClient())
+                {
+                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
+                    {
+                        // Assert
+                        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+                        string json = await response.Content.ReadAsStringAsync();
+
+                        JObject error = JObject.Parse(json);
+                        error.Value<string>("message").ShouldBe("The plaintext to hash cannot be more than 4096 characters in length.");
+                    }
+                }
+            }
+        }
+
         [Theory]
         [InlineData("MD5", "Hexadecimal", "", "d41d8cd98f00b204e9800998ecf8427e")]
         [InlineData("SHA1", "Hexadecimal", "", "da39a3ee5e6b4b0d3255bfef95601890afd80709")]
@@ -68,9 +156,35 @@ namespace MartinCostello.Website.Integration
                         string json = await response.Content.ReadAsStringAsync();
 
                         JObject hash = JObject.Parse(json);
-
-                        ((string)hash["hash"]).ShouldBe(expected);
+                        hash.Value<string>("hash").ShouldBe(expected);
                     }
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("", "3DES", "The specified decryption algorithm '' is invalid.")]
+        [InlineData("foo", "3DES", "The specified decryption algorithm 'foo' is invalid.")]
+        [InlineData("3DES", "", "The specified validation algorithm '' is invalid.")]
+        [InlineData("3DES", "foo", "The specified validation algorithm 'foo' is invalid.")]
+        public async Task Tools_Get_Machine_Key_Returns_Correct_Response_If_Request_Is_Invalid(
+            string decryptionAlgorithm,
+            string validationAlgorithm,
+            string expected)
+        {
+            // Arrange
+            using (HttpClient client = Fixture.CreateClient())
+            {
+                // Act
+                using (HttpResponseMessage response = await client.GetAsync($"/tools/machineKey?decryptionAlgorithm={decryptionAlgorithm}&validationAlgorithm={validationAlgorithm}"))
+                {
+                    // Assert
+                    response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    JObject error = JObject.Parse(json);
+                    error.Value<string>("message").ShouldBe(expected);
                 }
             }
         }

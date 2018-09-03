@@ -6,6 +6,7 @@ namespace MartinCostello.Website.Integration
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc.Testing;
     using Shouldly;
     using Xunit;
     using Xunit.Abstractions;
@@ -140,6 +141,28 @@ namespace MartinCostello.Website.Integration
                     {
                         response.Headers.Contains(expected).ShouldBeTrue($"The '{expected}' response header was not found.");
                     }
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("/admin.php", HttpStatusCode.Found)]
+        [InlineData("/blog", HttpStatusCode.Found)]
+        [InlineData("/foo", HttpStatusCode.NotFound)]
+        [InlineData("/error", HttpStatusCode.InternalServerError)]
+        [InlineData("/error?id=399", HttpStatusCode.InternalServerError)]
+        [InlineData("/error?id=400", HttpStatusCode.BadRequest)]
+        [InlineData("/error?id=600", HttpStatusCode.InternalServerError)]
+        public async Task Can_Load_Resource(string requestUri, HttpStatusCode expected)
+        {
+            // Arrange
+            using (var client = Fixture.CreateClient(new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false }))
+            {
+                // Act
+                using (var response = await client.GetAsync(requestUri))
+                {
+                    // Assert
+                    response.StatusCode.ShouldBe(expected, $"Incorrect status code for {requestUri}");
                 }
             }
         }

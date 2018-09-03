@@ -4,6 +4,7 @@
 namespace MartinCostello.Website.Controllers
 {
     using System;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -50,7 +51,17 @@ namespace MartinCostello.Website.Controllers
         /// The result for the <c>/error</c> action.
         /// </returns>
         [HttpGet]
-        public IActionResult Index(int? id) => View("Error", id ?? 500);
+        public IActionResult Index(int? id)
+        {
+            Response.StatusCode = id ?? StatusCodes.Status500InternalServerError;
+
+            if (id < 400 || id > 599)
+            {
+                Response.StatusCode = StatusCodes.Status500InternalServerError;
+            }
+
+            return View("Error", Response.StatusCode);
+        }
 
         /// <summary>
         /// Gets the result for various routes that scrapers probe.
