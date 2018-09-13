@@ -13,8 +13,13 @@ while :; do
     lowerI="$(echo $1 | awk '{print tolower($0)}')"
     case $lowerI in
         -\?|-h|--help)
-            echo "./build.sh [--restore-packages] [--skip-tests]"
+            echo "./build.sh [--skip-tests] [--output <OUTPUT_DIR>]"
             exit 1
+            ;;
+
+        --output)
+            artifacts="$2"
+            shift
             ;;
 
         --skip-tests)
