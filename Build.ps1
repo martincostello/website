@@ -62,13 +62,19 @@ function DotNetTest {
     param([string]$Project)
 
     if ($DisableCodeCoverage -eq $true) {
-        & $dotnet test $Project --output $OutputPath
+        if ($null -ne $env:TF_BUILD) {
+            & $dotnet test $Project --output $OutputPath --logger trx
+        }
+        else {
+            & $dotnet test $Project --output $OutputPath
+        }
     }
     else {
 
         if ($installDotNetSdk -eq $true) {
             $dotnetPath = $dotnet
-        } else {
+        }
+        else {
             $dotnetPath = (Get-Command "dotnet.exe").Source
         }
 
@@ -77,34 +83,51 @@ function DotNetTest {
         $openCoverVersion = "4.6.519"
         $openCoverPath = Join-Path $nugetPath "OpenCover\$openCoverVersion\tools\OpenCover.Console.exe"
 
-        $reportGeneratorVersion = "3.1.2"
-        $reportGeneratorPath = Join-Path $nugetPath "ReportGenerator\$reportGeneratorVersion\tools\ReportGenerator.exe"
+        $reportGeneratorVersion = "4.0.0-rc4"
+        $reportGeneratorPath = Join-Path $nugetPath "ReportGenerator\$reportGeneratorVersion\tools\netcoreapp2.0\ReportGenerator.dll"
 
         $coverageOutput = Join-Path $OutputPath "code-coverage.xml"
         $reportOutput = Join-Path $OutputPath "coverage"
 
-        & $openCoverPath `
-            `"-target:$dotnetPath`" `
-            `"-targetargs:test $Project --output $OutputPath`" `
-            -output:$coverageOutput `
-            -excludebyattribute:*.ExcludeFromCodeCoverage* `
-            -hideskipped:All `
-            -mergebyhash `
-            -oldstyle `
-            -register:user `
-            -skipautoprops `
-            `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
-
-        if ($LASTEXITCODE -eq 0) {
-            & $reportGeneratorPath `
-                `"-reports:$coverageOutput`" `
-                `"-targetdir:$reportOutput`" `
-                -verbosity:Warning
+        if ($null -ne $env:TF_BUILD) {
+            & $openCoverPath `
+                `"-target:$dotnetPath`" `
+                `"-targetargs:test $Project --output $OutputPath --logger trx`" `
+                -output:$coverageOutput `
+                `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
+                -hideskipped:All `
+                -mergebyhash `
+                -oldstyle `
+                -register:user `
+                -skipautoprops `
+                `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
         }
+        else {
+            & $openCoverPath `
+                `"-target:$dotnetPath`" `
+                `"-targetargs:test $Project --output $OutputPath`" `
+                -output:$coverageOutput `
+                `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
+                -hideskipped:All `
+                -mergebyhash `
+                -oldstyle `
+                -register:user `
+                -skipautoprops `
+                `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
+        }
+
+        $dotNetTestExitCode = $LASTEXITCODE
+
+        & $dotnet `
+            $reportGeneratorPath `
+            `"-reports:$coverageOutput`" `
+            `"-targetdir:$reportOutput`" `
+            -reporttypes:HTML`;Cobertura `
+            -verbosity:Warning
     }
 
-    if ($LASTEXITCODE -ne 0) {
-        throw "dotnet test failed with exit code $LASTEXITCODE"
+    if ($dotNetTestExitCode -ne 0) {
+        throw "dotnet test failed with exit code $dotNetTestExitCode"
     }
 }
 
