@@ -48,8 +48,8 @@ dotnet publish ./src/Website/Website.csproj --output $artifacts/publish --config
 
 if [ $skipTests == 0 ]; then
     if [ "$TF_BUILD" != "" ]; then
-        dotnet test ./tests/Website.Tests/Website.Tests.csproj --output $artifacts --configuration $configuration --logger trx || exit 1
+        dotnet test ./tests/Website.Tests/Website.Tests.csproj --output $artifacts --configuration $configuration --logger trx -- RunConfiguration.TestSessionTimeout=1200000 || exit 1
     else
-        dotnet test ./tests/Website.Tests/Website.Tests.csproj --output $artifacts --configuration $configuration || exit 1
+        dotnet test ./tests/Website.Tests/Website.Tests.csproj --output $artifacts --configuration $configuration -- RunConfiguration.TestSessionTimeout=1200000 || exit 1
     fi
 fi
