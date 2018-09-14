@@ -9,8 +9,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $solutionPath = Split-Path $MyInvocation.MyCommand.Definition
-$solutionFile = Join-Path $solutionPath "Website.sln"
-$sdkFile      = Join-Path $solutionPath "global.json"
+$sdkFile = Join-Path $solutionPath "global.json"
 
 $dotnetVersion = (Get-Content $sdkFile | Out-String | ConvertFrom-Json).sdk.version
 
@@ -92,26 +91,26 @@ function DotNetTest {
         if ($null -ne $env:TF_BUILD) {
             & $openCoverPath `
                 `"-target:$dotnetPath`" `
-                `"-targetargs:test $Project --output $OutputPath --logger trx`" `
-                -output:$coverageOutput `
+                `"-targetargs:test $Project --output $OutputPath --logger trx -- RunConfiguration.TestSessionTimeout=1200000`" `
+                `"-output:$coverageOutput`" `
                 `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
-                -hideskipped:All `
+                `"-hideskipped:All`" `
                 -mergebyhash `
                 -oldstyle `
-                -register:user `
+                `"-register:user`" `
                 -skipautoprops `
                 `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
         }
         else {
             & $openCoverPath `
                 `"-target:$dotnetPath`" `
-                `"-targetargs:test $Project --output $OutputPath`" `
-                -output:$coverageOutput `
+                `"-targetargs:test $Project --output $OutputPath -- RunConfiguration.TestSessionTimeout=1200000`" `
+                `"-output:$coverageOutput`" `
                 `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
-                -hideskipped:All `
+                `"-hideskipped:All`" `
                 -mergebyhash `
                 -oldstyle `
-                -register:user `
+                `"-register:user`" `
                 -skipautoprops `
                 `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
         }
