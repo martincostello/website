@@ -32,8 +32,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <NoWarn>$(NoWarn);CA1054;CA1056;CA1707;CA1720;CA2234</NoWarn>
     <PackageIconUrl>https://martincostello.com/favicon.ico</PackageIconUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/martincostello/website</PackageProjectUrl>
-    <PackageLicenseUrl>$(PackageProjectUrl)/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags></PackageTags>
