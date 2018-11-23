@@ -50,8 +50,9 @@ namespace MartinCostello.Website.Controllers
         /// <returns>
         /// The result for the <c>/error</c> action.
         /// </returns>
+        [IgnoreAntiforgeryToken]
         [HttpGet]
-        public IActionResult Index(int? id)
+        public IActionResult Index([FromQuery] int? id)
         {
             Response.StatusCode = id ?? StatusCodes.Status500InternalServerError;
 
@@ -72,6 +73,8 @@ namespace MartinCostello.Website.Controllers
         [HttpGet]
         [HttpHead]
         [HttpPost]
+        [Route(".env")]
+        [Route(".git/{*catchall}")]
         [Route("account/login")]
         [Route("admin.php")]
         [Route("admin-console")]
