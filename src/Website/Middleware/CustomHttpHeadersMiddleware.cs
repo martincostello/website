@@ -165,6 +165,7 @@ namespace MartinCostello.Website.Middleware
                 { "block-all-mixed-content", Array.Empty<string>() },
                 { "base-uri", new[] { Csp.Self } },
                 { "manifest-src", new[] { Csp.Self } },
+                { "worker-src", new[] { Csp.Self } },
             };
 
             var builder = new StringBuilder();
