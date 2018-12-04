@@ -18,7 +18,7 @@
   </ItemGroup>
   <PropertyGroup>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <Authors>Martin Costello</Authors>
+    <Authors>martin_costello</Authors>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
     <Copyright>Martin Costello (c) 2016-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
@@ -42,7 +42,7 @@
     <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
-    <VersionPrefix>2.1.0</VersionPrefix>
+    <VersionPrefix>2.2.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CI)' != '' or '$(TF_BUILD)' != '' ">

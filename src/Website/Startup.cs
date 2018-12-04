@@ -128,6 +128,7 @@ namespace MartinCostello.Website
                 .AddMemoryCache()
                 .AddDistributedMemoryCache()
                 .AddMvc(ConfigureMvc)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
             services.AddRouting(
