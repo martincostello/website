@@ -83,7 +83,9 @@ namespace MartinCostello.Website.Controllers
         [Route("ajaxproxy/{*catchall}")]
         [Route("bitrix/{*catchall}")]
         [Route("blog/{*catchall}")]
+        [Route("CHANGELOG.txt")]
         [Route("cms/{*catchall}")]
+        [Route("demo/{*catchall}")]
         [Route("index.php")]
         [Route("invoker/{*catchall}")]
         [Route("jmx-console/{*catchall}")]
@@ -96,6 +98,7 @@ namespace MartinCostello.Website.Controllers
         [Route("site/{*catchall}")]
         [Route("sites/{*catchall}")]
         [Route("tiny_mce/{*catchall}")]
+        [Route("umbraco/{*catchall}")]
         [Route("uploadify/{*catchall}")]
         [Route("web-console/{*catchall}")]
         [Route("wordpress/{*catchall}")]
@@ -105,6 +108,7 @@ namespace MartinCostello.Website.Controllers
         [Route("wp-includes/{*catchall}")]
         [Route("wp-links-opml.php")]
         [Route("wp-login.php")]
+        [Route("wp-main.php")]
         [Route("xmlrpc.php")]
         public ActionResult No() => Redirect(Videos[new Random().Next(0, Videos.Length)]);
     }
