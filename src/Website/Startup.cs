@@ -41,28 +41,34 @@ namespace MartinCostello.Website
         /// <summary>
         /// Gets the current configuration.
         /// </summary>
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// Gets the current hosting environment.
         /// </summary>
-        public IHostingEnvironment HostingEnvironment { get; }
+        private IHostingEnvironment HostingEnvironment { get; }
 
         /// <summary>
         /// Gets or sets the service provider.
         /// </summary>
-        public IServiceProvider ServiceProvider { get; set; }
+        private IServiceProvider ServiceProvider { get; set; }
 
         /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
+        /// <param name="applicationLifetime">The <see cref="IApplicationLifetime"/> to use.</param>
         /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IOptionsSnapshot<SiteOptions> options)
+        public void Configure(
+            IApplicationBuilder app,
+            IApplicationLifetime applicationLifetime,
+            IServiceProvider serviceProvider,
+            IOptions<SiteOptions> options)
         {
-            ServiceProvider = serviceProvider;
+            ServiceProvider = serviceProvider.CreateScope().ServiceProvider;
 
+            applicationLifetime.ApplicationStopped.Register(OnApplicationStopped);
             app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
 
             if (HostingEnvironment.IsDevelopment())
@@ -140,10 +146,9 @@ namespace MartinCostello.Website
                 .AddResponseCompression();
 
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
-
-            services.AddScoped((p) => p.GetRequiredService<IHttpContextAccessor>().HttpContext);
-            services.AddScoped((p) => p.GetRequiredService<IOptionsSnapshot<SiteOptions>>().Value);
-            services.AddScoped<IToolsService, ToolsService>();
+            services.AddSingleton<IToolsService, ToolsService>();
+            services.AddHttpContextAccessor();
+            services.AddScoped((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
         }
 
         /// <summary>
@@ -251,8 +256,19 @@ namespace MartinCostello.Website
         /// The <see cref="CookieSecurePolicy"/> to use for the application.
         /// </returns>
         private CookieSecurePolicy CookiePolicy()
+            => HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
+
+        /// <summary>
+        /// Handles the application being stopped.
+        /// </summary>
+        private void OnApplicationStopped()
         {
-            return HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
+            Serilog.Log.CloseAndFlush();
+
+            if (ServiceProvider is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

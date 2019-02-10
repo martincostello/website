@@ -14,6 +14,7 @@ namespace MartinCostello.Website.Services
     using Api.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Options;
 
     /// <summary>
@@ -53,12 +54,12 @@ namespace MartinCostello.Website.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolsService"/> class.
         /// </summary>
-        /// <param name="context">The current HTTP context.</param>
+        /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to use.</param>
         /// <param name="options">The site options to use.</param>
-        public ToolsService(HttpContext context, SiteOptions options)
+        public ToolsService(IHttpContextAccessor contextAccessor, IOptions<SiteOptions> options)
         {
-            _apiUri = options?.ExternalLinks?.Api;
-            _traceId = context.TraceIdentifier;
+            _apiUri = options?.Value?.ExternalLinks?.Api;
+            _traceId = contextAccessor.HttpContext.TraceIdentifier;
         }
 
         /// <inheritdoc/>

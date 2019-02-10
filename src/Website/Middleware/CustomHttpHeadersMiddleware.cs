@@ -32,9 +32,9 @@ namespace MartinCostello.Website.Middleware
         private readonly IConfiguration _config;
 
         /// <summary>
-        /// The options snapshot to use. This field is read-only.
+        /// The options to use. This field is read-only.
         /// </summary>
-        private readonly IOptionsSnapshot<SiteOptions> _options;
+        private readonly IOptions<SiteOptions> _options;
 
         /// <summary>
         /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
@@ -72,7 +72,7 @@ namespace MartinCostello.Website.Middleware
             RequestDelegate next,
             IHostingEnvironment environment,
             IConfiguration config,
-            IOptionsSnapshot<SiteOptions> options)
+            IOptions<SiteOptions> options)
         {
             _next = next;
             _config = config;
