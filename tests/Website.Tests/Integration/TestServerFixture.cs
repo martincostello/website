@@ -27,24 +27,34 @@ namespace MartinCostello.Website.Integration
             ClientOptions.AllowAutoRedirect = false;
             ClientOptions.BaseAddress = new Uri("https://localhost");
 
-            // HACK Force HTTP server startup
-            using (CreateDefaultClient())
-            {
-            }
+            EnsureStarted();
         }
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> in use.
+        /// </summary>
+        public virtual IServiceProvider Services => Server?.Host?.Services;
 
         /// <summary>
         /// Clears the current <see cref="ITestOutputHelper"/>.
         /// </summary>
         public virtual void ClearOutputHelper()
-            => Server.Host.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = null;
+        {
+            if (Services != null)
+            {
+                Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = null;
+            }
+        }
 
         /// <summary>
         /// Sets the <see cref="ITestOutputHelper"/> to use.
         /// </summary>
         /// <param name="value">The <see cref="ITestOutputHelper"/> to use.</param>
         public virtual void SetOutputHelper(ITestOutputHelper value)
-            => Server.Host.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = value;
+        {
+            EnsureStarted();
+            Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = value;
+        }
 
         /// <inheritdoc />
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -65,6 +75,14 @@ namespace MartinCostello.Website.Integration
             builder.AddJsonFile("appsettings.json")
                    .AddJsonFile(fullPath)
                    .AddEnvironmentVariables();
+        }
+
+        private void EnsureStarted()
+        {
+            // HACK Force HTTP server startup
+            using (CreateDefaultClient())
+            {
+            }
         }
     }
 }

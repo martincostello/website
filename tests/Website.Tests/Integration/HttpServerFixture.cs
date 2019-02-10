@@ -8,11 +8,8 @@ namespace MartinCostello.Website.Integration
     using System.Net.Http;
     using System.Net.Sockets;
     using System.Security.Cryptography.X509Certificates;
-    using MartinCostello.Logging.XUnit;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.TestHost;
-    using Microsoft.Extensions.DependencyInjection;
-    using Xunit.Abstractions;
 
     /// <summary>
     /// A test fixture representing an HTTP server hosting the application. This class cannot be inherited.
@@ -48,6 +45,9 @@ namespace MartinCostello.Website.Integration
         /// </summary>
         public Uri ServerAddress => ClientOptions.BaseAddress;
 
+        /// <inheritdoc />
+        public override IServiceProvider Services => _webHost?.Services;
+
         /// <summary>
         /// Creates an <see cref="HttpClient"/> to communicate with the application.
         /// </summary>
@@ -77,14 +77,6 @@ namespace MartinCostello.Website.Integration
 
             return client;
         }
-
-        /// <inheritdoc />
-        public override void ClearOutputHelper()
-            => _webHost.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = null;
-
-        /// <inheritdoc />
-        public override void SetOutputHelper(ITestOutputHelper value)
-            => _webHost.Services.GetRequiredService<ITestOutputHelperAccessor>().OutputHelper = value;
 
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
