@@ -9,7 +9,6 @@ namespace MartinCostello.Website.Integration
     using System.Net.Sockets;
     using System.Security.Cryptography.X509Certificates;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.TestHost;
 
     /// <summary>
     /// A test fixture representing an HTTP server hosting the application. This class cannot be inherited.
@@ -28,7 +27,6 @@ namespace MartinCostello.Website.Integration
             ClientOptions.BaseAddress = FindFreeServerAddress();
 
             var builder = CreateWebHostBuilder()
-                .UseSolutionRelativeContentRoot("src/Website")
                 .UseUrls(ClientOptions.BaseAddress.ToString())
                 .UseKestrel(
                     (p) => p.ConfigureHttpsDefaults(

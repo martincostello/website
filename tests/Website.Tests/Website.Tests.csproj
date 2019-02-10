@@ -13,6 +13,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
+    <WebApplicationFactoryContentRootAttribute
+      Include="Website"
+      AssemblyName="Website"
+      ContentRootPath="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../src/Website'))"
+      ContentRootTest="Website.csproj"
+      Priority="-1" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
