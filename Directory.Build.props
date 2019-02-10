@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <AnalyzersVersion>2.6.2</AnalyzersVersion>
-    <NodaTimeVersion>2.4.2</NodaTimeVersion>
+    <AnalyzersVersion>2.6.3</AnalyzersVersion>
+    <NodaTimeVersion>2.4.4</NodaTimeVersion>
     <XUnitVersion>2.4.1</XUnitVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -10,9 +10,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="$(AnalyzersVersion)" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="$(AnalyzersVersion)" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NetCore.Analyzers" Version="$(AnalyzersVersion)" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
-    <PackageReference Include="OpenCover" Version="4.6.519" PrivateAssets="All" />
-    <PackageReference Include="ReportGenerator" Version="4.0.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
+    <PackageReference Include="OpenCover" Version="4.7.922" PrivateAssets="All" />
+    <PackageReference Include="ReportGenerator" Version="4.0.11" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
     <PackageReference Include="Text.Analyzers" Version="$(AnalyzersVersion)" PrivateAssets="All" />
   </ItemGroup>
@@ -30,7 +30,7 @@
     <LangVersion>latest</LangVersion>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <NoWarn>$(NoWarn);CA1054;CA1056;CA1707;CA1720;CA2234</NoWarn>
+    <NoWarn>$(NoWarn);CA1054;CA1056;CA1707;CA1720;CA2227;CA2234</NoWarn>
     <PackageIconUrl>https://martincostello.com/favicon.ico</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/martincostello/website</PackageProjectUrl>
