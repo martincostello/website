@@ -195,11 +195,8 @@ namespace MartinCostello.Website.Integration.UI
                 catch (Exception)
                 {
                     TakeScreenshot(navigator.Driver, testName);
-                    throw;
-                }
-                finally
-                {
                     OutputLogs(navigator.Driver);
+                    throw;
                 }
             }
         }
