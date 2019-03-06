@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Tests for https://martincostello.com/</Description>
     <NoWarn>$(NoWarn);CA1308;CA2007</NoWarn>
@@ -24,11 +24,11 @@
     <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="NodaTime.Testing" Version="$(NodaTimeVersion)" />
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.46.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="72.0.3626.69" />
     <PackageReference Include="Shouldly" Version="3.0.2" />
     <PackageReference Include="xunit" Version="$(XUnitVersion)" />
     <PackageReference Include="xunit.runner.visualstudio" Version="$(XUnitVersion)" />
