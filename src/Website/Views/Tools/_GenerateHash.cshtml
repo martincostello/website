@@ -47,7 +47,7 @@
                 <label for="text-hash" class="col-form-label col-lg-2 text-lg-right">Hash</label>
                 <div class="col-lg-7">
                     <div class="input-group">
-                        @Html.TextBox("text-hash", string.Empty, new { @class = "form-control code", id = "text-hash", @readonly = string.Empty })
+                        @Html.TextBox("text-hash", string.Empty, new { @class = "form-control  form-control-lg code", id = "text-hash", @readonly = string.Empty })
                         <span class="input-group-append">
                             <button id="copy-hash" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-hash" title="Copy to clipboard" data-ga-category="tools" data-ga-label="Copy hash">
                                 <i class="far fa-clipboard"></i>
