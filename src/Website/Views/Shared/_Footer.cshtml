@@ -3,10 +3,7 @@
 <footer>
     <p class="d-none d-md-block">
         &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
-        <a id="link-status-d" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
-            Site Status &amp; Uptime
-        </a>
-        | Built from
+        Built from
         <a id="link-git-commit" href="@Model.Metadata.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">
             @string.Join(string.Empty, GitMetadata.Commit.Take(7))
         </a>
@@ -18,10 +15,7 @@
     </p>
     <div class="d-md-none">
         <p>
-            &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year |
-            <a id="link-status-m" href="@Model.ExternalLinks.Status.AbsoluteUri" rel="noopener" target="_blank" title="View site uptime information">
-                Site Status &amp; Uptime
-            </a>
+            &copy; @Model.Metadata.Author.Name @DateTimeOffset.UtcNow.Year
         </p>
     </div>
 </footer>
