@@ -192,7 +192,9 @@ namespace MartinCostello.Website.Integration.UI
                 {
                     await test(navigator);
                 }
+#pragma warning disable CA1031
                 catch (Exception)
+#pragma warning restore CA1031
                 {
                     TakeScreenshot(navigator.Driver, testName);
                     OutputLogs(navigator.Driver);
@@ -247,7 +249,9 @@ namespace MartinCostello.Website.Integration.UI
                     Output.WriteLine($"[{entry.Timestamp:u}] {logKind} - {entry.Level}: {entry.Message}");
                 }
             }
+#pragma warning disable CA1031
             catch (Exception ex)
+#pragma warning restore CA1031
             {
                 Output.WriteLine($"Failed to output driver logs: {ex.ToString()}");
             }
@@ -269,7 +273,9 @@ namespace MartinCostello.Website.Integration.UI
                     screenshot.SaveAsFile(fileName);
                 }
             }
+#pragma warning disable CA1031
             catch (Exception ex)
+#pragma warning restore CA1031
             {
                 Output.WriteLine($"Failed to take screenshot: {ex.ToString()}");
             }
