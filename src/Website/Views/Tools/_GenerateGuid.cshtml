@@ -9,7 +9,7 @@
                     <div class="input-group">
                         @Html.TextBox("text-guid", @Guid.NewGuid().ToString(), new { @class = "form-control form-control-lg code", id = "text-guid", label = "The generated GUID", @readonly = string.Empty })
                         <span class="input-group-append">
-                            <button id="copy-guid" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard">
+                            <button id="copy-guid" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard" aria-label="Copy GUID to clipboard">
                                 <i class="far fa-clipboard"></i>
                             </button>
                         </span>
