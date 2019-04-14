@@ -84,8 +84,6 @@ namespace MartinCostello.Website
             app.UseHsts()
                .UseHttpsRedirection();
 
-            app.UseStaticFiles(CreateStaticFileOptions());
-
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()
                 {
@@ -93,6 +91,8 @@ namespace MartinCostello.Website
                 });
 
             app.UseHttpMethodOverride();
+
+            app.UseStaticFiles(CreateStaticFileOptions());
 
             app.UseMvcWithDefaultRoute();
 
