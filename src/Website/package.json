@@ -24,7 +24,7 @@
     "hoek": "4.2.1",
     "jasmine-core": "3.2.1",
     "jquery": "3.4.1",
-    "jshint": "2.9.6",
+    "jshint": "2.10.2",
     "karma": "2.0.5",
     "karma-appveyor-reporter": "0.4.1",
     "karma-chrome-launcher": "2.2.0",
