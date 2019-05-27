@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <AnalyzersVersion>2.9.1</AnalyzersVersion>
+    <AnalyzersVersion>2.9.2</AnalyzersVersion>
     <NodaTimeVersion>2.4.5</NodaTimeVersion>
     <XUnitVersion>2.4.1</XUnitVersion>
   </PropertyGroup>
