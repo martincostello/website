@@ -22,7 +22,7 @@
     "gulp-typescript": "4.0.2",
     "gulp-uglify": "3.0.2",
     "hoek": "4.2.1",
-    "jasmine-core": "3.2.1",
+    "jasmine-core": "3.4.0",
     "jquery": "3.4.1",
     "jshint": "2.10.2",
     "karma": "2.0.5",
