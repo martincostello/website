@@ -35,7 +35,7 @@
     "merge-stream": "2.0.0",
     "natives": "^1.1.6",
     "path": "0.12.7",
-    "puppeteer": "1.7.0",
+    "puppeteer": "1.17.0",
     "superagent": "5.0.5",
     "tslint": "5.16.0",
     "typescript": "3.0.1"
