@@ -58,7 +58,7 @@ namespace MartinCostello.Website.Integration
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureAppConfiguration(ConfigureTests)
-                   .ConfigureLogging((loggingBuilder) => loggingBuilder.AddXUnit(this))
+                   .ConfigureLogging((loggingBuilder) => loggingBuilder.ClearProviders().AddXUnit(this))
                    .UseContentRoot(GetApplicationContentRootPath());
         }
 
@@ -79,6 +79,10 @@ namespace MartinCostello.Website.Integration
             return attribute.ContentRootPath;
         }
 
+        /// <summary>
+        /// Configures the test settings.
+        /// </summary>
+        /// <param name="builder">The configuration builder to use.</param>
         private static void ConfigureTests(IConfigurationBuilder builder)
         {
             string directory = Path.GetDirectoryName(typeof(TestServerFixture).Assembly.Location);
