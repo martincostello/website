@@ -49,9 +49,9 @@ namespace MartinCostello.Website
         private IHostingEnvironment HostingEnvironment { get; }
 
         /// <summary>
-        /// Gets or sets the service provider.
+        /// Gets or sets the service provider's scope.
         /// </summary>
-        private IServiceProvider ServiceProvider { get; set; }
+        private IServiceScope ServiceScope { get; set; }
 
         /// <summary>
         /// Configures the application.
@@ -66,7 +66,7 @@ namespace MartinCostello.Website
             IServiceProvider serviceProvider,
             IOptions<SiteOptions> options)
         {
-            ServiceProvider = serviceProvider.CreateScope().ServiceProvider;
+            ServiceScope = serviceProvider.CreateScope();
 
             applicationLifetime.ApplicationStopped.Register(OnApplicationStopped);
             app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
@@ -265,7 +265,7 @@ namespace MartinCostello.Website
         {
             Serilog.Log.CloseAndFlush();
 
-            if (ServiceProvider is IDisposable disposable)
+            if (ServiceScope is IDisposable disposable)
             {
                 disposable.Dispose();
             }
