@@ -49,25 +49,16 @@ namespace MartinCostello.Website
         private IHostingEnvironment HostingEnvironment { get; }
 
         /// <summary>
-        /// Gets or sets the service provider's scope.
-        /// </summary>
-        private IServiceScope ServiceScope { get; set; }
-
-        /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
         /// <param name="applicationLifetime">The <see cref="IApplicationLifetime"/> to use.</param>
-        /// <param name="serviceProvider">The <see cref="IServiceProvider"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
         public void Configure(
             IApplicationBuilder app,
             IApplicationLifetime applicationLifetime,
-            IServiceProvider serviceProvider,
             IOptions<SiteOptions> options)
         {
-            ServiceScope = serviceProvider.CreateScope();
-
             applicationLifetime.ApplicationStopped.Register(OnApplicationStopped);
             app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
 
@@ -79,10 +70,10 @@ namespace MartinCostello.Website
             {
                 app.UseExceptionHandler("/error")
                    .UseStatusCodePagesWithReExecute("/error", "?id={0}");
-            }
 
-            app.UseHsts()
-               .UseHttpsRedirection();
+                app.UseHsts()
+                   .UseHttpsRedirection();
+            }
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()
@@ -119,12 +110,9 @@ namespace MartinCostello.Website
                     p.HeaderName = "x-anti-forgery";
                 });
 
-            services
-                .AddMemoryCache()
-                .AddDistributedMemoryCache()
-                .AddMvc(ConfigureMvc)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
+            services.AddMvc(ConfigureMvc)
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .AddJsonOptions(ConfigureJsonFormatter);
 
             services.AddRouting(
                 (p) =>
@@ -133,17 +121,19 @@ namespace MartinCostello.Website
                     p.LowercaseUrls = true;
                 });
 
-            services.AddHsts(
-                (p) =>
-                {
-                    p.MaxAge = TimeSpan.FromDays(365);
-                    p.IncludeSubDomains = false;
-                    p.Preload = false;
-                });
+            if (!HostingEnvironment.IsDevelopment())
+            {
+                services.AddHsts(
+                    (p) =>
+                    {
+                        p.MaxAge = TimeSpan.FromDays(365);
+                        p.IncludeSubDomains = false;
+                        p.Preload = false;
+                    });
+            }
 
-            services
-                .AddResponseCaching()
-                .AddResponseCompression();
+            services.AddResponseCaching()
+                    .AddResponseCompression();
 
             services.AddSingleton<IClock>((_) => SystemClock.Instance);
             services.AddSingleton<IToolsService, ToolsService>();
@@ -155,10 +145,7 @@ namespace MartinCostello.Website
         /// Configures the JSON serializer for MVC.
         /// </summary>
         /// <param name="options">The <see cref="MvcJsonOptions"/> to configure.</param>
-        /// <returns>
-        /// The <see cref="JsonSerializerSettings"/> to use.
-        /// </returns>
-        private static JsonSerializerSettings ConfigureJsonFormatter(MvcJsonOptions options)
+        private static void ConfigureJsonFormatter(MvcJsonOptions options)
         {
             // Make JSON easier to read for debugging at the expense of larger payloads
             options.SerializerSettings.Formatting = Formatting.Indented;
@@ -168,8 +155,6 @@ namespace MartinCostello.Website
 
             // Explicitly define behavior when serializing DateTime values
             options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
-
-            return options.SerializerSettings;
         }
 
         /// <summary>
@@ -264,11 +249,6 @@ namespace MartinCostello.Website
         private void OnApplicationStopped()
         {
             Serilog.Log.CloseAndFlush();
-
-            if (ServiceScope is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
         }
     }
 }
