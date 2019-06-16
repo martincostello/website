@@ -80,40 +80,17 @@ function DotNetTest {
         $nugetPath = Join-Path $env:USERPROFILE ".nuget\packages"
         $propsFile = Join-Path $solutionPath "Directory.Build.props"
 
-        $openCoverVersion = (Select-Xml -Path $propsFile -XPath "//PackageReference[@Include='OpenCover']/@Version").Node.'#text'
-        $openCoverPath = Join-Path $nugetPath "OpenCover\$openCoverVersion\tools\OpenCover.Console.exe"
-
         $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageReference[@Include='ReportGenerator']/@Version").Node.'#text'
         $reportGeneratorPath = Join-Path $nugetPath "ReportGenerator\$reportGeneratorVersion\tools\netcoreapp2.0\ReportGenerator.dll"
 
-        $coverageOutput = Join-Path $OutputPath "code-coverage.xml"
+        $coverageOutput = Join-Path $OutputPath "coverage.cobertura.xml"
         $reportOutput = Join-Path $OutputPath "coverage"
 
         if ($null -ne $env:TF_BUILD) {
-            & $openCoverPath `
-                `"-target:$dotnetPath`" `
-                `"-targetargs:test $Project --output $OutputPath --logger trx -- RunConfiguration.TestSessionTimeout=1200000`" `
-                `"-output:$coverageOutput`" `
-                `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
-                `"-hideskipped:All`" `
-                -mergebyhash `
-                -oldstyle `
-                `"-register:user`" `
-                -skipautoprops `
-                `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
+            & $dotnetPath test $Project --output $OutputPath --logger trx -- RunConfiguration.TestSessionTimeout=1200000
         }
         else {
-            & $openCoverPath `
-                `"-target:$dotnetPath`" `
-                `"-targetargs:test $Project --output $OutputPath -- RunConfiguration.TestSessionTimeout=1200000`" `
-                `"-output:$coverageOutput`" `
-                `"-excludebyattribute:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage*`" `
-                `"-hideskipped:All`" `
-                -mergebyhash `
-                -oldstyle `
-                `"-register:user`" `
-                -skipautoprops `
-                `"-filter:+[Website]* +[Website.Views]* -[Website.Tests]*`"
+            & $dotnetPath test $Project --output $OutputPath -- RunConfiguration.TestSessionTimeout=1200000
         }
 
         $dotNetTestExitCode = $LASTEXITCODE
@@ -122,7 +99,7 @@ function DotNetTest {
             $reportGeneratorPath `
             `"-reports:$coverageOutput`" `
             `"-targetdir:$reportOutput`" `
-            -reporttypes:HTML`;Cobertura `
+            -reporttypes:HTML `
             -verbosity:Warning
     }
 
