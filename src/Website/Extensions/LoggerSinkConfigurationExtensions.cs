@@ -1,11 +1,10 @@
-﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
+// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 namespace MartinCostello.Website.Extensions
 {
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Net;
     using Serilog;
     using Serilog.Configuration;
@@ -22,19 +21,14 @@ namespace MartinCostello.Website.Extensions
         /// Adds a sink that writes to Papertrail.
         /// </summary>
         /// <param name="config">The <see cref="LoggerSinkConfiguration"/> to add the sink to.</param>
-        /// <param name="remoteAddressAsString">The remote address for the Papertrail endpoint.</param>
+        /// <param name="remoteAddress">The remote address for the Papertrail endpoint.</param>
         /// <param name="port">The port for the Papertrail endpoint.</param>
         /// <returns>
         /// The <see cref="LoggerConfiguration"/> to use for further configuration setup.
         /// </returns>
-        public static LoggerConfiguration Papertrail(this LoggerSinkConfiguration config, string remoteAddressAsString, int port)
+        public static LoggerConfiguration Papertrail(this LoggerSinkConfiguration config, string remoteAddress, int port)
         {
-            if (!IPAddress.TryParse(remoteAddressAsString, out IPAddress remoteAddress))
-            {
-                remoteAddress = Dns.GetHostAddressesAsync(remoteAddressAsString).GetAwaiter().GetResult().FirstOrDefault();
-            }
-
-            return config.Udp(remoteAddress, port, formatter: new PapertrailFormatter());
+            return config.Udp(remoteAddress, port, System.Net.Sockets.AddressFamily.InterNetwork, new PapertrailFormatter());
         }
 
         /// <summary>
@@ -76,6 +70,7 @@ namespace MartinCostello.Website.Extensions
             /// </summary>
             private enum SyslogLogLevel
             {
+#pragma warning disable SA1602
                 Emergency = 0,
 
                 Alert,
@@ -91,6 +86,7 @@ namespace MartinCostello.Website.Extensions
                 Info,
 
                 Debug,
+#pragma warning restore SA1602
             }
 
             /// <inheritdoc />
