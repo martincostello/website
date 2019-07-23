@@ -8,6 +8,7 @@ namespace MartinCostello.Website
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// A class representing the entry-point to the application. This class cannot be inherited.
@@ -25,7 +26,7 @@ namespace MartinCostello.Website
         {
             try
             {
-                CreateWebHostBuilder(args).Build().Run();
+                CreateHostBuilder(args).Build().Run();
                 return 0;
             }
 #pragma warning disable CA1031
@@ -37,15 +38,19 @@ namespace MartinCostello.Website
             }
         }
 
-        private static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseAzureAppServices()
-                .UseApplicationInsights()
-                .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureLogging((context, builder) => builder.ConfigureLogging(context))
-                .UseStartup<Startup>()
-                .CaptureStartupErrors(true);
+                .ConfigureWebHostDefaults(
+                    (webBuilder) =>
+                    {
+                        webBuilder.CaptureStartupErrors(true)
+                                  .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
+                                  .UseApplicationInsights()
+                                  .UseAzureAppServices()
+                                  .UseStartup<Startup>();
+                    });
         }
     }
 }

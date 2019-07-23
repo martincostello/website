@@ -11,6 +11,7 @@ namespace MartinCostello.Website.Integration
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
 
@@ -31,11 +32,6 @@ namespace MartinCostello.Website.Integration
 
         /// <inheritdoc />
         public ITestOutputHelper OutputHelper { get; set; }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> in use.
-        /// </summary>
-        public virtual IServiceProvider Services => Server?.Host?.Services;
 
         /// <summary>
         /// Clears the current <see cref="ITestOutputHelper"/>.
@@ -89,6 +85,14 @@ namespace MartinCostello.Website.Integration
             string fullPath = Path.Combine(directory, "testsettings.json");
 
             builder.AddJsonFile(fullPath);
+        }
+
+        private void EnsureStarted()
+        {
+            // HACK Force HTTP server startup
+            using (CreateDefaultClient())
+            {
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace MartinCostello.Website.Middleware
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Options;
 
@@ -70,7 +71,7 @@ namespace MartinCostello.Website.Middleware
         /// <param name="options">The current site configuration options.</param>
         public CustomHttpHeadersMiddleware(
             RequestDelegate next,
-            IHostingEnvironment environment,
+            IWebHostEnvironment environment,
             IConfiguration config,
             IOptions<SiteOptions> options)
         {

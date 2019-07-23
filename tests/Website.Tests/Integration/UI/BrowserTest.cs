@@ -128,18 +128,17 @@ namespace MartinCostello.Website.Integration.UI
         /// <param name="testName">The name of the test method.</param>
         protected void WithNavigator(Action<ApplicationNavigator> test, [CallerMemberName] string testName = null)
         {
-            using (ApplicationNavigator navigator = CreateNavigator())
+            using ApplicationNavigator navigator = CreateNavigator();
+
+            try
             {
-                try
-                {
-                    test(navigator);
-                }
-                catch (Exception)
-                {
-                    TakeScreenshot(navigator.Driver, testName);
-                    OutputLogs(navigator.Driver);
-                    throw;
-                }
+                test(navigator);
+            }
+            catch (Exception)
+            {
+                TakeScreenshot(navigator.Driver, testName);
+                OutputLogs(navigator.Driver);
+                throw;
             }
         }
 
@@ -183,20 +182,19 @@ namespace MartinCostello.Website.Integration.UI
         /// </returns>
         protected async Task WithNavigatorAsync(Func<ApplicationNavigator, Task> test, [CallerMemberName] string testName = null)
         {
-            using (ApplicationNavigator navigator = CreateNavigator())
+            using ApplicationNavigator navigator = CreateNavigator();
+
+            try
             {
-                try
-                {
-                    await test(navigator);
-                }
+                await test(navigator);
+            }
 #pragma warning disable CA1031
-                catch (Exception)
+            catch (Exception)
 #pragma warning restore CA1031
-                {
-                    TakeScreenshot(navigator.Driver, testName);
-                    OutputLogs(navigator.Driver);
-                    throw;
-                }
+            {
+                TakeScreenshot(navigator.Driver, testName);
+                OutputLogs(navigator.Driver);
+                throw;
             }
         }
 

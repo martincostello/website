@@ -4,8 +4,6 @@
 namespace MartinCostello.Website.TagHelpers
 {
     using System.Text.Encodings.Web;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Mvc.TagHelpers;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -33,8 +31,14 @@ namespace MartinCostello.Website.TagHelpers
         /// </summary>
         private const string SourceAttributeName = "src";
 
-        public LazyImageTagHelper(IHostingEnvironment hostingEnvironment, TagHelperMemoryCacheProvider cacheProvider, IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, IUrlHelperFactory urlHelperFactory)
-            : base(hostingEnvironment, cacheProvider, fileVersionProvider, htmlEncoder, urlHelperFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LazyImageTagHelper"/> class.
+        /// </summary>
+        /// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
+        /// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
+        /// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
+        public LazyImageTagHelper(IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, IUrlHelperFactory urlHelperFactory)
+            : base(fileVersionProvider, htmlEncoder, urlHelperFactory)
         {
         }
 
