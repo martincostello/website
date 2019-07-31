@@ -14,8 +14,6 @@ namespace MartinCostello.Website.Services
     using Api.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Options;
-    using Options;
 
     /// <summary>
     /// A class representing the default implementation of <see cref="IToolsService"/>.
@@ -42,11 +40,6 @@ namespace MartinCostello.Website.Services
         };
 
         /// <summary>
-        /// The URL of the API. This field is read-only.
-        /// </summary>
-        private readonly Uri _apiUri;
-
-        /// <summary>
         /// The trace Id of the current request. This field is read-only.
         /// </summary>
         private readonly string _traceId;
@@ -55,10 +48,8 @@ namespace MartinCostello.Website.Services
         /// Initializes a new instance of the <see cref="ToolsService"/> class.
         /// </summary>
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to use.</param>
-        /// <param name="options">The site options to use.</param>
-        public ToolsService(IHttpContextAccessor contextAccessor, IOptions<SiteOptions> options)
+        public ToolsService(IHttpContextAccessor contextAccessor)
         {
-            _apiUri = options?.Value?.ExternalLinks?.Api;
             _traceId = contextAccessor.HttpContext.TraceIdentifier;
         }
 
@@ -193,8 +184,8 @@ namespace MartinCostello.Website.Services
                     @"<machineKey validationKey=""{0}"" decryptionKey=""{1}"" validation=""{2}"" decryption=""{3}"" />",
                     result.ValidationKey,
                     result.DecryptionKey,
-                    validationAlgorithm,
-                    decryptionAlgorithm);
+                    validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
+                    decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
 
                 return result;
             }

@@ -97,7 +97,7 @@ namespace MartinCostello.Website.Integration.UI
         }
 
         [Theory]
-        [InlineData("AES (256 bits)", "SHA-1", "AES-256", "SHA1")]
+        [InlineData("AES (256 bits)", "SHA-1", "AES", "SHA1")]
         [InlineData("3DES", "HMAC SHA-512", "3DES", "HMACSHA512")]
         public void Can_Generate_Machine_Key(
             string decryptionAlgorithm,
