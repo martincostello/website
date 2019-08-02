@@ -3,7 +3,7 @@
     ViewBag.Title = "About Martin";
     ViewBag.MetaDescription = $"Information about {Options.Metadata.Author.Name}, a software developer and tester.";
 
-    string image = Url.CdnContent("martin_small.png", Options);
+    string image = Url.CdnContent("martin_small-v2.png", Options);
     int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">
@@ -16,20 +16,20 @@
     </div>
     <div class="col-md-8">
         <h1>About Martin</h1>
-        <p>@Options.Metadata.Author.Name is a C# .NET developer and tester with over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
+        <p>@Options.Metadata.Author.Name is a C# .NET developer and tester and <a href="https://mvp.microsoft.com/en-us/PublicProfile/5003438" rel="noopener" target="_blank">Microsoft MVP in Developer Technologies</a>.</p>
+        <p>He has over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
         <p>His experience includes various parts of the Microsoft technology stack and cloud hosting, including:</p>
         <ul>
-            <li>ASP.NET (Desktop and Core)</li>
             <li>Amazon Web Services</li>
+            <li>ASP.NET (Core and Framework)</li>
+            <li>Azure DevOps (VSTS/TFS)</li>
             <li>C# (2.0+)</li>
             <li>Git/GitHub</li>
             <li>HTML</li>
             <li>JavaScript</li>
             <li>Microsoft Azure</li>
-            <li>MSTest/xunit</li>
             <li>SQL Server</li>
             <li>TeamCity</li>
-            <li>VSTS/TFS</li>
         </ul>
     </div>
 </div>
