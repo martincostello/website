@@ -11,11 +11,11 @@ namespace MartinCostello.Website.Options
         /// <summary>
         /// Gets or sets the Facebook profile Id of the author.
         /// </summary>
-        public string Facebook { get; set; }
+        public string Facebook { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the Twitter handle of the author.
         /// </summary>
-        public string Twitter { get; set; }
+        public string Twitter { get; set; } = string.Empty;
     }
 }

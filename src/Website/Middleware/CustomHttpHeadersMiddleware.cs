@@ -13,6 +13,7 @@ namespace MartinCostello.Website.Middleware
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Options;
 
@@ -30,11 +31,6 @@ namespace MartinCostello.Website.Middleware
         /// The <see cref="IConfiguration"/> to use. This field is read-only.
         /// </summary>
         private readonly IConfiguration _config;
-
-        /// <summary>
-        /// The options to use. This field is read-only.
-        /// </summary>
-        private readonly IOptions<SiteOptions> _options;
 
         /// <summary>
         /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
@@ -70,13 +66,12 @@ namespace MartinCostello.Website.Middleware
         /// <param name="options">The current site configuration options.</param>
         public CustomHttpHeadersMiddleware(
             RequestDelegate next,
-            IHostingEnvironment environment,
+            IWebHostEnvironment environment,
             IConfiguration config,
             IOptions<SiteOptions> options)
         {
             _next = next;
             _config = config;
-            _options = options;
 
             _isProduction = environment.IsProduction();
             _environmentName = config.AzureEnvironment();
@@ -177,7 +172,7 @@ namespace MartinCostello.Website.Middleware
                 IList<string> origins = pair.Value;
 
                 if (options.ContentSecurityPolicyOrigins != null &&
-                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string> configOrigins))
+                    options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string>? configOrigins))
                 {
                     origins = origins.Concat(configOrigins).ToList();
                 }
@@ -227,7 +222,7 @@ namespace MartinCostello.Website.Middleware
             builder.AppendFormat(
                 CultureInfo.InvariantCulture,
                 "max-age={0};",
-                (int)options.CertificateTransparency?.MaxAge.TotalSeconds);
+                (int)(options.CertificateTransparency?.MaxAge.TotalSeconds ?? 0));
 
             if (enforce)
             {
@@ -256,7 +251,7 @@ namespace MartinCostello.Website.Middleware
         /// </returns>
         private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
         {
-            if (options?.ExternalLinks?.Api.IsAbsoluteUri == true)
+            if (options?.ExternalLinks?.Api?.IsAbsoluteUri == true)
             {
                 return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
             }
@@ -285,7 +280,7 @@ namespace MartinCostello.Website.Middleware
         /// <returns>
         /// The origin to use for the URI, if any.
         /// </returns>
-        private static string GetOriginForContentSecurityPolicy(Uri baseUri)
+        private static string GetOriginForContentSecurityPolicy(Uri? baseUri)
         {
             if (baseUri == null)
             {

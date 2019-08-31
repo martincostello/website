@@ -15,9 +15,9 @@ namespace MartinCostello.Website
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
-    using Newtonsoft.Json;
     using NodaTime;
     using Options;
     using Services;
@@ -31,8 +31,8 @@ namespace MartinCostello.Website
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
-        /// <param name="hostingEnvironment">The <see cref="IHostingEnvironment"/> to use.</param>
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        /// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> to use.</param>
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             HostingEnvironment = hostingEnvironment;
@@ -46,17 +46,17 @@ namespace MartinCostello.Website
         /// <summary>
         /// Gets the current hosting environment.
         /// </summary>
-        private IHostingEnvironment HostingEnvironment { get; }
+        private IWebHostEnvironment HostingEnvironment { get; }
 
         /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/> to use.</param>
-        /// <param name="applicationLifetime">The <see cref="IApplicationLifetime"/> to use.</param>
+        /// <param name="applicationLifetime">The <see cref="IHostApplicationLifetime"/> to use.</param>
         /// <param name="options">The snapshot of <see cref="SiteOptions"/> to use.</param>
         public void Configure(
             IApplicationBuilder app,
-            IApplicationLifetime applicationLifetime,
+            IHostApplicationLifetime applicationLifetime,
             IOptions<SiteOptions> options)
         {
             applicationLifetime.ApplicationStopped.Register(OnApplicationStopped);
@@ -85,7 +85,13 @@ namespace MartinCostello.Website
 
             app.UseStaticFiles(CreateStaticFileOptions());
 
-            app.UseMvcWithDefaultRoute();
+            app.UseRouting();
+
+            app.UseEndpoints(
+                (endpoints) =>
+                {
+                    endpoints.MapDefaultControllerRoute();
+                });
 
             app.UseCookiePolicy(CreateCookiePolicy());
         }
@@ -110,8 +116,8 @@ namespace MartinCostello.Website
                     p.HeaderName = "x-anti-forgery";
                 });
 
-            services.AddMvc(ConfigureMvc)
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddControllersWithViews(ConfigureMvc)
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                     .AddJsonOptions(ConfigureJsonFormatter);
 
             services.AddRouting(
@@ -144,17 +150,17 @@ namespace MartinCostello.Website
         /// <summary>
         /// Configures the JSON serializer for MVC.
         /// </summary>
-        /// <param name="options">The <see cref="MvcJsonOptions"/> to configure.</param>
-        private static void ConfigureJsonFormatter(MvcJsonOptions options)
+        /// <param name="options">The <see cref="JsonOptions"/> to configure.</param>
+        private static void ConfigureJsonFormatter(JsonOptions options)
         {
             // Make JSON easier to read for debugging at the expense of larger payloads
-            options.SerializerSettings.Formatting = Formatting.Indented;
+            options.JsonSerializerOptions.WriteIndented = true;
 
             // Omit nulls to reduce payload size
-            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            options.JsonSerializerOptions.IgnoreNullValues = true;
 
-            // Explicitly define behavior when serializing DateTime values
-            options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
+            // Opt-out of case insensitivity on property names
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
         }
 
         /// <summary>
@@ -179,7 +185,7 @@ namespace MartinCostello.Website
 
             if (context.File.Exists && HostingEnvironment.IsProduction())
             {
-                string extension = Path.GetExtension(context.File.PhysicalPath);
+                string? extension = Path.GetExtension(context.File.PhysicalPath);
 
                 // These files are served with a content hash in the URL so can be cached for longer
                 bool isScriptOrStyle =

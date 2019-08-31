@@ -6,8 +6,9 @@ namespace MartinCostello.Website.Integration
     using System.Net;
     using System.Net.Http;
     using System.Text;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
     using Shouldly;
     using Xunit;
     using Xunit.Abstractions;
@@ -31,20 +32,18 @@ namespace MartinCostello.Website.Integration
         public async Task Tools_Get_Guid_Returns_Correct_Response_If_Format_Is_Invalid()
         {
             // Arrange
-            using (HttpClient client = Fixture.CreateClient())
-            {
-                // Act
-                using (HttpResponseMessage response = await client.GetAsync("/tools/guid?format=foo"))
-                {
-                    // Assert
-                    response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            using HttpClient client = Fixture.CreateClient();
 
-                    string json = await response.Content.ReadAsStringAsync();
+            // Act
+            using HttpResponseMessage response = await client.GetAsync("/tools/guid?format=foo");
 
-                    JObject error = JObject.Parse(json);
-                    error.Value<string>("message").ShouldBe("The specified format 'foo' is invalid.");
-                }
-            }
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            using var error = JsonDocument.Parse(json);
+            error.RootElement.GetProperty("message").GetString().ShouldBe("The specified format 'foo' is invalid.");
         }
 
         [Theory]
@@ -62,25 +61,20 @@ namespace MartinCostello.Website.Integration
                 plaintext,
             };
 
-            JObject requestJson = JObject.FromObject(request);
+            string requestJson = JsonSerializer.Serialize(request);
+            using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-            using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
-            {
-                // Act
-                using (HttpClient client = Fixture.CreateClient())
-                {
-                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
-                    {
-                        // Assert
-                        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            // Act
+            using HttpClient client = Fixture.CreateClient();
+            using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
-                        string json = await response.Content.ReadAsStringAsync();
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-                        JObject error = JObject.Parse(json);
-                        error.Value<string>("message").ShouldBe(expected);
-                    }
-                }
-            }
+            string json = await response.Content.ReadAsStringAsync();
+
+            using var error = JsonDocument.Parse(json);
+            error.RootElement.GetProperty("message").GetString().ShouldBe(expected);
         }
 
         [Fact]
@@ -94,25 +88,20 @@ namespace MartinCostello.Website.Integration
                 plaintext = new string(' ', 4097),
             };
 
-            JObject requestJson = JObject.FromObject(request);
+            string requestJson = JsonSerializer.Serialize(request);
+            using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-            using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
-            {
-                // Act
-                using (HttpClient client = Fixture.CreateClient())
-                {
-                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
-                    {
-                        // Assert
-                        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            // Act
+            using HttpClient client = Fixture.CreateClient();
+            using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
-                        string json = await response.Content.ReadAsStringAsync();
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-                        JObject error = JObject.Parse(json);
-                        error.Value<string>("message").ShouldBe("The plaintext to hash cannot be more than 4096 characters in length.");
-                    }
-                }
-            }
+            string json = await response.Content.ReadAsStringAsync();
+
+            using var error = JsonDocument.Parse(json);
+            error.RootElement.GetProperty("message").GetString().ShouldBe("The plaintext to hash cannot be more than 4096 characters in length.");
         }
 
         [Theory]
@@ -141,25 +130,20 @@ namespace MartinCostello.Website.Integration
                 plaintext,
             };
 
-            JObject requestJson = JObject.FromObject(request);
+            string requestJson = JsonSerializer.Serialize(request);
+            using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-            using (HttpContent content = new StringContent(requestJson.ToString(), Encoding.UTF8, "application/json"))
-            {
-                // Act
-                using (HttpClient client = Fixture.CreateClient())
-                {
-                    using (HttpResponseMessage response = await client.PostAsync("/tools/hash", content))
-                    {
-                        // Assert
-                        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            // Act
+            using HttpClient client = Fixture.CreateClient();
+            using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
-                        string json = await response.Content.ReadAsStringAsync();
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-                        JObject hash = JObject.Parse(json);
-                        hash.Value<string>("hash").ShouldBe(expected);
-                    }
-                }
-            }
+            string json = await response.Content.ReadAsStringAsync();
+
+            using var hash = JsonDocument.Parse(json);
+            hash.RootElement.GetProperty("hash").GetString().ShouldBe(expected);
         }
 
         [Theory]
@@ -173,20 +157,18 @@ namespace MartinCostello.Website.Integration
             string expected)
         {
             // Arrange
-            using (HttpClient client = Fixture.CreateClient())
-            {
-                // Act
-                using (HttpResponseMessage response = await client.GetAsync($"/tools/machineKey?decryptionAlgorithm={decryptionAlgorithm}&validationAlgorithm={validationAlgorithm}"))
-                {
-                    // Assert
-                    response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            using HttpClient client = Fixture.CreateClient();
 
-                    string json = await response.Content.ReadAsStringAsync();
+            // Act
+            using HttpResponseMessage response = await client.GetAsync($"/tools/machineKey?decryptionAlgorithm={decryptionAlgorithm}&validationAlgorithm={validationAlgorithm}");
 
-                    JObject error = JObject.Parse(json);
-                    error.Value<string>("message").ShouldBe(expected);
-                }
-            }
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            using var error = JsonDocument.Parse(json);
+            error.RootElement.GetProperty("message").GetString().ShouldBe(expected);
         }
     }
 }

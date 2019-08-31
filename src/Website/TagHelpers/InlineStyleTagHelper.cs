@@ -46,7 +46,16 @@ namespace MartinCostello.Website.TagHelpers
         /// </summary>
         private static readonly char[] Tilde = new[] { '~' };
 
-        public InlineStyleTagHelper(IHostingEnvironment hostingEnvironment, TagHelperMemoryCacheProvider cacheProvider, IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, JavaScriptEncoder javaScriptEncoder, IUrlHelperFactory urlHelperFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InlineStyleTagHelper"/> class.
+        /// </summary>
+        /// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> to use.</param>
+        /// <param name="cacheProvider">The <see cref="TagHelperMemoryCacheProvider"/> to use.</param>
+        /// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
+        /// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
+        /// <param name="javaScriptEncoder">The <see cref="JavaScriptEncoder"/> to use.</param>
+        /// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
+        public InlineStyleTagHelper(IWebHostEnvironment hostingEnvironment, TagHelperMemoryCacheProvider cacheProvider, IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, JavaScriptEncoder javaScriptEncoder, IUrlHelperFactory urlHelperFactory)
             : base(hostingEnvironment, cacheProvider, fileVersionProvider, htmlEncoder, javaScriptEncoder, urlHelperFactory)
         {
         }
@@ -87,7 +96,7 @@ namespace MartinCostello.Website.TagHelpers
                 return;
             }
 
-            string filePath = (context.AllAttributes["href"].Value as string)?.TrimStart(Tilde);
+            string? filePath = (context.AllAttributes["href"].Value as string)?.TrimStart(Tilde);
             IFileInfo fileInfo = HostingEnvironment.WebRootFileProvider.GetFileInfo(filePath);
 
             if (!fileInfo.Exists)
@@ -101,12 +110,10 @@ namespace MartinCostello.Website.TagHelpers
 
             if (!Cache.TryGetValue(cacheKey, out string css))
             {
-                using (var stream = File.OpenRead(fileInfo.PhysicalPath))
+                using var stream = File.OpenRead(fileInfo.PhysicalPath);
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        css = await reader.ReadToEndAsync().ConfigureAwait(false);
-                    }
+                    using var reader = new StreamReader(stream);
+                    css = await reader.ReadToEndAsync().ConfigureAwait(false);
                 }
 
                 if (MinifyInlined == true)
@@ -114,7 +121,7 @@ namespace MartinCostello.Website.TagHelpers
                     css = MinifyCss(css);
                 }
 
-                css = FixSourceMapPath(css, filePath);
+                css = FixSourceMapPath(css, filePath!);
 
                 var options = new MemoryCacheEntryOptions()
                 {

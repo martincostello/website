@@ -54,7 +54,7 @@ namespace MartinCostello.Website.Services
         }
 
         /// <inheritdoc/>
-        public ActionResult<GuidResponse> GenerateGuid(string format, bool? uppercase)
+        public ActionResult<GuidResponse> GenerateGuid(string? format, bool? uppercase)
         {
             string guid;
 
@@ -62,7 +62,9 @@ namespace MartinCostello.Website.Services
             {
                 guid = Guid.NewGuid().ToString(format ?? "D", CultureInfo.InvariantCulture);
             }
+#pragma warning disable CA1031
             catch (FormatException)
+#pragma warning restore CA1031
             {
                 return BadRequest($"The specified format '{format}' is invalid.");
             }
@@ -126,15 +128,14 @@ namespace MartinCostello.Website.Services
 
                 stream.Seek(0, SeekOrigin.Begin);
 
-                using (var hasher = CreateHashAlgorithm(request.Algorithm))
-                {
-                    if (hasher == null)
-                    {
-                        return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
-                    }
+                using var hasher = CreateHashAlgorithm(request.Algorithm);
 
-                    hash = hasher.ComputeHash(stream);
+                if (hasher == null)
+                {
+                    return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
                 }
+
+                hash = hasher.ComputeHash(stream);
             }
 
             return new HashResponse()
@@ -144,7 +145,7 @@ namespace MartinCostello.Website.Services
         }
 
         /// <inheritdoc/>
-        public ActionResult<MachineKeyResponse> GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm)
+        public ActionResult<MachineKeyResponse> GenerateMachineKey(string? decryptionAlgorithm, string? validationAlgorithm)
         {
             if (string.IsNullOrEmpty(decryptionAlgorithm) ||
                 !HashSizes.TryGetValue(decryptionAlgorithm + "-D", out int decryptionKeyLength))
@@ -223,7 +224,7 @@ namespace MartinCostello.Website.Services
         /// The created instance of <see cref="HashAlgorithm"/> if <paramref name="name"/>
         /// is valid; otherwise <see langword="null"/>.
         /// </returns>
-        private static HashAlgorithm CreateHashAlgorithm(string name)
+        private static HashAlgorithm? CreateHashAlgorithm(string name)
         {
             if (string.Equals(name, HashAlgorithmName.MD5.Name, StringComparison.OrdinalIgnoreCase))
             {

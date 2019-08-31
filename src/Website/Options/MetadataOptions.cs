@@ -11,41 +11,41 @@ namespace MartinCostello.Website.Options
         /// <summary>
         /// Gets or sets the author options.
         /// </summary>
-        public AuthorOptions Author { get; set; }
+        public AuthorOptions? Author { get; set; }
 
         /// <summary>
         /// Gets or sets the site description.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the domain.
         /// </summary>
-        public string Domain { get; set; }
+        public string? Domain { get; set; }
 
         /// <summary>
         /// Gets or sets the keywords.
         /// </summary>
-        public string Keywords { get; set; }
+        public string? Keywords { get; set; }
 
         /// <summary>
         /// Gets or sets the site name.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the URL of the site's repository.
         /// </summary>
-        public string Repository { get; set; }
+        public string? Repository { get; set; }
 
         /// <summary>
         /// Gets or sets the robots value.
         /// </summary>
-        public string Robots { get; set; }
+        public string? Robots { get; set; }
 
         /// <summary>
         /// Gets or sets the site type.
         /// </summary>
-        public string Type { get; set; }
+        public string? Type { get; set; }
     }
 }

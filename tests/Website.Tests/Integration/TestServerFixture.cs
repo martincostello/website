@@ -11,6 +11,7 @@ namespace MartinCostello.Website.Integration
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Xunit.Abstractions;
 
@@ -30,12 +31,7 @@ namespace MartinCostello.Website.Integration
         }
 
         /// <inheritdoc />
-        public ITestOutputHelper OutputHelper { get; set; }
-
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> in use.
-        /// </summary>
-        public virtual IServiceProvider Services => Server?.Host?.Services;
+        public ITestOutputHelper? OutputHelper { get; set; }
 
         /// <summary>
         /// Clears the current <see cref="ITestOutputHelper"/>.
@@ -85,7 +81,7 @@ namespace MartinCostello.Website.Integration
         /// <param name="builder">The configuration builder to use.</param>
         private static void ConfigureTests(IConfigurationBuilder builder)
         {
-            string directory = Path.GetDirectoryName(typeof(TestServerFixture).Assembly.Location);
+            string directory = Path.GetDirectoryName(typeof(TestServerFixture).Assembly.Location) ?? ".";
             string fullPath = Path.Combine(directory, "testsettings.json");
 
             builder.AddJsonFile(fullPath);

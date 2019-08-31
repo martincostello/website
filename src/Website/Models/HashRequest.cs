@@ -3,7 +3,7 @@
 
 namespace MartinCostello.Api.Models
 {
-    using Newtonsoft.Json;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// A class representing a request for the <c>/tools/hash</c> API resource. This class cannot be inherited.
@@ -13,19 +13,19 @@ namespace MartinCostello.Api.Models
         /// <summary>
         /// Gets or sets the name of the hash algorithm to use.
         /// </summary>
-        [JsonProperty("algorithm")]
-        public string Algorithm { get; set; }
+        [JsonPropertyName("algorithm")]
+        public string Algorithm { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the format in which to return the hash.
         /// </summary>
-        [JsonProperty("format")]
-        public string Format { get; set; }
+        [JsonPropertyName("format")]
+        public string Format { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the plaintext value to generate the hash from.
         /// </summary>
-        [JsonProperty("plaintext")]
-        public string Plaintext { get; set; }
+        [JsonPropertyName("plaintext")]
+        public string Plaintext { get; set; } = string.Empty;
     }
 }

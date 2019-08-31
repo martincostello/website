@@ -4,6 +4,7 @@
 namespace MartinCostello.Website.Extensions
 {
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Serilog;
 
@@ -16,11 +17,11 @@ namespace MartinCostello.Website.Extensions
         /// Configures logging for the application.
         /// </summary>
         /// <param name="builder">The <see cref="ILoggingBuilder"/> to configure.</param>
-        /// <param name="context">The <see cref="WebHostBuilderContext"/> to use.</param>
+        /// <param name="context">The <see cref="HostBuilderContext"/> to use.</param>
         /// <returns>
         /// The <see cref="ILoggingBuilder"/> passed as the value of <paramref name="builder"/>.
         /// </returns>
-        public static ILoggingBuilder ConfigureLogging(this ILoggingBuilder builder, WebHostBuilderContext context)
+        public static ILoggingBuilder ConfigureLogging(this ILoggingBuilder builder, HostBuilderContext context)
         {
             var loggerConfig = new LoggerConfiguration()
                 .Enrich.FromLogContext()
