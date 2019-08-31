@@ -23,13 +23,13 @@ namespace MartinCostello.Api.Models
         /// </summary>
         [JsonPropertyName("message")]
         [Required]
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the request Id.
         /// </summary>
         [JsonPropertyName("requestId")]
         [Required]
-        public string RequestId { get; set; }
+        public string RequestId { get; set; } = string.Empty;
     }
 }

@@ -185,7 +185,7 @@ namespace MartinCostello.Website
 
             if (context.File.Exists && HostingEnvironment.IsProduction())
             {
-                string extension = Path.GetExtension(context.File.PhysicalPath);
+                string? extension = Path.GetExtension(context.File.PhysicalPath);
 
                 // These files are served with a content hash in the URL so can be cached for longer
                 bool isScriptOrStyle =

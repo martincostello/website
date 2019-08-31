@@ -14,18 +14,18 @@ namespace MartinCostello.Api.Models
         /// Gets or sets the name of the hash algorithm to use.
         /// </summary>
         [JsonPropertyName("algorithm")]
-        public string Algorithm { get; set; }
+        public string Algorithm { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the format in which to return the hash.
         /// </summary>
         [JsonPropertyName("format")]
-        public string Format { get; set; }
+        public string Format { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the plaintext value to generate the hash from.
         /// </summary>
         [JsonPropertyName("plaintext")]
-        public string Plaintext { get; set; }
+        public string Plaintext { get; set; } = string.Empty;
     }
 }

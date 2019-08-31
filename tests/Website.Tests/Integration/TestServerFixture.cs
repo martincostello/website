@@ -31,7 +31,7 @@ namespace MartinCostello.Website.Integration
         }
 
         /// <inheritdoc />
-        public ITestOutputHelper OutputHelper { get; set; }
+        public ITestOutputHelper? OutputHelper { get; set; }
 
         /// <summary>
         /// Clears the current <see cref="ITestOutputHelper"/>.
@@ -81,18 +81,10 @@ namespace MartinCostello.Website.Integration
         /// <param name="builder">The configuration builder to use.</param>
         private static void ConfigureTests(IConfigurationBuilder builder)
         {
-            string directory = Path.GetDirectoryName(typeof(TestServerFixture).Assembly.Location);
+            string directory = Path.GetDirectoryName(typeof(TestServerFixture).Assembly.Location) ?? ".";
             string fullPath = Path.Combine(directory, "testsettings.json");
 
             builder.AddJsonFile(fullPath);
-        }
-
-        private void EnsureStarted()
-        {
-            // HACK Force HTTP server startup
-            using (CreateDefaultClient())
-            {
-            }
         }
     }
 }

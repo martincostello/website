@@ -13,26 +13,26 @@ namespace MartinCostello.Website.Options
         /// <summary>
         /// Gets or sets the analytics options for the site.
         /// </summary>
-        public AnalyticsOptions Analytics { get; set; }
+        public AnalyticsOptions? Analytics { get; set; }
 
         /// <summary>
         /// Gets or sets the certificate transparency options to use.
         /// </summary>
-        public CertificateTransparencyOptions CertificateTransparency { get; set; }
+        public CertificateTransparencyOptions? CertificateTransparency { get; set; }
 
         /// <summary>
         /// Gets or sets the Content Security Policy origins for the site.
         /// </summary>
-        public IDictionary<string, IList<string>> ContentSecurityPolicyOrigins { get; set; }
+        public IDictionary<string, IList<string>>? ContentSecurityPolicyOrigins { get; set; }
 
         /// <summary>
         /// Gets or setsht the external link options for the site.
         /// </summary>
-        public ExternalLinksOptions ExternalLinks { get; set; }
+        public ExternalLinksOptions? ExternalLinks { get; set; }
 
         /// <summary>
         /// Gets or sets the metadata options for the site.
         /// </summary>
-        public MetadataOptions Metadata { get; set; }
+        public MetadataOptions? Metadata { get; set; }
     }
 }

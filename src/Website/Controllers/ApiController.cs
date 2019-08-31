@@ -43,7 +43,7 @@ namespace MartinCostello.Website.Controllers
         [ProducesResponseType(typeof(GuidResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [Route("guid", Name = SiteRoutes.GenerateGuid)]
-        public ActionResult<GuidResponse> Guid([FromQuery]string format = null, [FromQuery]bool? uppercase = null)
+        public ActionResult<GuidResponse> Guid([FromQuery]string? format = null, [FromQuery]bool? uppercase = null)
             => _service.GenerateGuid(format, uppercase);
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace MartinCostello.Website.Controllers
         [ProducesResponseType(typeof(MachineKeyResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [Route("machinekey", Name = SiteRoutes.GenerateMachineKey)]
-        public ActionResult<MachineKeyResponse> MachineKey([FromQuery]string decryptionAlgorithm, [FromQuery]string validationAlgorithm)
+        public ActionResult<MachineKeyResponse> MachineKey([FromQuery]string? decryptionAlgorithm, [FromQuery]string? validationAlgorithm)
             => _service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
     }
 }

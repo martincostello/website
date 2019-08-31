@@ -16,6 +16,6 @@ namespace MartinCostello.Api.Models
         /// </summary>
         [JsonPropertyName("guid")]
         [Required]
-        public string Guid { get; set; }
+        public string Guid { get; set; } = string.Empty;
     }
 }

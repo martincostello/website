@@ -20,7 +20,7 @@ namespace MartinCostello.Website.Extensions
         /// <returns>
         /// The canonical URI to use for the specified HTTP request.
         /// </returns>
-        public static string Canonical(this HttpRequest request, string path = null)
+        public static string Canonical(this HttpRequest request, string? path = null)
         {
             string host = request.Host.ToString();
             string[] hostSplit = host.Split(':');

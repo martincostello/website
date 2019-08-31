@@ -16,20 +16,20 @@ namespace MartinCostello.Api.Models
         /// </summary>
         [JsonPropertyName("decryptionKey")]
         [Required]
-        public string DecryptionKey { get; set; }
+        public string DecryptionKey { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a string containing the validation key.
         /// </summary>
         [JsonPropertyName("validationKey")]
         [Required]
-        public string ValidationKey { get; set; }
+        public string ValidationKey { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a string containing the <c>&lt;machineKey&gt;</c> XML configuration element.
         /// </summary>
         [JsonPropertyName("machineKeyXml")]
         [Required]
-        public string MachineKeyXml { get; set; }
+        public string MachineKeyXml { get; set; } = string.Empty;
     }
 }

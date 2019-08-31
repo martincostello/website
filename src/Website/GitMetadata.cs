@@ -31,6 +31,8 @@ namespace MartinCostello.Website
         /// <summary>
         /// Gets the Git commit SHA associated with this revision of the application.
         /// </summary>
+        /// <param name="name">The metadata attribute name.</param>
+        /// <param name="defaultValue">The default value if the metadata attribute is not found.</param>
         /// <returns>
         /// A <see cref="string"/> containing the Git SHA-1 for the revision of the application.
         /// </returns>
@@ -40,8 +42,7 @@ namespace MartinCostello.Website
                 .GetCustomAttributes<AssemblyMetadataAttribute>()
                 .Where((p) => string.Equals(p.Key, name, StringComparison.Ordinal))
                 .Select((p) => p.Value)
-                .DefaultIfEmpty(defaultValue)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? defaultValue;
         }
     }
 }

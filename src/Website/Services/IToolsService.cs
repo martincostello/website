@@ -20,7 +20,7 @@ namespace MartinCostello.Website.Services
         /// <returns>
         /// An <see cref="ActionResult{GuidResponse}"/> containing the generated GUID.
         /// </returns>
-        ActionResult<GuidResponse> GenerateGuid(string format, bool? uppercase);
+        ActionResult<GuidResponse> GenerateGuid(string? format, bool? uppercase);
 
         /// <summary>
         /// Generates a hash of some plaintext for a specified hash algorithm and returns
@@ -40,6 +40,6 @@ namespace MartinCostello.Website.Services
         /// <returns>
         /// An <see cref="ActionResult{MachineKeyResponse}"/> containing the generated machine key.
         /// </returns>
-        ActionResult<MachineKeyResponse> GenerateMachineKey(string decryptionAlgorithm, string validationAlgorithm);
+        ActionResult<MachineKeyResponse> GenerateMachineKey(string? decryptionAlgorithm, string? validationAlgorithm);
     }
 }

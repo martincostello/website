@@ -16,6 +16,6 @@ namespace MartinCostello.Api.Models
         /// </summary>
         [JsonPropertyName("hash")]
         [Required]
-        public string Hash { get; set; }
+        public string Hash { get; set; } = string.Empty;
     }
 }

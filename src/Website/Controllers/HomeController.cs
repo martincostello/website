@@ -15,7 +15,7 @@ namespace MartinCostello.Website.Controllers
         /// <summary>
         /// The URL of the blog. This field is read-only.
         /// </summary>
-        private readonly Uri _blogUri;
+        private readonly Uri? _blogUri;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
