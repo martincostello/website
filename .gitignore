@@ -13,6 +13,7 @@ bin
 Bin
 BuildOutput
 coverage
+coverage*
 node_modules
 obj
 packages
@@ -24,6 +25,7 @@ TestResults
 UpgradeLog*.htm
 UpgradeLog*.XML
 PublishProfiles
+*.coverage
 *.DotSettings
 *.GhostDoc.xml
 *.log
