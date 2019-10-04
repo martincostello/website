@@ -2,8 +2,7 @@ param(
     [Parameter(Mandatory = $false)][string] $Configuration = "Release",
     [Parameter(Mandatory = $false)][string] $VersionSuffix = "",
     [Parameter(Mandatory = $false)][string] $OutputPath = "",
-    [Parameter(Mandatory = $false)][switch] $SkipTests,
-    [Parameter(Mandatory = $false)][switch] $DisableCodeCoverage
+    [Parameter(Mandatory = $false)][switch] $SkipTests
 )
 
 $ErrorActionPreference = "Stop"
@@ -46,6 +45,7 @@ if ($installDotNetSdk -eq $true) {
             mkdir $env:DOTNET_INSTALL_DIR | Out-Null
         }
         $installScript = Join-Path $env:DOTNET_INSTALL_DIR "install.ps1"
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor "Tls12"
         Invoke-WebRequest "https://dot.net/v1/dotnet-install.ps1" -OutFile $installScript -UseBasicParsing
         & $installScript -Version "$dotnetVersion" -InstallDir "$env:DOTNET_INSTALL_DIR" -NoPath
     }
@@ -60,48 +60,37 @@ else {
 function DotNetTest {
     param([string]$Project)
 
-    if ($DisableCodeCoverage -eq $true) {
-        if ($null -ne $env:TF_BUILD) {
-            & $dotnet test $Project --output $OutputPath --logger trx
-        }
-        else {
-            & $dotnet test $Project --output $OutputPath
-        }
+    if ($installDotNetSdk -eq $true) {
+        $dotnetPath = $dotnet
     }
     else {
-
-        if ($installDotNetSdk -eq $true) {
-            $dotnetPath = $dotnet
-        }
-        else {
-            $dotnetPath = (Get-Command "dotnet.exe").Source
-        }
-
-        $nugetPath = Join-Path $env:USERPROFILE ".nuget\packages"
-        $propsFile = Join-Path $solutionPath "Directory.Build.props"
-
-        $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageReference[@Include='ReportGenerator']/@Version").Node.'#text'
-        $reportGeneratorPath = Join-Path $nugetPath "ReportGenerator\$reportGeneratorVersion\tools\netcoreapp2.0\ReportGenerator.dll"
-
-        $coverageOutput = Join-Path $OutputPath "coverage.cobertura.xml"
-        $reportOutput = Join-Path $OutputPath "coverage"
-
-        if ($null -ne $env:TF_BUILD) {
-            & $dotnetPath test $Project --output $OutputPath --logger trx -- RunConfiguration.TestSessionTimeout=1200000
-        }
-        else {
-            & $dotnetPath test $Project --output $OutputPath -- RunConfiguration.TestSessionTimeout=1200000
-        }
-
-        $dotNetTestExitCode = $LASTEXITCODE
-
-        & $dotnet `
-            $reportGeneratorPath `
-            `"-reports:$coverageOutput`" `
-            `"-targetdir:$reportOutput`" `
-            -reporttypes:HTML `
-            -verbosity:Warning
+        $dotnetPath = (Get-Command "dotnet.exe").Source
     }
+
+    $nugetPath = Join-Path $env:USERPROFILE ".nuget\packages"
+    $propsFile = Join-Path $solutionPath "Directory.Build.props"
+
+    $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageReference[@Include='ReportGenerator']/@Version").Node.'#text'
+    $reportGeneratorPath = Join-Path $nugetPath "ReportGenerator\$reportGeneratorVersion\tools\netcoreapp2.0\ReportGenerator.dll"
+
+    $coverageOutput = Join-Path $OutputPath "coverage.cobertura.xml"
+    $reportOutput = Join-Path $OutputPath "coverage"
+
+    if ($null -ne $env:TF_BUILD) {
+        & $dotnetPath test $Project --output $OutputPath --logger trx -- RunConfiguration.TestSessionTimeout=1200000
+    }
+    else {
+        & $dotnetPath test $Project --output $OutputPath -- RunConfiguration.TestSessionTimeout=1200000
+    }
+
+    $dotNetTestExitCode = $LASTEXITCODE
+
+    & $dotnet `
+        $reportGeneratorPath `
+        `"-reports:$coverageOutput`" `
+        `"-targetdir:$reportOutput`" `
+        -reporttypes:HTML `
+        -verbosity:Warning
 
     if ($dotNetTestExitCode -ne 0) {
         throw "dotnet test failed with exit code $dotNetTestExitCode"
