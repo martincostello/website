@@ -101,10 +101,10 @@ function DotNetPublish {
     param([string]$Project)
     $publishPath = (Join-Path $OutputPath "publish")
     if ($VersionSuffix) {
-        & $dotnet publish $Project --output $publishPath --configuration $Configuration --runtime win-x64 --self-contained --version-suffix "$VersionSuffix"
+        & $dotnet publish $Project --output $publishPath --configuration $Configuration --version-suffix "$VersionSuffix"
     }
     else {
-        & $dotnet publish $Project --output $publishPath --configuration $Configuration --runtime win-x64 --self-contained
+        & $dotnet publish $Project --output $publishPath --configuration $Configuration
     }
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet publish failed with exit code $LASTEXITCODE"
