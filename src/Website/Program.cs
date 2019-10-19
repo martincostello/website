@@ -5,7 +5,6 @@ namespace MartinCostello.Website
 {
     using System;
     using Extensions;
-    using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -38,6 +37,13 @@ namespace MartinCostello.Website
             }
         }
 
+        /// <summary>
+        /// Creates the <see cref="IHostBuilder"/> for the application.
+        /// </summary>
+        /// <param name="args">The arguments to the application.</param>
+        /// <returns>
+        /// The <see cref="IHostBuilder"/> to use for the application.
+        /// </returns>
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
@@ -47,8 +53,6 @@ namespace MartinCostello.Website
                     {
                         webBuilder.CaptureStartupErrors(true)
                                   .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
-                                  .UseApplicationInsights()
-                                  .UseAzureAppServices()
                                   .UseStartup<Startup>();
                     });
         }
