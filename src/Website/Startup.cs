@@ -18,7 +18,6 @@ namespace MartinCostello.Website
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
-    using NodaTime;
     using Options;
     using Services;
 
@@ -141,7 +140,6 @@ namespace MartinCostello.Website
             services.AddResponseCaching()
                     .AddResponseCompression();
 
-            services.AddSingleton<IClock>((_) => SystemClock.Instance);
             services.AddSingleton<IToolsService, ToolsService>();
             services.AddHttpContextAccessor();
             services.AddScoped((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
