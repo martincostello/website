@@ -23,16 +23,8 @@ This project is licensed under the [Apache 2.0](https://github.com/martincostell
 
 ## Building and Testing
 
-To build and test the website run one of the following commands:
+To build and test the website run the following command:
 
-**Linux/macOS**
-
-```sh
-    ./build.sh
-```
-
-**Windows**
-
-```batchfile
-    .\Build.ps1
+```powershell
+./build.ps1
 ```
