@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD7EA67A-4FE1-4D4F-825E-51FF842107AB}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,6 +31,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{668E07A5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Tests", "tests\Website.Tests\Website.Tests.csproj", "{CB17AD8E-C3F1-45B3-B7BF-E973DAB75840}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FBD3A6A5-5C9F-4950-B0D2-ECC3A0A2C954}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5B31CD2E-3F11-4609-88E8-117EF1389235}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +59,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{03AC5596-565F-46B3-A7FD-F70F44C1CBB2} = {0EED3EF2-37DE-4E6E-B766-3E641D163515}
 		{CB17AD8E-C3F1-45B3-B7BF-E973DAB75840} = {668E07A5-C40F-4694-9D3C-EBC1180656CF}
+		{FBD3A6A5-5C9F-4950-B0D2-ECC3A0A2C954} = {DD7EA67A-4FE1-4D4F-825E-51FF842107AB}
+		{5B31CD2E-3F11-4609-88E8-117EF1389235} = {FBD3A6A5-5C9F-4950-B0D2-ECC3A0A2C954}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15DDCA85-B2C3-4172-8203-DB0967289CA4}
