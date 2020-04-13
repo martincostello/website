@@ -1,9 +1,6 @@
 # Martin Costello's website
 
-| | Linux/macOS | Windows |
-|:-:|:-:|:-:|
-| **Build Status** | [![Build status](https://img.shields.io/travis/martincostello/website/master.svg)](https://travis-ci.org/martincostello/website) | [![Build status](https://img.shields.io/appveyor/ci/martincostello/website/master.svg)](https://ci.appveyor.com/project/martincostello/website) [![codecov](https://codecov.io/gh/martincostello/website/branch/master/graph/badge.svg)](https://codecov.io/gh/martincostello/website) |
-| **Build History** | [![Build history](https://buildstats.info/travisci/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://travis-ci.org/martincostello/website) |  [![Build history](https://buildstats.info/appveyor/chart/martincostello/website?branch=master&includeBuildsFromPullRequest=false)](https://ci.appveyor.com/project/martincostello/website) |
+[![Build status](https://github.com/martincostello/website/workflows/build/badge.svg?branch=master&event=push)](https://github.com/martincostello/website/actions?query=workflow%3ABuild+branch%3Amaster+event%3Apush)
 
 ## Overview
 
@@ -23,16 +20,8 @@ This project is licensed under the [Apache 2.0](https://github.com/martincostell
 
 ## Building and Testing
 
-To build and test the website run one of the following commands:
+To build and test the website run the following command:
 
-**Linux/macOS**
-
-```sh
-    ./build.sh
-```
-
-**Windows**
-
-```batchfile
-    .\Build.ps1
+```powershell
+./build.ps1
 ```
