@@ -84,7 +84,7 @@ function DotNetTest {
     $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageReference[@Include='ReportGenerator']/@Version").Node.'#text'
     $reportGeneratorPath = Join-Path $nugetPath "reportgenerator\$reportGeneratorVersion\tools\netcoreapp3.0\ReportGenerator.dll"
 
-    $coverageOutput = Join-Path $OutputPath "coverage.cobertura.xml"
+    $coverageOutput = Join-Path $OutputPath "coverage.*.cobertura.xml"
     $reportOutput = Join-Path $OutputPath "coverage"
 
     & $dotnet test $Project --output $OutputPath
