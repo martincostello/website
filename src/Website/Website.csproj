@@ -25,7 +25,7 @@
     <PackageReference Include="Serilog.Sinks.UDP" Version="7.0.0" />
   </ItemGroup>
   <Target Name="BundleAssets" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm ci" Condition=" '$(InstallWebPackages)' == 'true' " />
+    <Exec Command="npm install" Condition=" '$(InstallWebPackages)' == 'true' " />
   </Target>
   <Target Name="PrepublishScript" DependsOnTargets="BundleAssets" BeforeTargets="Publish">
     <Exec Command="npm run publish" />
