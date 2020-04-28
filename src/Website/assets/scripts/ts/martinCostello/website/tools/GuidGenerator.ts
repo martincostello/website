@@ -8,9 +8,9 @@ namespace martinCostello.website.tools {
      */
     export class GuidGenerator extends Generator {
 
-        private format: JQuery;
-        private text: JQuery;
-        private uppercase: JQuery;
+        private format: JQuery<Element>;
+        private text: JQuery<Element>;
+        private uppercase: JQuery<Element>;
 
         /**
          * Initializes a new instance of the GuidGenerator class.
