@@ -8,11 +8,11 @@ namespace martinCostello.website.tools {
      */
     export class HashGenerator extends Generator {
 
-        private algorithm: JQuery;
-        private format: JQuery;
-        private plaintext: JQuery;
-        private textContainer: JQuery;
-        private text: JQuery;
+        private algorithm: JQuery<Element>;
+        private format: JQuery<Element>;
+        private plaintext: JQuery<Element>;
+        private textContainer: JQuery<Element>;
+        private text: JQuery<Element>;
 
         /**
          * Initializes a new instance of the HashGenerator class.

@@ -8,10 +8,10 @@ namespace martinCostello.website.tools {
      */
     export class MachineKeyGenerator extends Generator {
 
-        private decryptionAlgorithm: JQuery;
-        private validationAlgorithm: JQuery;
-        private textContainer: JQuery;
-        private text: JQuery;
+        private decryptionAlgorithm: JQuery<Element>;
+        private validationAlgorithm: JQuery<Element>;
+        private textContainer: JQuery<Element>;
+        private text: JQuery<Element>;
 
         /**
          * Initializes a new instance of the MachineKeyGenerator class.
