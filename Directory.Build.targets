@@ -72,7 +72,7 @@
     <!-- On macOS query the well-known binary for the version -->
     <Exec Condition="$([MSBuild]::IsOsPlatform(`OSX`))"
           ConsoleToMSBuild="true"
-          Command="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version"
+          Command="'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --version"
           IgnoreExitCode="true"
           StandardOutputImportance="low">
       <Output TaskParameter="ConsoleOutput" PropertyName="_ChromeVersion" />
@@ -81,7 +81,6 @@
       Validate that the installed version of Google Chrome was found.
     -->
     <Error Condition=" '$(_ChromeVersion)' == '' " Text="Google Chrome is not installed." />
-    <Error Condition=" '$(_ChromeVersion)' != '' and $([MSBuild]::IsOsPlatform(`OSX`)) " Text="$(_ChromeVersion)" />
     <PropertyGroup>
       <_ChromeDriverLatestVersionUri>https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(_ChromeVersion.Split(`.`)[0])</_ChromeDriverLatestVersionUri>
     </PropertyGroup>
