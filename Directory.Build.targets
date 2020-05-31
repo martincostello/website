@@ -61,7 +61,8 @@
     <PropertyGroup Condition="$([MSBuild]::IsOsPlatform(`Windows`))">
       <_ChromeVersion>%(_ChromeVersions.Filename)</_ChromeVersion>
     </PropertyGroup>
-    <Exec Condition="!$([MSBuild]::IsOsPlatform(`Windows`))"
+    <!-- On Linux just query the well-known binary for the version -->
+    <Exec Condition="!$([MSBuild]::IsOsPlatform(`Linux`))"
           ConsoleToMSBuild="true"
           Command="google-chrome --product-version"
           IgnoreExitCode="true"
