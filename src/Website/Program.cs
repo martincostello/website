@@ -53,6 +53,7 @@ namespace MartinCostello.Website
                     {
                         webBuilder.CaptureStartupErrors(true)
                                   .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
+                                  .ConfigureKestrel((p) => p.AddServerHeader = false)
                                   .UseStartup<Startup>();
                     });
         }
