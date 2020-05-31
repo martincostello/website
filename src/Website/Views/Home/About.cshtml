@@ -1,22 +1,23 @@
-@inject SiteOptions Options
 @{
-    ViewBag.Title = "About Martin";
-    ViewBag.MetaDescription = $"Information about {Options.Metadata?.Author?.Name}, a software developer and tester.";
+    SiteOptions options = Options.Value;
 
-    string image = Url.CdnContent("martin_small-v2.png", Options);
+    ViewBag.Title = "About Martin";
+    ViewBag.MetaDescription = $"Information about {options.Metadata?.Author?.Name}, a software developer and tester.";
+
+    string image = Url.CdnContent("martin_small-v2.png", options);
     int yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">
     <div class="col-md-4">
         <br />
         <noscript>
-            <img class="img-fluid mx-auto d-block" height="300" width="288" src="@image" alt="@Options.Metadata?.Author?.Name" title="@Options.Metadata?.Author?.Name" asp-append-version="true" />
+            <img class="img-fluid mx-auto d-block" height="300" width="288" src="@image" alt="@options.Metadata?.Author?.Name" title="@options.Metadata?.Author?.Name" asp-append-version="true" />
         </noscript>
-        <lazyimg class="img-fluid mx-auto d-block" height="300" width="288" src="@image" alt="@Options.Metadata?.Author?.Name" title="@Options.Metadata?.Author?.Name" asp-append-version="true" />
+        <lazyimg class="img-fluid mx-auto d-block" height="300" width="288" src="@image" alt="@options.Metadata?.Author?.Name" title="@options.Metadata?.Author?.Name" asp-append-version="true" />
     </div>
     <div class="col-md-8">
         <h1>About Martin</h1>
-        <p>@Options.Metadata?.Author?.Name is a C# .NET developer and tester and <a href="https://mvp.microsoft.com/en-us/PublicProfile/5003438" rel="noopener" target="_blank">Microsoft MVP in Developer Technologies</a>.</p>
+        <p>@options.Metadata?.Author?.Name is a C# .NET developer and tester and <a href="https://mvp.microsoft.com/en-us/PublicProfile/5003438" rel="noopener" target="_blank">Microsoft MVP in Developer Technologies</a>.</p>
         <p>He has over @yearsExperience years of experience testing and developing high-quality software and is based in London, UK.</p>
         <p>His experience includes various parts of the Microsoft technology stack and cloud hosting, including:</p>
         <ul>
@@ -41,7 +42,7 @@
     </div>
     <div class="col-md-4 col-sm-12 col-xs-12">
         <h2 class="d-none d-md-block h5">Twitter</h2>
-        <a class="twitter-follow-button" href="https://twitter.com/@Options.Metadata?.Author?.SocialMedia?.Twitter" data-size="large" data-show-count="false" title="@Options.Metadata?.Author?.SocialMedia?.Twitter on Twitter">Follow @Options.Metadata?.Author?.SocialMedia?.Twitter</a>
+        <a class="twitter-follow-button" href="https://twitter.com/@options.Metadata?.Author?.SocialMedia?.Twitter" data-size="large" data-show-count="false" title="@options.Metadata?.Author?.SocialMedia?.Twitter on Twitter">Follow @options.Metadata?.Author?.SocialMedia?.Twitter</a>
     </div>
     <div class="col-md-4 d-none d-md-block">
         <h2 class="h5">Stack Overflow</h2>

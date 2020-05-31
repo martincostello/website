@@ -1,5 +1,6 @@
 @using System.Globalization
 @using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
 @using MartinCostello.Website
 @using MartinCostello.Website.Extensions
 @using MartinCostello.Website.Models
@@ -7,4 +8,4 @@
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 @addTagHelper "*, Website"
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-@inject SiteOptions Options
+@inject IOptions<SiteOptions> Options

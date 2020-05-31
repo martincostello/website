@@ -141,8 +141,6 @@ namespace MartinCostello.Website
                     .AddResponseCompression();
 
             services.AddSingleton<IToolsService, ToolsService>();
-            services.AddHttpContextAccessor();
-            services.AddScoped((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
         }
 
         /// <summary>

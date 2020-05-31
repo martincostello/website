@@ -4,6 +4,7 @@
 @inject IWebHostEnvironment Hosting
 @{
     bool renderGA = string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase);
+    SiteOptions options = Options.Value;
 }
     <title>@Model.Title</title>
     <meta http-equiv="cache-control" content="no-cache, no-store" />
@@ -30,9 +31,9 @@
     }
     else
     {
-    <meta property="og:image" content="@Url.CdnContent("martin_small.png", Options)" />
+    <meta property="og:image" content="@Url.CdnContent("martin_small.png", options)" />
     <meta property="og:image:type" content="image/png" />
-    <meta name="twitter:image" content="@Url.CdnContent("martin_small.png", Options)" />
+    <meta name="twitter:image" content="@Url.CdnContent("martin_small.png", options)" />
     <meta name="twitter:image:alt" content="@Model.Author" />
     }
     <meta property="og:locale" content="en_GB" />
@@ -48,7 +49,7 @@
     <meta name="twitter:title" content="@Model.Title" />
     <meta name="twitter:url" content="@Model.CanonicalUri" />
     <meta name="application-name" content="@Model.SiteName" />
-    <meta name="google-analytics" content="@(renderGA ? Options.Analytics?.Google : string.Empty)" />
+    <meta name="google-analytics" content="@(renderGA ? options.Analytics?.Google : string.Empty)" />
     <meta name="google-site-verification" content="ao6JIWbKFHZ8DmbV52hf43MrjiHCFRf0GiJYYHDeRMo" />
     <meta name="google-site-verification" content="I9S9DiGCLTG_JdMlSwt2YnNVcyFPo1DT1jeHa_X-p_0" />
     <meta name="google-site-verification" content="ji6SNsPQEbNQmF252sQgQFswh-b6cDnNOa3AHvgo4J0" />
@@ -56,7 +57,7 @@
     <meta name="msapplication-navbutton-color" content="#2b5797" />
     <meta name="msapplication-starturl" content="/" />
     <meta name="msapplication-TileColor" content="#2b5797" />
-    <meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", Options)" />
+    <meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", options)" />
     <meta name="x-site-branch" content="@GitMetadata.Branch" />
     <meta name="x-site-revision" content="@GitMetadata.Commit" />
     <script type="application/ld+json">
@@ -66,8 +67,8 @@
         "name": "@Model.SiteName",
         "alternateName": "@Model.Description",
         "description": "@Model.Description",
-        "image": "@Options.Metadata?.Author?.Avatar",
-        "url": "@Options.Metadata?.Author?.Website"
+        "image": "@options.Metadata?.Author?.Avatar",
+        "url": "@options.Metadata?.Author?.Website"
     }
     </script>
     <script type="application/ld+json">
@@ -109,17 +110,17 @@
         "givenName": "Martin",
         "honorificPrefix": "Mr",
         "honorificSuffix": "BSc (Hons)",
-        "image": "@Options.Metadata?.Author?.Avatar",
+        "image": "@options.Metadata?.Author?.Avatar",
         "jobTitle": "Senior Engineer",
         "nationality": "British",
         "sameAs": [
-            "@Options.ExternalLinks?.Blog?.AbsoluteUri",
+            "@options.ExternalLinks?.Blog?.AbsoluteUri",
             "https://www.facebook.com/people/Martin-Costello/100013295526556",
             "https://github.com/martincostello",
             "https://keybase.io/martincostello",
             "https://www.linkedin.com/in/martin-costello",
             "https://twitter.com/martin_costello"
         ],
-        "url": "@Options.Metadata?.Author?.Website"
+        "url": "@options.Metadata?.Author?.Website"
     }
     </script>
