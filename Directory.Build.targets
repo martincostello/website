@@ -58,6 +58,11 @@
       <_ChromeVersions Include="$(ProgramFiles)\Google\Chrome\Application\**\*.manifest"/>
       <_ChromeVersions Include="$(MSBuildProgramFiles32)\Google\Chrome\Application\**\*.manifest"/>
     </ItemGroup>
+    <!-- Work out where it lives for debugging -->
+    <Exec Command="where google-chrome" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_WhereGoogleChrome" />
+    </Exec>
+    <Message Text=" Google Chrome: $(_WhereGoogleChrome)" Importance="high" />
     <!--
       Validate that exactly one version of Chrome is installed.
     -->
