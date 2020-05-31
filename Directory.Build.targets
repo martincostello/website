@@ -82,6 +82,7 @@
     -->
     <Error Condition=" '$(_ChromeVersion)' == '' " Text="Google Chrome is not installed." />
     <PropertyGroup>
+      <_ChromeVersion>$(_ChromeVersion.Replace(`Google Chrome `, ``))</_ChromeVersion>
       <_ChromeDriverLatestVersionUri>https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(_ChromeVersion.Split(`.`)[0])</_ChromeDriverLatestVersionUri>
     </PropertyGroup>
     <Message Text="Google Chrome version $(_ChromeVersion) is installed." Importance="normal" />
