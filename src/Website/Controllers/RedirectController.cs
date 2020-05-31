@@ -5,6 +5,7 @@ namespace MartinCostello.Website.Controllers
 {
     using Extensions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Options;
 
     /// <summary>
@@ -21,11 +22,17 @@ namespace MartinCostello.Website.Controllers
         /// Initializes a new instance of the <see cref="RedirectController"/> class.
         /// </summary>
         /// <param name="options">The options to use.</param>
-        public RedirectController(SiteOptions options)
+        public RedirectController(IOptions<SiteOptions> options)
         {
-            _options = options;
+            _options = options.Value;
         }
 
+        /// <summary>
+        /// Gets an image for the BrowserStack logo.
+        /// </summary>
+        /// <returns>
+        /// The action result for the image.
+        /// </returns>
         [HttpGet]
         [Route("Content/browserstack.svg")]
         public IActionResult Browserstack() => Redirect(Url.CdnContent("browserstack.svg", _options));

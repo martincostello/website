@@ -1,7 +1,7 @@
-@model Tuple<string, SiteOptions>
+@model string
 @{
-    string canonical = Model.Item1;
-    SiteOptions options = Model.Item2;
+    string canonical = Model;
+    SiteOptions options = Options.Value;
 }
     <link rel="canonical" href="@canonical" />
     <link rel="manifest" href="@Url.Content("~/manifest.webmanifest")" asp-append-version="true" />

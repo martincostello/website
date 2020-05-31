@@ -1,4 +1,3 @@
-@inject SiteOptions Options
 @{
     ViewBag.Title = "Projects";
     ViewBag.MetaDescription = "About Martin Costello's personal projects.";
@@ -116,7 +115,7 @@
             <div class="card-body">
                 <p>
                     Martin's
-                    <a id="link-blog-project" href="@Options?.ExternalLinks?.Blog?.AbsoluteUri" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
+                    <a id="link-blog-project" href="@Options.Value?.ExternalLinks?.Blog?.AbsoluteUri" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
                     a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
                 </p>
                 <p>

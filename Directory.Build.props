@@ -54,6 +54,6 @@
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
     <Exclude>[xunit.*]*</Exclude>
     <ExcludeByAttribute>System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
-    <Threshold>64</Threshold>
+    <Threshold>63</Threshold>
   </PropertyGroup>
 </Project>

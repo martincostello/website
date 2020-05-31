@@ -3,8 +3,8 @@
 
 namespace MartinCostello.Website.Controllers
 {
-    using System;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Options;
 
     /// <summary>
@@ -12,20 +12,6 @@ namespace MartinCostello.Website.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        /// <summary>
-        /// The URL of the blog. This field is read-only.
-        /// </summary>
-        private readonly Uri? _blogUri;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HomeController"/> class.
-        /// </summary>
-        /// <param name="options">The site options to use.</param>
-        public HomeController(SiteOptions options)
-        {
-            _blogUri = options?.ExternalLinks?.Blog;
-        }
-
         /// <summary>
         /// Gets the result for the <c>/home/about</c> action.
         /// </summary>
@@ -39,11 +25,15 @@ namespace MartinCostello.Website.Controllers
         /// <summary>
         /// Gets the result for the <c>/home/blog</c> action.
         /// </summary>
+        /// <param name="options">The site options to use.</param>
         /// <returns>
         /// The result for the <c>/home/blog</c> action.
         /// </returns>
         [HttpGet]
-        public IActionResult Blog() => Redirect(_blogUri?.AbsoluteUri ?? "/");
+        public IActionResult Blog([FromServices] IOptions<SiteOptions> options)
+        {
+            return Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
+        }
 
         /// <summary>
         /// Gets the result for the <c>/</c> action.

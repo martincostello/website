@@ -12,7 +12,7 @@
     }
 
     var model = MetaModel.Create(
-        Options.Metadata,
+        Options.Value.Metadata,
         canonicalUri: canonicalUri,
         description: ViewBag.MetaDescription as string,
         imageUri: image,
@@ -21,7 +21,7 @@
         title: ViewBag.Title as string);
 }
     @await Html.PartialAsync("_Meta", model)
-    @await Html.PartialAsync("_Links", Tuple.Create(canonicalUri, Options))
+    @await Html.PartialAsync("_Links", canonicalUri)
     @await RenderSectionAsync("meta", required: false)
     @await Html.PartialAsync("_StylesHead")
     @await RenderSectionAsync("stylesHead", required: false)
@@ -39,7 +39,7 @@
     @await Html.PartialAsync("_Navbar")
     <main class="container body-content">
         @RenderBody()
-        @await Html.PartialAsync("_Footer", Options)
+        @await Html.PartialAsync("_Footer", Options.Value)
     </main>
     @await Html.PartialAsync("_StylesBody")
     @await RenderSectionAsync("stylesBody", required: false)
