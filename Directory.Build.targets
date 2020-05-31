@@ -57,6 +57,7 @@
     <ItemGroup>
       <_ChromeVersions Include="$(ProgramFiles)\Google\Chrome\Application\**\*.manifest"/>
       <_ChromeVersions Include="$(MSBuildProgramFiles32)\Google\Chrome\Application\**\*.manifest"/>
+      <_ChromeVersions Include="/usr/bin/google-chrome/**/*.manifest"/>
     </ItemGroup>
     <!-- Work out where it lives for debugging -->
     <Exec Command="where google-chrome" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true">
