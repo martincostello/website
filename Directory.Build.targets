@@ -43,4 +43,58 @@
   <ItemGroup>
     <EmbeddedFiles Include="$(GeneratedAssemblyInfoFile)" />
   </ItemGroup>
+  <!--
+    Automatically adds a package reference for Selenium.WebDriver.ChromeDriver.
+  -->
+  <Target Name="AddReferenceToSeleniumWebDriverChromeDriver"
+          BeforeTargets="CollectPackageReferences"
+          Condition="@(PackageReference->AnyHaveMetadataValue(`Identity`, `Selenium.WebDriver`))">
+    <Message Text="Adding package reference for Selenium.WebDriver.ChromeDriver..." Importance="normal" />
+    <!--
+      Search for Google Chrome in the well-known installation locations.
+    -->
+    <Message Text="Searching for an installation of Google Chrome..." Importance="normal" />
+    <ItemGroup>
+      <_ChromeVersions Include="$(ProgramFiles)\Google\Chrome\Application\**\*.manifest"/>
+      <_ChromeVersions Include="$(MSBuildProgramFiles32)\Google\Chrome\Application\**\*.manifest"/>
+    </ItemGroup>
+    <!--
+      Validate that exactly one version of Chrome is installed.
+    -->
+    <Error Condition="@(_ChromeVersions->Count()) == 0" Text="Google Chrome is not installed." />
+    <Error Condition="@(_ChromeVersions->Count()) > 1" Text="Multiple versions of Google Chrome are installed: %(_ChromeVersions.Filename)" />
+    <PropertyGroup>
+      <_ChromeVersion>%(_ChromeVersions.Filename)</_ChromeVersion>
+      <_ChromeDriverLatestVersionUri>https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(_ChromeVersion.Split(`.`)[0])</_ChromeDriverLatestVersionUri>
+    </PropertyGroup>
+    <Message Text="Google Chrome version $(_ChromeVersion) is installed." Importance="normal" />
+    <!--
+      Download the file containing the latest version of the driver for this major version of Chrome.
+      See https://chromedriver.chromium.org/downloads/version-selection.
+    -->
+    <Message Text="Downloading latest Google Chrome driver version from '$(_ChromeDriverLatestVersionUri)'..." Importance="normal" />
+    <DownloadFile SourceUrl="$(_ChromeDriverLatestVersionUri)"
+                  DestinationFolder="$(BaseIntermediateOutputPath)"
+                  Retries="1">
+      <Output TaskParameter="DownloadedFile" PropertyName="_ChromeDriverLatestVersionFile" />
+    </DownloadFile>
+    <ItemGroup>
+      <FileWrites Include="$(_ChromeDriverLatestVersionFile)" />
+    </ItemGroup>
+    <!--
+      Read the latest driver version out of the file.
+    -->
+    <ReadLinesFromFile File="$(_ChromeDriverLatestVersionFile)" >
+      <Output TaskParameter="Lines" PropertyName="_ChromeDriverLatestVersion"/>
+    </ReadLinesFromFile>
+    <Message Text="The latest version of the Google Chrome driver is $(_ChromeDriverLatestVersion)." Importance="normal" />
+    <PropertyGroup>
+      <ChromeDriverVersion>$(_ChromeDriverLatestVersion)*</ChromeDriverVersion>
+    </PropertyGroup>
+    <!--  -->
+    <ItemGroup>
+      <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="$(ChromeDriverVersion)" />
+    </ItemGroup>
+    <Message Text="Added package reference to Selenium.WebDriver.ChromeDriver version '$(ChromeDriverVersion)'." Importance="normal" />
+  </Target>
 </Project>
