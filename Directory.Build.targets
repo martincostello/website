@@ -81,6 +81,7 @@
       Validate that the installed version of Google Chrome was found.
     -->
     <Error Condition=" '$(_ChromeVersion)' == '' " Text="Google Chrome is not installed." />
+    <Error Condition=" '$(_ChromeVersion)' != '' and $([MSBuild]::IsOsPlatform(`OSX`)) " Text="$(_ChromeVersion)" />
     <PropertyGroup>
       <_ChromeDriverLatestVersionUri>https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(_ChromeVersion.Split(`.`)[0])</_ChromeDriverLatestVersionUri>
     </PropertyGroup>
