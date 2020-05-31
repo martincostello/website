@@ -51,24 +51,28 @@
           Condition="@(PackageReference->AnyHaveMetadataValue(`Identity`, `Selenium.WebDriver`))">
     <Message Text="Adding package reference for Selenium.WebDriver.ChromeDriver..." Importance="normal" />
     <!--
-      Search for Google Chrome in the well-known installation locations.
+      Search for Google Chrome in the well-known installation locations on Windows.
     -->
     <Message Text="Searching for an installation of Google Chrome..." Importance="normal" />
-    <ItemGroup>
+    <ItemGroup Condition="$([MSBuild]::IsOsPlatform(`Windows`))">
       <_ChromeVersions Include="$(ProgramFiles)\Google\Chrome\Application\**\*.manifest"/>
       <_ChromeVersions Include="$(MSBuildProgramFiles32)\Google\Chrome\Application\**\*.manifest"/>
-      <_ChromeVersions Include="/usr/bin/google-chrome/**/*.manifest"/>
     </ItemGroup>
-    <!-- Work out where it lives for debugging -->
-    <Exec Command="where google-chrome" IgnoreExitCode="true">
+    <PropertyGroup Condition="$([MSBuild]::IsOsPlatform(`Windows`))">
+      <_ChromeVersion>%(_ChromeVersions.Filename)</_ChromeVersion>
+    </PropertyGroup>
+    <Exec Condition="!$([MSBuild]::IsOsPlatform(`Windows`))"
+          ConsoleToMSBuild="true"
+          Command="google-chrome --product-version"
+          IgnoreExitCode="true"
+          StandardOutputImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_ChromeVersion" />
     </Exec>
     <!--
-      Validate that exactly one version of Chrome is installed.
+      Validate that the installed version of Google Chrome was found.
     -->
-    <Error Condition="@(_ChromeVersions->Count()) == 0" Text="Google Chrome is not installed." />
-    <Error Condition="@(_ChromeVersions->Count()) > 1" Text="Multiple versions of Google Chrome are installed: %(_ChromeVersions.Filename)" />
+    <Error Condition=" '$(_ChromeVersion)' == '' " Text="Google Chrome is not installed." />
     <PropertyGroup>
-      <_ChromeVersion>%(_ChromeVersions.Filename)</_ChromeVersion>
       <_ChromeDriverLatestVersionUri>https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$(_ChromeVersion.Split(`.`)[0])</_ChromeDriverLatestVersionUri>
     </PropertyGroup>
     <Message Text="Google Chrome version $(_ChromeVersion) is installed." Importance="normal" />
