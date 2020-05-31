@@ -62,7 +62,7 @@
       <_ChromeVersion>%(_ChromeVersions.Filename)</_ChromeVersion>
     </PropertyGroup>
     <!-- On Linux query the well-known binary for the version -->
-    <Exec Condition="!$([MSBuild]::IsOsPlatform(`Linux`))"
+    <Exec Condition="$([MSBuild]::IsOsPlatform(`Linux`))"
           ConsoleToMSBuild="true"
           Command="google-chrome --product-version"
           IgnoreExitCode="true"
@@ -70,7 +70,7 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="_ChromeVersion" />
     </Exec>
     <!-- On macOS query the well-known binary for the version -->
-    <Exec Condition="!$([MSBuild]::IsOsPlatform(`OSX`))"
+    <Exec Condition="$([MSBuild]::IsOsPlatform(`OSX`))"
           ConsoleToMSBuild="true"
           Command="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --product-version"
           IgnoreExitCode="true"
