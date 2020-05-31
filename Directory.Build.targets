@@ -60,10 +60,8 @@
       <_ChromeVersions Include="/usr/bin/google-chrome/**/*.manifest"/>
     </ItemGroup>
     <!-- Work out where it lives for debugging -->
-    <Exec Command="where google-chrome" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="_WhereGoogleChrome" />
+    <Exec Command="where google-chrome" IgnoreExitCode="true">
     </Exec>
-    <Message Text=" Google Chrome: $(_WhereGoogleChrome)" Importance="high" />
     <!--
       Validate that exactly one version of Chrome is installed.
     -->
