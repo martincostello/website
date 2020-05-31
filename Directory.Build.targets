@@ -91,7 +91,9 @@
     <PropertyGroup>
       <ChromeDriverVersion>$(_ChromeDriverLatestVersion)*</ChromeDriverVersion>
     </PropertyGroup>
-    <!--  -->
+    <!--
+      Add the appropriate package reference for the driver for the installed version of Chrome.
+    -->
     <ItemGroup>
       <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="$(ChromeDriverVersion)" />
     </ItemGroup>
