@@ -1,6 +1,6 @@
 # Martin Costello's website
 
-[![Build status](https://github.com/martincostello/website/workflows/build/badge.svg?branch=master&event=push)](https://github.com/martincostello/website/actions?query=workflow%3Abuild+branch%3Amaster+event%3Apush)
+[![Build status](https://github.com/martincostello/website/workflows/build/badge.svg?branch=main&event=push)](https://github.com/martincostello/website/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush)
 
 ## Overview
 
@@ -16,7 +16,7 @@ The repository is hosted in [GitHub](https://github.com/martincostello/website):
 
 ## License
 
-This project is licensed under the [Apache 2.0](https://github.com/martincostello/website/blob/master/LICENSE) license.
+This project is licensed under the [Apache 2.0](https://github.com/martincostello/website/blob/main/LICENSE) license.
 
 ## Building and Testing
 
