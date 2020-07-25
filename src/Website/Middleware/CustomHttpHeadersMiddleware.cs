@@ -177,7 +177,10 @@ namespace MartinCostello.Website.Middleware
                     origins = origins.Concat(configOrigins).ToList();
                 }
 
-                origins = origins.Where((p) => !string.IsNullOrWhiteSpace(p)).ToList();
+                origins = origins
+                    .Where((p) => !string.IsNullOrWhiteSpace(p))
+                    .Distinct()
+                    .ToList();
 
                 if (origins.Count > 0)
                 {
