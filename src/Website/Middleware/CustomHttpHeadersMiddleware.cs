@@ -146,21 +146,21 @@ namespace MartinCostello.Website.Middleware
 
             var policies = new Dictionary<string, IList<string>>()
             {
-                { "default-src", new[] { Csp.Self, Csp.Data } },
-                { "script-src", new[] { Csp.Self, Csp.Inline } },
-                { "style-src", new[] { Csp.Self, Csp.Inline } },
-                { "img-src", new[] { Csp.Self, Csp.Data, cdn } },
-                { "font-src", new[] { Csp.Self } },
-                { "connect-src", new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) } },
-                { "media-src", new[] { Csp.None } },
-                { "object-src", Array.Empty<string>() },
-                { "child-src", new[] { Csp.Self } },
-                { "frame-ancestors", new[] { Csp.None } },
-                { "form-action", new[] { Csp.Self } },
-                { "block-all-mixed-content", Array.Empty<string>() },
-                { "base-uri", new[] { Csp.Self } },
-                { "manifest-src", new[] { Csp.Self } },
-                { "worker-src", new[] { Csp.Self } },
+                ["default-src"] = new[] { Csp.Self, Csp.Data },
+                ["script-src"] = new[] { Csp.Self, Csp.Inline },
+                ["style-src"] = new[] { Csp.Self, Csp.Inline },
+                ["img-src"] = new[] { Csp.Self, Csp.Data, cdn },
+                ["font-src"] = new[] { Csp.Self },
+                ["connect-src"] = new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) },
+                ["media-src"] = new[] { Csp.None },
+                ["object-src"] = Array.Empty<string>(),
+                ["child-src"] = new[] { Csp.Self },
+                ["frame-ancestors"] = new[] { Csp.None },
+                ["form-action"] = new[] { Csp.Self },
+                ["block-all-mixed-content"] = Array.Empty<string>(),
+                ["base-uri"] = new[] { Csp.Self },
+                ["manifest-src"] = new[] { Csp.Self },
+                ["worker-src"] = new[] { Csp.Self },
             };
 
             var builder = new StringBuilder();
