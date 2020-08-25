@@ -40,7 +40,7 @@ namespace MartinCostello.Website.Integration
             // Assert
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response!.Content!.ReadAsStringAsync();
 
             using var error = JsonDocument.Parse(json);
             error.RootElement.GetProperty("message").GetString().ShouldBe("The specified format 'foo' is invalid.");
@@ -69,9 +69,11 @@ namespace MartinCostello.Website.Integration
             using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
             // Assert
+            response.ShouldNotBeNull();
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            response.Content.ShouldNotBeNull();
 
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response!.Content!.ReadAsStringAsync();
 
             using var error = JsonDocument.Parse(json);
             error.RootElement.GetProperty("message").GetString().ShouldBe(expected);
@@ -96,9 +98,11 @@ namespace MartinCostello.Website.Integration
             using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
             // Assert
+            response.ShouldNotBeNull();
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            response.Content.ShouldNotBeNull();
 
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response!.Content!.ReadAsStringAsync();
 
             using var error = JsonDocument.Parse(json);
             error.RootElement.GetProperty("message").GetString().ShouldBe("The plaintext to hash cannot be more than 4096 characters in length.");
@@ -138,9 +142,11 @@ namespace MartinCostello.Website.Integration
             using HttpResponseMessage response = await client.PostAsync("/tools/hash", content);
 
             // Assert
+            response.ShouldNotBeNull();
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            response.Content.ShouldNotBeNull();
 
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response!.Content!.ReadAsStringAsync();
 
             using var hash = JsonDocument.Parse(json);
             hash.RootElement.GetProperty("hash").GetString().ShouldBe(expected);
@@ -163,9 +169,11 @@ namespace MartinCostello.Website.Integration
             using HttpResponseMessage response = await client.GetAsync($"/tools/machineKey?decryptionAlgorithm={decryptionAlgorithm}&validationAlgorithm={validationAlgorithm}");
 
             // Assert
+            response.ShouldNotBeNull();
             response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            response.Content.ShouldNotBeNull();
 
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response!.Content!.ReadAsStringAsync();
 
             using var error = JsonDocument.Parse(json);
             error.RootElement.GetProperty("message").GetString().ShouldBe(expected);

@@ -4,13 +4,10 @@
 namespace MartinCostello.Website.Services
 {
     using System;
-    using System.Buffers;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
     using System.Security.Cryptography;
     using System.Text;
-    using System.Threading.Tasks;
     using Api.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -23,26 +20,26 @@ namespace MartinCostello.Website.Services
         /// <summary>
         /// An <see cref="IDictionary{K, V}"/> containing the sizes of the decryption and validation hashes for machine keys.
         /// </summary>
-        private static readonly IDictionary<string, int> HashSizes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        private static readonly IReadOnlyDictionary<string, int> HashSizes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            { "3DES-D", 24 },
-            { "3DES-V", 24 },
-            { "AES-128-D", 16 },
-            { "AES-192-D", 24 },
-            { "AES-256-D", 32 },
-            { "AES-V", 32 },
-            { "DES-D", 32 },
-            { "MD5-V", 16 },
-            { "HMACSHA256-V", 32 },
-            { "HMACSHA384-V", 48 },
-            { "HMACSHA512-V", 64 },
-            { "SHA1-V", 64 },
+            ["3DES-D"] = 24,
+            ["3DES-V"] = 24,
+            ["AES-128-D"] = 16,
+            ["AES-192-D"] = 24,
+            ["AES-256-D"] = 32,
+            ["AES-V"] = 32,
+            ["DES-D"] = 32,
+            ["MD5-V"] = 16,
+            ["HMACSHA256-V"] = 32,
+            ["HMACSHA384-V"] = 48,
+            ["HMACSHA512-V"] = 64,
+            ["SHA1-V"] = 64,
         };
 
         /// <summary>
-        /// The trace Id of the current request. This field is read-only.
+        /// The HttpContext accessor This field is read-only.
         /// </summary>
-        private readonly string _traceId;
+        private readonly IHttpContextAccessor _contextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolsService"/> class.
@@ -50,7 +47,7 @@ namespace MartinCostello.Website.Services
         /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to use.</param>
         public ToolsService(IHttpContextAccessor contextAccessor)
         {
-            _traceId = contextAccessor.HttpContext.TraceIdentifier;
+            _contextAccessor = contextAccessor;
         }
 
         /// <inheritdoc/>
@@ -62,9 +59,7 @@ namespace MartinCostello.Website.Services
             {
                 guid = Guid.NewGuid().ToString(format ?? "D", CultureInfo.InvariantCulture);
             }
-#pragma warning disable CA1031
             catch (FormatException)
-#pragma warning restore CA1031
             {
                 return BadRequest($"The specified format '{format}' is invalid.");
             }
@@ -81,7 +76,7 @@ namespace MartinCostello.Website.Services
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<HashResponse>> GenerateHashAsync(HashRequest request)
+        public ActionResult<HashResponse> GenerateHash(HashRequest request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.Algorithm))
             {
@@ -116,31 +111,36 @@ namespace MartinCostello.Website.Services
                 return BadRequest($"The plaintext to hash cannot be more than {MaxPlaintextLength} characters in length.");
             }
 
-            byte[] hash;
-
-            using (var stream = new MemoryStream())
+            if (request.Plaintext?.Length > MaxPlaintextLength)
             {
-                using (var writer = new StreamWriter(stream, Encoding.ASCII, MaxPlaintextLength, true))
-                {
-                    await writer.WriteAsync(request.Plaintext ?? string.Empty).ConfigureAwait(false);
-                    await writer.FlushAsync().ConfigureAwait(false);
-                }
+                return BadRequest($"The plaintext to hash cannot be more than {MaxPlaintextLength} characters in length.");
+            }
 
-                stream.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = Encoding.UTF8.GetBytes(request.Plaintext ?? string.Empty);
+            byte[] hash = request.Algorithm.ToUpperInvariant() switch
+            {
+#pragma warning disable CA5350
+#pragma warning disable CA5351
+                "MD5" => MD5.HashData(buffer),
+                "SHA1" => SHA1.HashData(buffer),
+#pragma warning restore CA5350
+#pragma warning restore CA5351
+                "SHA256" => SHA256.HashData(buffer),
+                "SHA384" => SHA384.HashData(buffer),
+                "SHA512" => SHA512.HashData(buffer),
+                _ => Array.Empty<byte>(),
+            };
 
-                using var hasher = CreateHashAlgorithm(request.Algorithm);
-
-                if (hasher == null)
-                {
-                    return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
-                }
-
-                hash = hasher.ComputeHash(stream);
+            if (hash.Length == 0)
+            {
+                return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
             }
 
             return new HashResponse()
             {
-                Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash),
+#pragma warning disable CA1308
+                Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash).ToLowerInvariant(),
+#pragma warning restore CA1308
             };
         }
 
@@ -159,102 +159,39 @@ namespace MartinCostello.Website.Services
                 return BadRequest($"The specified validation algorithm '{validationAlgorithm}' is invalid.");
             }
 
-            var pool = ArrayPool<byte>.Shared;
-            var decryptionKeyBytes = pool.Rent(decryptionKeyLength);
-            var validationKeyBytes = pool.Rent(validationKeyLength);
+            var decryptionKey = new byte[decryptionKeyLength];
+            var validationKey = new byte[validationKeyLength];
 
-            try
+            RandomNumberGenerator.Fill(decryptionKey);
+            RandomNumberGenerator.Fill(validationKey);
+
+            var result = new MachineKeyResponse()
             {
-                var decryptionKey = decryptionKeyBytes.AsSpan(0, decryptionKeyLength);
-                var validationKey = validationKeyBytes.AsSpan(0, validationKeyLength);
+                // TODO Remove ToUpperInvariant() in preview.8
+                DecryptionKey = BytesToHexString(decryptionKey).ToUpperInvariant(),
+                ValidationKey = BytesToHexString(validationKey).ToUpperInvariant(),
+            };
 
-                using (var random = RandomNumberGenerator.Create())
-                {
-                    random.GetBytes(decryptionKey);
-                    random.GetBytes(validationKey);
-                }
+            result.MachineKeyXml = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<machineKey validationKey=""{0}"" decryptionKey=""{1}"" validation=""{2}"" decryption=""{3}"" />",
+                result.ValidationKey,
+                result.DecryptionKey,
+                validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
+                decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
 
-                var result = new MachineKeyResponse()
-                {
-                    DecryptionKey = BytesToHexString(decryptionKey).ToUpperInvariant(),
-                    ValidationKey = BytesToHexString(validationKey).ToUpperInvariant(),
-                };
-
-                result.MachineKeyXml = string.Format(
-                    CultureInfo.InvariantCulture,
-                    @"<machineKey validationKey=""{0}"" decryptionKey=""{1}"" validation=""{2}"" decryption=""{3}"" />",
-                    result.ValidationKey,
-                    result.DecryptionKey,
-                    validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
-                    decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
-
-                return result;
-            }
-            finally
-            {
-                pool.Return(decryptionKeyBytes, true);
-                pool.Return(validationKeyBytes, true);
-            }
+            return result;
         }
 
         /// <summary>
         /// Returns a <see cref="string"/> containing a hexadecimal representation of the specified <see cref="Array"/> of bytes.
         /// </summary>
-        /// <param name="span">The buffer to generate the hash string for.</param>
+        /// <param name="bytes">The buffer to generate the hash string for.</param>
         /// <returns>
-        /// A <see cref="string"/> containing the hexadecimal representation of <paramref name="span"/>.
+        /// A <see cref="string"/> containing the hexadecimal representation of <paramref name="bytes"/>.
         /// </returns>
-        private static string BytesToHexString(ReadOnlySpan<byte> span)
-        {
-            var format = new StringBuilder(span.Length);
-
-            foreach (var b in span)
-            {
-                format.Append(b.ToString("x2", CultureInfo.InvariantCulture));
-            }
-
-            return format.ToString();
-        }
-
-        /// <summary>
-        /// Creates a hash algorithm for the specified algorithm name.
-        /// </summary>
-        /// <param name="name">The name of the hash algorithm to create.</param>
-        /// <returns>
-        /// The created instance of <see cref="HashAlgorithm"/> if <paramref name="name"/>
-        /// is valid; otherwise <see langword="null"/>.
-        /// </returns>
-        private static HashAlgorithm? CreateHashAlgorithm(string name)
-        {
-            if (string.Equals(name, HashAlgorithmName.MD5.Name, StringComparison.OrdinalIgnoreCase))
-            {
-#pragma warning disable CA5351 // Do not use insecure cryptographic algorithm MD5.
-                return MD5.Create();
-#pragma warning restore CA5351 // Do not use insecure cryptographic algorithm MD5.
-            }
-            else if (string.Equals(name, HashAlgorithmName.SHA1.Name, StringComparison.OrdinalIgnoreCase))
-            {
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-                return SHA1.Create();
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-            }
-            else if (string.Equals(name, HashAlgorithmName.SHA256.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                return SHA256.Create();
-            }
-            else if (string.Equals(name, HashAlgorithmName.SHA384.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                return SHA384.Create();
-            }
-            else if (string.Equals(name, HashAlgorithmName.SHA512.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                return SHA512.Create();
-            }
-            else
-            {
-                return null;
-            }
-        }
+        private static string BytesToHexString(ReadOnlySpan<byte> bytes)
+            => Convert.ToHexString(bytes);
 
         /// <summary>
         /// Returns a result that represents a bad API request.
@@ -268,7 +205,7 @@ namespace MartinCostello.Website.Services
             var error = new ErrorResponse()
             {
                 Message = message,
-                RequestId = _traceId,
+                RequestId = _contextAccessor.HttpContext!.TraceIdentifier,
                 StatusCode = StatusCodes.Status400BadRequest,
             };
 

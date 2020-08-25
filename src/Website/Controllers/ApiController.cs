@@ -3,7 +3,6 @@
 
 namespace MartinCostello.Website.Controllers
 {
-    using System.Threading.Tasks;
     using MartinCostello.Api.Models;
     using MartinCostello.Website.Services;
     using Microsoft.AspNetCore.Http;
@@ -59,8 +58,8 @@ namespace MartinCostello.Website.Controllers
         [ProducesResponseType(typeof(HashResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [Route("hash", Name = SiteRoutes.GenerateHash)]
-        public Task<ActionResult<HashResponse>> HashAsync([FromBody]HashRequest request)
-            => _service.GenerateHashAsync(request);
+        public ActionResult<HashResponse> Hash([FromBody]HashRequest request)
+            => _service.GenerateHash(request);
 
         /// <summary>
         /// Generates a machine key for a <c>Web.config</c> configuration file for ASP.NET.

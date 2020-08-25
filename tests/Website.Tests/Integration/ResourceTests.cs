@@ -64,16 +64,15 @@ namespace MartinCostello.Website.Integration
         public async Task Can_Load_Resource_As_Get(string requestUri, string contentType)
         {
             // Arrange
-            using (var client = Fixture.CreateClient())
-            {
-                // Act
-                using (var response = await client.GetAsync(requestUri))
-                {
-                    // Assert
-                    response.StatusCode.ShouldBe(HttpStatusCode.OK);
-                    response.Content.Headers.ContentType?.MediaType?.ShouldBe(contentType);
-                }
-            }
+            using var client = Fixture.CreateClient();
+
+            // Act
+            using var response = await client.GetAsync(requestUri);
+
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            response.Content.ShouldNotBeNull();
+            response.Content!.Headers.ContentType?.MediaType?.ShouldBe(contentType);
         }
 
         [Theory]
@@ -81,19 +80,16 @@ namespace MartinCostello.Website.Integration
         public async Task Can_Load_Resource_As_Head(string requestUri, string contentType)
         {
             // Arrange
-            using (var client = Fixture.CreateClient())
-            {
-                using (var message = new HttpRequestMessage(HttpMethod.Head, requestUri))
-                {
-                    // Act
-                    using (var response = await client.SendAsync(message))
-                    {
-                        // Assert
-                        response.StatusCode.ShouldBe(HttpStatusCode.OK);
-                        response.Content.Headers.ContentType?.MediaType?.ShouldBe(contentType);
-                    }
-                }
-            }
+            using var client = Fixture.CreateClient();
+            using var message = new HttpRequestMessage(HttpMethod.Head, requestUri);
+
+            // Act
+            using var response = await client.SendAsync(message);
+
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            response.Content.ShouldNotBeNull();
+            response.Content!.Headers.ContentType?.MediaType?.ShouldBe(contentType);
         }
 
         [Theory]
@@ -101,16 +97,14 @@ namespace MartinCostello.Website.Integration
         public async Task Resource_Is_Redirect(string requestUri, string location)
         {
             // Arrange
-            using (var client = Fixture.CreateClient())
-            {
-                // Act
-                using (var response = await client.GetAsync(requestUri))
-                {
-                    // Assert
-                    response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-                    response.Headers.Location?.OriginalString?.ShouldStartWith(location);
-                }
-            }
+            using var client = Fixture.CreateClient();
+
+            // Act
+            using var response = await client.GetAsync(requestUri);
+
+            // Assert
+            response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
+            response.Headers.Location?.OriginalString?.ShouldStartWith(location);
         }
 
         [Fact]
@@ -133,17 +127,15 @@ namespace MartinCostello.Website.Integration
                 "X-XSS-Protection",
             };
 
-            using (var client = Fixture.CreateClient())
+            using var client = Fixture.CreateClient();
+
+            // Act
+            using var response = await client.GetAsync("/");
+
+            // Assert
+            foreach (string expected in expectedHeaders)
             {
-                // Act
-                using (var response = await client.GetAsync("/"))
-                {
-                    // Assert
-                    foreach (string expected in expectedHeaders)
-                    {
-                        response.Headers.Contains(expected).ShouldBeTrue($"The '{expected}' response header was not found.");
-                    }
-                }
+                response.Headers.Contains(expected).ShouldBeTrue($"The '{expected}' response header was not found.");
             }
         }
 
@@ -161,15 +153,13 @@ namespace MartinCostello.Website.Integration
         public async Task Can_Load_Resource(string requestUri, HttpStatusCode expected)
         {
             // Arrange
-            using (var client = Fixture.CreateClient(new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false }))
-            {
-                // Act
-                using (var response = await client.GetAsync(requestUri))
-                {
-                    // Assert
-                    response.StatusCode.ShouldBe(expected, $"Incorrect status code for {requestUri}");
-                }
-            }
+            using var client = Fixture.CreateClient(new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
+
+            // Act
+            using var response = await client.GetAsync(requestUri);
+
+            // Assert
+            response.StatusCode.ShouldBe(expected, $"Incorrect status code for {requestUri}");
         }
     }
 }
