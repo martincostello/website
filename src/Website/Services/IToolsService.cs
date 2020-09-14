@@ -3,7 +3,6 @@
 
 namespace MartinCostello.Website.Services
 {
-    using System.Threading.Tasks;
     using Api.Models;
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,14 +22,14 @@ namespace MartinCostello.Website.Services
         ActionResult<GuidResponse> GenerateGuid(string? format, bool? uppercase);
 
         /// <summary>
-        /// Generates a hash of some plaintext for a specified hash algorithm and returns
-        /// it in the required format as an asynchronous operation.
+        /// Generates a hash of some plaintext for a specified hash algorithm
+        /// and returns it in the required format.
         /// </summary>
         /// <param name="request">The hash request.</param>
         /// <returns>
-        /// A <see cref="Task"/> that returns an <see cref="ActionResult{HashResponse}"/> containing the generated hash value.
+        /// An <see cref="ActionResult{HashResponse}"/> containing the generated hash value.
         /// </returns>
-        Task<ActionResult<HashResponse>> GenerateHashAsync(HashRequest request);
+        ActionResult<HashResponse> GenerateHash(HashRequest request);
 
         /// <summary>
         /// Generates a machine key for a <c>Web.config</c> configuration file for ASP.NET.

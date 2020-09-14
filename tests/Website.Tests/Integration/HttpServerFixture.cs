@@ -157,7 +157,7 @@ namespace MartinCostello.Website.Integration
 
             // Force creation of the Kestrel server and start it
             var hostedService = _host.Services.GetService<IHostedService>();
-            await hostedService.StartAsync(default);
+            await hostedService!.StartAsync(default);
         }
     }
 }
