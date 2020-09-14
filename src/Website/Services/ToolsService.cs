@@ -167,9 +167,8 @@ namespace MartinCostello.Website.Services
 
             var result = new MachineKeyResponse()
             {
-                // TODO Remove ToUpperInvariant() in preview.8
-                DecryptionKey = BytesToHexString(decryptionKey).ToUpperInvariant(),
-                ValidationKey = BytesToHexString(validationKey).ToUpperInvariant(),
+                DecryptionKey = BytesToHexString(decryptionKey),
+                ValidationKey = BytesToHexString(validationKey),
             };
 
             result.MachineKeyXml = string.Format(

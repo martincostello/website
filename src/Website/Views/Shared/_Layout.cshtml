@@ -8,7 +8,7 @@
 
     if (!string.IsNullOrEmpty(image))
     {
-        image = Url.Content(image);
+        image = Url.Content(image)!;
     }
 
     var model = MetaModel.Create(
