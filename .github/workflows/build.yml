@@ -45,3 +45,19 @@ jobs:
       with:
         file: ./artifacts/coverage.cobertura.xml
         flags: ${{ matrix.codecov_os }}
+
+    - name: 'Deploy to dev.martincostello.com'
+      uses: azure/webapps-deploy@v2.1.2
+      if: ${{ github.ref == 'refs/heads/main' && runner.os == 'Windows' }}
+      with:
+        app-name: martincostello-uksouth-dev
+        package: './artifacts/publish'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV  }}
+
+    - name: 'Deploy to martincostello.comm'
+      uses: azure/webapps-deploy@v2.1.2
+      if: ${{ github.ref == 'refs/heads/deploy' && runner.os == 'Windows' }}
+      with:
+        app-name: martincostello-uksouth
+        package: './artifacts/publish'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD  }}
