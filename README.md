@@ -18,9 +18,11 @@ The repository is hosted in [GitHub](https://github.com/martincostello/website):
 
 This project is licensed under the [Apache 2.0](https://github.com/martincostello/website/blob/main/LICENSE) license.
 
-## Building and Testing
+## Building and Testing (Windows)
 
-To build and test the website run the following command:
+Download the source code (by clicking 'clone' and 'Download zip' above)
+Extract the downloaded file and navigate into the extracted folder.
+Open Powershell there and enter the following commands to build and test the website:
 
 ```powershell
 ./build.ps1
