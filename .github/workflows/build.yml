@@ -37,6 +37,7 @@ jobs:
       run: ./build.ps1
       env:
         DOTNET_CLI_TELEMETRY_OPTOUT: true
+        DOTNET_NOLOGO: true
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
         NUGET_XMLDOC_MODE: skip
 
@@ -51,7 +52,7 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main' && runner.os == 'Windows' }}
       with:
         app-name: martincostello-uksouth
-        slot-name: dev 
+        slot-name: dev
         package: './artifacts/publish'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV  }}
 
