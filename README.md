@@ -20,8 +20,10 @@ This project is licensed under the [Apache 2.0](https://github.com/martincostell
 
 ## Building and Testing
 
-To build and test the website run the following command:
+To build and test the website run the following commands from your terminal of choice:
 
 ```powershell
+git clone https://github.com/martincostello/website.git
+cd website
 ./build.ps1
 ```
