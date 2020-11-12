@@ -101,7 +101,7 @@ namespace MartinCostello.Website.Integration.UI
             options.SetLoggingPreference(LogType.Server, LogLevel.All);
 #endif
 
-            var driver = new ChromeDriver(chromeDriverDirectory, options, TimeSpan.FromSeconds(10));
+            var driver = new ChromeDriver(chromeDriverDirectory, options, TimeSpan.FromSeconds(15));
 
             try
             {
@@ -190,9 +190,7 @@ namespace MartinCostello.Website.Integration.UI
             {
                 await test(navigator);
             }
-#pragma warning disable CA1031
             catch (Exception)
-#pragma warning restore CA1031
             {
                 TakeScreenshot(navigator.Driver, testName);
                 OutputLogs(navigator.Driver);
@@ -250,7 +248,7 @@ namespace MartinCostello.Website.Integration.UI
             catch (Exception ex)
 #pragma warning restore CA1031
             {
-                Output.WriteLine($"Failed to output driver logs: {ex.ToString()}");
+                Output.WriteLine($"Failed to output driver logs: {ex}");
             }
         }
 
@@ -274,7 +272,7 @@ namespace MartinCostello.Website.Integration.UI
             catch (Exception ex)
 #pragma warning restore CA1031
             {
-                Output.WriteLine($"Failed to take screenshot: {ex.ToString()}");
+                Output.WriteLine($"Failed to take screenshot: {ex}");
             }
         }
     }
