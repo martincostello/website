@@ -101,7 +101,7 @@ namespace MartinCostello.Website.Integration.UI
             options.SetLoggingPreference(LogType.Server, LogLevel.All);
 #endif
 
-            var driver = new ChromeDriver(chromeDriverDirectory, options, TimeSpan.FromSeconds(10));
+            var driver = new ChromeDriver(chromeDriverDirectory, options, TimeSpan.FromSeconds(15));
 
             try
             {
