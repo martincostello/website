@@ -128,7 +128,7 @@ namespace MartinCostello.Website.Models
                 SiteType = options.Type ?? "website",
                 Title = $"{title} - {options.Name}",
                 TwitterCard = "summary",
-                TwitterHandle = options?.Author?.SocialMedia?.Twitter,
+                TwitterHandle = options.Author?.SocialMedia?.Twitter,
             };
         }
     }

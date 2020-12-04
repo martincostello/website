@@ -74,7 +74,9 @@ namespace MartinCostello.Website.Integration
                 handler.ServerCertificateCustomValidationCallback = (request, cert, chain, errors) => true;
             }
 
+#pragma warning disable CA5400
             var client = new HttpClient(handler);
+#pragma warning restore CA5400
 
             ConfigureClient(client);
 
