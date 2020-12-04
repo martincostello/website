@@ -4,6 +4,7 @@
 namespace MartinCostello.Website.Controllers
 {
     using System;
+    using System.Security.Cryptography;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -113,6 +114,6 @@ namespace MartinCostello.Website.Controllers
         [Route("wp-login.php")]
         [Route("wp-main.php")]
         [Route("xmlrpc.php")]
-        public ActionResult No() => Redirect(Videos[new Random().Next(0, Videos.Length)]);
+        public ActionResult No() => Redirect(Videos[RandomNumberGenerator.GetInt32(0, Videos.Length)]);
     }
 }
