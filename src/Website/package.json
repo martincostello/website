@@ -8,7 +8,7 @@
     "@types/jasmine": "3.4.0",
     "@types/jquery": "3.5.4",
     "bootstrap": "4.6.0",
-    "clean-css": "4.2.3",
+    "clean-css": "5.0.1",
     "del": "6.0.0",
     "gulp": "4.0.2",
     "gulp-concat": "2.6.1",
