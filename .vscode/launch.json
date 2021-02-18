@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceRoot}/src/Website/bin/Debug/net5.0/Website.dll",
+      "program": "${workspaceRoot}/src/Website/bin/Debug/net6.0/Website.dll",
       "args": [],
       "cwd": "${workspaceRoot}/src/Website",
       "stopAtEntry": false,
