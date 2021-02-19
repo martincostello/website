@@ -159,11 +159,8 @@ namespace MartinCostello.Website.Services
                 return BadRequest($"The specified validation algorithm '{validationAlgorithm}' is invalid.");
             }
 
-            var decryptionKey = new byte[decryptionKeyLength];
-            var validationKey = new byte[validationKeyLength];
-
-            RandomNumberGenerator.Fill(decryptionKey);
-            RandomNumberGenerator.Fill(validationKey);
+            byte[] decryptionKey = RandomNumberGenerator.GetBytes(decryptionKeyLength);
+            byte[] validationKey = RandomNumberGenerator.GetBytes(validationKeyLength);
 
             var result = new MachineKeyResponse()
             {
