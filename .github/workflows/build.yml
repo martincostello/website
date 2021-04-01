@@ -63,9 +63,9 @@ jobs:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-  deploy:
+  deploy-dev:
     if: ${{ github.ref == 'refs/heads/main' }}
-    name: deploy-dev
+    name: dev
     needs: build
     runs-on: windows-latest
     environment:
@@ -86,9 +86,9 @@ jobs:
         slot-name: dev
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
-  production:
-    name: deploy-prod
-    needs: deploy
+  deploy-prod:
+    name: production
+    needs: deploy-dev
     runs-on: windows-latest
     environment:
       name: production
