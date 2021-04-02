@@ -5,7 +5,7 @@
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="5.0.4" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageVersion Include="ReportGenerator" Version="4.8.7" />
     <PackageVersion Include="Selenium.Support" Version="3.141.0" />
