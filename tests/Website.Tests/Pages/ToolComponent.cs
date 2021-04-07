@@ -22,13 +22,22 @@ namespace MartinCostello.Website.Pages
 
         public string Generate()
         {
+            var element = Navigator.Driver.FindElement(ResultSelector);
+
+            string oldValue = GetResult(element);
+
             Navigator.Driver.FindElement(GeneratorSelector).Click();
 
             // Give the UI time to update
             var wait = new WebDriverWait(Navigator.Driver, TimeSpan.FromSeconds(3));
-            wait.Until(driver => !string.IsNullOrWhiteSpace(GetResult(driver.FindElement(ResultSelector))));
+            wait.Until((p) =>
+            {
+                string currentValue = GetResult(p.FindElement(ResultSelector));
 
-            var element = Navigator.Driver.FindElement(ResultSelector);
+                return !string.IsNullOrWhiteSpace(currentValue) && !string.Equals(currentValue, oldValue, StringComparison.Ordinal);
+            });
+
+            element = Navigator.Driver.FindElement(ResultSelector);
 
             return GetResult(element);
         }
