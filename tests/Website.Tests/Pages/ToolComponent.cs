@@ -1,10 +1,11 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-namespace MartinCostello.Website.Integration.UI.Pages
+namespace MartinCostello.Website.Pages
 {
     using System;
     using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.UI;
 
     public abstract class ToolComponent
     {
@@ -24,7 +25,8 @@ namespace MartinCostello.Website.Integration.UI.Pages
             Navigator.Driver.FindElement(GeneratorSelector).Click();
 
             // Give the UI time to update
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(0.5));
+            var wait = new WebDriverWait(Navigator.Driver, TimeSpan.FromSeconds(3));
+            wait.Until(driver => !string.IsNullOrWhiteSpace(GetResult(driver.FindElement(ResultSelector))));
 
             var element = Navigator.Driver.FindElement(ResultSelector);
 
