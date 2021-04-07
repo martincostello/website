@@ -32,6 +32,6 @@ namespace MartinCostello.Website.EndToEnd
 
         /// <inheritdoc />
         protected override ApplicationNavigator CreateNavigator()
-            => new ApplicationNavigator(Fixture.ServerAddress!, WebDriverFactory.CreateWebDriver());
+            => Fixture.CreateNavigator();
     }
 }
