@@ -42,7 +42,7 @@ namespace MartinCostello.Website
             options.SetLoggingPreference(LogType.Server, LogLevel.All);
 #endif
 
-            var driver = new ChromeDriver(chromeDriverDirectory, options, TimeSpan.FromSeconds(15));
+            var driver = new ChromeDriver(chromeDriverDirectory, options);
 
             try
             {
