@@ -3,7 +3,6 @@
   "private": true,
   "version": "3.0.0",
   "devDependencies": {
-    "@types/clipboard": "2.0.7",
     "@types/google.analytics": "0.0.41",
     "@types/jasmine": "3.4.0",
     "@types/jquery": "3.5.5",
