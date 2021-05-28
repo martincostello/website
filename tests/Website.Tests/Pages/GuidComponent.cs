@@ -3,8 +3,8 @@
 
 namespace MartinCostello.Website.Pages
 {
-    using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
+    using System.Threading.Tasks;
+    using Microsoft.Playwright;
 
     public sealed class GuidComponent : ToolComponent
     {
@@ -13,26 +13,26 @@ namespace MartinCostello.Website.Pages
         {
         }
 
-        protected override By GeneratorSelector => By.Id("generate-guid");
+        protected override string GeneratorSelector => "id=generate-guid";
 
-        protected override By ResultSelector => By.Id("text-guid");
+        protected override string ResultSelector => "id=text-guid";
 
-        public GuidComponent WithFormat(string text)
+        public async Task<GuidComponent> WithFormatAsync(string text)
         {
-            var element = Navigator.Driver.FindElement(By.Id("guid-format"));
-            new SelectElement(element).SelectByText(text);
-
+            await Navigator.Page.SelectOptionAsync("id=guid-format", new SelectOptionValue() { Label = text });
             return this;
         }
 
-        public GuidComponent ToggleCase()
+        public async Task<GuidComponent> ToggleCaseAsync()
         {
-            Navigator.Driver.FindElement(By.CssSelector("[for='guid-uppercase']")).Click();
+            await Navigator.Page.ClickAsync("[for='guid-uppercase']");
             return this;
         }
 
-        public string Value() => GetResult(Navigator.Driver.FindElement(ResultSelector));
+        public async Task<string> ValueAsync() =>
+            await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
 
-        protected override string GetResult(IWebElement element) => element.GetAttribute("value");
+        protected override async Task<string> GetResultAsync(IElementHandle element)
+            => await element.GetAttributeAsync("value");
     }
 }

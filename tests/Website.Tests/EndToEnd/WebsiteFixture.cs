@@ -6,29 +6,35 @@ namespace MartinCostello.Website.EndToEnd
     using System;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using MartinCostello.Website.Pages;
     using Xunit;
 
     public class WebsiteFixture
     {
         private const string WebsiteUrl = "WEBSITE_URL";
 
+        private readonly Uri? _serverAddress;
+
         public WebsiteFixture()
         {
             string url = Environment.GetEnvironmentVariable(WebsiteUrl) ?? string.Empty;
 
-            if (Uri.TryCreate(url, UriKind.Absolute, out Uri? address))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out _serverAddress))
             {
-                ServerAddress = address;
+                _serverAddress = null;
             }
         }
 
-        public Uri? ServerAddress { get; }
+        public Uri? ServerAddress
+        {
+            get
+            {
+                Skip.If(_serverAddress is null, $"The {WebsiteUrl} environment variable is not set or is not a valid absolute URI.");
+                return _serverAddress!;
+            }
+        }
 
         public HttpClient CreateClient()
         {
-            Skip.If(ServerAddress is null, $"The {WebsiteUrl} environment variable is not set or is not a valid absolute URI.");
-
             var client = new HttpClient()
             {
                 BaseAddress = ServerAddress,
@@ -40,13 +46,6 @@ namespace MartinCostello.Website.EndToEnd
                     "1.0.0+" + GitMetadata.Commit));
 
             return client;
-        }
-
-        public ApplicationNavigator CreateNavigator()
-        {
-            Skip.If(ServerAddress is null, $"The {WebsiteUrl} environment variable is not set or is not a valid absolute URI.");
-
-            return new ApplicationNavigator(ServerAddress, WebDriverFactory.CreateWebDriver());
         }
     }
 }

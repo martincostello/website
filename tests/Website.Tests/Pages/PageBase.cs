@@ -3,7 +3,7 @@
 
 namespace MartinCostello.Website.Pages
 {
-    using System;
+    using System.Threading.Tasks;
 
     public abstract class PageBase
     {
@@ -16,10 +16,7 @@ namespace MartinCostello.Website.Pages
 
         protected abstract string RelativeUri { get; }
 
-        internal void NavigateToSelf()
-        {
-            Uri relativeUri = new Uri(RelativeUri, UriKind.Relative);
-            Navigator.NavigateTo(relativeUri);
-        }
+        internal async Task NavigateToSelfAsync()
+            => await Navigator.NavigateToAsync(RelativeUri);
     }
 }

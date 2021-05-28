@@ -3,8 +3,8 @@
 
 namespace MartinCostello.Website.Pages
 {
-    using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
+    using System.Threading.Tasks;
+    using Microsoft.Playwright;
 
     public sealed class HashComponent : ToolComponent
     {
@@ -13,34 +13,32 @@ namespace MartinCostello.Website.Pages
         {
         }
 
-        protected override By GeneratorSelector => By.Id("generate-hash");
+        protected override string GeneratorSelector => "id=generate-hash";
 
-        protected override By ResultSelector => By.Id("text-hash");
+        protected override string ResultSelector => "id=text-hash";
 
-        public HashComponent WithAlgorithm(string text)
+        public async Task<HashComponent> WithAlgorithmAsync(string text)
         {
-            var element = Navigator.Driver.FindElement(By.Id("hash-algorithm"));
-            new SelectElement(element).SelectByText(text);
-
+            await Navigator.Page.SelectOptionAsync("id=hash-algorithm", new SelectOptionValue() { Label = text });
             return this;
         }
 
-        public HashComponent WithFormat(string text)
+        public async Task<HashComponent> WithFormatAsync(string text)
         {
-            var element = Navigator.Driver.FindElement(By.Id("hash-format"));
-            new SelectElement(element).SelectByText(text);
-
+            await Navigator.Page.SelectOptionAsync("id=hash-format", new SelectOptionValue() { Label = text });
             return this;
         }
 
-        public HashComponent WithPlaintext(string text)
+        public async Task<HashComponent> WithPlaintextAsync(string text)
         {
-            Navigator.Driver.FindElement(By.Id("hash-plaintext")).SendKeys(text);
+            await Navigator.Page.TypeAsync("id=hash-plaintext", text);
             return this;
         }
 
-        public string Value() => GetResult(Navigator.Driver.FindElement(ResultSelector));
+        public async Task<string> ValueAsync()
+            => await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
 
-        protected override string GetResult(IWebElement element) => element.GetAttribute("value");
+        protected override async Task<string> GetResultAsync(IElementHandle element)
+            => await element.GetAttributeAsync("value");
     }
 }

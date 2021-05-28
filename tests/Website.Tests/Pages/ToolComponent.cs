@@ -4,8 +4,9 @@
 namespace MartinCostello.Website.Pages
 {
     using System;
-    using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Playwright;
 
     public abstract class ToolComponent
     {
@@ -14,34 +15,36 @@ namespace MartinCostello.Website.Pages
             Navigator = navigator;
         }
 
-        protected abstract By GeneratorSelector { get; }
+        protected abstract string GeneratorSelector { get; }
 
-        protected abstract By ResultSelector { get; }
+        protected abstract string ResultSelector { get; }
 
         protected ApplicationNavigator Navigator { get; }
 
-        public string Generate()
+        public async Task<string> GenerateAsync()
         {
-            var element = Navigator.Driver.FindElement(ResultSelector);
+            string oldValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
 
-            string oldValue = GetResult(element);
-
-            Navigator.Driver.FindElement(GeneratorSelector).Click();
+            await Navigator.Page.ClickAsync(GeneratorSelector);
 
             // Give the UI time to update
-            var wait = new WebDriverWait(Navigator.Driver, TimeSpan.FromSeconds(3));
-            wait.Until((p) =>
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+
+            while (!cts.IsCancellationRequested)
             {
-                string currentValue = GetResult(p.FindElement(ResultSelector));
+                string currentValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
 
-                return !string.IsNullOrWhiteSpace(currentValue) && !string.Equals(currentValue, oldValue, StringComparison.Ordinal);
-            });
+                if (!string.IsNullOrWhiteSpace(currentValue) && !string.Equals(currentValue, oldValue, StringComparison.Ordinal))
+                {
+                    return currentValue;
+                }
 
-            element = Navigator.Driver.FindElement(ResultSelector);
+                cts.Token.ThrowIfCancellationRequested();
+            }
 
-            return GetResult(element);
+            return null!;
         }
 
-        protected abstract string GetResult(IWebElement element);
+        protected abstract Task<string> GetResultAsync(IElementHandle element);
     }
 }

@@ -3,7 +3,7 @@
 
 namespace MartinCostello.Website.Integration.UI
 {
-    using Pages;
+    using System;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -33,8 +33,7 @@ namespace MartinCostello.Website.Integration.UI
         protected HttpServerFixture Fixture { get; }
 
         /// <inheritdoc />
-        protected override ApplicationNavigator CreateNavigator()
-            => new ApplicationNavigator(Fixture.ServerAddress, WebDriverFactory.CreateWebDriver());
+        protected override Uri ServerAddress => Fixture.ServerAddress;
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

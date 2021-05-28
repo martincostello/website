@@ -4,12 +4,8 @@
 namespace MartinCostello.Website
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using OpenQA.Selenium;
     using Pages;
     using Xunit.Abstractions;
 
@@ -36,6 +32,11 @@ namespace MartinCostello.Website
         }
 
         /// <summary>
+        /// Gets the base address of the website under test.
+        /// </summary>
+        protected abstract Uri ServerAddress { get; }
+
+        /// <summary>
         /// Gets the <see cref="ITestOutputHelper"/> to use.
         /// </summary>
         protected ITestOutputHelper Output { get; }
@@ -50,50 +51,55 @@ namespace MartinCostello.Website
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ApplicationNavigator"/>.
+        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
         /// </summary>
-        /// <returns>
-        /// The <see cref="ApplicationNavigator"/> to use for tests.
-        /// </returns>
-        protected abstract ApplicationNavigator CreateNavigator();
-
-        /// <summary>
-        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/>.
-        /// </summary>
+        /// <param name="browserType">The type of the browser to run the test with.</param>
         /// <param name="test">The delegate to the test that will use the navigator.</param>
         /// <param name="testName">The name of the test method.</param>
-        protected void WithNavigator(Action<ApplicationNavigator> test, [CallerMemberName] string? testName = null)
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation to run the test.
+        /// </returns>
+        protected async Task WithNavigatorAsync(
+            string browserType,
+            Func<ApplicationNavigator, Task> test,
+            [CallerMemberName] string? testName = null)
         {
-            using ApplicationNavigator navigator = CreateNavigator();
+            var fixture = new BrowserFixture(Output);
 
-            try
-            {
-                test(navigator);
-            }
-            catch (Exception)
-            {
-                TakeScreenshot(navigator.Driver, testName);
-                OutputLogs(navigator.Driver);
-                throw;
-            }
+            await fixture.WithPageAsync(
+                browserType,
+                async (page) =>
+                {
+                    var navigator = new ApplicationNavigator(ServerAddress, page);
+                    await test(navigator);
+                },
+                testName);
         }
 
         /// <summary>
         /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
         /// </summary>
         /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
+        /// <param name="browserType">The type of the browser to run the test with.</param>
         /// <param name="test">The delegate to the test that will use the navigator.</param>
         /// <param name="testName">The name of the test method.</param>
-        protected void AtPage<T>(Action<ApplicationNavigator, T> test, [CallerMemberName] string? testName = null)
+        /// <returns>
+        /// A <see cref="Task"/> representing the asynchronous operation to run the test.
+        /// </returns>
+        protected async Task AtPageAsync<T>(
+            string browserType,
+            Func<ApplicationNavigator, T, Task> test,
+            [CallerMemberName] string? testName = null)
             where T : PageBase
         {
-            WithNavigator(
-                (navigator) =>
+            await WithNavigatorAsync(
+                browserType,
+                async (navigator) =>
                 {
-                    var page = Activator.CreateInstance(typeof(T), navigator) as T;
-                    page!.Navigate();
+                    T? page = Activator.CreateInstance(typeof(T), navigator) as T;
+                    await page!.NavigateAsync();
 
-                    test(navigator, page!);
+                    await test(navigator, page!);
                 },
                 testName: testName);
         }
@@ -102,36 +108,22 @@ namespace MartinCostello.Website
         /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
         /// </summary>
         /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
-        /// <param name="test">The delegate to the test that will use the navigator.</param>
-        /// <param name="testName">The name of the test method.</param>
-        protected void AtPage<T>(Action<T> test, [CallerMemberName] string? testName = null)
-            where T : PageBase
-        {
-            AtPage<T>((_, page) => test(page), testName: testName);
-        }
-
-        /// <summary>
-        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
-        /// </summary>
+        /// <param name="browserType">The type of the browser to run the test with.</param>
         /// <param name="test">The delegate to the test that will use the navigator.</param>
         /// <param name="testName">The name of the test method.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation to run the test.
         /// </returns>
-        protected async Task WithNavigatorAsync(Func<ApplicationNavigator, Task> test, [CallerMemberName] string? testName = null)
+        protected async Task AtPageAsync<T>(
+            string browserType,
+            Func<T, Task> test,
+            [CallerMemberName] string? testName = null)
+            where T : PageBase
         {
-            using ApplicationNavigator navigator = CreateNavigator();
-
-            try
-            {
-                await test(navigator);
-            }
-            catch (Exception)
-            {
-                TakeScreenshot(navigator.Driver, testName);
-                OutputLogs(navigator.Driver);
-                throw;
-            }
+            await AtPageAsync<T>(
+                browserType,
+                async (_, page) => await test(page),
+                testName: testName);
         }
 
         /// <summary>
@@ -144,62 +136,6 @@ namespace MartinCostello.Website
         protected virtual void Dispose(bool disposing)
         {
             // No-op
-        }
-
-        private void OutputLogs(IWebDriver driver)
-        {
-            try
-            {
-                var logs = driver.Manage().Logs;
-
-                var allEntries = new List<Tuple<string, LogEntry>>();
-
-                foreach (string logKind in logs.AvailableLogTypes)
-                {
-                    var logEntries = logs.GetLog(logKind)
-                        .Select((p) => Tuple.Create(logKind, p))
-                        .ToList();
-
-                    allEntries.AddRange(logEntries);
-                }
-
-                foreach (var logEntry in allEntries.OrderBy((p) => p.Item2.Timestamp))
-                {
-                    var logKind = logEntry.Item1;
-                    var entry = logEntry.Item2;
-                    Output.WriteLine($"[{entry.Timestamp:u}] {logKind} - {entry.Level}: {entry.Message}");
-                }
-            }
-#pragma warning disable CA1031
-            catch (Exception ex)
-#pragma warning restore CA1031
-            {
-                Output.WriteLine($"Failed to output driver logs: {ex}");
-            }
-        }
-
-        private void TakeScreenshot(IWebDriver driver, string? testName)
-        {
-            try
-            {
-                if (driver is ITakesScreenshot camera)
-                {
-                    Screenshot screenshot = camera.GetScreenshot();
-
-                    string? directory = Path.GetDirectoryName(typeof(UITest).Assembly.Location) ?? ".";
-                    string fileName = $"{testName}_{DateTimeOffset.UtcNow:YYYY-MM-dd-HH-mm-ss}.png";
-
-                    fileName = Path.Combine(directory, fileName);
-
-                    screenshot.SaveAsFile(fileName);
-                }
-            }
-#pragma warning disable CA1031
-            catch (Exception ex)
-#pragma warning restore CA1031
-            {
-                Output.WriteLine($"Failed to take screenshot: {ex}");
-            }
         }
     }
 }
