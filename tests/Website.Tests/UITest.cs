@@ -80,20 +80,18 @@ namespace MartinCostello.Website
         /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
         /// </summary>
         /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
-        /// <param name="browserType">The type of the browser to run the test with.</param>
         /// <param name="test">The delegate to the test that will use the navigator.</param>
         /// <param name="testName">The name of the test method.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation to run the test.
         /// </returns>
         protected async Task AtPageAsync<T>(
-            string browserType,
             Func<ApplicationNavigator, T, Task> test,
             [CallerMemberName] string? testName = null)
             where T : PageBase
         {
             await WithNavigatorAsync(
-                browserType,
+                "chromium",
                 async (navigator) =>
                 {
                     T? page = Activator.CreateInstance(typeof(T), navigator) as T;
@@ -108,20 +106,17 @@ namespace MartinCostello.Website
         /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
         /// </summary>
         /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
-        /// <param name="browserType">The type of the browser to run the test with.</param>
         /// <param name="test">The delegate to the test that will use the navigator.</param>
         /// <param name="testName">The name of the test method.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation to run the test.
         /// </returns>
         protected async Task AtPageAsync<T>(
-            string browserType,
             Func<T, Task> test,
             [CallerMemberName] string? testName = null)
             where T : PageBase
         {
             await AtPageAsync<T>(
-                browserType,
                 async (_, page) => await test(page),
                 testName: testName);
         }

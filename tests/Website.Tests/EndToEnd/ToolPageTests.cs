@@ -25,7 +25,6 @@ namespace MartinCostello.Website.EndToEnd
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = await page
@@ -63,7 +62,6 @@ namespace MartinCostello.Website.EndToEnd
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = await page.HashGenerator()
@@ -90,7 +88,6 @@ namespace MartinCostello.Website.EndToEnd
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = await page.MachineKeyGenerator()

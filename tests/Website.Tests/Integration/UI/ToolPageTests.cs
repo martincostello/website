@@ -36,7 +36,6 @@ namespace MartinCostello.Website.Integration.UI
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = page.GuidGenerator();
@@ -83,7 +82,6 @@ namespace MartinCostello.Website.Integration.UI
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = await page.HashGenerator()
@@ -110,7 +108,6 @@ namespace MartinCostello.Website.Integration.UI
         {
             // Arrange
             await AtPageAsync<ToolsPage>(
-                "chromium",
                 async (page) =>
                 {
                     var generator = await page.MachineKeyGenerator()
