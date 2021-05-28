@@ -70,6 +70,7 @@ namespace martinCostello.website.tools {
 
             $.ajax(settings).then((data) => {
                 this.text.val(data.hash);
+                this.text.attr("value", data.hash);
                 this.textContainer.removeClass("d-none");
             });
         }

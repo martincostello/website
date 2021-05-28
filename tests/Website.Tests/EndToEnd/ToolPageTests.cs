@@ -4,6 +4,7 @@
 namespace MartinCostello.Website.EndToEnd
 {
     using System;
+    using System.Threading.Tasks;
     using Pages;
     using Shouldly;
     using Xunit;
@@ -20,23 +21,23 @@ namespace MartinCostello.Website.EndToEnd
         [InlineData("Default", false)]
         [InlineData("Default", true)]
         [InlineData("Numeric", false)]
-        public void Can_Generate_Guid(string format, bool uppercase)
+        public async Task Can_Generate_Guid(string format, bool uppercase)
         {
             // Arrange
-            AtPage<ToolsPage>(
-                (page) =>
+            await AtPageAsync<ToolsPage>(
+                async (page) =>
                 {
-                    var generator = page
+                    var generator = await page
                         .GuidGenerator()
-                        .WithFormat(format);
+                        .WithFormatAsync(format);
 
                     if (uppercase)
                     {
-                        generator.ToggleCase();
+                        await generator.ToggleCaseAsync();
                     }
 
                     // Act
-                    string actual = generator.Generate();
+                    string actual = await generator.GenerateAsync();
 
                     // Assert
                     Guid.TryParse(actual, out Guid guid).ShouldBeTrue();
@@ -57,19 +58,19 @@ namespace MartinCostello.Website.EndToEnd
         [InlineData("MD5", "Hexadecimal", "foo", "acbd18db4cc2f85cedef654fccc4a4d8")]
         [InlineData("SHA-1", "Base 64", "bar", "Ys23Ag/5IOWqZCw9QGaVDdHwH00=")]
         [InlineData("SHA-256", "Hexadecimal", "martincostello.com", "3b8143aa8119eaf0910aef5cade45dd0e6bb7b70e8d1c8c057bf3fc125248642")]
-        public void Can_Generate_Hash(string algorithm, string format, string plaintext, string expected)
+        public async Task Can_Generate_Hash(string algorithm, string format, string plaintext, string expected)
         {
             // Arrange
-            AtPage<ToolsPage>(
-                (page) =>
+            await AtPageAsync<ToolsPage>(
+                async (page) =>
                 {
-                    var generator = page.HashGenerator()
-                        .WithAlgorithm(algorithm)
-                        .WithFormat(format)
-                        .WithPlaintext(plaintext);
+                    var generator = await page.HashGenerator()
+                        .WithAlgorithmAsync(algorithm)
+                        .ThenAsync((p) => p.WithFormatAsync(format))
+                        .ThenAsync((p) => p.WithPlaintextAsync(plaintext));
 
                     // Act
-                    string actual = generator.Generate();
+                    string actual = await generator.GenerateAsync();
 
                     // Assert
                     actual.ShouldBe(expected);
@@ -79,22 +80,22 @@ namespace MartinCostello.Website.EndToEnd
         [SkippableTheory]
         [InlineData("AES (256 bits)", "SHA-1", "AES", "SHA1")]
         [InlineData("3DES", "HMAC SHA-512", "3DES", "HMACSHA512")]
-        public void Can_Generate_Machine_Key(
+        public async Task Can_Generate_Machine_Key(
             string decryptionAlgorithm,
             string validationAlgorithm,
             string expectedDecryption,
             string expectedValidation)
         {
             // Arrange
-            AtPage<ToolsPage>(
-                (page) =>
+            await AtPageAsync<ToolsPage>(
+                async (page) =>
                 {
-                    var generator = page.MachineKeyGenerator()
-                        .WithDecryptionAlgorithm(decryptionAlgorithm)
-                        .WithValidationAlgorithm(validationAlgorithm);
+                    var generator = await page.MachineKeyGenerator()
+                        .WithDecryptionAlgorithmAsync(decryptionAlgorithm)
+                        .ThenAsync((p) => p.WithValidationAlgorithmAsync(validationAlgorithm));
 
                     // Act
-                    string actual = generator.Generate();
+                    string actual = await generator.GenerateAsync();
 
                     // Assert
                     actual.ShouldNotBeNullOrWhiteSpace();

@@ -3,7 +3,7 @@
 
 namespace MartinCostello.Website.EndToEnd
 {
-    using MartinCostello.Website.Pages;
+    using System;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -31,7 +31,6 @@ namespace MartinCostello.Website.EndToEnd
         protected WebsiteFixture Fixture { get; }
 
         /// <inheritdoc />
-        protected override ApplicationNavigator CreateNavigator()
-            => Fixture.CreateNavigator();
+        protected override Uri ServerAddress => Fixture.ServerAddress!;
     }
 }

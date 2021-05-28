@@ -3,8 +3,8 @@
 
 namespace MartinCostello.Website.Pages
 {
-    using OpenQA.Selenium;
-    using OpenQA.Selenium.Support.UI;
+    using System.Threading.Tasks;
+    using Microsoft.Playwright;
 
     public sealed class MachineKeyComponent : ToolComponent
     {
@@ -13,28 +13,26 @@ namespace MartinCostello.Website.Pages
         {
         }
 
-        protected override By GeneratorSelector => By.Id("generate-machine-key");
+        protected override string GeneratorSelector => "id=generate-machine-key";
 
-        protected override By ResultSelector => By.Id("machine-key-xml");
+        protected override string ResultSelector => "id=machine-key-xml";
 
-        public MachineKeyComponent WithDecryptionAlgorithm(string text)
+        public async Task<MachineKeyComponent> WithDecryptionAlgorithmAsync(string text)
         {
-            var element = Navigator.Driver.FindElement(By.Id("key-decryption-algorithm"));
-            new SelectElement(element).SelectByText(text);
-
+            await Navigator.Page.SelectOptionAsync("id=key-decryption-algorithm", new SelectOptionValue() { Label = text });
             return this;
         }
 
-        public MachineKeyComponent WithValidationAlgorithm(string text)
+        public async Task<MachineKeyComponent> WithValidationAlgorithmAsync(string text)
         {
-            var element = Navigator.Driver.FindElement(By.Id("key-validation-algorithm"));
-            new SelectElement(element).SelectByText(text);
-
+            await Navigator.Page.SelectOptionAsync("id=key-validation-algorithm", new SelectOptionValue() { Label = text });
             return this;
         }
 
-        public string Value() => GetResult(Navigator.Driver.FindElement(ResultSelector));
+        public async Task<string> ValueAsync()
+            => await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
 
-        protected override string GetResult(IWebElement element) => element.Text;
+        protected override async Task<string> GetResultAsync(IElementHandle element)
+            => await element.InnerTextAsync();
     }
 }
