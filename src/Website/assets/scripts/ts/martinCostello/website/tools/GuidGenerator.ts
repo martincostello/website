@@ -60,6 +60,7 @@ namespace martinCostello.website.tools {
 
             $.get(uri).then((data) => {
                 this.text.val(data.guid);
+                this.text.attr("value", data.guid);
             });
         }
     }
