@@ -24,13 +24,11 @@
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.UDP" />
   </ItemGroup>
-  <Target Name="BundleAssets" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm install" Condition=" '$(InstallWebPackages)' == 'true' " />
-  </Target>
-  <Target Name="PrepublishScript" DependsOnTargets="BundleAssets" BeforeTargets="Publish">
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm ci" Condition=" '$(InstallWebPackages)' == 'true' " />
     <Exec Command="npm run publish" />
   </Target>
-  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != '' or '$(GITHUB_ACTIONS)' != '' or '$(TF_BUILD)' != ''">
+  <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != ''">
     <ItemGroup>
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
       <Content Include="wwwroot/.well-known/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes)" />
