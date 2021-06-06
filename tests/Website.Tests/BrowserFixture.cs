@@ -49,7 +49,7 @@ namespace MartinCostello.Website
             }
             finally
             {
-                await TryCaptureVideoAsync(page);
+                await TryCaptureVideoAsync(page, testName!, browserType);
             }
         }
 
@@ -65,7 +65,6 @@ namespace MartinCostello.Website
             if (IsRunningInGitHubActions)
             {
                 options.RecordVideoDir = "videos";
-                options.RecordVideoSize = new RecordVideoSize() { Width = 800, Height = 600 };
             }
 
             return options;
@@ -82,7 +81,30 @@ namespace MartinCostello.Website
                 options.SlowMo = 100;
             }
 
+            string[] split = browserType.Split(':');
+
+            browserType = split[0];
+
+            if (split.Length > 1)
+            {
+                options.Channel = split[1];
+            }
+
             return await playwright[browserType].LaunchAsync(options);
+        }
+
+        private static string GenerateFileName(string testName, string browserType, string extension)
+        {
+            string os =
+                OperatingSystem.IsLinux() ? "linux" :
+                OperatingSystem.IsMacOS() ? "macos" :
+                OperatingSystem.IsWindows() ? "windows" :
+                "other";
+
+            browserType = browserType.Replace(':', '_');
+
+            string utcNow = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture);
+            return $"{testName}_{browserType}_{os}_{utcNow}{extension}";
         }
 
         private async Task TryCaptureScreenshotAsync(
@@ -92,14 +114,8 @@ namespace MartinCostello.Website
         {
             try
             {
-                string os =
-                    OperatingSystem.IsLinux() ? "linux" :
-                    OperatingSystem.IsMacOS() ? "macos" :
-                    OperatingSystem.IsWindows() ? "windows" :
-                    "other";
-
-                string utcNow = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss", CultureInfo.InvariantCulture);
-                string path = Path.Combine("screenshots", $"{testName}_{browserType}_{os}_{utcNow}.png");
+                string fileName = GenerateFileName(testName, browserType, ".png");
+                string path = Path.Combine("screenshots", fileName);
 
                 await page.ScreenshotAsync(new PageScreenshotOptions()
                 {
@@ -116,21 +132,38 @@ namespace MartinCostello.Website
             }
         }
 
-        private async Task TryCaptureVideoAsync(IPage page)
+        private async Task TryCaptureVideoAsync(
+            IPage page,
+            string testName,
+            string browserType)
         {
-            if (IsRunningInGitHubActions)
+            if (!IsRunningInGitHubActions)
             {
-                try
-                {
-                    await page.CloseAsync();
-                    OutputHelper.WriteLine($"Video saved to {await page.Video.PathAsync()}.");
-                }
+                return;
+            }
+
+            try
+            {
+                await page.CloseAsync();
+
+                string videoSource = await page.Video.PathAsync();
+
+                string? directory = Path.GetDirectoryName(videoSource);
+                string? extension = Path.GetExtension(videoSource);
+
+                string fileName = GenerateFileName(testName, browserType, extension!);
+
+                string videoDestination = Path.Combine(directory!, fileName);
+
+                File.Move(videoSource, videoDestination);
+
+                OutputHelper.WriteLine($"Video saved to {videoDestination}.");
+            }
 #pragma warning disable CA1031
-                catch (Exception ex)
+            catch (Exception ex)
 #pragma warning restore CA1031
-                {
-                    OutputHelper.WriteLine("Failed to capture video: " + ex);
-                }
+            {
+                OutputHelper.WriteLine("Failed to capture video: " + ex);
             }
         }
     }
