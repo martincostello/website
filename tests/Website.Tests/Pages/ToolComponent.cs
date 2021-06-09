@@ -23,7 +23,7 @@ namespace MartinCostello.Website.Pages
 
         public async Task<string> GenerateAsync()
         {
-            string oldValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
+            string? oldValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
 
             await Navigator.Page.ClickAsync(GeneratorSelector);
 
@@ -32,7 +32,7 @@ namespace MartinCostello.Website.Pages
 
             while (!cts.IsCancellationRequested)
             {
-                string currentValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
+                string? currentValue = await GetResultAsync(await Navigator.Page.QuerySelectorAsync(ResultSelector));
 
                 if (!string.IsNullOrWhiteSpace(currentValue) && !string.Equals(currentValue, oldValue, StringComparison.Ordinal))
                 {
@@ -45,6 +45,6 @@ namespace MartinCostello.Website.Pages
             return null!;
         }
 
-        protected abstract Task<string> GetResultAsync(IElementHandle element);
+        protected abstract Task<string?> GetResultAsync(IElementHandle? element);
     }
 }

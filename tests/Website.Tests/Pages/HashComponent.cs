@@ -35,10 +35,10 @@ namespace MartinCostello.Website.Pages
             return this;
         }
 
-        public async Task<string> ValueAsync()
+        public async Task<string?> ValueAsync()
             => await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
 
-        protected override async Task<string> GetResultAsync(IElementHandle element)
-            => await element.GetAttributeAsync("value");
+        protected override async Task<string?> GetResultAsync(IElementHandle? element)
+            => await element!.GetAttributeAsync("value");
     }
 }
