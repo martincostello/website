@@ -41,7 +41,7 @@ namespace MartinCostello.Website.Integration.UI
                     var generator = page.GuidGenerator();
 
                     // Act
-                    string actual = await generator.ValueAsync();
+                    string? actual = await generator.ValueAsync();
 
                     // Assert
                     Guid.TryParse(actual, out Guid firstGuid).ShouldBeTrue();
