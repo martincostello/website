@@ -1,6 +1,6 @@
 @model string
 @{
-    string canonical = Model;
+    string? canonical = Model;
     SiteOptions options = Options.Value;
 }
     <link rel="canonical" href="@canonical" />

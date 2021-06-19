@@ -129,7 +129,7 @@ namespace MartinCostello.Website.Integration
 
             var server = _host.Services.GetRequiredService<IServer>();
 
-            ClientOptions.BaseAddress = server.Features.Get<IServerAddressesFeature>().Addresses
+            ClientOptions.BaseAddress = server.Features.Get<IServerAddressesFeature>() !.Addresses
                 .Select((p) => new Uri(p))
                 .First();
         }
