@@ -6,7 +6,7 @@
     bool renderGA = string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase);
     SiteOptions options = Options.Value;
 }
-    <title>@Model.Title</title>
+    <title>@Model!.Title</title>
     <meta http-equiv="cache-control" content="no-cache, no-store" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="pragma" content="no-cache" />

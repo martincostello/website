@@ -118,7 +118,6 @@ namespace MartinCostello.Website
                 });
 
             services.AddControllersWithViews(ConfigureMvc)
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                     .AddJsonOptions(ConfigureJsonFormatter);
 
             services.AddRouting(
@@ -155,7 +154,7 @@ namespace MartinCostello.Website
             options.JsonSerializerOptions.WriteIndented = true;
 
             // Omit nulls to reduce payload size
-            options.JsonSerializerOptions.IgnoreNullValues = true;
+            options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
 
             // Opt-out of case insensitivity on property names
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;

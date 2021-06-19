@@ -2,7 +2,7 @@
 <hr />
 <footer>
     <p class="d-none d-md-block">
-        &copy; @Model.Metadata?.Author?.Name @DateTimeOffset.UtcNow.Year |
+        &copy; @Model!.Metadata?.Author?.Name @DateTimeOffset.UtcNow.Year |
         Built from
         <a id="link-git-commit" href="@Model.Metadata?.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">
             @string.Join(string.Empty, GitMetadata.Commit.Take(7))
