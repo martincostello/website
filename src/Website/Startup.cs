@@ -1,26 +1,26 @@
 // Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System;
+using System.IO;
+using MartinCostello.Website.Extensions;
+using MartinCostello.Website.Options;
+using MartinCostello.Website.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+
 namespace MartinCostello.Website
 {
-    using System;
-    using System.IO;
-    using Extensions;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.CookiePolicy;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.HttpOverrides;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.StaticFiles;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Options;
-    using Microsoft.Net.Http.Headers;
-    using Options;
-    using Services;
-
     /// <summary>
     /// A class representing the startup logic for the application.
     /// </summary>

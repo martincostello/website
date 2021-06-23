@@ -1,17 +1,17 @@
 // Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
+using MartinCostello.Website.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
 namespace MartinCostello.Website.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Security.Cryptography;
-    using System.Text;
-    using Api.Models;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-
     /// <summary>
     /// A class representing the default implementation of <see cref="IToolsService"/>.
     /// </summary>
