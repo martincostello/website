@@ -6,9 +6,12 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Martin Costello's website</Summary>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
+    <!-- Workaround for https://github.com/dotnet/aspnetcore/issues/31719 -->
+    <_UseRazorSourceGenerator>false</_UseRazorSourceGenerator>
+    <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="parameters.xml" CopyToOutputDirectory="PreserveNewest" />
