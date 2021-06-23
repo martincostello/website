@@ -2,10 +2,6 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Net;
-using System.Threading.Tasks;
-using Shouldly;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace MartinCostello.Website.EndToEnd
 {
