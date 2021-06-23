@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc.Razor;
+
 namespace MartinCostello.Website.Extensions
 {
-    using System.Runtime.CompilerServices;
-    using Microsoft.AspNetCore.Mvc.Razor;
-
     /// <summary>
     /// A class containing extension methods for the <see cref="IRazorPage"/> interface. This class cannot be inherited.
     /// </summary>

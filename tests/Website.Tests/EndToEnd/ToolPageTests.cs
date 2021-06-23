@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Threading.Tasks;
+using MartinCostello.Website.Pages;
+using Shouldly;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace MartinCostello.Website.EndToEnd
 {
-    using System;
-    using System.Threading.Tasks;
-    using Pages;
-    using Shouldly;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public sealed class ToolPageTests : EndToEndTest
     {
         public ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outputHelper)

@@ -1,20 +1,20 @@
 // Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Xunit;
+
 namespace MartinCostello.Website.Integration
 {
-    using System;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Hosting.Server;
-    using Microsoft.AspNetCore.Hosting.Server.Features;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Xunit;
-
     /// <summary>
     /// A test fixture representing an HTTP server hosting the application. This class cannot be inherited.
     /// </summary>
