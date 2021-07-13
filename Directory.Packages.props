@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="coverlet.msbuild" Version="3.0.3" />
-    <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.1.1" />
+    <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.1.2" />
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="5.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.7" />
