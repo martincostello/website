@@ -58,6 +58,8 @@ namespace MartinCostello.Website.Integration
         /// <inheritdoc />
         protected override IHost CreateHost(IHostBuilder builder)
         {
+            var testHost = builder.Build();
+
             builder.ConfigureWebHost((p) => p.UseKestrel());
 
             _host = builder.Build();
@@ -70,14 +72,7 @@ namespace MartinCostello.Website.Integration
                 .Select((p) => new Uri(p))
                 .Last();
 
-            // The base class still needs a separate host using TestServer
-            var testHostBuilder = CreateHostBuilder();
-            var testHost = testHostBuilder!
-                .ConfigureWebHost((p) => p.UseTestServer())
-                .Build();
-
             testHost.Start();
-
             return testHost;
         }
 
