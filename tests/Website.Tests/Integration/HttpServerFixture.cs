@@ -32,7 +32,7 @@ namespace MartinCostello.Website.Integration
         }
 
         /// <inheritdoc />
-        public override IServiceProvider? Services
+        public override IServiceProvider Services
         {
             get
             {
@@ -71,7 +71,8 @@ namespace MartinCostello.Website.Integration
                 .Last();
 
             // The base class still needs a separate host using TestServer
-            var testHost = CreateHostBuilder()
+            var testHostBuilder = CreateHostBuilder();
+            var testHost = testHostBuilder!
                 .ConfigureWebHost((p) => p.UseTestServer())
                 .Build();
 
