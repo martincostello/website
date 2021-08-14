@@ -25,8 +25,8 @@
     <PackageReference Include="Serilog.Sinks.UDP" />
   </ItemGroup>
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm ci" Condition=" '$(InstallWebPackages)' == 'true' " />
-    <Exec Command="npm run publish" />
+    <Exec Command="npm ci" Condition=" '$(InstallWebPackages)' == 'true' or !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
+    <Exec Command="npm run publish" Condition=" ('$(BuildingInsideVisualStudio)' != 'true' and '$(GITHUB_ACTIONS)' != 'true') or !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\site.js') " />
   </Target>
   <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != ''">
     <ItemGroup>
