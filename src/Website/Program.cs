@@ -146,6 +146,21 @@ app.UseCookiePolicy(new()
     Secure = app.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
 });
 
+app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
+{
+    return service.GenerateGuid(format, uppercase);
+});
+
+app.MapPost("/tools/hash", (HashRequest request, IToolsService service) =>
+{
+    return service.GenerateHash(request);
+});
+
+app.MapGet("/tools/machinekey", (IToolsService service, string? decryptionAlgorithm, string? validationAlgorithm) =>
+{
+    return service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
+});
+
 app.Run();
 
 static void SetCacheHeaders(StaticFileResponseContext context, bool isDevelopment)
