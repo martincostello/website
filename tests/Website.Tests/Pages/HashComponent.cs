@@ -3,41 +3,40 @@
 
 using Microsoft.Playwright;
 
-namespace MartinCostello.Website.Pages
+namespace MartinCostello.Website.Pages;
+
+public sealed class HashComponent : ToolComponent
 {
-    public sealed class HashComponent : ToolComponent
+    internal HashComponent(ApplicationNavigator navigator)
+        : base(navigator)
     {
-        internal HashComponent(ApplicationNavigator navigator)
-            : base(navigator)
-        {
-        }
-
-        protected override string GeneratorSelector => "id=generate-hash";
-
-        protected override string ResultSelector => "id=text-hash";
-
-        public async Task<HashComponent> WithAlgorithmAsync(string text)
-        {
-            await Navigator.Page.SelectOptionAsync("id=hash-algorithm", new SelectOptionValue() { Label = text });
-            return this;
-        }
-
-        public async Task<HashComponent> WithFormatAsync(string text)
-        {
-            await Navigator.Page.SelectOptionAsync("id=hash-format", new SelectOptionValue() { Label = text });
-            return this;
-        }
-
-        public async Task<HashComponent> WithPlaintextAsync(string text)
-        {
-            await Navigator.Page.TypeAsync("id=hash-plaintext", text);
-            return this;
-        }
-
-        public async Task<string?> ValueAsync()
-            => await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
-
-        protected override async Task<string?> GetResultAsync(IElementHandle? element)
-            => await element!.GetAttributeAsync("value");
     }
+
+    protected override string GeneratorSelector => "id=generate-hash";
+
+    protected override string ResultSelector => "id=text-hash";
+
+    public async Task<HashComponent> WithAlgorithmAsync(string text)
+    {
+        await Navigator.Page.SelectOptionAsync("id=hash-algorithm", new SelectOptionValue() { Label = text });
+        return this;
+    }
+
+    public async Task<HashComponent> WithFormatAsync(string text)
+    {
+        await Navigator.Page.SelectOptionAsync("id=hash-format", new SelectOptionValue() { Label = text });
+        return this;
+    }
+
+    public async Task<HashComponent> WithPlaintextAsync(string text)
+    {
+        await Navigator.Page.TypeAsync("id=hash-plaintext", text);
+        return this;
+    }
+
+    public async Task<string?> ValueAsync()
+        => await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
+
+    protected override async Task<string?> GetResultAsync(IElementHandle? element)
+        => await element!.GetAttributeAsync("value");
 }

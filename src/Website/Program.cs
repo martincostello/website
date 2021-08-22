@@ -3,55 +3,54 @@
 
 using MartinCostello.Website.Extensions;
 
-namespace MartinCostello.Website
+namespace MartinCostello.Website;
+
+/// <summary>
+/// A class representing the entry-point to the application. This class cannot be inherited.
+/// </summary>
+public static class Program
 {
     /// <summary>
-    /// A class representing the entry-point to the application. This class cannot be inherited.
+    /// The main entry-point to the application.
     /// </summary>
-    public static class Program
+    /// <param name="args">The arguments to the application.</param>
+    /// <returns>
+    /// The exit code from the application.
+    /// </returns>
+    public static int Main(string[] args)
     {
-        /// <summary>
-        /// The main entry-point to the application.
-        /// </summary>
-        /// <param name="args">The arguments to the application.</param>
-        /// <returns>
-        /// The exit code from the application.
-        /// </returns>
-        public static int Main(string[] args)
+        try
         {
-            try
-            {
-                CreateHostBuilder(args).Build().Run();
-                return 0;
-            }
+            CreateHostBuilder(args).Build().Run();
+            return 0;
+        }
 #pragma warning disable CA1031
-            catch (Exception ex)
+        catch (Exception ex)
 #pragma warning restore CA1031
-            {
-                Console.Error.WriteLine($"Unhandled exception: {ex}");
-                return -1;
-            }
-        }
-
-        /// <summary>
-        /// Creates the <see cref="IHostBuilder"/> for the application.
-        /// </summary>
-        /// <param name="args">The arguments to the application.</param>
-        /// <returns>
-        /// The <see cref="IHostBuilder"/> to use for the application.
-        /// </returns>
-        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((context, builder) => builder.ConfigureLogging(context))
-                .ConfigureWebHostDefaults(
-                    (webBuilder) =>
-                    {
-                        webBuilder.CaptureStartupErrors(true)
-                                  .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
-                                  .ConfigureKestrel((p) => p.AddServerHeader = false)
-                                  .UseStartup<Startup>();
-                    });
+            Console.Error.WriteLine($"Unhandled exception: {ex}");
+            return -1;
         }
+    }
+
+    /// <summary>
+    /// Creates the <see cref="IHostBuilder"/> for the application.
+    /// </summary>
+    /// <param name="args">The arguments to the application.</param>
+    /// <returns>
+    /// The <see cref="IHostBuilder"/> to use for the application.
+    /// </returns>
+    public static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureLogging((context, builder) => builder.ConfigureLogging(context))
+            .ConfigureWebHostDefaults(
+                (webBuilder) =>
+                {
+                    webBuilder.CaptureStartupErrors(true)
+                              .ConfigureAppConfiguration((context, builder) => builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()))
+                              .ConfigureKestrel((p) => p.AddServerHeader = false)
+                              .UseStartup<Startup>();
+                });
     }
 }

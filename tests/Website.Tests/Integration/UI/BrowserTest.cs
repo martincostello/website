@@ -1,56 +1,55 @@
 // Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-namespace MartinCostello.Website.Integration.UI
+namespace MartinCostello.Website.Integration.UI;
+
+/// <summary>
+/// The base class for browser integration tests.
+/// </summary>
+[Collection(HttpServerCollection.Name)]
+public abstract class BrowserTest : UITest
 {
+    private bool _disposed;
+
     /// <summary>
-    /// The base class for browser integration tests.
+    /// Initializes a new instance of the <see cref="BrowserTest"/> class.
     /// </summary>
-    [Collection(HttpServerCollection.Name)]
-    public abstract class BrowserTest : UITest
+    /// <param name="fixture">The fixture to use.</param>
+    /// <param name="outputHelper">The <see cref="ITestOutputHelper"/> to use.</param>
+    protected BrowserTest(HttpServerFixture fixture, ITestOutputHelper outputHelper)
+        : base(outputHelper)
     {
-        private bool _disposed;
+        Fixture = fixture;
+        Fixture.SetOutputHelper(outputHelper);
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BrowserTest"/> class.
-        /// </summary>
-        /// <param name="fixture">The fixture to use.</param>
-        /// <param name="outputHelper">The <see cref="ITestOutputHelper"/> to use.</param>
-        protected BrowserTest(HttpServerFixture fixture, ITestOutputHelper outputHelper)
-            : base(outputHelper)
+    /// <summary>
+    /// Gets the <see cref="HttpServerFixture"/> to use.
+    /// </summary>
+    protected HttpServerFixture Fixture { get; }
+
+    /// <inheritdoc />
+    protected override Uri ServerAddress => Fixture.ServerAddress;
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">
+    /// <see langword="true" /> to release both managed and unmanaged resources;
+    /// <see langword="false" /> to release only unmanaged resources.
+    /// </param>
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed)
         {
-            Fixture = fixture;
-            Fixture.SetOutputHelper(outputHelper);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="HttpServerFixture"/> to use.
-        /// </summary>
-        protected HttpServerFixture Fixture { get; }
-
-        /// <inheritdoc />
-        protected override Uri ServerAddress => Fixture.ServerAddress;
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <param name="disposing">
-        /// <see langword="true" /> to release both managed and unmanaged resources;
-        /// <see langword="false" /> to release only unmanaged resources.
-        /// </param>
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposed)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    Fixture?.ClearOutputHelper();
-                }
-
-                _disposed = true;
+                Fixture?.ClearOutputHelper();
             }
 
-            base.Dispose(disposing);
+            _disposed = true;
         }
+
+        base.Dispose(disposing);
     }
 }

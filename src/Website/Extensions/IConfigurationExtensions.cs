@@ -1,76 +1,75 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-namespace MartinCostello.Website.Extensions
+namespace MartinCostello.Website.Extensions;
+
+/// <summary>
+/// A class containing extension methods for <see cref=""/>. This class cannot be inherited.
+/// </summary>
+public static class IConfigurationExtensions
 {
     /// <summary>
-    /// A class containing extension methods for <see cref=""/>. This class cannot be inherited.
+    /// Gets the configured Application Insights instrumentation key.
     /// </summary>
-    public static class IConfigurationExtensions
+    /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
+    /// <returns>
+    /// The configured Application Insights instrumentation key, if any.
+    /// </returns>
+    public static string ApplicationInsightsKey(this IConfiguration config)
     {
-        /// <summary>
-        /// Gets the configured Application Insights instrumentation key.
-        /// </summary>
-        /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
-        /// <returns>
-        /// The configured Application Insights instrumentation key, if any.
-        /// </returns>
-        public static string ApplicationInsightsKey(this IConfiguration config)
+        return config?["ApplicationInsights:InstrumentationKey"] ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the name of the Azure datacenter the application is running in.
+    /// </summary>
+    /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
+    /// <returns>
+    /// The name of the Azure datacenter the application is running in.
+    /// </returns>
+    public static string AzureDatacenter(this IConfiguration config)
+    {
+        return config?["Azure:Datacenter"] ?? "local";
+    }
+
+    /// <summary>
+    /// Gets the name of the Azure environment the application is running in.
+    /// </summary>
+    /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
+    /// <returns>
+    /// The name of the Azure environment the application is running in.
+    /// </returns>
+    public static string AzureEnvironment(this IConfiguration config)
+    {
+        return config?["Azure:Environment"] ?? "local";
+    }
+
+    /// <summary>
+    /// Gets the hostname to use to log to Papertrail.
+    /// </summary>
+    /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
+    /// <returns>
+    /// The hostname to use to log to Papertrail, if any.
+    /// </returns>
+    public static string PapertrailHostname(this IConfiguration config)
+    {
+        return config?["Papertrail:Hostname"] ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets the UDP port to use to log to Papertrail.
+    /// </summary>
+    /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
+    /// <returns>
+    /// The UDP port to use to log to Papertrail, if any.
+    /// </returns>
+    public static int PapertrailPort(this IConfiguration config)
+    {
+        if (!ushort.TryParse(config?["Papertrail:Port"], out ushort port))
         {
-            return config?["ApplicationInsights:InstrumentationKey"] ?? string.Empty;
+            port = 0;
         }
 
-        /// <summary>
-        /// Gets the name of the Azure datacenter the application is running in.
-        /// </summary>
-        /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
-        /// <returns>
-        /// The name of the Azure datacenter the application is running in.
-        /// </returns>
-        public static string AzureDatacenter(this IConfiguration config)
-        {
-            return config?["Azure:Datacenter"] ?? "local";
-        }
-
-        /// <summary>
-        /// Gets the name of the Azure environment the application is running in.
-        /// </summary>
-        /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
-        /// <returns>
-        /// The name of the Azure environment the application is running in.
-        /// </returns>
-        public static string AzureEnvironment(this IConfiguration config)
-        {
-            return config?["Azure:Environment"] ?? "local";
-        }
-
-        /// <summary>
-        /// Gets the hostname to use to log to Papertrail.
-        /// </summary>
-        /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
-        /// <returns>
-        /// The hostname to use to log to Papertrail, if any.
-        /// </returns>
-        public static string PapertrailHostname(this IConfiguration config)
-        {
-            return config?["Papertrail:Hostname"] ?? string.Empty;
-        }
-
-        /// <summary>
-        /// Gets the UDP port to use to log to Papertrail.
-        /// </summary>
-        /// <param name="config">The <see cref="IConfiguration"/> to use.</param>
-        /// <returns>
-        /// The UDP port to use to log to Papertrail, if any.
-        /// </returns>
-        public static int PapertrailPort(this IConfiguration config)
-        {
-            if (!ushort.TryParse(config?["Papertrail:Port"], out ushort port))
-            {
-                port = 0;
-            }
-
-            return port;
-        }
+        return port;
     }
 }

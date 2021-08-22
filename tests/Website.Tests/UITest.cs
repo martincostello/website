@@ -4,130 +4,129 @@
 using System.Runtime.CompilerServices;
 using MartinCostello.Website.Pages;
 
-namespace MartinCostello.Website
+namespace MartinCostello.Website;
+
+/// <summary>
+/// The base class for browser tests.
+/// </summary>
+public abstract class UITest : IDisposable
 {
     /// <summary>
-    /// The base class for browser tests.
+    /// Initializes a new instance of the <see cref="UITest"/> class.
     /// </summary>
-    public abstract class UITest : IDisposable
+    /// <param name="outputHelper">The <see cref="ITestOutputHelper"/> to use.</param>
+    protected UITest(ITestOutputHelper outputHelper)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UITest"/> class.
-        /// </summary>
-        /// <param name="outputHelper">The <see cref="ITestOutputHelper"/> to use.</param>
-        protected UITest(ITestOutputHelper outputHelper)
-        {
-            Output = outputHelper;
-        }
+        Output = outputHelper;
+    }
 
-        /// <summary>
-        /// Finalizes an instance of the <see cref="UITest"/> class.
-        /// </summary>
-        ~UITest()
-        {
-            Dispose(false);
-        }
+    /// <summary>
+    /// Finalizes an instance of the <see cref="UITest"/> class.
+    /// </summary>
+    ~UITest()
+    {
+        Dispose(false);
+    }
 
-        /// <summary>
-        /// Gets the base address of the website under test.
-        /// </summary>
-        protected abstract Uri ServerAddress { get; }
+    /// <summary>
+    /// Gets the base address of the website under test.
+    /// </summary>
+    protected abstract Uri ServerAddress { get; }
 
-        /// <summary>
-        /// Gets the <see cref="ITestOutputHelper"/> to use.
-        /// </summary>
-        protected ITestOutputHelper Output { get; }
+    /// <summary>
+    /// Gets the <see cref="ITestOutputHelper"/> to use.
+    /// </summary>
+    protected ITestOutputHelper Output { get; }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        /// <summary>
-        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
-        /// </summary>
-        /// <param name="browserType">The type of the browser to run the test with.</param>
-        /// <param name="test">The delegate to the test that will use the navigator.</param>
-        /// <param name="testName">The name of the test method.</param>
-        /// <returns>
-        /// A <see cref="Task"/> representing the asynchronous operation to run the test.
-        /// </returns>
-        protected async Task WithNavigatorAsync(
-            string browserType,
-            Func<ApplicationNavigator, Task> test,
-            [CallerMemberName] string? testName = null)
-        {
-            var fixture = new BrowserFixture(Output);
+    /// <summary>
+    /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
+    /// </summary>
+    /// <param name="browserType">The type of the browser to run the test with.</param>
+    /// <param name="test">The delegate to the test that will use the navigator.</param>
+    /// <param name="testName">The name of the test method.</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the asynchronous operation to run the test.
+    /// </returns>
+    protected async Task WithNavigatorAsync(
+        string browserType,
+        Func<ApplicationNavigator, Task> test,
+        [CallerMemberName] string? testName = null)
+    {
+        var fixture = new BrowserFixture(Output);
 
-            await fixture.WithPageAsync(
-                browserType,
-                async (page) =>
-                {
-                    var navigator = new ApplicationNavigator(ServerAddress, page);
-                    await test(navigator);
-                },
-                testName);
-        }
+        await fixture.WithPageAsync(
+            browserType,
+            async (page) =>
+            {
+                var navigator = new ApplicationNavigator(ServerAddress, page);
+                await test(navigator);
+            },
+            testName);
+    }
 
-        /// <summary>
-        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
-        /// </summary>
-        /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
-        /// <param name="test">The delegate to the test that will use the navigator.</param>
-        /// <param name="testName">The name of the test method.</param>
-        /// <returns>
-        /// A <see cref="Task"/> representing the asynchronous operation to run the test.
-        /// </returns>
-        protected async Task AtPageAsync<T>(
-            Func<ApplicationNavigator, T, Task> test,
-            [CallerMemberName] string? testName = null)
-            where T : PageBase
-        {
-            await WithNavigatorAsync(
-                "chromium",
-                async (navigator) =>
-                {
-                    T? page = Activator.CreateInstance(typeof(T), navigator) as T;
-                    await page!.NavigateAsync();
+    /// <summary>
+    /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
+    /// </summary>
+    /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
+    /// <param name="test">The delegate to the test that will use the navigator.</param>
+    /// <param name="testName">The name of the test method.</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the asynchronous operation to run the test.
+    /// </returns>
+    protected async Task AtPageAsync<T>(
+        Func<ApplicationNavigator, T, Task> test,
+        [CallerMemberName] string? testName = null)
+        where T : PageBase
+    {
+        await WithNavigatorAsync(
+            "chromium",
+            async (navigator) =>
+            {
+                T? page = Activator.CreateInstance(typeof(T), navigator) as T;
+                await page!.NavigateAsync();
 
-                    await test(navigator, page!);
-                },
-                testName: testName);
-        }
+                await test(navigator, page!);
+            },
+            testName: testName);
+    }
 
-        /// <summary>
-        /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
-        /// </summary>
-        /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
-        /// <param name="test">The delegate to the test that will use the navigator.</param>
-        /// <param name="testName">The name of the test method.</param>
-        /// <returns>
-        /// A <see cref="Task"/> representing the asynchronous operation to run the test.
-        /// </returns>
-        protected async Task AtPageAsync<T>(
-            Func<T, Task> test,
-            [CallerMemberName] string? testName = null)
-            where T : PageBase
-        {
-            await AtPageAsync<T>(
-                async (_, page) => await test(page),
-                testName: testName);
-        }
+    /// <summary>
+    /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> for the specified page type.
+    /// </summary>
+    /// <typeparam name="T">The type of the page to navigate to for the test.</typeparam>
+    /// <param name="test">The delegate to the test that will use the navigator.</param>
+    /// <param name="testName">The name of the test method.</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the asynchronous operation to run the test.
+    /// </returns>
+    protected async Task AtPageAsync<T>(
+        Func<T, Task> test,
+        [CallerMemberName] string? testName = null)
+        where T : PageBase
+    {
+        await AtPageAsync<T>(
+            async (_, page) => await test(page),
+            testName: testName);
+    }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <param name="disposing">
-        /// <see langword="true" /> to release both managed and unmanaged resources;
-        /// <see langword="false" /> to release only unmanaged resources.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
-        {
-            // No-op
-        }
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">
+    /// <see langword="true" /> to release both managed and unmanaged resources;
+    /// <see langword="false" /> to release only unmanaged resources.
+    /// </param>
+    protected virtual void Dispose(bool disposing)
+    {
+        // No-op
     }
 }

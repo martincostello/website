@@ -4,18 +4,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace MartinCostello.Website.Models
+namespace MartinCostello.Website.Models;
+
+/// <summary>
+/// A class representing the response from the <c>/tools/guid</c> API resource. This class cannot be inherited.
+/// </summary>
+public sealed class GuidResponse
 {
     /// <summary>
-    /// A class representing the response from the <c>/tools/guid</c> API resource. This class cannot be inherited.
+    /// Gets or sets the generated GUID value.
     /// </summary>
-    public sealed class GuidResponse
-    {
-        /// <summary>
-        /// Gets or sets the generated GUID value.
-        /// </summary>
-        [JsonPropertyName("guid")]
-        [Required]
-        public string Guid { get; set; } = string.Empty;
-    }
+    [JsonPropertyName("guid")]
+    [Required]
+    public string Guid { get; set; } = string.Empty;
 }

@@ -3,35 +3,34 @@
 
 using Microsoft.Playwright;
 
-namespace MartinCostello.Website.Pages
+namespace MartinCostello.Website.Pages;
+
+public sealed class GuidComponent : ToolComponent
 {
-    public sealed class GuidComponent : ToolComponent
+    internal GuidComponent(ApplicationNavigator navigator)
+        : base(navigator)
     {
-        internal GuidComponent(ApplicationNavigator navigator)
-            : base(navigator)
-        {
-        }
-
-        protected override string GeneratorSelector => "id=generate-guid";
-
-        protected override string ResultSelector => "id=text-guid";
-
-        public async Task<GuidComponent> WithFormatAsync(string text)
-        {
-            await Navigator.Page.SelectOptionAsync("id=guid-format", new SelectOptionValue() { Label = text });
-            return this;
-        }
-
-        public async Task<GuidComponent> ToggleCaseAsync()
-        {
-            await Navigator.Page.ClickAsync("[for='guid-uppercase']");
-            return this;
-        }
-
-        public async Task<string?> ValueAsync() =>
-            await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
-
-        protected override async Task<string?> GetResultAsync(IElementHandle? element)
-            => await element!.GetAttributeAsync("value");
     }
+
+    protected override string GeneratorSelector => "id=generate-guid";
+
+    protected override string ResultSelector => "id=text-guid";
+
+    public async Task<GuidComponent> WithFormatAsync(string text)
+    {
+        await Navigator.Page.SelectOptionAsync("id=guid-format", new SelectOptionValue() { Label = text });
+        return this;
+    }
+
+    public async Task<GuidComponent> ToggleCaseAsync()
+    {
+        await Navigator.Page.ClickAsync("[for='guid-uppercase']");
+        return this;
+    }
+
+    public async Task<string?> ValueAsync() =>
+        await GetResultAsync(await Navigator.Page.WaitForSelectorAsync(ResultSelector));
+
+    protected override async Task<string?> GetResultAsync(IElementHandle? element)
+        => await element!.GetAttributeAsync("value");
 }

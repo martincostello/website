@@ -3,27 +3,26 @@
 
 using Microsoft.Playwright;
 
-namespace MartinCostello.Website.Pages
+namespace MartinCostello.Website.Pages;
+
+public class ApplicationNavigator
 {
-    public class ApplicationNavigator
+    public ApplicationNavigator(Uri baseUri, IPage page)
     {
-        public ApplicationNavigator(Uri baseUri, IPage page)
-        {
-            BaseUri = baseUri;
-            Page = page;
-        }
+        BaseUri = baseUri;
+        Page = page;
+    }
 
-        protected internal Uri BaseUri { get; }
+    protected internal Uri BaseUri { get; }
 
-        protected internal IPage Page { get; }
+    protected internal IPage Page { get; }
 
-        public async Task<HomePage> GoToRootAsync()
-            => await new HomePage(this).NavigateAsync();
+    public async Task<HomePage> GoToRootAsync()
+        => await new HomePage(this).NavigateAsync();
 
-        public async Task NavigateToAsync(string relativeUri)
-        {
-            var url = new Uri(BaseUri, relativeUri);
-            await Page.GotoAsync(url.ToString());
-        }
+    public async Task NavigateToAsync(string relativeUri)
+    {
+        var url = new Uri(BaseUri, relativeUri);
+        await Page.GotoAsync(url.ToString());
     }
 }
