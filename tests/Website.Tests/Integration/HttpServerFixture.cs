@@ -5,7 +5,6 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -58,7 +57,9 @@ public sealed class HttpServerFixture : TestServerFixture
     /// <inheritdoc />
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        builder.ConfigureWebHost((p) => p.UseKestrel());
+        var testHost = builder.Build();
+
+        builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
 
         _host = builder.Build();
         _host.Start();
@@ -69,12 +70,6 @@ public sealed class HttpServerFixture : TestServerFixture
         ClientOptions.BaseAddress = addresses!.Addresses
             .Select((p) => new Uri(p))
             .Last();
-
-        // The base class still needs a separate host using TestServer
-        var testHostBuilder = CreateHostBuilder();
-        var testHost = testHostBuilder!
-            .ConfigureWebHost((p) => p.UseTestServer())
-            .Build();
 
         testHost.Start();
 

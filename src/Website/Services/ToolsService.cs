@@ -4,7 +4,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using MartinCostello.Website.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MartinCostello.Website.Services;
 
@@ -47,7 +46,7 @@ public class ToolsService : IToolsService
     }
 
     /// <inheritdoc/>
-    public ActionResult<GuidResponse> GenerateGuid(string? format, bool? uppercase)
+    public IResult GenerateGuid(string? format, bool? uppercase)
     {
         string guid;
 
@@ -65,14 +64,16 @@ public class ToolsService : IToolsService
             guid = guid.ToUpperInvariant();
         }
 
-        return new GuidResponse()
+        var result = new GuidResponse()
         {
             Guid = guid,
         };
+
+        return Results.Json(result);
     }
 
     /// <inheritdoc/>
-    public ActionResult<HashResponse> GenerateHash(HashRequest request)
+    public IResult GenerateHash(HashRequest request)
     {
         if (request == null || string.IsNullOrWhiteSpace(request.Algorithm))
         {
@@ -132,16 +133,18 @@ public class ToolsService : IToolsService
             return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
         }
 
-        return new HashResponse()
+        var result = new HashResponse()
         {
 #pragma warning disable CA1308
             Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash).ToLowerInvariant(),
 #pragma warning restore CA1308
         };
+
+        return Results.Json(result);
     }
 
     /// <inheritdoc/>
-    public ActionResult<MachineKeyResponse> GenerateMachineKey(string? decryptionAlgorithm, string? validationAlgorithm)
+    public IResult GenerateMachineKey(string? decryptionAlgorithm, string? validationAlgorithm)
     {
         if (string.IsNullOrEmpty(decryptionAlgorithm) ||
             !HashSizes.TryGetValue(decryptionAlgorithm + "-D", out int decryptionKeyLength))
@@ -172,7 +175,7 @@ public class ToolsService : IToolsService
             validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
             decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
 
-        return result;
+        return Results.Json(result);
     }
 
     /// <summary>
@@ -190,9 +193,9 @@ public class ToolsService : IToolsService
     /// </summary>
     /// <param name="message">The error message.</param>
     /// <returns>
-    /// An <see cref="ActionResult"/> that represents an invalid API request.
+    /// An <see cref="IResult"/> that represents an invalid API request.
     /// </returns>
-    private ActionResult BadRequest(string message)
+    private IResult BadRequest(string message)
     {
         var error = new ErrorResponse()
         {
@@ -201,6 +204,6 @@ public class ToolsService : IToolsService
             StatusCode = StatusCodes.Status400BadRequest,
         };
 
-        return new BadRequestObjectResult(error);
+        return Results.Json(error, statusCode: error.StatusCode);
     }
 }
