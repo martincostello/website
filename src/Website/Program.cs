@@ -146,6 +146,8 @@ app.UseCookiePolicy(new()
     Secure = app.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
 });
 
+//// TODO Add route names once issue is resolved: https://github.com/dotnet/aspnetcore/issues/35592
+
 app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
 {
     return service.GenerateGuid(format, uppercase);
