@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Net;
@@ -140,16 +140,11 @@ namespace MartinCostello.Website.Integration
         }
 
         [Theory]
-        [InlineData("/admin.php", HttpStatusCode.Found)]
-        [InlineData("/CHANGELOG.txt", HttpStatusCode.Found)]
-        [InlineData("/demo/wp-admin/", HttpStatusCode.Found)]
-        [InlineData("/blog", HttpStatusCode.Found)]
         [InlineData("/foo", HttpStatusCode.NotFound)]
         [InlineData("/error", HttpStatusCode.InternalServerError)]
         [InlineData("/error?id=399", HttpStatusCode.InternalServerError)]
         [InlineData("/error?id=400", HttpStatusCode.BadRequest)]
         [InlineData("/error?id=600", HttpStatusCode.InternalServerError)]
-        [InlineData("/umbraco", HttpStatusCode.Found)]
         public async Task Can_Load_Resource(string requestUri, HttpStatusCode expected)
         {
             // Arrange

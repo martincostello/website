@@ -1,7 +1,13 @@
+@page
+@model MartinCostello.Website.Pages.Tools.ToolsModel
+@{
+    ViewBag.Title = ".NET Development Tools";
+    ViewBag.MetaDescription = ".NET Development Tools for generating GUIDs, ASP.NET machine keys and hashing text.";
+}
 @section meta {
-    <link name="api-guid" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateGuid)" />
-    <link name="api-hash" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateHash)" />
-    <link name="api-machine-key" rel="nofollow" href="@Url.RouteUrl(SiteRoutes.GenerateMachineKey)" />
+    <link name="api-guid" rel="nofollow" href="~/tools/guid" />
+    <link name="api-hash" rel="nofollow" href="~/tools/hash" />
+    <link name="api-machine-key" rel="nofollow" href="~/tools/machinekey" />
 }
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js" integrity="sha256-hIvIxeqhGZF+VVeM55k0mJvWpQ6gTkWk3Emc+NmowYA=" crossorigin="anonymous" defer></script>

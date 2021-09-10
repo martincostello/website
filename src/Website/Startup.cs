@@ -1,23 +1,25 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using MartinCostello.Website.Extensions;
+using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using BadRequestObjectResult = Microsoft.AspNetCore.Mvc.BadRequestObjectResult;
 
 namespace MartinCostello.Website
 {
@@ -58,7 +60,7 @@ namespace MartinCostello.Website
             IHostApplicationLifetime applicationLifetime,
             IOptions<SiteOptions> options)
         {
-            applicationLifetime.ApplicationStopped.Register(OnApplicationStopped);
+            applicationLifetime.ApplicationStopped.Register(() => Serilog.Log.CloseAndFlush());
             app.UseCustomHttpHeaders(HostingEnvironment, Configuration, options);
 
             if (HostingEnvironment.IsDevelopment())
@@ -74,25 +76,101 @@ namespace MartinCostello.Website
                    .UseHttpsRedirection();
             }
 
-            app.UseForwardedHeaders(
-                new ForwardedHeadersOptions()
-                {
-                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                });
-
-            app.UseHttpMethodOverride();
-
             app.UseResponseCompression();
 
             app.UseStaticFiles(CreateStaticFileOptions());
 
             app.UseRouting();
 
-            app.UseEndpoints(
-                (endpoints) =>
+            app.UseEndpoints((endpoints) =>
+            {
+                endpoints.MapRazorPages();
+
+                endpoints.MapGet("/Content/browserstack.svg", (context) =>
                 {
-                    endpoints.MapDefaultControllerRoute();
+                    var options = context.RequestServices.GetRequiredService<IOptions<SiteOptions>>();
+
+                    var builder = new UriBuilder(options.Value!.ExternalLinks!.Cdn!)
+                    {
+                        Scheme = Uri.UriSchemeHttps,
+                        Path = "browserstack.svg",
+                    };
+
+                    context.Response.Redirect(builder.Uri.ToString());
+                    return Task.CompletedTask;
                 });
+
+                endpoints.MapGet("/home/blog", (context) =>
+                {
+                    var options = context.RequestServices.GetRequiredService<IOptions<SiteOptions>>();
+                    context.Response.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
+                    return Task.CompletedTask;
+                });
+
+                endpoints.MapGet("/tools/guid", async (context) =>
+                {
+                    string? format = context.Request.Query["format"];
+                    bool? uppercase = null;
+
+                    if (context.Request.Query.TryGetValue("uppercase", out var valueAsString))
+                    {
+                        if (bool.TryParse(valueAsString, out bool valueAsBoolean))
+                        {
+                            uppercase = valueAsBoolean;
+                        }
+                    }
+
+                    var service = context.RequestServices.GetRequiredService<IToolsService>();
+                    var response = service.GenerateGuid(format, uppercase);
+
+                    // TODO Decouple from MVC
+                    if (response.Result is BadRequestObjectResult badRequest)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsJsonAsync(badRequest.Value);
+                        return;
+                    }
+
+                    await context.Response.WriteAsJsonAsync(response.Value);
+                });
+
+                endpoints.MapPost("/tools/hash", async (context) =>
+                {
+                    var request = await context.Request.ReadFromJsonAsync<HashRequest>();
+
+                    var service = context.RequestServices.GetRequiredService<IToolsService>();
+                    var response = service.GenerateHash(request ?? new HashRequest());
+
+                    // TODO Decouple from MVC
+                    if (response.Result is BadRequestObjectResult badRequest)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsJsonAsync(badRequest.Value);
+                        return;
+                    }
+
+                    await context.Response.WriteAsJsonAsync(response.Value);
+                });
+
+                endpoints.MapGet("/tools/machinekey", async (context) =>
+                {
+                    string? decryptionAlgorithm = context.Request.Query["decryptionAlgorithm"];
+                    string? validationAlgorithm = context.Request.Query["validationAlgorithm"];
+
+                    var service = context.RequestServices.GetRequiredService<IToolsService>();
+                    var response = service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
+
+                    // TODO Decouple from MVC
+                    if (response.Result is BadRequestObjectResult badRequest)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsJsonAsync(badRequest.Value);
+                        return;
+                    }
+
+                    await context.Response.WriteAsJsonAsync(response.Value);
+                });
+            });
 
             app.UseCookiePolicy(CreateCookiePolicy());
         }
@@ -105,71 +183,45 @@ namespace MartinCostello.Website
         {
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddOptions();
+
             services.Configure<SiteOptions>(Configuration.GetSection("Site"));
+            services.Configure<JsonOptions>((options) =>
+            {
+                options.SerializerOptions.PropertyNameCaseInsensitive = false;
+                options.SerializerOptions.WriteIndented = true;
+            });
 
-            services.AddAntiforgery(
-                (p) =>
-                {
-                    p.Cookie.HttpOnly = true;
-                    p.Cookie.Name = "_anti-forgery";
-                    p.Cookie.SecurePolicy = CookiePolicy();
-                    p.FormFieldName = "_anti-forgery";
-                    p.HeaderName = "x-anti-forgery";
-                });
+            services.AddAntiforgery((options) =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "_anti-forgery";
+                options.Cookie.SecurePolicy = CookiePolicy();
+                options.FormFieldName = "_anti-forgery";
+                options.HeaderName = "x-anti-forgery";
+            });
 
-            services.AddControllersWithViews(ConfigureMvc)
-                    .AddJsonOptions(ConfigureJsonFormatter);
+            services.AddRazorPages();
 
-            services.AddRouting(
-                (p) =>
-                {
-                    p.AppendTrailingSlash = true;
-                    p.LowercaseUrls = true;
-                });
+            services.AddRouting((options) =>
+            {
+                options.AppendTrailingSlash = true;
+                options.LowercaseUrls = true;
+            });
 
             if (!HostingEnvironment.IsDevelopment())
             {
-                services.AddHsts(
-                    (p) =>
-                    {
-                        p.MaxAge = TimeSpan.FromDays(365);
-                        p.IncludeSubDomains = false;
-                        p.Preload = false;
-                    });
+                services.AddHsts((options) =>
+                {
+                    options.MaxAge = TimeSpan.FromDays(365);
+                    options.IncludeSubDomains = false;
+                    options.Preload = false;
+                });
             }
 
             services.AddResponseCaching()
                     .AddResponseCompression();
 
             services.AddSingleton<IToolsService, ToolsService>();
-        }
-
-        /// <summary>
-        /// Configures the JSON serializer for MVC.
-        /// </summary>
-        /// <param name="options">The <see cref="JsonOptions"/> to configure.</param>
-        private static void ConfigureJsonFormatter(JsonOptions options)
-        {
-            // Make JSON easier to read for debugging at the expense of larger payloads
-            options.JsonSerializerOptions.WriteIndented = true;
-
-            // Omit nulls to reduce payload size
-            options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
-
-            // Opt-out of case insensitivity on property names
-            options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
-        }
-
-        /// <summary>
-        /// Configures MVC.
-        /// </summary>
-        /// <param name="options">The <see cref="MvcOptions"/> to configure.</param>
-        private void ConfigureMvc(MvcOptions options)
-        {
-            if (!HostingEnvironment.IsDevelopment())
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            }
         }
 
         /// <summary>
@@ -245,13 +297,5 @@ namespace MartinCostello.Website
         /// </returns>
         private CookieSecurePolicy CookiePolicy()
             => HostingEnvironment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
-
-        /// <summary>
-        /// Handles the application being stopped.
-        /// </summary>
-        private void OnApplicationStopped()
-        {
-            Serilog.Log.CloseAndFlush();
-        }
     }
 }
