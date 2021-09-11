@@ -125,6 +125,8 @@ app.MapGet("/home/blog", (IOptions<SiteOptions> options) =>
     return Results.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
 });
 
+//// TODO Add route names once issue is resolved: https://github.com/dotnet/aspnetcore/issues/35592
+
 app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
 {
     return service.GenerateGuid(format, uppercase);
@@ -144,23 +146,6 @@ app.UseCookiePolicy(new()
 {
     HttpOnly = HttpOnlyPolicy.Always,
     Secure = app.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
-});
-
-//// TODO Add route names once issue is resolved: https://github.com/dotnet/aspnetcore/issues/35592
-
-app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
-{
-    return service.GenerateGuid(format, uppercase);
-});
-
-app.MapPost("/tools/hash", (HashRequest request, IToolsService service) =>
-{
-    return service.GenerateHash(request);
-});
-
-app.MapGet("/tools/machinekey", (IToolsService service, string? decryptionAlgorithm, string? validationAlgorithm) =>
-{
-    return service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
 });
 
 app.Run();
