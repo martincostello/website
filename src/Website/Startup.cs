@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Models;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -123,7 +125,7 @@ namespace MartinCostello.Website
                     var service = context.RequestServices.GetRequiredService<IToolsService>();
                     var response = service.GenerateGuid(format, uppercase);
 
-                    // TODO Decouple from MVC
+                    // TODO Decouple from MVC in #713
                     if (response.Result is BadRequestObjectResult badRequest)
                     {
                         context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -141,7 +143,7 @@ namespace MartinCostello.Website
                     var service = context.RequestServices.GetRequiredService<IToolsService>();
                     var response = service.GenerateHash(request ?? new HashRequest());
 
-                    // TODO Decouple from MVC
+                    // TODO Decouple from MVC in #713
                     if (response.Result is BadRequestObjectResult badRequest)
                     {
                         context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -160,7 +162,7 @@ namespace MartinCostello.Website
                     var service = context.RequestServices.GetRequiredService<IToolsService>();
                     var response = service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
 
-                    // TODO Decouple from MVC
+                    // TODO Decouple from MVC in #713
                     if (response.Result is BadRequestObjectResult badRequest)
                     {
                         context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -218,8 +220,17 @@ namespace MartinCostello.Website
                 });
             }
 
-            services.AddResponseCaching()
-                    .AddResponseCompression();
+            services.AddResponseCaching();
+
+            services.Configure<GzipCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
+            services.Configure<BrotliCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
+
+            services.AddResponseCompression((options) =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+            });
 
             services.AddSingleton<IToolsService, ToolsService>();
         }
