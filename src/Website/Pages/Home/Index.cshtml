@@ -11,16 +11,28 @@
     <div class="col-md-4">
         <h2 class="h3">Projects</h2>
         <p>Information about development projects I manage and/or work on.</p>
-        <p>@Html.ActionLink("Learn more »", "Index", "Projects", null, new { @class = "btn btn-lg btn-primary", role = "button" })</p>
+        <p>
+            <a asp-page="/Projects/Index" class="btn btn-lg btn-primary" role="button">
+               Learn more &raquo;
+            </a>
+        </p>
     </div>
     <div class="col-md-4">
         <h2 class="h3">Blog</h2>
         <p>I occasionally blog about topics related to .NET development.</p>
-        <p>@Html.ActionLink("Visit blog »", "Blog", "Home", null, new { @class = "btn btn-lg btn-primary", rel = "noopener", role = "button", target = "_blank" })</p>
+        <p>
+            <a asp-page="/Home/Blog" class="btn btn-lg btn-primary" rel="noopener" role="button" target="_blank">
+               Visit blog &raquo;
+            </a>
+        </p>
     </div>
     <div class="col-md-4">
         <h2 class="h3">Tools</h2>
         <p>A few simple tools I use regularly to develop .NET applications.</p>
-        <p>@Html.ActionLink("View tools »", "Index", "Tools", null, new { @class = "btn btn-lg btn-primary", role = "button" })</p>
+        <p>
+            <a asp-page="/Tools/Index" class="btn btn-lg btn-primary" role="button">
+               Visit tools &raquo;
+            </a>
+        </p>
     </div>
 </div>
