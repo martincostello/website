@@ -4,6 +4,7 @@
 #pragma warning disable SA1516
 
 using System.IO.Compression;
+using MartinCostello.Website;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
@@ -109,21 +110,7 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-app.MapGet("/Content/browserstack.svg", (IOptions<SiteOptions> options) =>
-{
-    var builder = new UriBuilder(options.Value!.ExternalLinks!.Cdn!)
-    {
-        Scheme = Uri.UriSchemeHttps,
-        Path = "browserstack.svg",
-    };
-
-    return Results.Redirect(builder.Uri.ToString());
-});
-
-app.MapGet("/home/blog", (IOptions<SiteOptions> options) =>
-{
-    return Results.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
-});
+app.MapRedirects();
 
 //// TODO Add route names once issue is resolved: https://github.com/dotnet/aspnetcore/issues/35592
 
