@@ -6,7 +6,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="6.0.0-rc.1.21452.15" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.0-rc.1.21452.15" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.15.0" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.15.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageVersion Include="ReportGenerator" Version="4.8.13" />
     <PackageVersion Include="Serilog" Version="2.10.0" />
