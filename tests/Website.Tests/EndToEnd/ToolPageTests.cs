@@ -16,7 +16,7 @@ public sealed class ToolPageTests : EndToEndTest
     [InlineData("Default", false)]
     [InlineData("Default", true)]
     [InlineData("Numeric", false)]
-    public async Task Can_Generate_Guid(string format, bool uppercase)
+    public async Task Can_Generate_Guid(string format, bool useUpperCase)
     {
         // Arrange
         await AtPageAsync<ToolsPage>(
@@ -26,10 +26,7 @@ public sealed class ToolPageTests : EndToEndTest
                     .GuidGenerator()
                     .WithFormatAsync(format);
 
-                if (uppercase)
-                {
-                    await generator.ToggleCaseAsync();
-                }
+                await generator.SetUpperCaseAsync(useUpperCase);
 
                 // Act
                 string actual = await generator.GenerateAsync();
@@ -38,7 +35,7 @@ public sealed class ToolPageTests : EndToEndTest
                 Guid.TryParse(actual, out Guid guid).ShouldBeTrue();
                 guid.ShouldNotBe(Guid.Empty);
 
-                if (uppercase)
+                if (useUpperCase)
                 {
                     actual.ShouldBe(actual.ToUpperInvariant());
                 }

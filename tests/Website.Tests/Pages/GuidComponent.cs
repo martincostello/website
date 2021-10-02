@@ -22,9 +22,9 @@ public sealed class GuidComponent : ToolComponent
         return this;
     }
 
-    public async Task<GuidComponent> ToggleCaseAsync()
+    public async Task<GuidComponent> SetUpperCaseAsync(bool checkedState)
     {
-        await Navigator.Page.ClickAsync("[for='guid-uppercase']");
+        await Navigator.Page.SetCheckedAsync("[for='guid-uppercase']", checkedState);
         return this;
     }
 
