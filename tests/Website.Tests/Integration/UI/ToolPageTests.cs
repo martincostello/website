@@ -27,7 +27,7 @@ public sealed class ToolPageTests : BrowserTest
     [InlineData("With braces", false)]
     [InlineData("With parentheses", false)]
     [InlineData("Hexadecimal with braces", false)]
-    public async Task Can_Generate_Guid(string format, bool uppercase)
+    public async Task Can_Generate_Guid(string format, bool useUpperCase)
     {
         // Arrange
         await AtPageAsync<ToolsPage>(
@@ -44,11 +44,7 @@ public sealed class ToolPageTests : BrowserTest
 
                 // Arrange
                 await generator.WithFormatAsync(format);
-
-                if (uppercase)
-                {
-                    await generator.ToggleCaseAsync();
-                }
+                await generator.SetUpperCaseAsync(useUpperCase);
 
                 // Act
                 actual = await generator.GenerateAsync();
@@ -58,7 +54,7 @@ public sealed class ToolPageTests : BrowserTest
                 secondGuid.ShouldNotBe(Guid.Empty);
                 secondGuid.ShouldNotBe(firstGuid);
 
-                if (uppercase)
+                if (useUpperCase)
                 {
                     actual.ShouldBe(actual.ToUpperInvariant());
                 }
