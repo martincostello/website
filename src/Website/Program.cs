@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+#pragma warning disable CA1812
 #pragma warning disable SA1516
 
 using System.IO.Compression;
@@ -111,8 +112,6 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.MapRedirects();
-
-//// TODO Add route names once issue is resolved: https://github.com/dotnet/aspnetcore/issues/35592
 
 app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
 {
