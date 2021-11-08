@@ -70,9 +70,7 @@ builder.Services.AddResponseCompression((options) =>
 
 builder.Services.AddSingleton<IToolsService, ToolsService>();
 
-builder.WebHost.ConfigureAppConfiguration(
-    (context, builder) =>
-    builder.AddApplicationInsightsSettings(developerMode: context.HostingEnvironment.IsDevelopment()));
+builder.Configuration.AddApplicationInsightsSettings(developerMode: builder.Environment.IsDevelopment());
 
 builder.WebHost.CaptureStartupErrors(true);
 builder.WebHost.ConfigureKestrel((p) => p.AddServerHeader = false);
