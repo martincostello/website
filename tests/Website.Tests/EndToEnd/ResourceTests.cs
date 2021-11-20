@@ -70,6 +70,7 @@ public class ResourceTests : EndToEndTest
             "content-security-policy",
             "content-security-policy-report-only",
             "feature-policy",
+            "Permissions-Policy",
             "Referrer-Policy",
             "X-Content-Type-Options",
             "X-Datacenter",
