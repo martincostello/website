@@ -7,8 +7,8 @@
       "documentExposedElements": true,
       "documentInterfaces": true,
       "documentInternalElements": true,
-      "documentPrivateElements": true,
-      "documentPrivateFields": true,
+      "documentPrivateElements": false,
+      "documentPrivateFields": false,
       "fileNamingConvention": "metadata",
       "xmlHeader": false,
       "variables": {
