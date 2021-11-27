@@ -5,6 +5,7 @@
 #pragma warning disable SA1516
 
 using System.IO.Compression;
+using System.Text.Json.Serialization;
 using MartinCostello.Website;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Models;
@@ -27,6 +28,11 @@ builder.Services.Configure<JsonOptions>((options) =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = false;
     options.SerializerOptions.WriteIndented = true;
+});
+builder.Services.AddSingleton<JsonSerializerContext>((p) =>
+{
+    var options = p.GetRequiredService<IOptions<JsonOptions>>().Value;
+    return new ApplicationJsonSerializerContext(options.SerializerOptions);
 });
 
 builder.Services.AddAntiforgery((options) =>

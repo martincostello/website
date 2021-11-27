@@ -69,7 +69,7 @@ public class ToolsService : IToolsService
             Guid = guid,
         };
 
-        return Results.Json(result);
+        return Results.Extensions.Json(result);
     }
 
     /// <inheritdoc/>
@@ -140,7 +140,7 @@ public class ToolsService : IToolsService
 #pragma warning restore CA1308
         };
 
-        return Results.Json(result);
+        return Results.Extensions.Json(result);
     }
 
     /// <inheritdoc/>
@@ -175,7 +175,7 @@ public class ToolsService : IToolsService
             validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
             decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
 
-        return Results.Json(result);
+        return Results.Extensions.Json(result);
     }
 
     /// <summary>
@@ -204,6 +204,6 @@ public class ToolsService : IToolsService
             StatusCode = StatusCodes.Status400BadRequest,
         };
 
-        return Results.Json(error, statusCode: error.StatusCode);
+        return Results.Extensions.Json(error, statusCode: error.StatusCode);
     }
 }
