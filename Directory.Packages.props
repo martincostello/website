@@ -4,7 +4,7 @@
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.2.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.19.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.17.2" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
