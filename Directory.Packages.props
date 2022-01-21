@@ -9,7 +9,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1" />
     <!-- Comment to help prevent dependabot merge conflicts -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.17.3" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.18.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
     <PackageVersion Include="ReportGenerator" Version="5.0.2" />
     <PackageVersion Include="Serilog" Version="2.10.0" />
