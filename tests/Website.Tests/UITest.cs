@@ -61,6 +61,7 @@ public abstract class UITest : IAsyncLifetime, IDisposable
     /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
     /// </summary>
     /// <param name="browserType">The type of the browser to run the test with.</param>
+    /// <param name="browserChannel">The optional browser channel to use.</param>
     /// <param name="test">The delegate to the test that will use the navigator.</param>
     /// <param name="testName">The name of the test method.</param>
     /// <returns>
@@ -68,13 +69,18 @@ public abstract class UITest : IAsyncLifetime, IDisposable
     /// </returns>
     protected async Task WithNavigatorAsync(
         string browserType,
+        string? browserChannel,
         Func<ApplicationNavigator, Task> test,
         [CallerMemberName] string? testName = null)
     {
-        var fixture = new BrowserFixture(Output);
+        var options = new BrowserFixtureOptions()
+        {
+            BrowserType = browserType,
+            BrowserChannel = browserChannel,
+        };
 
+        var fixture = new BrowserFixture(options, Output);
         await fixture.WithPageAsync(
-            browserType,
             async (page) =>
             {
                 var navigator = new ApplicationNavigator(ServerAddress, page);
@@ -99,6 +105,7 @@ public abstract class UITest : IAsyncLifetime, IDisposable
     {
         await WithNavigatorAsync(
             "chromium",
+            null,
             async (navigator) =>
             {
                 T? page = Activator.CreateInstance(typeof(T), navigator) as T;
