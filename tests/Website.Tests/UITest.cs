@@ -9,7 +9,7 @@ namespace MartinCostello.Website;
 /// <summary>
 /// The base class for browser tests.
 /// </summary>
-public abstract class UITest : IDisposable
+public abstract class UITest : IAsyncLifetime, IDisposable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UITest"/> class.
@@ -46,6 +46,16 @@ public abstract class UITest : IDisposable
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+
+    /// <inheritdoc/>
+    public Task InitializeAsync()
+    {
+        InstallPlaywright();
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public Task DisposeAsync() => Task.CompletedTask;
 
     /// <summary>
     /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
@@ -128,5 +138,15 @@ public abstract class UITest : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         // No-op
+    }
+
+    private static void InstallPlaywright()
+    {
+        int exitCode = Microsoft.Playwright.Program.Main(new[] { "install" });
+
+        if (exitCode != 0)
+        {
+            throw new InvalidOperationException($"Playwright exited with code {exitCode}");
+        }
     }
 }
