@@ -84,10 +84,10 @@ public class InlineStyleTagHelper : LinkTagHelper
             return;
         }
 
-        string? filePath = (context.AllAttributes["href"].Value as string)?.TrimStart(Tilde);
+        string filePath = (context.AllAttributes["href"].Value as string)?.TrimStart(Tilde) ?? string.Empty;
         IFileInfo fileInfo = HostingEnvironment.WebRootFileProvider.GetFileInfo(filePath);
 
-        if (!fileInfo.Exists)
+        if (!fileInfo.Exists || fileInfo.PhysicalPath is null)
         {
             // Not a local file
             await base.ProcessAsync(context, output).ConfigureAwait(false);

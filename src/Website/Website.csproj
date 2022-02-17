@@ -6,7 +6,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Martin Costello's website</Summary>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
