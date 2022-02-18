@@ -21,13 +21,13 @@ public class ToolsService : IToolsService
         ["3DES-V"] = 24,
         ["AES-128-D"] = 16,
         ["AES-192-D"] = 24,
-        ["AES-256-D"] = 32,
+        ["AES-256-D"] = SHA256.HashSizeInBytes,
         ["AES-V"] = 32,
         ["DES-D"] = 32,
-        ["MD5-V"] = 16,
-        ["HMACSHA256-V"] = 32,
-        ["HMACSHA384-V"] = 48,
-        ["HMACSHA512-V"] = 64,
+        ["MD5-V"] = MD5.HashSizeInBytes,
+        ["HMACSHA256-V"] = SHA256.HashSizeInBytes,
+        ["HMACSHA384-V"] = SHA384.HashSizeInBytes,
+        ["HMACSHA512-V"] = SHA512.HashSizeInBytes,
         ["SHA1-V"] = 64,
     };
 
