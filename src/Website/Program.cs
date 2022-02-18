@@ -11,7 +11,6 @@ using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
 using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
@@ -22,7 +21,7 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
 builder.Services.AddOptions();
 
 builder.Services.Configure<SiteOptions>(builder.Configuration.GetSection("Site"));
-builder.Services.Configure<JsonOptions>((options) =>
+builder.Services.ConfigureRouteHandlerJsonOptions((options) =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = false;
     options.SerializerOptions.WriteIndented = true;
