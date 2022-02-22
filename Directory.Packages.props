@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="coverlet.msbuild" Version="3.1.2" />
-    <PackageVersion Include="GitHubActionsTestLogger" Version="1.2.0" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="1.3.0" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.2.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <!-- Comment to help prevent dependabot merge conflicts -->
