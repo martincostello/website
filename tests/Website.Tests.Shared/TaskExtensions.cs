@@ -3,7 +3,7 @@
 
 namespace MartinCostello.Website;
 
-internal static class TaskExtensions
+public static class TaskExtensions
 {
     public static async Task<T2> ThenAsync<T1, T2>(this Task<T1> value, Func<T1, Task<T2>> continuation)
     {

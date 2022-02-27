@@ -8,7 +8,7 @@ namespace MartinCostello.Website;
 /// <summary>
 /// A class containing Git metadata for the assembly. This class cannot be inherited.
 /// </summary>
-public static class GitMetadata
+internal static class GitMetadata
 {
     /// <summary>
     /// Gets the SHA for the Git branch the assembly was compiled from.

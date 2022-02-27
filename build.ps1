@@ -74,15 +74,7 @@ if ($installDotNetSdk -eq $true) {
 }
 
 function DotNetTest {
-    param([string]$Project)
-
-    $nugetPath = $env:NUGET_PACKAGES ?? (Join-Path ($env:USERPROFILE ?? "~") ".nuget\packages")
-    $propsFile = Join-Path $solutionPath "Directory.Packages.props"
-    $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageVersion[@Include='ReportGenerator']/@Version").Node.'#text'
-    $reportGeneratorPath = Join-Path $nugetPath "reportgenerator\$reportGeneratorVersion\tools\net6.0\ReportGenerator.dll"
-
-    $coverageOutput = Join-Path $OutputPath "coverage.*.cobertura.xml"
-    $reportOutput = Join-Path $OutputPath "coverage"
+    param([string]$Project)    
 
     $additionalArgs = @()
 
@@ -95,7 +87,16 @@ function DotNetTest {
 
     $dotNetTestExitCode = $LASTEXITCODE
 
+    $coverageOutput = Join-Path $OutputPath "coverage.*.cobertura.xml"
+
     if (Test-Path $coverageOutput) {
+
+        $nugetPath = $env:NUGET_PACKAGES ?? (Join-Path ($env:USERPROFILE ?? "~") ".nuget\packages")
+        $propsFile = Join-Path $solutionPath "Directory.Packages.props"
+        $reportGeneratorVersion = (Select-Xml -Path $propsFile -XPath "//PackageVersion[@Include='ReportGenerator']/@Version").Node.'#text'
+        $reportGeneratorPath = Join-Path $nugetPath "reportgenerator\$reportGeneratorVersion\tools\net6.0\ReportGenerator.dll"
+        $reportOutput = Join-Path $OutputPath "coverage"
+
         & $dotnet `
             $reportGeneratorPath `
             `"-reports:$coverageOutput`" `
@@ -135,7 +136,8 @@ function DotNetPublish {
 }
 
 $testProjects = @(
-    (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj")
+    (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj"),
+    (Join-Path $solutionPath "tests\Website.EndToEndTests\Website.EndToEndTests.csproj")
 )
 
 $publishProjects = @(
