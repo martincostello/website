@@ -181,7 +181,7 @@ jobs:
   test-prod:
     name: test-prod
     needs: deploy-prod
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -193,7 +193,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts
       env:
         WEBSITE_URL: ${{ env.WEBSITE_URL_PROD }}
 
