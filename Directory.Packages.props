@@ -5,7 +5,7 @@
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.2.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <!-- Comment to help prevent dependabot merge conflicts -->
-    <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="6.0.3" />
+    <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="6.0.4" />
     <!-- Comment to help prevent dependabot merge conflicts -->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
     <!-- Comment to help prevent dependabot merge conflicts -->
