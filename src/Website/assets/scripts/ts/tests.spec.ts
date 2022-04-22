@@ -20,7 +20,7 @@ describe("Google Analytics", () => {
 
     describe("Given ga is not defined", () => {
 
-        let analytics: UniversalAnalytics.ga;
+        let analytics: any;
 
         beforeEach(() => {
             analytics = ga;
@@ -47,7 +47,7 @@ describe("Google Analytics", () => {
 
         beforeEach(() => {
             const spy = jasmine.createSpy("ga");
-            ga = (spy as any) as UniversalAnalytics.ga;
+            ga = (spy as any) as any;
         });
 
         afterEach(() => {
