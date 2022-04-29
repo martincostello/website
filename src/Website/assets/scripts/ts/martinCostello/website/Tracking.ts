@@ -19,17 +19,18 @@ namespace martinCostello.website {
 
             let tracked = false;
 
-            if ("ga" in window && ga) {
+            if ("gtag" in window) {
 
-                const command = "send";
+                const command = "event";
                 const fields = {
-                    hitType: "event",
-                    eventCategory: category,
-                    eventAction: action,
-                    eventLabel: label
+                    event_category: category,
+                    event_label: label
                 };
 
-                ga(command, fields);
+                const theWindow: any = window;
+                const gtag = theWindow.gtag || function () { };
+
+                gtag(command, action, fields);
 
                 tracked = true;
             }

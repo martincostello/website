@@ -16,63 +16,6 @@ describe("Given the namespaces are defined", () => {
     });
 });
 
-describe("Google Analytics", () => {
-
-    describe("Given ga is not defined", () => {
-
-        let analytics: any;
-
-        beforeEach(() => {
-            analytics = "ga" in window ? ga : undefined;
-            ga = null;
-        });
-
-        afterEach(() => {
-            ga = analytics;
-        });
-
-        it("then an event is not published", () => {
-
-            const category = "category";
-            const action = "action";
-            const label = "label";
-
-            const result = martinCostello.website.Tracking.track(category, action, label);
-
-            expect(result).toBe(false);
-        });
-    });
-
-    describe("Given ga is defined", () => {
-
-        beforeEach(() => {
-            const spy = jasmine.createSpy("ga");
-            ga = (spy as any) as any;
-        });
-
-        afterEach(() => {
-            ga = null;
-        });
-
-        it("then an event is published", () => {
-
-            const category = "category";
-            const action = "action";
-            const label = "label";
-
-            const result = martinCostello.website.Tracking.track(category, action, label);
-
-            expect(result).toBe(true);
-            expect(ga).toHaveBeenCalledWith("send", jasmine.objectContaining({
-                hitType: "event",
-                eventCategory: category,
-                eventAction: action,
-                eventLabel: label
-            }));
-        });
-    });
-});
-
 describe("Debugging", () => {
 
     describe("Given meta tags containing the site version", () => {

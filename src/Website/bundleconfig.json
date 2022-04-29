@@ -22,7 +22,6 @@
     "inputFiles": [
       "assets/scripts/ts/martinCostello/website/Debug.ts",
       "assets/scripts/ts/martinCostello/website/Tracking.ts",
-      "assets/scripts/ts/Analytics.ts",
       "assets/scripts/ts/Footer.ts",
       "assets/scripts/ts/LazyLoad.ts",
       "assets/scripts/ts/ServiceWorker.ts"
@@ -36,7 +35,6 @@
     "inputFiles": [
       "assets/scripts/ts/martinCostello/website/Debug.ts",
       "assets/scripts/ts/martinCostello/website/Tracking.ts",
-      "assets/scripts/ts/Analytics.ts",
       "assets/scripts/ts/Footer.ts",
       "assets/scripts/ts/LazyLoad.ts",
       "assets/scripts/ts/ServiceWorker.ts"
