@@ -17,7 +17,7 @@ public class ResourceTests : EndToEndTest
     [InlineData("/apple-app-site-association", "application/json")]
     [InlineData("/assets/css/site.css", "text/css")]
     [InlineData("/assets/css/site.css.map", "text/plain")]
-    [InlineData("/assets/js/site.js", "application/javascript")]
+    [InlineData("/assets/js/site.js", "text/javascript")]
     [InlineData("/assets/js/site.js.map", "text/plain")]
     [InlineData("/.well-known/apple-app-site-association", "application/json")]
     [InlineData("/.well-known/assetlinks.json", "application/json")]
@@ -36,7 +36,7 @@ public class ResourceTests : EndToEndTest
     [InlineData("/not-found.html", "text/html")]
     [InlineData("/projects", "text/html")]
     [InlineData("/robots.txt", "text/plain")]
-    [InlineData("/service-worker.js", "application/javascript")]
+    [InlineData("/service-worker.js", "text/javascript")]
     [InlineData("/sitemap.xml", "text/xml")]
     [InlineData("/tools", "text/html")]
     public async Task Can_Load_Resource_As_Get(string requestUri, string contentType)

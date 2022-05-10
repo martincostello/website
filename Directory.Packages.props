@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <MicrosoftAspNetCoreVersion>7.0.0-preview.3.22178.4</MicrosoftAspNetCoreVersion>
+    <MicrosoftAspNetCoreVersion>7.0.0-preview.4.22251.1</MicrosoftAspNetCoreVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.msbuild" Version="3.1.2" />
