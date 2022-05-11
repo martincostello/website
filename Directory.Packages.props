@@ -7,7 +7,7 @@
     <!-- Comment to help prevent dependabot merge conflicts -->
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="6.0.4" />
     <!-- Comment to help prevent dependabot merge conflicts -->
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.5" />
     <!-- Comment to help prevent dependabot merge conflicts -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.21.0" />
