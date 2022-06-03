@@ -17,7 +17,7 @@ env:
 
 jobs:
   lighthouse:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
 
@@ -35,7 +35,7 @@ jobs:
 
     - name: Verify website running
       shell: pwsh
-      run: Invoke-WebRequest -Uri "https://localhost:5001" -Method Get
+      run: Invoke-WebRequest "https://localhost:5001"
 
     - name: Lighthouse
       uses: foo-software/lighthouse-check-action@v8.0.1
