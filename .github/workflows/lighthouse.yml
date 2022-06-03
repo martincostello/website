@@ -27,9 +27,13 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v2
 
-    - name: Build
+    - name: Build and Run
       shell: pwsh
       run: Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", "./src/Website/Website.csproj", "--configuration", "Release") | Out-Null
+
+    - name: Verify website running
+      shell: pwsh
+      run: Invoke-WebRequest -Uri "https://localhost:5001" -Method Get
 
     - name: Lighthouse
       uses: foo-software/lighthouse-check-action@v8.0.1
