@@ -30,7 +30,9 @@ jobs:
     - name: Build and Run
       shell: pwsh
       #run: Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", "./src/Website/Website.csproj", "--configuration", "Release")
-      run: dotnet run --project ./src/Website/Website.csproj --configuration Release
+      run: |
+        dotnet dev-certs https
+        dotnet run --project ./src/Website/Website.csproj --configuration Release
 
     - name: Verify website running
       shell: pwsh
