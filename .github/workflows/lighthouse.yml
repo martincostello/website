@@ -1,0 +1,37 @@
+name: lighthouse
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+  DOTNET_MULTILEVEL_LOOKUP: 0
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
+  NUGET_XMLDOC_MODE: skip
+  TERM: xterm
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v2
+
+    - name: Build
+      shell: pwsh
+      run: Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", ".\src\Website\Website.csproj", "--configuration", "Release") -WindowStyle Hidden | Out-Null
+
+    - name: Lighthouse
+      uses: foo-software/lighthouse-check-action@v8.0.1
+      with:
+        urls: 'https://localhost:5001'
