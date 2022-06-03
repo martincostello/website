@@ -37,6 +37,5 @@ jobs:
         device: 'all'
         gitHubAccessToken: ${{ secrets.GITHUB_TOKEN }}
         prCommentEnabled: true
-        #urls: 'https://localhost:5001'
-        urls: 'https://martincostello.com'
+        urls: 'https://localhost:5001'
         wait: true
