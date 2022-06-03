@@ -11,9 +11,7 @@ var concat = require("gulp-concat");
 var csslint = require("gulp-csslint");
 var cssmin = require("gulp-cssmin");
 var del = require("del");
-var jasmine = require("gulp-jasmine");
 var jshint = require("gulp-jshint");
-var karmaServer = require("karma").Server;
 var merge = require("merge-stream");
 var path = require("path");
 var sourcemaps = require("gulp-sourcemaps");
@@ -31,8 +29,7 @@ var tsSrc = scripts + "ts/";
 var paths = {
     css: cssSrc + "**/*.css",
     js: jsSrc + "**/*.js",
-    ts: tsSrc + "**/*.ts",
-    testsJs: jsSrc + "**/*.spec.js"
+    ts: tsSrc + "**/*.ts"
 };
 
 var regex = {
@@ -118,24 +115,6 @@ gulp.task("min:js", function () {
 
 gulp.task("min", gulp.parallel("min:css", "min:js"));
 
-gulp.task("test:js:karma", function (done) {
-    new karmaServer({
-        configFile: __dirname + "/karma.conf.js",
-        singleRun: true
-    }, done).start();
-});
-
-gulp.task("test:js:chrome", function (done) {
-    new karmaServer({
-        configFile: __dirname + "/karma.conf.js",
-        browsers: ["Chrome"],
-        preprocessors: []
-    }, done).start();
-});
-
-gulp.task("test:js", gulp.series("test:js:karma"));
-gulp.task("test", gulp.series("test:js"));
-
 gulp.task("watch", function () {
     getBundles(regex.css).forEach(function (bundle) {
         gulp.watch(bundle.inputFiles, gulp.series("min:css"));
@@ -146,6 +125,5 @@ gulp.task("watch", function () {
 });
 
 gulp.task("build", gulp.series("lint", "min"));
-gulp.task("publish", gulp.series("build", "test"));
 
 gulp.task("default", gulp.series("build"));
