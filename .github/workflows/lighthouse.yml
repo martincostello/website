@@ -29,7 +29,7 @@ jobs:
 
     - name: Build and Run
       shell: pwsh
-      run: Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", "./src/Website/Website.csproj", "--configuration", "Release") | Out-Null
+      run: Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", "./src/Website/Website.csproj", "--configuration", "Release")
 
     - name: Verify website running
       shell: pwsh
