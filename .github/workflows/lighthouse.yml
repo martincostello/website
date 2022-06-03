@@ -39,3 +39,10 @@ jobs:
         prCommentEnabled: true
         urls: 'https://localhost:5001'
         wait: true
+
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v3
+      if: ${{ always() }}
+      with:
+        name: lighthouse
+        path: ${{ github.workspace }}/tmp/artifacts
