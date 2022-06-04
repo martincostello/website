@@ -29,6 +29,10 @@ jobs:
     - name: Start website
       shell: pwsh
       run: |
+        Push-Location (Join-Path "src" "Website")
+        npm install
+        npm run build
+        Pop-Location
         Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release'
         $StatusCode = 0
         $Attempts = 0
