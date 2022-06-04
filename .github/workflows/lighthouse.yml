@@ -48,7 +48,7 @@ jobs:
           $Attempts++
           Start-Sleep -Seconds 5
         }
-        if ($statusCode -ne 200) {
+        if ($StatusCode -ne 200) {
           throw "Failed to successfully connect to website after $Attempts attempts."
         }
 
