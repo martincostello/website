@@ -28,16 +28,29 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v2
 
-    - name: Build and Run
+    - name: Start website
       shell: pwsh
       run: |
         dotnet dev-certs https
         Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release'
-        Start-Sleep -Seconds 10
-
-    - name: Verify website running
-      shell: pwsh
-      run: Invoke-WebRequest "${{ env.WEBSITE_URL }}" -SkipCertificateCheck
+        $StatusCode = 0
+        $Attempts = 0
+        While ($Attempts -lt 10) {
+          $Response = Try {
+            Invoke-WebRequest "${{ env.WEBSITE_URL }}" -SkipCertificateCheck | Out-Null
+          } catch {
+            $_.Exception.Response
+          }
+          $StatusCode = $Response.StatusCode
+          If ($StatusCode -eq 200) {
+            break
+          }
+          $Attempts++
+          Start-Sleep -Seconds 5
+        }
+        if ($statusCode -ne 200) {
+          throw "Failed to successfully connect to website after $Attempts attempts."
+        }
 
     - name: Lighthouse
       uses: foo-software/lighthouse-check-action@v8.0.1
