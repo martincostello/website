@@ -37,7 +37,7 @@ jobs:
         $Attempts = 0
         While ($Attempts -lt 10) {
           $Response = Try {
-            Invoke-WebRequest "${{ env.WEBSITE_URL }}" -SkipCertificateCheck | Out-Null
+            Invoke-WebRequest "https://localhost:5001" -SkipCertificateCheck
           } catch {
             $_.Exception.Response
           }
@@ -48,7 +48,7 @@ jobs:
           $Attempts++
           Start-Sleep -Seconds 5
         }
-        if ($StatusCode -ne 200) {
+        If ($StatusCode -ne 200) {
           throw "Failed to successfully connect to website after $Attempts attempts."
         }
 
