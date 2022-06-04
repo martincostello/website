@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +27,39 @@ builder.Services.Configure<JsonOptions>((options) =>
     options.SerializerOptions.PropertyNameCaseInsensitive = false;
     options.SerializerOptions.WriteIndented = true;
     options.SerializerOptions.AddContext<ApplicationJsonSerializerContext>();
+});
+
+builder.Services.Configure<StaticFileOptions>((options) =>
+{
+    var provider = new FileExtensionContentTypeProvider();
+    provider.Mappings[".webmanifest"] = "application/manifest+json";
+
+    options.ContentTypeProvider = provider;
+    options.DefaultContentType = "application/json";
+    options.ServeUnknownFileTypes = true;
+
+    options.OnPrepareResponse = (context) =>
+    {
+        var maxAge = TimeSpan.FromDays(7);
+
+        if (context.File.Exists && builder.Environment.IsProduction())
+        {
+            string? extension = Path.GetExtension(context.File.PhysicalPath);
+
+            // These files are served with a content hash in the URL so can be cached for longer
+            bool isScriptOrStyle =
+                string.Equals(extension, ".css", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(extension, ".js", StringComparison.OrdinalIgnoreCase);
+
+            if (isScriptOrStyle)
+            {
+                maxAge = TimeSpan.FromDays(365);
+            }
+        }
+
+        var headers = context.Context.Response.GetTypedHeaders();
+        headers.CacheControl = new() { MaxAge = maxAge };
+    };
 });
 
 builder.Services.AddAntiforgery((options) =>
@@ -95,16 +127,7 @@ app.UseHttpsRedirection()
 
 app.UseResponseCompression();
 
-var provider = new FileExtensionContentTypeProvider();
-provider.Mappings[".webmanifest"] = "application/manifest+json";
-
-app.UseStaticFiles(new StaticFileOptions()
-{
-    ContentTypeProvider = provider,
-    DefaultContentType = "application/json",
-    OnPrepareResponse = (context) => SetCacheHeaders(context, isDevelopment),
-    ServeUnknownFileTypes = true,
-});
+app.UseStaticFiles();
 
 app.UseRouting();
 
@@ -134,29 +157,3 @@ app.UseCookiePolicy(new()
 });
 
 app.Run();
-
-static void SetCacheHeaders(StaticFileResponseContext context, bool isDevelopment)
-{
-    var maxAge = TimeSpan.FromDays(7);
-
-    if (context.File.Exists && !isDevelopment)
-    {
-        string? extension = Path.GetExtension(context.File.PhysicalPath);
-
-        // These files are served with a content hash in the URL so can be cached for longer
-        bool isScriptOrStyle =
-            string.Equals(extension, ".css", StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(extension, ".js", StringComparison.OrdinalIgnoreCase);
-
-        if (isScriptOrStyle)
-        {
-            maxAge = TimeSpan.FromDays(365);
-        }
-    }
-
-    var headers = context.Context.Response.GetTypedHeaders();
-    headers.CacheControl = new CacheControlHeaderValue()
-    {
-        MaxAge = maxAge,
-    };
-}
