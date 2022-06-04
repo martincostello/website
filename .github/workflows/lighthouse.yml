@@ -54,6 +54,7 @@ jobs:
       with:
         device: 'all'
         gitHubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+        outputDirectory: ${{ github.workspace }}/artifacts
         prCommentEnabled: true
         urls: 'https://localhost:5001'
         wait: true
@@ -63,4 +64,4 @@ jobs:
       if: ${{ always() }}
       with:
         name: lighthouse
-        path: ${{ github.workspace }}/tmp/artifacts
+        path: ${{ github.workspace }}/artifacts
