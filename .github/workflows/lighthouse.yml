@@ -32,6 +32,7 @@ jobs:
       run: |
         dotnet dev-certs https
         Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release'
+        Start-Sleep -Seconds 10
 
     - name: Verify website running
       shell: pwsh
