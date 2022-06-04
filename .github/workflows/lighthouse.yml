@@ -17,7 +17,7 @@ env:
 
 jobs:
   lighthouse:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -31,7 +31,7 @@ jobs:
       shell: pwsh
       run: |
         dotnet dev-certs https
-        Start-Process -FilePath "dotnet" -ArgumentList @("run", "--project", "./src/Website/Website.csproj", "--configuration", "Release")
+        Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release'
 
     - name: Verify website running
       shell: pwsh
