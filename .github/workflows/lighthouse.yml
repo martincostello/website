@@ -37,7 +37,7 @@ jobs:
         $Attempts = 0
         While ($Attempts -lt 10) {
           $Response = Try {
-            Invoke-WebRequest "https://localhost:5001" -SkipCertificateCheck
+            Invoke-WebRequest "${{ env.WEBSITE_URL }}" -SkipCertificateCheck
           } catch {
             $_.Exception.Response
           }
