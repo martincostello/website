@@ -59,7 +59,7 @@ jobs:
       id: lighthouse
       with:
         device: 'all'
-        gitHubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+        gitHubAccessToken: ${{ secrets.LIGHTHOUSE_ACCESS_TOKEN }}
         outputDirectory: ${{ github.workspace }}/artifacts
         prCommentEnabled: true
         urls: 'https://localhost:5001'
