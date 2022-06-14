@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <MicrosoftAspNetCoreVersion>6.0.5</MicrosoftAspNetCoreVersion>
+    <MicrosoftAspNetCoreVersion>6.0.6</MicrosoftAspNetCoreVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.msbuild" Version="3.1.2" />
