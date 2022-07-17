@@ -26,16 +26,8 @@ public class ResourceTests : IntegrationTest
     [InlineData("/apple-app-site-association", "application/json")]
     [InlineData("/assets/css/site.css", "text/css")]
     [InlineData("/assets/css/site.css.map", "text/plain")]
-    [InlineData("/assets/css/site.min.css", "text/css")]
-    [InlineData("/assets/css/site.min.css.map", "text/plain")]
     [InlineData("/assets/js/site.js", "application/javascript")]
     [InlineData("/assets/js/site.js.map", "text/plain")]
-    [InlineData("/assets/js/site.min.js", "application/javascript")]
-    [InlineData("/assets/js/site.min.js.map", "text/plain")]
-    [InlineData("/assets/js/site.tools.js", "application/javascript")]
-    [InlineData("/assets/js/site.tools.js.map", "text/plain")]
-    [InlineData("/assets/js/site.tools.min.js", "application/javascript")]
-    [InlineData("/assets/js/site.tools.min.js.map", "text/plain")]
     [InlineData("/.well-known/apple-app-site-association", "application/json")]
     [InlineData("/.well-known/assetlinks.json", "application/json")]
     [InlineData("BingSiteAuth.xml", "text/xml")]
@@ -110,7 +102,6 @@ public class ResourceTests : IntegrationTest
         {
             "content-security-policy",
             "content-security-policy-report-only",
-            "feature-policy",
             "Permissions-Policy",
             "Referrer-Policy",
             "X-Content-Type-Options",

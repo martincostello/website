@@ -1,8 +1,5 @@
 @inject IConfiguration Config
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js" integrity="sha512-jNDtFf7qgU0eH/+Z42FG4fw3w7DM/9zbgNPe3wfJlCylVDTT3IgKW5r92Vy9IHa6U50vyMz5gRByIu4YIXFtaQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js" integrity="sha512-dGM81hdEjiW5IomkknOx3fIfwij3c7xwh6TcrbumlkHJtO81OKNjLISJaPEhCgVxM6+0uGJ7KRmI2YJFn0AmHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 @{
     bool renderGA = string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase);
     SiteOptions options = Options.Value;
@@ -20,9 +17,4 @@
         }
     </script>
 }
-<environment names="Development">
-    <script src="~/assets/js/site.js" asp-append-version="true" defer></script>
-</environment>
-<environment names="Staging,Production">
-    <script src="~/assets/js/site.min.js" asp-append-version="true" defer></script>
-</environment>
+<script src="~/assets/js/site.js" asp-append-version="true" defer></script>

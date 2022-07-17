@@ -11,15 +11,6 @@
 }
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js" integrity="sha256-hIvIxeqhGZF+VVeM55k0mJvWpQ6gTkWk3Emc+NmowYA=" crossorigin="anonymous" defer></script>
-    <environment names="Development">
-        <script src="~/assets/js/site.tools.js" defer asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/assets/js/site.tools.min.js" defer asp-append-version="true"></script>
-    </environment>
-}
-@section stylesHead {
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous" async>
 }
 <h1>@ViewBag.Title</h1>
 <div class="card">

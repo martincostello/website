@@ -6,121 +6,121 @@
     bool renderGA = string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase);
     SiteOptions options = Options.Value;
 }
-    <title>@Model!.Title</title>
-    <meta http-equiv="cache-control" content="no-cache, no-store" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="author" content="@Model.Author" />
-    <meta name="bitcoin" content="@Model.Bitcoin" />
-    <meta name="copyright" content="&copy; @Model.Author @DateTimeOffset.UtcNow.Date.Year" />
-    <meta name="description" content="@Model.Description" />
-    <meta name="language" content="en" />
-    <meta name="keywords" content="@Model.Keywords" />
-    <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta name="robots" content="@Model.Robots" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="fb:profile_id" content="@Model.Facebook" />
-    <meta property="og:description" content="@Model.Description" />
-    @if (!string.IsNullOrEmpty(Model.ImageUri))
-    {
+<title>@Model!.Title</title>
+<meta http-equiv="cache-control" content="no-cache, no-store" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="author" content="@Model.Author" />
+<meta name="bitcoin" content="@Model.Bitcoin" />
+<meta name="copyright" content="&copy; @Model.Author @DateTimeOffset.UtcNow.Date.Year" />
+<meta name="description" content="@Model.Description" />
+<meta name="language" content="en" />
+<meta name="keywords" content="@Model.Keywords" />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+<meta name="robots" content="@Model.Robots" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta property="fb:profile_id" content="@Model.Facebook" />
+<meta property="og:description" content="@Model.Description" />
+@if (!string.IsNullOrEmpty(Model.ImageUri))
+{
     <meta property="og:image" content="@Model.ImageUri" />
     <meta name="twitter:image" content="@Model.ImageUri" />
     <meta name="twitter:image:alt" content="@Model.ImageAltText" />
-    }
-    else
-    {
+}
+else
+{
     <meta property="og:image" content="@Url.CdnContent("martin_small.png", options)" />
     <meta property="og:image:type" content="image/png" />
     <meta name="twitter:image" content="@Url.CdnContent("martin_small.png", options)" />
     <meta name="twitter:image:alt" content="@Model.Author" />
-    }
-    <meta property="og:locale" content="en_GB" />
-    <meta property="og:site_name" content="@Model.SiteName" />
-    <meta property="og:title" content="@Model.Title" />
-    <meta property="og:type" content="@Model.SiteType" />
-    <meta property="og:url" content="@Model.CanonicalUri" />
-    <meta name="twitter:card" content="@Model.TwitterCard" />
-    <meta name="twitter:creator" content="@Model.TwitterHandle" />
-    <meta name="twitter:description" content="@Model.Description" />
-    <meta name="twitter:domain" content="@Model.HostName" />
-    <meta name="twitter:site" content="@Model.TwitterHandle" />
-    <meta name="twitter:title" content="@Model.Title" />
-    <meta name="twitter:url" content="@Model.CanonicalUri" />
-    <meta name="application-name" content="@Model.SiteName" />
-    <meta name="google-analytics" content="@(renderGA ? options.Analytics?.Google : string.Empty)" />
-    <meta name="google-site-verification" content="ao6JIWbKFHZ8DmbV52hf43MrjiHCFRf0GiJYYHDeRMo" />
-    <meta name="google-site-verification" content="I9S9DiGCLTG_JdMlSwt2YnNVcyFPo1DT1jeHa_X-p_0" />
-    <meta name="google-site-verification" content="ji6SNsPQEbNQmF252sQgQFswh-b6cDnNOa3AHvgo4J0" />
-    <meta name="msapplication-config" content="@Url.Content("~/browserconfig.xml")" />
-    <meta name="msapplication-navbutton-color" content="#2b5797" />
-    <meta name="msapplication-starturl" content="/" />
-    <meta name="msapplication-TileColor" content="#2b5797" />
-    <meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", options)" />
-    <meta name="x-site-branch" content="@GitMetadata.Branch" />
-    <meta name="x-site-revision" content="@GitMetadata.Commit" />
-    <script type="application/ld+json">
-    {
-        "@@context": "http://schema.org",
-        "@@type": "WebSite",
-        "name": "@Model.SiteName",
-        "alternateName": "@Model.Description",
-        "description": "@Model.Description",
-        "image": "@options.Metadata?.Author?.Avatar",
-        "url": "@options.Metadata?.Author?.Website"
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@@context": "http://schema.org/",
-        "@@type": "Person",
-        "name": "@Model.Author",
+}
+<meta property="og:locale" content="en_GB" />
+<meta property="og:site_name" content="@Model.SiteName" />
+<meta property="og:title" content="@Model.Title" />
+<meta property="og:type" content="@Model.SiteType" />
+<meta property="og:url" content="@Model.CanonicalUri" />
+<meta name="twitter:card" content="@Model.TwitterCard" />
+<meta name="twitter:creator" content="@Model.TwitterHandle" />
+<meta name="twitter:description" content="@Model.Description" />
+<meta name="twitter:domain" content="@Model.HostName" />
+<meta name="twitter:site" content="@Model.TwitterHandle" />
+<meta name="twitter:title" content="@Model.Title" />
+<meta name="twitter:url" content="@Model.CanonicalUri" />
+<meta name="application-name" content="@Model.SiteName" />
+<meta name="google-analytics" content="@(renderGA ? options.Analytics?.Google : string.Empty)" />
+<meta name="google-site-verification" content="ao6JIWbKFHZ8DmbV52hf43MrjiHCFRf0GiJYYHDeRMo" />
+<meta name="google-site-verification" content="I9S9DiGCLTG_JdMlSwt2YnNVcyFPo1DT1jeHa_X-p_0" />
+<meta name="google-site-verification" content="ji6SNsPQEbNQmF252sQgQFswh-b6cDnNOa3AHvgo4J0" />
+<meta name="msapplication-config" content="@Url.Content("~/browserconfig.xml")" />
+<meta name="msapplication-navbutton-color" content="#2b5797" />
+<meta name="msapplication-starturl" content="/" />
+<meta name="msapplication-TileColor" content="#2b5797" />
+<meta name="msapplication-TileImage" content="@Url.CdnContent("mstile-144x144.png", options)" />
+<meta name="x-site-branch" content="@GitMetadata.Branch" />
+<meta name="x-site-revision" content="@GitMetadata.Commit" />
+<script type="application/ld+json">
+{
+    "@@context": "http://schema.org",
+    "@@type": "WebSite",
+    "name": "@Model.SiteName",
+    "alternateName": "@Model.Description",
+    "description": "@Model.Description",
+    "image": "@options.Metadata?.Author?.Avatar",
+    "url": "@options.Metadata?.Author?.Website"
+}
+</script>
+<script type="application/ld+json">
+{
+    "@@context": "http://schema.org/",
+    "@@type": "Person",
+    "name": "@Model.Author",
+    "address": {
+        "addressCountry": "GB",
+        "addressLocality": "London"
+    },
+    "affiliation": {
+        "name": "Just Eat",
         "address": {
             "addressCountry": "GB",
-            "addressLocality": "London"
+            "addressLocality": "London",
+            "streetAddress": "Fleet Place House, 2 Fleet Place",
+            "postalCode": "EC4M 7RF"
         },
-        "affiliation": {
-            "name": "Just Eat",
-            "address": {
-                "addressCountry": "GB",
-                "addressLocality": "London",
-                "streetAddress": "Fleet Place House, 2 Fleet Place",
-                "postalCode": "EC4M 7RF"
-            },
-            "image": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
-            "logo": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
-            "sameAs": [
-                "https://www.just-eat.co.uk"
-            ],
-            "url": "https://www.just-eat.com"
-        },
-        "alumniOf": {
-            "name": "University of Birmingham",
-            "address": {
-                "addressCountry": "GB",
-                "addressLocality": "Birmingham",
-                "postalCode": "B15 2TT"
-            },
-            "telephone": "0121 414 3344",
-            "url": "http://www.birmingham.ac.uk/"
-        },
-        "familyName": "Costello",
-        "gender": "http://schema.org/Male",
-        "givenName": "Martin",
-        "honorificPrefix": "Mr",
-        "honorificSuffix": "BSc (Hons)",
-        "image": "@options.Metadata?.Author?.Avatar",
-        "jobTitle": "Senior Engineer",
-        "nationality": "British",
+        "image": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
+        "logo": "https://avatars3.githubusercontent.com/u/1516790?v=3&s=200",
         "sameAs": [
-            "@options.ExternalLinks?.Blog?.AbsoluteUri",
-            "https://www.facebook.com/people/Martin-Costello/100013295526556",
-            "https://github.com/martincostello",
-            "https://keybase.io/martincostello",
-            "https://www.linkedin.com/in/martin-costello",
-            "https://twitter.com/martin_costello"
+            "https://www.just-eat.co.uk"
         ],
-        "url": "@options.Metadata?.Author?.Website"
-    }
-    </script>
+        "url": "https://www.just-eat.com"
+    },
+    "alumniOf": {
+        "name": "University of Birmingham",
+        "address": {
+            "addressCountry": "GB",
+            "addressLocality": "Birmingham",
+            "postalCode": "B15 2TT"
+        },
+        "telephone": "0121 414 3344",
+        "url": "http://www.birmingham.ac.uk/"
+    },
+    "familyName": "Costello",
+    "gender": "http://schema.org/Male",
+    "givenName": "Martin",
+    "honorificPrefix": "Mr",
+    "honorificSuffix": "BSc (Hons)",
+    "image": "@options.Metadata?.Author?.Avatar",
+    "jobTitle": "Senior Engineer",
+    "nationality": "British",
+    "sameAs": [
+        "@options.ExternalLinks?.Blog?.AbsoluteUri",
+        "https://www.facebook.com/people/Martin-Costello/100013295526556",
+        "https://github.com/martincostello",
+        "https://keybase.io/martincostello",
+        "https://www.linkedin.com/in/martin-costello",
+        "https://twitter.com/martin_costello"
+    ],
+    "url": "@options.Metadata?.Author?.Website"
+}
+</script>

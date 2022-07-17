@@ -7,6 +7,7 @@
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Martin Costello's website</Summary>
     <TargetFramework>net6.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
@@ -22,11 +23,16 @@
     <PackageReference Include="Serilog.Settings.Configuration" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
     <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Sinks.UDP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update=".prettierrc.json;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
+    <None Remove="assets\scripts\**\*.ts" />
+    <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm ci" Condition=" '$(InstallWebPackages)' == 'true' or !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
-    <Exec Command="npm run build" Condition=" ('$(BuildingInsideVisualStudio)' != 'true' and '$(GITHUB_ACTIONS)' != 'true') or !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\site.js') " />
+    <Exec Command="npm ci" Condition=" '$(CI)' != '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
+    <Exec Command="npm install" Condition=" '$(CI)' == '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
+    <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\site.js') " />
   </Target>
   <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != ''">
     <ItemGroup>

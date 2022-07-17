@@ -23,8 +23,6 @@
     @await Html.PartialAsync("_Meta", model)
     @await Html.PartialAsync("_Links", canonicalUri)
     @await RenderSectionAsync("meta", required: false)
-    @await Html.PartialAsync("_StylesHead")
-    @await RenderSectionAsync("stylesHead", required: false)
     @Html.Raw(JavaScriptSnippet.FullScript)
     <script type="text/javascript">
         if (self == top) {

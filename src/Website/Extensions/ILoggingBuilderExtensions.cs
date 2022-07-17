@@ -34,13 +34,6 @@ public static class ILoggingBuilderExtensions
             loggerConfig = loggerConfig.WriteTo.Console();
         }
 
-        string papertrailHostname = context.Configuration.PapertrailHostname();
-
-        if (!string.IsNullOrWhiteSpace(papertrailHostname))
-        {
-            loggerConfig.WriteTo.Papertrail(papertrailHostname, context.Configuration.PapertrailPort());
-        }
-
         Log.Logger = loggerConfig.CreateLogger();
         return builder.AddSerilog(dispose: true);
     }

@@ -1,129 +1,93 @@
-/// <binding Clean='clean' ProjectOpened='publish, watch' />
+/// <binding ProjectOpened='watch' />
 
 // Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-"use strict";
+const browserify = require('browserify');
+const buffer = require('vinyl-buffer');
+const concat = require('gulp-concat');
+const csslint = require('gulp-csslint');
+const cssmin = require('gulp-cssmin');
+const eslint = require('gulp-eslint');
+const gulp = require('gulp');
+const jest = require('gulp-jest').default;
+const prettier = require('gulp-prettier');
+const source = require('vinyl-source-stream');
+const sourcemaps = require('gulp-sourcemaps');
+const tsify = require('tsify');
+const uglify = require('gulp-uglify');
 
-var gulp = require("gulp");
-var bundleconfig = require("./bundleconfig.json");
-var concat = require("gulp-concat");
-var csslint = require("gulp-csslint");
-var cssmin = require("gulp-cssmin");
-var del = require("del");
-var jshint = require("gulp-jshint");
-var merge = require("merge-stream");
-var path = require("path");
-var sourcemaps = require("gulp-sourcemaps");
-var ts = require("gulp-typescript");
-var tslint = require("gulp-tslint");
-var uglify = require("gulp-uglify");
-
-var assets = "./assets/";
-var scripts = assets + "scripts/";
-var styles = assets + "styles/";
-var cssSrc = styles + "css/";
-var jsSrc = scripts + "js/";
-var tsSrc = scripts + "ts/";
-
-var paths = {
-    css: cssSrc + "**/*.css",
-    js: jsSrc + "**/*.js",
-    ts: tsSrc + "**/*.ts"
+const paths = {
+    css: './assets/styles/**/*.css',
+    ts: './assets/scripts/**/*.ts'
 };
 
-var regex = {
-    css: /\.css$/,
-    js: /\.js$/
-};
-
-function getBundles(regexPattern) {
-    return bundleconfig.filter(function (bundle) {
-        return regexPattern.test(bundle.outputFileName);
-    });
-}
-
-gulp.task("clean", function () {
-    var files = bundleconfig.map(function (bundle) {
-        return bundle.outputFileName;
-    });
-    return del(files);
+gulp.task('format:ts', function () {
+    return gulp.src(paths.ts)
+        .pipe(prettier())
+        .pipe(gulp.dest(file => file.base));
 });
 
-gulp.task("lint:css", function () {
+gulp.task('lint:css', function () {
     return gulp.src(paths.css)
         .pipe(csslint())
         .pipe(csslint.formatter())
-        .pipe(csslint.formatter("fail"));
+        .pipe(csslint.formatter('fail'));
 });
 
-gulp.task("lint:js", function () {
-    return gulp.src(paths.js)
-        .pipe(jshint())
-        .pipe(jshint.reporter("default"))
-        .pipe(jshint.reporter("fail"));
-});
-
-gulp.task("lint:ts", function () {
+gulp.task('lint:ts', function () {
     return gulp.src(paths.ts)
-        .pipe(tslint({
-            formatter: "msbuild"
-        }))
-        .pipe(tslint.report());
+      .pipe(eslint({
+        formatter: 'visualstudio'
+      }))
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError());
 });
 
-gulp.task("lint", gulp.parallel("lint:css", "lint:js", "lint:ts"));
-
-gulp.task("min:css", function () {
-    var tasks = getBundles(regex.css).map(function (bundle) {
-
-        var css = gulp.src(bundle.inputFiles, { base: "." })
-            .pipe(sourcemaps.init())
-            .pipe(concat(bundle.outputFileName));
-
-        if (bundle.minify.enabled === true) {
-            css = css.pipe(cssmin());
-        }
-
-        return css
-            .pipe(sourcemaps.write("."))
-            .pipe(gulp.dest("."));
-    });
-    return merge(tasks);
+gulp.task('build:css', function () {
+    return gulp.src(paths.css, { base: '.' })
+        .pipe(sourcemaps.init())
+        .pipe(concat('wwwroot/assets/css/site.css'))
+        .pipe(cssmin())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('.'));
 });
 
-gulp.task("min:js", function () {
-    var tasks = getBundles(regex.js).map(function (bundle) {
-
-        var tsProject = ts.createProject("tsconfig.json");
-        var tsResult = gulp.src(bundle.inputFiles, { base: "." })
-            .pipe(sourcemaps.init())
-            .pipe(tsProject());
-
-        var compiled = tsResult.js
-            .pipe(concat(bundle.outputFileName));
-
-        if (bundle.minify.enabled === true) {
-            compiled = compiled.pipe(uglify());
-        }
-
-        return compiled.pipe(sourcemaps.write("."))
-            .pipe(gulp.dest("."));
-    });
-    return merge(tasks);
+gulp.task('build:ts', function () {
+    return browserify({
+      basedir: '.',
+      debug: true,
+      entries: ['assets/scripts/main.ts'],
+      cache: {},
+      packageCache: {}
+    })
+      .plugin(tsify)
+      .transform('babelify', {
+        presets: ['@babel/preset-env'],
+        extensions: ['.ts']
+      })
+      .bundle()
+      .pipe(source('site.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('wwwroot/assets/js'));
 });
 
-gulp.task("min", gulp.parallel("min:css", "min:js"));
-
-gulp.task("watch", function () {
-    getBundles(regex.css).forEach(function (bundle) {
-        gulp.watch(bundle.inputFiles, gulp.series("min:css"));
-    });
-    getBundles(regex.js).forEach(function (bundle) {
-        gulp.watch(bundle.inputFiles, gulp.series("min:js"));
-    });
+gulp.task('test:ts', function () {
+    return gulp.src('assets')
+        .pipe(jest({
+            collectCoverage: true
+        }));
 });
 
-gulp.task("build", gulp.series("lint", "min"));
+gulp.task('default:css', gulp.series('lint:css', 'build:css'));
+gulp.task('default:ts', gulp.series('format:ts', 'lint:ts', 'build:ts'));
 
-gulp.task("default", gulp.series("build"));
+gulp.task('default', gulp.parallel('default:css', 'default:ts'));
+
+gulp.task('watch', function () {
+    gulp.watch(paths.css, gulp.series('build:css'));
+    gulp.watch(paths.ts, gulp.series('lint:ts', 'build:ts'));
+});
