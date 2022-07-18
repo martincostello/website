@@ -11,9 +11,7 @@ self.addEventListener("install", function (event) {
             return cache.addAll([
                 "/",
                 "/assets/css/site.css",
-                "/assets/css/site.min.css",
-                "/assets/js/site.js",
-                "/assets/js/site.min.js"
+                "/assets/js/site.js"
             ]);
         }).then(function () {
             return self.skipWaiting();

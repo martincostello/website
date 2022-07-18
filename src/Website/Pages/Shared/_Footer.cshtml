@@ -1,7 +1,7 @@
 @model SiteOptions
 <hr />
 <footer>
-    <p class="d-none d-md-block">
+    <p>
         &copy; @Model!.Metadata?.Author?.Name @DateTimeOffset.UtcNow.Year |
         Built from
         <a id="link-git-commit" href="@Model.Metadata?.Repository/commit/@GitMetadata.Commit" title="View commit @GitMetadata.Commit on GitHub">
@@ -15,11 +15,6 @@
         <a href="@Model.Metadata?.Repository/actions/runs/@GitMetadata.DeployId" title="View deployment on GitHub">
             GitHub
         </a>
-        <span id="build-date" data-format="YYYY-MM-DD HH:mm Z" data-timestamp="@GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)"></span>
+        <span id="build-date" class="d-none d-sm-inline" data-format="YYYY-MM-DD HH:mm Z" data-timestamp="@GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)"></span>
     </p>
-    <div class="d-md-none">
-        <p>
-            &copy; @Model.Metadata?.Author?.Name @DateTimeOffset.UtcNow.Year
-        </p>
-    </div>
 </footer>
