@@ -32,7 +32,9 @@ export class App {
         setTimeout(() => {
             const images = document.querySelectorAll('img.lazy');
             for (const image of images) {
-                image.setAttribute('src', image.getAttribute('data-original'));
+                let url = image.getAttribute('data-original');
+                url = encodeURI(url);
+                image.setAttribute('src', url);
             }
         }, 500);
 
