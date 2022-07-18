@@ -5,7 +5,7 @@
   "description": "Martin Costello's website",
   "scripts": {
     "build": "gulp default",
-    "test": "jest --coverage"
+    "test": "gulp test:ts"
   },
   "repository": {
     "type": "git",
