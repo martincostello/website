@@ -83,7 +83,7 @@ gulp.task('test:ts', function () {
 });
 
 gulp.task('default:css', gulp.series('lint:css', 'build:css'));
-gulp.task('default:ts', gulp.series('format:ts', 'lint:ts', 'build:ts', 'test:ts'));
+gulp.task('default:ts', gulp.series('format:ts', 'lint:ts', 'build:ts'));
 
 gulp.task('default', gulp.parallel('default:css', 'default:ts'));
 
