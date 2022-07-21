@@ -103,7 +103,12 @@ builder.Services.AddResponseCompression((options) =>
 
 builder.Services.AddSingleton<IToolsService, ToolsService>();
 
-builder.Configuration.AddApplicationInsightsSettings(developerMode: builder.Environment.IsDevelopment());
+string appInsightsConnectionString = builder.Configuration.ApplicationInsightsConnectionString();
+
+if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
+{
+    builder.Configuration.AddApplicationInsightsSettings(appInsightsConnectionString, developerMode: builder.Environment.IsDevelopment());
+}
 
 builder.WebHost.CaptureStartupErrors(true);
 builder.WebHost.ConfigureKestrel((p) => p.AddServerHeader = false);
