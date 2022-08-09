@@ -10,6 +10,7 @@ namespace MartinCostello.Website;
 [ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(ErrorResponse))]
 [JsonSerializable(typeof(GuidResponse))]
+[JsonSerializable(typeof(HashRequest))]
 [JsonSerializable(typeof(HashResponse))]
 [JsonSerializable(typeof(MachineKeyResponse))]
 internal sealed partial class ApplicationJsonSerializerContext : JsonSerializerContext
