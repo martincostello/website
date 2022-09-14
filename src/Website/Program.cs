@@ -5,13 +5,13 @@
 #pragma warning disable SA1516
 
 using System.IO.Compression;
+using System.Text.Json.Serialization.Metadata;
 using MartinCostello.Website;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
 using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
@@ -22,11 +22,13 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
 builder.Services.AddOptions();
 
 builder.Services.Configure<SiteOptions>(builder.Configuration.GetSection("Site"));
-builder.Services.Configure<JsonOptions>((options) =>
+builder.Services.ConfigureHttpJsonOptions((options) =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = false;
     options.SerializerOptions.WriteIndented = true;
-    options.SerializerOptions.AddContext<ApplicationJsonSerializerContext>();
+    options.SerializerOptions.TypeInfoResolver = JsonTypeInfoResolver.Combine(
+        ApplicationJsonSerializerContext.Default,
+        new DefaultJsonTypeInfoResolver());
 });
 
 builder.Services.Configure<StaticFileOptions>((options) =>
