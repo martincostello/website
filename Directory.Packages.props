@@ -3,7 +3,7 @@
     <MicrosoftAspNetCoreVersion>7.0.0-rc.2.22476.2</MicrosoftAspNetCoreVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="coverlet.msbuild" Version="3.1.2" />
+    <PackageVersion Include="coverlet.msbuild" Version="3.2.0" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.0.1" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.3.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
