@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 #pragma warning disable CA1812
+#pragma warning disable CA1852
 #pragma warning disable SA1516
 
 using System.IO.Compression;
