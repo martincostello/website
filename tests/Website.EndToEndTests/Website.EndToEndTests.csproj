@@ -5,7 +5,7 @@
     <NoWarn>$(NoWarn);CA1308;CA1711;CA2000;CA2007;SA1600</NoWarn>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>End-to-end tests for Martin Costello's website</Summary>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
