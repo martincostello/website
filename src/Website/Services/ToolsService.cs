@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Collections.Frozen;
 using System.Security.Cryptography;
 using System.Text;
 using MartinCostello.Website.Models;
@@ -15,7 +16,7 @@ public class ToolsService : IToolsService
     /// <summary>
     /// An <see cref="IDictionary{K, V}"/> containing the sizes of the decryption and validation hashes for machine keys.
     /// </summary>
-    private static readonly IReadOnlyDictionary<string, int> HashSizes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+    private static readonly FrozenDictionary<string, int> HashSizes = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
     {
         ["3DES-D"] = 24,
         ["3DES-V"] = 24,
@@ -29,7 +30,7 @@ public class ToolsService : IToolsService
         ["HMACSHA384-V"] = SHA384.HashSizeInBytes,
         ["HMACSHA512-V"] = SHA512.HashSizeInBytes,
         ["SHA1-V"] = 64,
-    };
+    }.ToFrozenDictionary();
 
     /// <summary>
     /// The HttpContext accessor This field is read-only.
