@@ -5,6 +5,7 @@ using System.Text;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Options;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 namespace MartinCostello.Website.Middleware;
 
@@ -84,37 +85,37 @@ public sealed class CustomHttpHeadersMiddleware
     {
         context.Response.OnStarting(() =>
             {
-                context.Response.Headers.Remove("Server");
-                context.Response.Headers.Remove("X-Powered-By");
+                context.Response.Headers.Remove(HeaderNames.Server);
+                context.Response.Headers.Remove(HeaderNames.XPoweredBy);
 
-                context.Response.Headers.Add("Content-Security-Policy", _contentSecurityPolicy);
-                context.Response.Headers.Add("Content-Security-Policy-Report-Only", _contentSecurityPolicyReportOnly);
-                context.Response.Headers.Add("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
-                context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("X-Download-Options", "noopen");
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.ContentSecurityPolicy = _contentSecurityPolicy;
+                context.Response.Headers.ContentSecurityPolicyReportOnly = _contentSecurityPolicyReportOnly;
+                context.Response.Headers.Append("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
+                context.Response.Headers.Append("Referrer-Policy", "no-referrer-when-downgrade");
+                context.Response.Headers.XContentTypeOptions = "nosniff";
+                context.Response.Headers.Append("X-Download-Options", "noopen");
+                context.Response.Headers.XFrameOptions = "DENY";
+                context.Response.Headers.XXSSProtection = "1; mode=block";
 
                 if (context.Request.IsHttps)
                 {
-                    context.Response.Headers.Add("Expect-CT", _expectCTValue);
+                    context.Response.Headers.Append("Expect-CT", _expectCTValue);
                 }
 
-                context.Response.Headers.Add("X-Datacenter", _config.AzureDatacenter());
+                context.Response.Headers.Append("X-Datacenter", _config.AzureDatacenter());
 
 #if DEBUG
-                context.Response.Headers.Add("X-Debug", "true");
+                context.Response.Headers.Append("X-Debug", "true");
 #endif
 
-                if (_environmentName != null)
+                if (_environmentName is not null)
                 {
-                    context.Response.Headers.Add("X-Environment", _environmentName);
+                    context.Response.Headers.Append("X-Environment", _environmentName);
                 }
 
-                context.Response.Headers.Add("X-Instance", Environment.MachineName);
-                context.Response.Headers.Add("X-Request-Id", context.TraceIdentifier);
-                context.Response.Headers.Add("X-Revision", GitMetadata.Commit);
+                context.Response.Headers.Append("X-Instance", Environment.MachineName);
+                context.Response.Headers.Append("X-Request-Id", context.TraceIdentifier);
+                context.Response.Headers.Append("X-Revision", GitMetadata.Commit);
 
                 return Task.CompletedTask;
             });
