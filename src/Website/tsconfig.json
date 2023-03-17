@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": false,
     "inlineSources": true,
     "moduleResolution": "node",
     "noEmitOnError": true,
