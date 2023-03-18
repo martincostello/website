@@ -7,8 +7,8 @@ const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
 module.exports = {
   devtool: 'source-map',
   entry: {
-    scripts: path.resolve(__dirname, './assets/scripts/main.ts'),
-    styles: path.resolve(__dirname, './assets/styles/main.css'),
+    css: path.resolve(__dirname, './assets/styles/main.css'),
+    js: path.resolve(__dirname, './assets/scripts/main.ts'),
   },
   mode: 'production',
   module: {
