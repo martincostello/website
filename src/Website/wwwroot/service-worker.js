@@ -10,8 +10,8 @@ self.addEventListener("install", function (event) {
         caches.open("martincostello.com").then(function (cache) {
             return cache.addAll([
                 "/",
-                "/assets/css/site.css",
-                "/assets/js/site.js"
+                "/assets/scripts/main.js",
+                "/assets/styles/main.css"
             ]);
         }).then(function () {
             return self.skipWaiting();
