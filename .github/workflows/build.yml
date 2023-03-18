@@ -79,7 +79,10 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
-        path: ~/.cache/ms-playwright
+        path: |
+          ~/AppData/Local/ms-playwright
+          ~/.cache/ms-playwright
+          ~/Library/Caches/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Build, test and publish
@@ -171,7 +174,10 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
-        path: ~/.cache/ms-playwright
+        path: |
+          ~/AppData/Local/ms-playwright
+          ~/.cache/ms-playwright
+          ~/Library/Caches/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Run end-to-end tests
@@ -250,7 +256,10 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
-        path: ~/.cache/ms-playwright
+        path: |
+          ~/AppData/Local/ms-playwright
+          ~/.cache/ms-playwright
+          ~/Library/Caches/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Run end-to-end tests
