@@ -1,7 +1,6 @@
 #! /usr/bin/env pwsh
 param(
     [Parameter(Mandatory = $false)][string] $Configuration = "Release",
-    [Parameter(Mandatory = $false)][string] $VersionSuffix = "",
     [Parameter(Mandatory = $false)][string] $OutputPath = "",
     [Parameter(Mandatory = $false)][switch] $SkipTests,
     [Parameter(Mandatory = $false)][string] $Runtime = ""
@@ -101,11 +100,6 @@ function DotNetPublish {
         $additionalArgs += "--self-contained"
         $additionalArgs += "--runtime"
         $additionalArgs += $Runtime
-    }
-
-    if (![string]::IsNullOrEmpty($VersionSuffix)) {
-        $additionalArgs += "--version-suffix"
-        $additionalArgs += $VersionSuffix
     }
 
     & $dotnet publish $Project --output $publishPath --configuration $Configuration $additionalArgs
