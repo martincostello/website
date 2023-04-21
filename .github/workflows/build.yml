@@ -92,7 +92,7 @@ jobs:
     - uses: codecov/codecov-action@v3
       name: Upload coverage to Codecov
       with:
-        files: ./artifacts/coverage.cobertura.xml,./src/Website/coverage/lcov.info
+        files: ./.artifacts/coverage/coverage.cobertura.xml,./src/Website/coverage/lcov.info
         flags: ${{ matrix.codecov_os }}
 
     - name: Publish artifacts
@@ -100,14 +100,14 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       with:
         name: webapp
-        path: ./artifacts/publish
+        path: ./.artifacts/publish/Website/release_${{ env.PUBLISH_RUNTIME }}
 
     - name: Publish screenshots
       uses: actions/upload-artifact@v3
       if: ${{ always() }}
       with:
         name: screenshots
-        path: ./artifacts/screenshots/*
+        path: ./.artifacts/screenshots/*
         if-no-files-found: ignore
 
     - name: Publish traces
@@ -115,7 +115,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: traces
-        path: ./artifacts/traces/*
+        path: ./.artifacts/traces/*
         if-no-files-found: ignore
 
     - name: Publish videos
@@ -123,7 +123,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: videos
-        path: ./artifacts/videos/*
+        path: ./.artifacts/videos/*
         if-no-files-found: ignore
 
   deploy-dev:
@@ -182,7 +182,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_DEV }}
 
@@ -191,7 +191,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: screenshots
-        path: ./artifacts/screenshots/*
+        path: ./.artifacts/screenshots/*
         if-no-files-found: ignore
 
     - name: Publish traces
@@ -199,7 +199,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: traces
-        path: ./artifacts/traces/*
+        path: ./.artifacts/traces/*
         if-no-files-found: ignore
 
     - name: Publish videos
@@ -207,7 +207,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: videos
-        path: ./artifacts/videos/*
+        path: ./.artifacts/videos/*
         if-no-files-found: ignore
 
   deploy-prod:
@@ -264,7 +264,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_PROD }}
 
@@ -273,7 +273,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: screenshots
-        path: ./artifacts/screenshots/*
+        path: ./.artifacts/screenshots/*
         if-no-files-found: ignore
 
     - name: Publish traces
@@ -281,7 +281,7 @@ jobs:
       if: ${{ always() }}
       with:
         name: traces
-        path: ./artifacts/traces/*
+        path: ./.artifacts/traces/*
         if-no-files-found: ignore
 
     - name: Publish videos
@@ -289,5 +289,5 @@ jobs:
       if: ${{ always() }}
       with:
         name: videos
-        path: ./artifacts/videos/*
+        path: ./.artifacts/videos/*
         if-no-files-found: ignore
