@@ -196,7 +196,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_DEV }}
 
@@ -288,7 +288,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_PROD }}
 
