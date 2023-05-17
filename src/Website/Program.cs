@@ -4,7 +4,6 @@
 #pragma warning disable CA1852
 
 using System.IO.Compression;
-using System.Text.Json.Serialization.Metadata;
 using MartinCostello.Website;
 using MartinCostello.Website.Extensions;
 using MartinCostello.Website.Models;
@@ -25,9 +24,7 @@ builder.Services.ConfigureHttpJsonOptions((options) =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = false;
     options.SerializerOptions.WriteIndented = true;
-    options.SerializerOptions.TypeInfoResolver = JsonTypeInfoResolver.Combine(
-        ApplicationJsonSerializerContext.Default,
-        new DefaultJsonTypeInfoResolver());
+    options.SerializerOptions.TypeInfoResolverChain.Add(ApplicationJsonSerializerContext.Default);
 });
 
 builder.Services.Configure<StaticFileOptions>((options) =>
