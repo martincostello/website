@@ -106,7 +106,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       with:
         name: webapp
-        path: ./artifacts/publish
+        path: ./artifacts/publish/Website/release_${{ env.PUBLISH_RUNTIME }}
         if-no-files-found: error
 
     - name: Publish screenshots
