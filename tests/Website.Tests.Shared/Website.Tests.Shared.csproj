@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Shared test infrastructure for https://martincostello.com/</Description>
-    <NoWarn>$(NoWarn);CA1308;CA1711;CA2000;CA2007;SA1600</NoWarn>
+    <NoWarn>$(NoWarn);CA1308;CA1711;CA1861;CA2000;CA2007;SA1600</NoWarn>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>$(Description)</Summary>
     <TargetFramework>net8.0</TargetFramework>
