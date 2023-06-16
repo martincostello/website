@@ -114,6 +114,8 @@ public static class RedirectsModule
             "xmlrpc.php",
         };
 
+        var httpMethods = new[] { "GET", "HEAD", "POST" };
+
         foreach (string path in crawlerPaths)
         {
             RedirectCrawler(path);
@@ -123,7 +125,7 @@ public static class RedirectsModule
 
         void RedirectCrawler(string path)
         {
-            app.MapMethods(path, new[] { "GET", "HEAD", "POST" }, () =>
+            app.MapMethods(path, httpMethods, () =>
             {
                 return Results.Redirect(Videos[RandomNumberGenerator.GetInt32(0, Videos.Length)]);
             });
