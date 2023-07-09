@@ -4,7 +4,7 @@
 */
 
 /* stylelint-disable-next-line media-feature-name-no-vendor-prefix */
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+@media (-webkit-min-device-pixel-ratio: 1.25), (resolution >= 120dpi) {
     html {
         font-size: 16px;
     }
