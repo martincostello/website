@@ -39,7 +39,7 @@ public static class HttpRequestExtensions
         string canonicalUri = builder.Uri.AbsoluteUri.ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
 
-        if (!canonicalUri.EndsWith("/", StringComparison.Ordinal))
+        if (!canonicalUri.EndsWith('/'))
         {
             canonicalUri += "/";
         }
