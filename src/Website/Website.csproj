@@ -25,7 +25,7 @@
     <PackageReference Include="Serilog.Sinks.Console" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update=".prettierrc.json;.stylelintrc.json;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
+    <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
     <None Remove="assets\scripts\**\*.ts" />
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
