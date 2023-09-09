@@ -84,11 +84,11 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
+        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
         path: |
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Build, test and publish
       shell: pwsh
@@ -102,7 +102,7 @@ jobs:
 
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
-      if: ${{ runner.os == 'Windows' }}
+      if: runner.os == 'Windows'
       with:
         name: webapp
         path: ./artifacts/publish
@@ -110,7 +110,7 @@ jobs:
 
     - name: Publish screenshots
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: screenshots
         path: ./artifacts/screenshots/*
@@ -118,7 +118,7 @@ jobs:
 
     - name: Publish traces
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: traces
         path: ./artifacts/traces/*
@@ -126,14 +126,14 @@ jobs:
 
     - name: Publish videos
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: videos
         path: ./artifacts/videos/*
         if-no-files-found: ignore
 
   deploy-dev:
-    if: ${{ github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch }}
+    if: github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch
     name: dev
     needs: build
     runs-on: windows-latest
@@ -154,7 +154,7 @@ jobs:
         name: webapp
 
     - name: Azure log in
-      uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.7
+      uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -190,11 +190,11 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
+        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
         path: |
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Run end-to-end tests
       shell: pwsh
@@ -204,7 +204,7 @@ jobs:
 
     - name: Publish screenshots
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: screenshots
         path: ./artifacts/screenshots/*
@@ -212,7 +212,7 @@ jobs:
 
     - name: Publish traces
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: traces
         path: ./artifacts/traces/*
@@ -220,7 +220,7 @@ jobs:
 
     - name: Publish videos
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: videos
         path: ./artifacts/videos/*
@@ -247,7 +247,7 @@ jobs:
         name: webapp
 
     - name: Azure log in
-      uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.7
+      uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -282,11 +282,11 @@ jobs:
     - name: Setup Playwright cache
       uses: actions/cache@v3
       with:
+        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
         path: |
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
 
     - name: Run end-to-end tests
       shell: pwsh
@@ -296,7 +296,7 @@ jobs:
 
     - name: Publish screenshots
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: screenshots
         path: ./artifacts/screenshots/*
@@ -304,7 +304,7 @@ jobs:
 
     - name: Publish traces
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: traces
         path: ./artifacts/traces/*
@@ -312,7 +312,7 @@ jobs:
 
     - name: Publish videos
       uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: ${{ !cancelled() }}
       with:
         name: videos
         path: ./artifacts/videos/*
