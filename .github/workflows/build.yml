@@ -105,7 +105,7 @@ jobs:
       if: runner.os == 'Windows'
       with:
         name: webapp
-        path: ./artifacts/publish
+        path: ./artifacts/publish/Website/release_${{ env.PUBLISH_RUNTIME }}
         if-no-files-found: error
 
     - name: Publish screenshots
@@ -198,7 +198,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_DEV }}
 
@@ -290,7 +290,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --output ./artifacts --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
       env:
         WEBSITE_URL: ${{ env.APPLICATION_URL_PROD }}
 
