@@ -71,8 +71,6 @@ public sealed class HttpServerFixture : TestServerFixture
             .Select((p) => new Uri(p))
             .Last();
 
-        testHost.Start();
-
         return testHost;
     }
 
