@@ -30,7 +30,7 @@ public sealed class HashComponent : ToolComponent
 
     public async Task<HashComponent> WithPlaintextAsync(string text)
     {
-        await Navigator.Page.TypeAsync("id=hash-plaintext", text);
+        await Navigator.Page.FillAsync("id=hash-plaintext", text);
         return this;
     }
 
