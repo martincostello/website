@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using MartinCostello.Website.Pages;
@@ -8,18 +8,8 @@ namespace MartinCostello.Website.Integration.UI;
 /// <summary>
 /// A class containing UI tests for tools page in the website.
 /// </summary>
-public sealed class ToolPageTests : BrowserTest
+public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper outputHelper) : BrowserTest(fixture, outputHelper)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ToolPageTests"/> class.
-    /// </summary>
-    /// <param name="fixture">The fixture to use.</param>
-    /// <param name="outputHelper">The <see cref="ITestOutputHelper"/> to use.</param>
-    public ToolPageTests(HttpServerFixture fixture, ITestOutputHelper outputHelper)
-        : base(fixture, outputHelper)
-    {
-    }
-
     [Theory]
     [InlineData("Default", false)]
     [InlineData("Default", true)]

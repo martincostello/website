@@ -3,18 +3,13 @@
 
 namespace MartinCostello.Website.Pages;
 
-public sealed class ToolsPage : PageBase
+public sealed class ToolsPage(ApplicationNavigator navigator) : PageBase(navigator)
 {
-    public ToolsPage(ApplicationNavigator navigator)
-        : base(navigator)
-    {
-    }
-
     protected override string RelativeUri => "/tools/";
 
-    public GuidComponent GuidGenerator() => new GuidComponent(Navigator);
+    public GuidComponent GuidGenerator() => new(Navigator);
 
-    public HashComponent HashGenerator() => new HashComponent(Navigator);
+    public HashComponent HashGenerator() => new(Navigator);
 
-    public MachineKeyComponent MachineKeyGenerator() => new MachineKeyComponent(Navigator);
+    public MachineKeyComponent MachineKeyGenerator() => new(Navigator);
 }

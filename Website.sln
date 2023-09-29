@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.vsconfig = .vsconfig
 		build.ps1 = build.ps1
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
@@ -39,7 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\update-dotnet-sdk.yml = .github\workflows\update-dotnet-sdk.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.EndToEndTests", "tests\Website.EndToEndTests\Website.EndToEndTests.csproj", "{E1197F63-A671-4484-B5BE-36C3561F4CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.EndToEndTests", "tests\Website.EndToEndTests\Website.EndToEndTests.csproj", "{E1197F63-A671-4484-B5BE-36C3561F4CBF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Tests.Shared", "tests\Website.Tests.Shared\Website.Tests.Shared.csproj", "{26DB8EDD-BC86-428F-86A9-1C55711ABD0F}"
 EndProject

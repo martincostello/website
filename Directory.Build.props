@@ -1,7 +1,6 @@
 <Project>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommonAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GitMetadata.cs" />
   </ItemGroup>
   <PropertyGroup>

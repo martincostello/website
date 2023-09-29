@@ -5,13 +5,8 @@ using Microsoft.Playwright;
 
 namespace MartinCostello.Website.Pages;
 
-public sealed class MachineKeyComponent : ToolComponent
+public sealed class MachineKeyComponent(ApplicationNavigator navigator) : ToolComponent(navigator)
 {
-    internal MachineKeyComponent(ApplicationNavigator navigator)
-        : base(navigator)
-    {
-    }
-
     protected override string GeneratorSelector => "id=generate-machine-key";
 
     protected override string ResultSelector => "id=machine-key-xml";

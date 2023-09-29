@@ -8,23 +8,12 @@ namespace MartinCostello.Website.EndToEnd;
 /// </summary>
 [Collection(WebsiteCollection.Name)]
 [Trait("Category", "EndToEnd")]
-public abstract class EndToEndTest : UITest
+public abstract class EndToEndTest(WebsiteFixture fixture, ITestOutputHelper outputHelper) : UITest(outputHelper)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EndToEndTest"/> class.
-    /// </summary>
-    /// <param name="fixture">The fixture to use.</param>
-    /// <param name="outputHelper">The test output helper to use.</param>
-    protected EndToEndTest(WebsiteFixture fixture, ITestOutputHelper outputHelper)
-        : base(outputHelper)
-    {
-        Fixture = fixture;
-    }
-
     /// <summary>
     /// Gets the <see cref="WebsiteFixture"/> to use.
     /// </summary>
-    protected WebsiteFixture Fixture { get; }
+    protected WebsiteFixture Fixture { get; } = fixture;
 
     /// <inheritdoc />
     protected override Uri ServerAddress => Fixture.ServerAddress!;

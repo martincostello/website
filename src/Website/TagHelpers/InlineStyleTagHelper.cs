@@ -17,9 +17,24 @@ namespace MartinCostello.Website.TagHelpers;
 /// A <see cref="ITagHelper"/> implementation targeting &lt;link&gt;
 /// elements that supports inlining styles for local CSS files.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="InlineStyleTagHelper"/> class.
+/// </remarks>
+/// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> to use.</param>
+/// <param name="cacheProvider">The <see cref="TagHelperMemoryCacheProvider"/> to use.</param>
+/// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
+/// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
+/// <param name="javaScriptEncoder">The <see cref="JavaScriptEncoder"/> to use.</param>
+/// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
 [HtmlTargetElement("link", Attributes = InlineAttributeName, TagStructure = TagStructure.WithoutEndTag)]
 [HtmlTargetElement("link", Attributes = MinifyInlinedAttributeName, TagStructure = TagStructure.WithoutEndTag)]
-public class InlineStyleTagHelper : LinkTagHelper
+public class InlineStyleTagHelper(
+    IWebHostEnvironment hostingEnvironment,
+    TagHelperMemoryCacheProvider cacheProvider,
+    IFileVersionProvider fileVersionProvider,
+    HtmlEncoder htmlEncoder,
+    JavaScriptEncoder javaScriptEncoder,
+    IUrlHelperFactory urlHelperFactory) : LinkTagHelper(hostingEnvironment, cacheProvider, fileVersionProvider, htmlEncoder, javaScriptEncoder, urlHelperFactory)
 {
     /// <summary>
     /// The name of the <c>asp-inline</c> attribute.
@@ -30,30 +45,6 @@ public class InlineStyleTagHelper : LinkTagHelper
     /// The name of the <c>asp-inline</c> attribute.
     /// </summary>
     private const string MinifyInlinedAttributeName = "asp-minify-inlined";
-
-    /// <summary>
-    /// An array containing the <see cref="Environment.NewLine"/> string.
-    /// </summary>
-    private static readonly string[] NewLine = new[] { Environment.NewLine };
-
-    /// <summary>
-    /// An array containing the <c>~</c> character.
-    /// </summary>
-    private static readonly char[] Tilde = new[] { '~' };
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="InlineStyleTagHelper"/> class.
-    /// </summary>
-    /// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> to use.</param>
-    /// <param name="cacheProvider">The <see cref="TagHelperMemoryCacheProvider"/> to use.</param>
-    /// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
-    /// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
-    /// <param name="javaScriptEncoder">The <see cref="JavaScriptEncoder"/> to use.</param>
-    /// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
-    public InlineStyleTagHelper(IWebHostEnvironment hostingEnvironment, TagHelperMemoryCacheProvider cacheProvider, IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, JavaScriptEncoder javaScriptEncoder, IUrlHelperFactory urlHelperFactory)
-        : base(hostingEnvironment, cacheProvider, fileVersionProvider, htmlEncoder, javaScriptEncoder, urlHelperFactory)
-    {
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether CSS should be inlined.
@@ -84,7 +75,7 @@ public class InlineStyleTagHelper : LinkTagHelper
             return;
         }
 
-        string filePath = (context.AllAttributes["href"].Value as string)?.TrimStart(Tilde) ?? string.Empty;
+        string filePath = (context.AllAttributes["href"].Value as string)?.TrimStart('~') ?? string.Empty;
         IFileInfo fileInfo = HostingEnvironment.WebRootFileProvider.GetFileInfo(filePath);
 
         if (!fileInfo.Exists || fileInfo.PhysicalPath is null)
@@ -137,7 +128,7 @@ public class InlineStyleTagHelper : LinkTagHelper
     private static string MinifyCss(string css)
     {
         // Remove all blank lines, trim space between line contents and turn into a single line
-        string[] lines = css.Split(NewLine, StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = css.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         string minified = string.Join(string.Empty, lines.Select((p) => p.Trim()));
 
         var builder = new StringBuilder(minified);
