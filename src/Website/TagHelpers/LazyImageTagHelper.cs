@@ -13,8 +13,17 @@ namespace MartinCostello.Website.TagHelpers;
 /// A <see cref="ITagHelper"/> implementation targeting &lt;lazyimg&gt;
 /// elements that supports file versioning and lazy loading of images.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="LazyImageTagHelper"/> class.
+/// </remarks>
+/// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
+/// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
+/// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
 [HtmlTargetElement("lazyimg", TagStructure = TagStructure.WithoutEndTag)]
-public class LazyImageTagHelper : ImageTagHelper
+public class LazyImageTagHelper(
+    IFileVersionProvider fileVersionProvider,
+    HtmlEncoder htmlEncoder,
+    IUrlHelperFactory urlHelperFactory) : ImageTagHelper(fileVersionProvider, htmlEncoder, urlHelperFactory)
 {
     /// <summary>
     /// The name of the <c>class</c> attribute.
@@ -30,17 +39,6 @@ public class LazyImageTagHelper : ImageTagHelper
     /// The name of the <c>src</c> attribute.
     /// </summary>
     private const string SourceAttributeName = "src";
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LazyImageTagHelper"/> class.
-    /// </summary>
-    /// <param name="fileVersionProvider">The <see cref="IFileVersionProvider"/> to use.</param>
-    /// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
-    /// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
-    public LazyImageTagHelper(IFileVersionProvider fileVersionProvider, HtmlEncoder htmlEncoder, IUrlHelperFactory urlHelperFactory)
-        : base(fileVersionProvider, htmlEncoder, urlHelperFactory)
-    {
-    }
 
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)

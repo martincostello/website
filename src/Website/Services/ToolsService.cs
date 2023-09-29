@@ -11,7 +11,11 @@ namespace MartinCostello.Website.Services;
 /// <summary>
 /// A class representing the default implementation of <see cref="IToolsService"/>.
 /// </summary>
-public class ToolsService : IToolsService
+/// <remarks>
+/// Initializes a new instance of the <see cref="ToolsService"/> class.
+/// </remarks>
+/// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to use.</param>
+public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
 {
     /// <summary>
     /// An <see cref="IDictionary{K, V}"/> containing the sizes of the decryption and validation hashes for machine keys.
@@ -35,16 +39,7 @@ public class ToolsService : IToolsService
     /// <summary>
     /// The HttpContext accessor This field is read-only.
     /// </summary>
-    private readonly IHttpContextAccessor _contextAccessor;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ToolsService"/> class.
-    /// </summary>
-    /// <param name="contextAccessor">The <see cref="IHttpContextAccessor"/> to use.</param>
-    public ToolsService(IHttpContextAccessor contextAccessor)
-    {
-        _contextAccessor = contextAccessor;
-    }
+    private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
 
     /// <inheritdoc/>
     public IResult GenerateGuid(string? format, bool? uppercase)
@@ -126,7 +121,9 @@ public class ToolsService : IToolsService
             "SHA256" => SHA256.HashData(buffer),
             "SHA384" => SHA384.HashData(buffer),
             "SHA512" => SHA512.HashData(buffer),
-            _ => Array.Empty<byte>(),
+#pragma warning disable SA1010
+            _ => [],
+#pragma warning restore SA1010
         };
 
         if (hash.Length == 0)

@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using MartinCostello.Website.Options;
@@ -107,10 +107,7 @@ public sealed class MetaModel
         string? robots = null,
         string? title = null)
     {
-        if (options == null)
-        {
-            options = new MetadataOptions();
-        }
+        options ??= new MetadataOptions();
 
         return new MetaModel()
         {

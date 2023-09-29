@@ -5,18 +5,13 @@ using Microsoft.Playwright;
 
 namespace MartinCostello.Website.Pages;
 
-public abstract class ToolComponent
+public abstract class ToolComponent(ApplicationNavigator navigator)
 {
-    protected ToolComponent(ApplicationNavigator navigator)
-    {
-        Navigator = navigator;
-    }
-
     protected abstract string GeneratorSelector { get; }
 
     protected abstract string ResultSelector { get; }
 
-    protected ApplicationNavigator Navigator { get; }
+    protected ApplicationNavigator Navigator { get; } = navigator;
 
     public async Task<string> GenerateAsync()
     {

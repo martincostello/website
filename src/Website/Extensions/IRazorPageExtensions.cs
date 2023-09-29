@@ -21,6 +21,7 @@ public static class IRazorPageExtensions
     /// </returns>
     public static int CurrentLineNumber(this IRazorPage page, [CallerLineNumber] int lineNumber = 0)
     {
+        ArgumentNullException.ThrowIfNull(page);
         return lineNumber;
     }
 }

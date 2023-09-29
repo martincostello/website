@@ -3,12 +3,7 @@
 
 namespace MartinCostello.Website.Pages;
 
-public sealed class HomePage : PageBase
+public sealed class HomePage(ApplicationNavigator navigator) : PageBase(navigator)
 {
-    public HomePage(ApplicationNavigator navigator)
-        : base(navigator)
-    {
-    }
-
     protected override string RelativeUri => "/";
 }

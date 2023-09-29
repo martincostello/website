@@ -5,13 +5,8 @@ using Microsoft.Playwright;
 
 namespace MartinCostello.Website.Pages;
 
-public sealed class HashComponent : ToolComponent
+public sealed class HashComponent(ApplicationNavigator navigator) : ToolComponent(navigator)
 {
-    internal HashComponent(ApplicationNavigator navigator)
-        : base(navigator)
-    {
-    }
-
     protected override string GeneratorSelector => "id=generate-hash";
 
     protected override string ResultSelector => "id=text-hash";

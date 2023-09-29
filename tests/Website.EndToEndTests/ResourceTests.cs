@@ -5,13 +5,8 @@ using System.Net;
 
 namespace MartinCostello.Website.EndToEnd;
 
-public class ResourceTests : EndToEndTest
+public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelper) : EndToEndTest(fixture, outputHelper)
 {
-    public ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelper)
-        : base(fixture, outputHelper)
-    {
-    }
-
     [SkippableTheory]
     [InlineData("/", "text/html")]
     [InlineData("/apple-app-site-association", "application/json")]
@@ -58,7 +53,7 @@ public class ResourceTests : EndToEndTest
     {
         // Arrange
         string[] expectedHeaders =
-        {
+        [
             "content-security-policy",
             "content-security-policy-report-only",
             "Permissions-Policy",
@@ -71,7 +66,7 @@ public class ResourceTests : EndToEndTest
             "X-Request-Id",
             "X-Revision",
             "X-XSS-Protection",
-        };
+        ];
 
         using var client = Fixture.CreateClient();
 

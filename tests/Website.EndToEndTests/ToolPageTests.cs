@@ -5,13 +5,8 @@ using MartinCostello.Website.Pages;
 
 namespace MartinCostello.Website.EndToEnd;
 
-public sealed class ToolPageTests : EndToEndTest
+public sealed class ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outputHelper) : EndToEndTest(fixture, outputHelper)
 {
-    public ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outputHelper)
-        : base(fixture, outputHelper)
-    {
-    }
-
     [SkippableTheory]
     [InlineData("Default", false)]
     [InlineData("Default", true)]

@@ -13,9 +13,9 @@ namespace MartinCostello.Website.Pages
 
         public void OnGet(int? id)
         {
-            if (id.HasValue && id >= 400 && id < 599)
+            if (id is { } status && status >= 400 && status < 599)
             {
-                ErrorStatusCode = id.Value;
+                ErrorStatusCode = status;
             }
 
             Response.StatusCode = ErrorStatusCode;

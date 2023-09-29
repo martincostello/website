@@ -3,14 +3,9 @@
 
 namespace MartinCostello.Website.Pages;
 
-public abstract class PageBase
+public abstract class PageBase(ApplicationNavigator navigator)
 {
-    protected PageBase(ApplicationNavigator navigator)
-    {
-        Navigator = navigator;
-    }
-
-    protected ApplicationNavigator Navigator { get; }
+    protected ApplicationNavigator Navigator { get; } = navigator;
 
     protected abstract string RelativeUri { get; }
 

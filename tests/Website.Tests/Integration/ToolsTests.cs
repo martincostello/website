@@ -10,18 +10,13 @@ namespace MartinCostello.Website.Integration;
 /// <summary>
 /// A class containing tests for the <c>/tools</c> resource. This class cannot be inherited.
 /// </summary>
-public class ToolsTests : IntegrationTest
+/// <remarks>
+/// Initializes a new instance of the <see cref="ToolsTests"/> class.
+/// </remarks>
+/// <param name="fixture">The fixture to use.</param>
+/// <param name="outputHelper">The test output helper to use.</param>
+public class ToolsTests(TestServerFixture fixture, ITestOutputHelper outputHelper) : IntegrationTest(fixture, outputHelper)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ToolsTests"/> class.
-    /// </summary>
-    /// <param name="fixture">The fixture to use.</param>
-    /// <param name="outputHelper">The test output helper to use.</param>
-    public ToolsTests(TestServerFixture fixture, ITestOutputHelper outputHelper)
-        : base(fixture, outputHelper)
-    {
-    }
-
     [Fact]
     public async Task Tools_Get_Guid_Returns_Correct_Response_If_Format_Is_Invalid()
     {

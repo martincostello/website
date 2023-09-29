@@ -5,13 +5,8 @@ using Microsoft.Playwright;
 
 namespace MartinCostello.Website.Pages;
 
-public sealed class GuidComponent : ToolComponent
+public sealed class GuidComponent(ApplicationNavigator navigator) : ToolComponent(navigator)
 {
-    internal GuidComponent(ApplicationNavigator navigator)
-        : base(navigator)
-    {
-    }
-
     protected override string GeneratorSelector => "id=generate-guid";
 
     protected override string ResultSelector => "id=text-guid";
