@@ -7,6 +7,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <Authors>martin_costello</Authors>
+    <ChecksumAlgorithm>SHA256</ChecksumAlgorithm>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
     <ContinuousIntegrationBuild Condition=" '$(CI)' != '' ">true</ContinuousIntegrationBuild>
