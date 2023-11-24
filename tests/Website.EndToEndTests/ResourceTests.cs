@@ -45,7 +45,9 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         response.Content.ShouldNotBeNull();
-        response.Content!.Headers.ContentType?.MediaType?.ShouldBe(contentType);
+        response.Content.Headers.ContentType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldBe(contentType);
     }
 
     [SkippableFact]

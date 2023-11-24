@@ -12,6 +12,19 @@ namespace MartinCostello.Website;
 /// </summary>
 public static class RedirectsModule
 {
+    private static readonly string[] HttpMethods = ["GET", "HEAD", "POST"];
+
+    private static readonly Dictionary<string, string[]> Redirects = new()
+    {
+        ["https://blog.martincostello.com/"] = ["/blog", "/blog/{*catchall}"],
+        ["https://github.com/martincostello"] = ["/gh", "/github"],
+        ["https://github.com/martincostello/presentations"] = ["/presentations", "/slides", "/talks"],
+        ["https://stackoverflow.com/users/1064169/martin-costello"] = ["/so", "/stack", "/stackoverflow", "/stack-overflow"],
+        ["https://twitter.com/martin_costello"] = ["/tweet", "/tweets", "/twitter", "/x"],
+        ["https://www.linkedin.com/in/martin-costello/"] = ["/in", "/linked-in", "/linkedin"],
+        ["https://www.youtube.com/martincostello"] = ["/youtube"],
+    };
+
     /// <summary>
     /// Gets a random set of annoying YouTube videos. This field is read-only.
     /// </summary>
@@ -70,6 +83,14 @@ public static class RedirectsModule
             return Results.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
         });
 
+        foreach ((string url, string[] patterns) in Redirects)
+        {
+            foreach (var pattern in patterns)
+            {
+                app.MapGet(pattern, () => Results.Redirect(url));
+            }
+        }
+
         string[] crawlerPaths =
         [
             ".env",
@@ -83,7 +104,6 @@ public static class RedirectsModule
             "ajaxproxy/{*catchall}",
             "bin/{*catchall}",
             "bitrix/admin/{*catchall}",
-            "blog/{*catchall}",
             "cms/{*catchall}",
             "index.php",
             "invoker/JMXInvokerServlet",
@@ -114,21 +134,14 @@ public static class RedirectsModule
             "xmlrpc.php",
         ];
 
-        string[] httpMethods = ["GET", "HEAD", "POST"];
-
         foreach (string path in crawlerPaths)
         {
-            RedirectCrawler(path);
+            app.MapMethods(path, HttpMethods, RandomYouTubeVideo);
         }
 
         return app;
 
-        void RedirectCrawler(string path)
-        {
-            app.MapMethods(path, httpMethods, () =>
-            {
-                return Results.Redirect(Videos[RandomNumberGenerator.GetInt32(0, Videos.Length)]);
-            });
-        }
+        static IResult RandomYouTubeVideo()
+            => Results.Redirect(Videos[RandomNumberGenerator.GetInt32(0, Videos.Length)]);
     }
 }
