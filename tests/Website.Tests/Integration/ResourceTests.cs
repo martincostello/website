@@ -154,6 +154,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     [InlineData("/in", "www.linkedin.com")]
     [InlineData("/linkedin", "www.linkedin.com")]
     [InlineData("/linked-in", "www.linkedin.com")]
+    [InlineData("/mvp", "mvp.microsoft.com")]
     [InlineData("/presentations", "github.com")]
     [InlineData("/talks", "github.com")]
     [InlineData("/tweet", "twitter.com")]
