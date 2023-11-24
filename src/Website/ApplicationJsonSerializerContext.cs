@@ -13,6 +13,7 @@ namespace MartinCostello.Website;
 [JsonSerializable(typeof(HashRequest))]
 [JsonSerializable(typeof(HashResponse))]
 [JsonSerializable(typeof(MachineKeyResponse))]
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
 internal sealed partial class ApplicationJsonSerializerContext : JsonSerializerContext
 {
 }
