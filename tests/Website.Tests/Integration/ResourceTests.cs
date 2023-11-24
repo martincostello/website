@@ -54,7 +54,9 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         response.Content.ShouldNotBeNull();
-        response.Content!.Headers.ContentType?.MediaType?.ShouldBe(contentType);
+        response.Content.Headers.ContentType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldBe(contentType);
     }
 
     [Theory]
@@ -71,7 +73,9 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         response.Content.ShouldNotBeNull();
-        response.Content!.Headers.ContentType?.MediaType?.ShouldBe(contentType);
+        response.Content.Headers.ContentType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldNotBeNull();
+        response.Content.Headers.ContentType.MediaType.ShouldBe(contentType);
     }
 
     [Theory]
@@ -86,7 +90,9 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-        response.Headers.Location?.OriginalString?.ShouldStartWith(location);
+        response.Headers.Location.ShouldNotBeNull();
+        response.Headers.Location.OriginalString.ShouldNotBeNull();
+        response.Headers.Location.OriginalString.ShouldStartWith(location);
     }
 
     [Fact]
@@ -140,6 +146,41 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     }
 
     [Theory]
+    [InlineData("/blog", "blog.martincostello.com")]
+    [InlineData("/blog/foo", "blog.martincostello.com")]
+    [InlineData("/gh", "github.com")]
+    [InlineData("/github", "github.com")]
+    [InlineData("/home/blog", "blog.martincostello.com")]
+    [InlineData("/in", "www.linkedin.com")]
+    [InlineData("/linkedin", "www.linkedin.com")]
+    [InlineData("/linked-in", "www.linkedin.com")]
+    [InlineData("/presentations", "github.com")]
+    [InlineData("/talks", "github.com")]
+    [InlineData("/tweet", "twitter.com")]
+    [InlineData("/tweets", "twitter.com")]
+    [InlineData("/twitter", "twitter.com")]
+    [InlineData("/slides", "github.com")]
+    [InlineData("/so", "stackoverflow.com")]
+    [InlineData("/stack", "stackoverflow.com")]
+    [InlineData("/stackoverflow", "stackoverflow.com")]
+    [InlineData("/stack-overflow", "stackoverflow.com")]
+    [InlineData("/x", "twitter.com")]
+    [InlineData("/youtube", "www.youtube.com")]
+    public async Task Short_Link_Is_Redirected(string requestUri, string expectedHost)
+    {
+        // Arrange
+        using var client = Fixture.CreateClient();
+
+        // Act
+        using var response = await client.GetAsync(requestUri);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
+        response.Headers.Location.ShouldNotBeNull();
+        response.Headers.Location.Host.ShouldBe(expectedHost);
+    }
+
+    [Theory]
     [InlineData("/.env")]
     [InlineData("/.git")]
     [InlineData("/.git/head")]
@@ -165,36 +206,27 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     public async Task Crawler_Spam_Is_Redirected_To_YouTube(string requestUri)
     {
         // Arrange
+        var methods = new[] { HttpMethod.Get, HttpMethod.Head, HttpMethod.Post };
+
         using var client = Fixture.CreateClient();
 
-        // Act
-        using (var response = await client.GetAsync(requestUri))
+        foreach (var method in methods)
         {
-            // Assert
-            response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-            response.Headers.Location?.Host.ShouldBe("www.youtube.com");
-        }
+            // Arrange
+            using var message = new HttpRequestMessage(method, requestUri);
 
-        // Arrange
-        using (var message = new HttpRequestMessage(HttpMethod.Head, requestUri))
-        {
+            if (method.Equals(HttpMethod.Post))
+            {
+                message.Content = new StringContent(string.Empty);
+            }
+
             // Act
             using var response = await client.SendAsync(message);
 
             // Assert
             response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-            response.Headers.Location?.Host.ShouldBe("www.youtube.com");
-        }
-
-        // Arrange
-        using (var content = new StringContent(string.Empty))
-        {
-            // Act
-            using var response = await client.PostAsync(requestUri, content);
-
-            // Assert
-            response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
-            response.Headers.Location?.Host.ShouldBe("www.youtube.com");
+            response.Headers.Location.ShouldNotBeNull();
+            response.Headers.Location.Host.ShouldBe("www.youtube.com");
         }
     }
 }
