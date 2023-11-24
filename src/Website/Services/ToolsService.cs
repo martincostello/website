@@ -65,7 +65,7 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
             Guid = guid,
         };
 
-        return Results.Json(result);
+        return Results.Json(result, ApplicationJsonSerializerContext.Default.GuidResponse);
     }
 
     /// <inheritdoc/>
@@ -136,7 +136,7 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
 #pragma warning restore CA1308
         };
 
-        return Results.Json(result);
+        return Results.Json(result, ApplicationJsonSerializerContext.Default.HashResponse);
     }
 
     /// <inheritdoc/>
@@ -171,7 +171,7 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
             validationAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant(),
             decryptionAlgorithm.Split('-', StringSplitOptions.RemoveEmptyEntries)[0].ToUpperInvariant());
 
-        return Results.Json(result);
+        return Results.Json(result, ApplicationJsonSerializerContext.Default.MachineKeyResponse);
     }
 
     /// <summary>
@@ -200,6 +200,6 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
             StatusCode = StatusCodes.Status400BadRequest,
         };
 
-        return Results.Json(error, statusCode: error.StatusCode);
+        return Results.Json(error, ApplicationJsonSerializerContext.Default.ErrorResponse, statusCode: error.StatusCode);
     }
 }
