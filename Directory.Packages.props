@@ -3,7 +3,7 @@
     <PackageVersion Include="coverlet.msbuild" Version="6.0.0" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.3.0" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
