@@ -8,6 +8,7 @@ namespace MartinCostello.Website.Integration.UI;
 /// <summary>
 /// A class containing UI tests for tools page in the website.
 /// </summary>
+[Collection(HttpServerCollection.Name)]
 public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper outputHelper) : BrowserTest(fixture, outputHelper)
 {
     [Theory]
