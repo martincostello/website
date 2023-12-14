@@ -149,7 +149,7 @@ jobs:
     steps:
 
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: webapp
 
@@ -242,7 +242,7 @@ jobs:
     steps:
 
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: webapp
 
