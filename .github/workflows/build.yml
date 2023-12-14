@@ -101,7 +101,7 @@ jobs:
         flags: ${{ matrix.codecov_os }}
 
     - name: Publish artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: runner.os == 'Windows'
       with:
         name: webapp
@@ -109,7 +109,7 @@ jobs:
         if-no-files-found: error
 
     - name: Publish screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: screenshots
@@ -117,7 +117,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish traces
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: traces
@@ -125,7 +125,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: videos
@@ -203,7 +203,7 @@ jobs:
         WEBSITE_URL: ${{ env.APPLICATION_URL_DEV }}
 
     - name: Publish screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: screenshots
@@ -211,7 +211,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish traces
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: traces
@@ -219,7 +219,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: videos
@@ -295,7 +295,7 @@ jobs:
         WEBSITE_URL: ${{ env.APPLICATION_URL_PROD }}
 
     - name: Publish screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: screenshots
@@ -303,7 +303,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish traces
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: traces
@@ -311,7 +311,7 @@ jobs:
         if-no-files-found: ignore
 
     - name: Publish videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: videos
