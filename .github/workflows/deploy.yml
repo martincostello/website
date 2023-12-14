@@ -116,11 +116,10 @@ jobs:
       shell: bash
       run: |
         application_name="martincostello"
-        environment_name="${ENVIRONMENT_NAME}"
-        environment_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/deployments/${environment_name}"
+        environment_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/deployments/${ENVIRONMENT_NAME}"
         workflow_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
-        if [ "${environment_name}" == "production" ]
+        if [ "${ENVIRONMENT_NAME}" == "production" ]
         then
           application_slot=""
           application_url="https://martincostello.com"
@@ -133,7 +132,7 @@ jobs:
           echo "application-name=${application_name}"
           echo "application-slot=${application_slot}"
           echo "application-url=${application_url}"
-          echo "environment-name=${environment_name}"
+          echo "environment-name=${ENVIRONMENT_NAME}"
           echo "environment-url=${environment_url}"
           echo "run-id=${ARTIFACT_RUN_ID}"
           echo "workflow-url=${workflow_url}"
