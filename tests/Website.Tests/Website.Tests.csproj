@@ -6,7 +6,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>$(Description)</Summary>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="testsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
