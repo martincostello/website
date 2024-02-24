@@ -43,7 +43,7 @@
   <ItemGroup>
     <Using Include="System.Globalization" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
+  <ItemGroup Condition="$(MSBuildProjectName.Contains('Tests'))">
     <Using Include="Shouldly" />
     <Using Include="Xunit" />
     <Using Include="Xunit.Abstractions" />
