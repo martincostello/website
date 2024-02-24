@@ -34,7 +34,7 @@
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="npm ci" Condition=" '$(CI)' != '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm install" Condition=" '$(CI)' == '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
-    <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\scripts\main.js') " />
+    <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\main.js') " />
   </Target>
   <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != ''">
     <ItemGroup>
