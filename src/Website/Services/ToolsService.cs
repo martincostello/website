@@ -110,30 +110,26 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
         }
 
         byte[] buffer = Encoding.UTF8.GetBytes(request.Plaintext ?? string.Empty);
-        byte[] hash = request.Algorithm.ToUpperInvariant() switch
+        HashAlgorithmName? hashAlgorithm = request.Algorithm.ToUpperInvariant() switch
         {
-#pragma warning disable CA5350
-#pragma warning disable CA5351
-            "MD5" => MD5.HashData(buffer),
-            "SHA1" => SHA1.HashData(buffer),
-#pragma warning restore CA5350
-#pragma warning restore CA5351
-            "SHA256" => SHA256.HashData(buffer),
-            "SHA384" => SHA384.HashData(buffer),
-            "SHA512" => SHA512.HashData(buffer),
-            _ => [],
+            "MD5" => HashAlgorithmName.MD5,
+            "SHA1" => HashAlgorithmName.SHA1,
+            "SHA256" => HashAlgorithmName.SHA256,
+            "SHA384" => HashAlgorithmName.SHA384,
+            "SHA512" => HashAlgorithmName.SHA512,
+            _ => null,
         };
 
-        if (hash.Length == 0)
+        if (hashAlgorithm is not { } algorithm)
         {
             return BadRequest($"The specified hash algorithm '{request.Algorithm}' is not supported.");
         }
 
+        byte[] hash = CryptographicOperations.HashData(algorithm, buffer);
+
         var result = new HashResponse()
         {
-#pragma warning disable CA1308
-            Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash).ToLowerInvariant(),
-#pragma warning restore CA1308
+            Hash = formatAsBase64 ? Convert.ToBase64String(hash) : BytesToHexString(hash, toLower: true),
         };
 
         return Results.Json(result, ApplicationJsonSerializerContext.Default.HashResponse);
@@ -175,14 +171,15 @@ public class ToolsService(IHttpContextAccessor contextAccessor) : IToolsService
     }
 
     /// <summary>
-    /// Returns a <see cref="string"/> containing a hexadecimal representation of the specified <see cref="Array"/> of bytes.
+    /// Returns a <see cref="string"/> containing a hexadecimal representation of the specified <see cref="ReadOnlySpan{T}"/> of bytes.
     /// </summary>
     /// <param name="bytes">The buffer to generate the hash string for.</param>
+    /// <param name="toLower">Whether to return the hash in lowercase.</param>
     /// <returns>
     /// A <see cref="string"/> containing the hexadecimal representation of <paramref name="bytes"/>.
     /// </returns>
-    private static string BytesToHexString(ReadOnlySpan<byte> bytes)
-        => Convert.ToHexString(bytes);
+    private static string BytesToHexString(ReadOnlySpan<byte> bytes, bool toLower = false)
+        => toLower ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
 
     /// <summary>
     /// Returns a result that represents a bad API request.
