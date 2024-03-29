@@ -4,7 +4,7 @@
 namespace MartinCostello.Website.Extensions;
 
 /// <summary>
-/// A class containing extension methods for <see cref=""/>. This class cannot be inherited.
+/// A class containing extension methods for <see cref="IConfiguration"/>. This class cannot be inherited.
 /// </summary>
 public static class IConfigurationExtensions
 {

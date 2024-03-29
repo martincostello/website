@@ -5,20 +5,19 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MartinCostello.Website.Pages
+namespace MartinCostello.Website.Pages;
+
+public partial class ErrorModel : PageModel
 {
-    public partial class ErrorModel : PageModel
+    public int ErrorStatusCode { get; set; } = StatusCodes.Status500InternalServerError;
+
+    public void OnGet(int? id)
     {
-        public int ErrorStatusCode { get; set; } = StatusCodes.Status500InternalServerError;
-
-        public void OnGet(int? id)
+        if (id is { } status && status >= 400 && status < 599)
         {
-            if (id is { } status && status >= 400 && status < 599)
-            {
-                ErrorStatusCode = status;
-            }
-
-            Response.StatusCode = ErrorStatusCode;
+            ErrorStatusCode = status;
         }
+
+        Response.StatusCode = ErrorStatusCode;
     }
 }

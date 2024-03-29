@@ -6,16 +6,15 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MartinCostello.Website.Pages.Home
-{
-    public class AboutModel : PageModel
-    {
-        public void OnGet()
-        {
-        }
+namespace MartinCostello.Website.Pages.Home;
 
-        public void OnHead()
-        {
-        }
+public class AboutModel : PageModel
+{
+    public void OnGet()
+    {
+    }
+
+    public void OnHead()
+    {
     }
 }

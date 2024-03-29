@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2016. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using MartinCostello.Website.Options;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MartinCostello.Website.Extensions;
 
 /// <summary>
-/// A class containing extension methods for the <see cref=""/> class. This class cannot be inherited.
+/// A class containing extension methods for the <see cref="IUrlHelper"/> interface. This class cannot be inherited.
 /// </summary>
 public static class IUrlHelperExtensions
 {
