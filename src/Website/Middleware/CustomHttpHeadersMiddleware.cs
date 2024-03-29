@@ -138,21 +138,21 @@ public sealed class CustomHttpHeadersMiddleware
 
         var policies = new Dictionary<string, IList<string>>()
         {
-            ["default-src"] = new[] { Csp.Self, Csp.Data },
-            ["script-src"] = new[] { Csp.Self, Csp.Inline },
-            ["style-src"] = new[] { Csp.Self, Csp.Inline },
-            ["img-src"] = new[] { Csp.Self, Csp.Data, cdn },
-            ["font-src"] = new[] { Csp.Self },
-            ["connect-src"] = new[] { Csp.Self, GetApiOriginForContentSecurityPolicy(options) },
-            ["media-src"] = new[] { Csp.None },
-            ["object-src"] = Array.Empty<string>(),
-            ["child-src"] = new[] { Csp.Self },
-            ["frame-ancestors"] = new[] { Csp.None },
-            ["form-action"] = new[] { Csp.Self },
-            ["block-all-mixed-content"] = Array.Empty<string>(),
-            ["base-uri"] = new[] { Csp.Self },
-            ["manifest-src"] = new[] { Csp.Self },
-            ["worker-src"] = new[] { Csp.Self },
+            ["default-src"] = [Csp.Self, Csp.Data],
+            ["script-src"] = [Csp.Self, Csp.Inline],
+            ["style-src"] = [Csp.Self, Csp.Inline],
+            ["img-src"] = [Csp.Self, Csp.Data, cdn],
+            ["font-src"] = [Csp.Self],
+            ["connect-src"] = [Csp.Self, GetApiOriginForContentSecurityPolicy(options)],
+            ["media-src"] = [Csp.None],
+            ["object-src"] = [],
+            ["child-src"] = [Csp.Self],
+            ["frame-ancestors"] = [Csp.None],
+            ["form-action"] = [Csp.Self],
+            ["block-all-mixed-content"] = [],
+            ["base-uri"] = [Csp.Self],
+            ["manifest-src"] = [Csp.Self],
+            ["worker-src"] = [Csp.Self],
         };
 
         var builder = new StringBuilder();
@@ -166,7 +166,7 @@ public sealed class CustomHttpHeadersMiddleware
             if (options.ContentSecurityPolicyOrigins != null &&
                 options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string>? configOrigins))
             {
-                origins = origins.Concat(configOrigins).ToList();
+                origins = [.. origins.Concat(configOrigins)];
             }
 
             origins = origins

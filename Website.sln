@@ -35,7 +35,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5B31CD2E-3F11-4609-88E8-117EF1389235}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
-		.github\workflows\update-dotnet-sdk.yml = .github\workflows\update-dotnet-sdk.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\dependency-review.yml = .github\workflows\dependency-review.yml
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
+		.github\workflows\lighthouse.yml = .github\workflows\lighthouse.yml
+		.github\workflows\lint.yml = .github\workflows\lint.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.EndToEndTests", "tests\Website.EndToEndTests\Website.EndToEndTests.csproj", "{E1197F63-A671-4484-B5BE-36C3561F4CBF}"

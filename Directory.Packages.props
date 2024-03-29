@@ -1,5 +1,9 @@
 <Project>
   <ItemGroup>
+    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.3" />
+    <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.3.0" />
@@ -16,17 +20,13 @@
     <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageVersion Include="Shouldly" Version="4.2.1" />
-    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
     <PackageVersion Include="Xunit.SkippableFact" Version="1.4.13" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" />
-  </ItemGroup>
   <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
     <PackageReference Include="coverlet.msbuild" PrivateAssets="All" />
-    <PackageReference Include="GitHubActionsTestLogger" />
+    <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
     <PackageReference Include="ReportGenerator" PrivateAssets="All" />
   </ItemGroup>
 </Project>

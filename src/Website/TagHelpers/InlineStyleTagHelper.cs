@@ -66,7 +66,7 @@ public class InlineStyleTagHelper(
 
         bool shouldProcess =
             Inline == true &&
-            string.Equals(context.AllAttributes["rel"]?.Value?.ToString() as string, "stylesheet", StringComparison.OrdinalIgnoreCase);
+            string.Equals(context.AllAttributes["rel"]?.Value?.ToString(), "stylesheet", StringComparison.OrdinalIgnoreCase);
 
         if (!shouldProcess)
         {
@@ -149,7 +149,7 @@ public class InlineStyleTagHelper(
                     builder.Remove(previous, 1);
                 }
             }
-            else if (ch == ',' || ch == ':')
+            else if (ch is ',' or ':')
             {
                 int next = i + 1;
 

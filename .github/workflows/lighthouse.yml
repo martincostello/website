@@ -39,7 +39,7 @@ jobs:
         npm ci
         npm run build
         Pop-Location
-        Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release'
+        Start-Process nohup 'dotnet run --project ./src/Website/Website.csproj --configuration Release /p:EnableNETAnalyzers=false /p:EnforceCodeStyleInBuild=false'
         $StatusCode = 0
         $Attempts = 0
         While ($Attempts -lt 20) {

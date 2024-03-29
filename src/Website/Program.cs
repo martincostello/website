@@ -111,7 +111,7 @@ builder.WebHost.ConfigureKestrel((p) => p.AddServerHeader = false);
 
 var app = builder.Build();
 
-app.Lifetime.ApplicationStopped.Register(() => Serilog.Log.CloseAndFlush());
+app.Lifetime.ApplicationStopped.Register(Serilog.Log.CloseAndFlush);
 app.UseCustomHttpHeaders(app.Environment, app.Configuration, app.Services.GetRequiredService<IOptions<SiteOptions>>());
 
 bool isDevelopment = app.Environment.IsDevelopment();
