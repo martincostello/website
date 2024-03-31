@@ -31,7 +31,7 @@
     <None Remove="assets\scripts\**\*.ts" />
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+  <Target Name="PrepublishScript" BeforeTargets="BeforeBuild">
     <Exec Command="npm ci" Condition=" '$(CI)' != '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm install" Condition=" '$(CI)' == '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\main.js') " />
