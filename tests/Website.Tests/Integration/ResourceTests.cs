@@ -161,6 +161,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     [InlineData("/tweet", "twitter.com")]
     [InlineData("/tweets", "twitter.com")]
     [InlineData("/twitter", "twitter.com")]
+    [InlineData("/sessionize", "sessionize.com")]
     [InlineData("/slides", "github.com")]
     [InlineData("/so", "stackoverflow.com")]
     [InlineData("/stack", "stackoverflow.com")]

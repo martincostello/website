@@ -20,6 +20,7 @@ public static class RedirectsModule
         ["https://github.com/martincostello"] = ["/gh", "/github"],
         ["https://github.com/martincostello/presentations"] = ["/presentations", "/slides", "/talks"],
         ["https://mvp.microsoft.com/PublicProfile/5003438"] = ["/mvp"],
+        ["https://sessionize.com/martincostello/"] = ["/sessionize"],
         ["https://stackoverflow.com/users/1064169/martin-costello"] = ["/so", "/stack", "/stackoverflow", "/stack-overflow"],
         ["https://twitter.com/martin_costello"] = ["/tweet", "/tweets", "/twitter", "/x"],
         ["https://www.linkedin.com/in/martin-costello/"] = ["/in", "/linked-in", "/linkedin"],
