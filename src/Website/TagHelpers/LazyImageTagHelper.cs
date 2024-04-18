@@ -20,7 +20,7 @@ namespace MartinCostello.Website.TagHelpers;
 /// <param name="htmlEncoder">The <see cref="HtmlEncoder"/> to use.</param>
 /// <param name="urlHelperFactory">The <see cref="IUrlHelperFactory"/> to use.</param>
 [HtmlTargetElement("lazyimg", TagStructure = TagStructure.WithoutEndTag)]
-public class LazyImageTagHelper(
+public sealed class LazyImageTagHelper(
     IFileVersionProvider fileVersionProvider,
     HtmlEncoder htmlEncoder,
     IUrlHelperFactory urlHelperFactory) : ImageTagHelper(fileVersionProvider, htmlEncoder, urlHelperFactory)
@@ -47,11 +47,11 @@ public class LazyImageTagHelper(
 
         // Get the non-lazy image and the current CSS
         var dataOriginal = output.Attributes[SourceAttributeName].Value.ToString();
-        var css = output.Attributes[ClassAttributeName]?.Value?.ToString();
+        var css = $"{output.Attributes[ClassAttributeName]?.Value} lazy";
 
         // Add a placeholder as the src, set the original to be the lazily-loaded
         // image and add the CSS class to get the JavaScript to do the lazy loading.
-        output.Attributes.SetAttribute(ClassAttributeName, css += " lazy");
+        output.Attributes.SetAttribute(ClassAttributeName, css);
         output.Attributes.SetAttribute(DataOriginalAttributeName, dataOriginal);
         output.Attributes.SetAttribute(SourceAttributeName, "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
 
