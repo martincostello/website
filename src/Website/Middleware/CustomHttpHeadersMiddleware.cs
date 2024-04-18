@@ -163,7 +163,7 @@ public sealed class CustomHttpHeadersMiddleware
 
             IList<string> origins = pair.Value;
 
-            if (options.ContentSecurityPolicyOrigins != null &&
+            if (options?.ContentSecurityPolicyOrigins != null &&
                 options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string>? configOrigins))
             {
                 origins = [.. origins.Concat(configOrigins)];
@@ -207,7 +207,7 @@ public sealed class CustomHttpHeadersMiddleware
     {
         var builder = new StringBuilder();
 
-        bool enforce = options.CertificateTransparency?.Enforce == true;
+        bool enforce = options?.CertificateTransparency?.Enforce == true;
 
         if (enforce)
         {
@@ -217,7 +217,7 @@ public sealed class CustomHttpHeadersMiddleware
         builder.AppendFormat(
             CultureInfo.InvariantCulture,
             "max-age={0};",
-            (int)(options.CertificateTransparency?.MaxAge.TotalSeconds ?? 0));
+            (int)(options?.CertificateTransparency?.MaxAge.TotalSeconds ?? 0));
 
         if (enforce)
         {
@@ -246,14 +246,9 @@ public sealed class CustomHttpHeadersMiddleware
     /// </returns>
     private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
     {
-        if (options?.ExternalLinks?.Api?.IsAbsoluteUri == true)
-        {
-            return GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api);
-        }
-        else
-        {
-            return string.Empty;
-        }
+        return options?.ExternalLinks?.Api?.IsAbsoluteUri is true ?
+            GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api) :
+            string.Empty;
     }
 
     /// <summary>
