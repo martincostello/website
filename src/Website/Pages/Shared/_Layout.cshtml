@@ -23,7 +23,6 @@
     @await Html.PartialAsync("_Meta", model)
     @await Html.PartialAsync("_Links", canonicalUri)
     @await RenderSectionAsync("meta", required: false)
-    @Html.Raw(JavaScriptSnippet.FullScript)
     <script type="text/javascript">
         if (self == top) {
             document.documentElement.className = document.documentElement.className.replace(/\bjs-flash\b/, '');
@@ -47,7 +46,6 @@
 <!--
 
     Environment: @Config.AzureEnvironment()
-    Datacenter:  @Config.AzureDatacenter()
     Instance:    @Environment.MachineName
     Commit:      @GitMetadata.Commit
     Timestamp:   @GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture)

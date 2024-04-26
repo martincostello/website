@@ -3,18 +3,16 @@
 
 using System.IO.Compression;
 using MartinCostello.Website;
-using MartinCostello.Website.Extensions;
+using MartinCostello.Website.Middleware;
 using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
 builder.Services.AddOptions();
 
 builder.Services.Configure<SiteOptions>(builder.Configuration.GetSection("Site"));
@@ -67,6 +65,8 @@ builder.Services.AddAntiforgery((options) =>
     options.HeaderName = "x-anti-forgery";
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddRouting((options) =>
@@ -87,6 +87,8 @@ if (!builder.Environment.IsDevelopment())
 
 builder.Services.AddResponseCaching();
 
+builder.Services.AddTelemetry(builder.Environment);
+
 builder.Services.Configure<GzipCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
 builder.Services.Configure<BrotliCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
 
@@ -99,20 +101,14 @@ builder.Services.AddResponseCompression((options) =>
 
 builder.Services.AddSingleton<IToolsService, ToolsService>();
 
-string appInsightsConnectionString = builder.Configuration.ApplicationInsightsConnectionString();
-
-if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
-{
-    builder.Configuration.AddApplicationInsightsSettings(appInsightsConnectionString, developerMode: builder.Environment.IsDevelopment());
-}
+builder.Logging.AddTelemetry();
 
 builder.WebHost.CaptureStartupErrors(true);
 builder.WebHost.ConfigureKestrel((p) => p.AddServerHeader = false);
 
 var app = builder.Build();
 
-app.Lifetime.ApplicationStopped.Register(Serilog.Log.CloseAndFlush);
-app.UseCustomHttpHeaders(app.Environment, app.Configuration, app.Services.GetRequiredService<IOptions<SiteOptions>>());
+app.UseMiddleware<CustomHttpHeadersMiddleware>();
 
 bool isDevelopment = app.Environment.IsDevelopment();
 

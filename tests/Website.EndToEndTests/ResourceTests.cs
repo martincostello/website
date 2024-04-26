@@ -61,7 +61,6 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
             "Permissions-Policy",
             "Referrer-Policy",
             "X-Content-Type-Options",
-            "X-Datacenter",
             "X-Download-Options",
             "X-Frame-Options",
             "X-Instance",

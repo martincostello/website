@@ -31,6 +31,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Tests", "tests\Website.Tests\Website.Tests.csproj", "{CB17AD8E-C3F1-45B3-B7BF-E973DAB75840}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FBD3A6A5-5C9F-4950-B0D2-ECC3A0A2C954}"
+	ProjectSection(SolutionItems) = preProject
+		.github\actionlint-matcher.json = .github\actionlint-matcher.json
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5B31CD2E-3F11-4609-88E8-117EF1389235}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,6 +49,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.EndToEndTests", "tests\Website.EndToEndTests\Website.EndToEndTests.csproj", "{E1197F63-A671-4484-B5BE-36C3561F4CBF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Tests.Shared", "tests\Website.Tests.Shared\Website.Tests.Shared.csproj", "{26DB8EDD-BC86-428F-86A9-1C55711ABD0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{DF799E65-EEEC-47DA-90E1-47A2965F132F}"
+	ProjectSection(SolutionItems) = preProject
+		.vscode\extensions.json = .vscode\extensions.json
+		.vscode\launch.json = .vscode\launch.json
+		.vscode\tasks.json = .vscode\tasks.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +90,7 @@ Global
 		{5B31CD2E-3F11-4609-88E8-117EF1389235} = {FBD3A6A5-5C9F-4950-B0D2-ECC3A0A2C954}
 		{E1197F63-A671-4484-B5BE-36C3561F4CBF} = {668E07A5-C40F-4694-9D3C-EBC1180656CF}
 		{26DB8EDD-BC86-428F-86A9-1C55711ABD0F} = {668E07A5-C40F-4694-9D3C-EBC1180656CF}
+		{DF799E65-EEEC-47DA-90E1-47A2965F132F} = {DD7EA67A-4FE1-4D4F-825E-51FF842107AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15DDCA85-B2C3-4172-8203-DB0967289CA4}
