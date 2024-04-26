@@ -31,6 +31,11 @@ internal static class GitMetadata
     public static DateTime Timestamp { get; } = DateTime.Parse(GetMetadataValue("BuildTimestamp", DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
     /// <summary>
+    /// Gets the informational version of the assembly.
+    /// </summary>
+    public static string Version { get; } = typeof(GitMetadata).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+
+    /// <summary>
     /// Gets the Git commit SHA associated with this revision of the application.
     /// </summary>
     /// <param name="name">The metadata attribute name.</param>

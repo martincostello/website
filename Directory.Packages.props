@@ -1,24 +1,25 @@
 <Project>
   <ItemGroup>
-    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.6" />
+    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.6" PrivateAssets="All" />
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
+    <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.1.0" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.3.0" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="8.0.4" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.4" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.43.0" />
     <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="5.4.4" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
+    <PackageVersion Include="OpenTelemetry.ResourceDetectors.Azure" Version="1.0.0-beta.6" />
     <PackageVersion Include="ReportGenerator" Version="5.2.4" />
-    <PackageVersion Include="Serilog" Version="3.1.1" />
-    <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.0" />
-    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.0" />
-    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageVersion Include="Shouldly" Version="4.2.1" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />

@@ -102,8 +102,6 @@ public sealed class CustomHttpHeadersMiddleware
                     context.Response.Headers.Append("Expect-CT", _expectCTValue);
                 }
 
-                context.Response.Headers.Append("X-Datacenter", _config.AzureDatacenter());
-
 #if DEBUG
                 context.Response.Headers.Append("X-Debug", "true");
 #endif
