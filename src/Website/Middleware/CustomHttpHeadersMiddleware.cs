@@ -20,11 +20,6 @@ public sealed class CustomHttpHeadersMiddleware
     private readonly RequestDelegate _next;
 
     /// <summary>
-    /// The <see cref="IConfiguration"/> to use. This field is read-only.
-    /// </summary>
-    private readonly IConfiguration _config;
-
-    /// <summary>
     /// The current <c>Content-Security-Policy</c> HTTP response header value. This field is read-only.
     /// </summary>
     private readonly string _contentSecurityPolicy;
@@ -63,7 +58,6 @@ public sealed class CustomHttpHeadersMiddleware
         IOptions<SiteOptions> options)
     {
         _next = next;
-        _config = config;
 
         _isProduction = environment.IsProduction();
         _environmentName = config.AzureEnvironment();
