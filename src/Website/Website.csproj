@@ -15,9 +15,8 @@
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup>
-    <!-- TODO Remove if https://github.com/dotnet/sdk/issues/40500 implemented or when no longer only in nightly -->
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime-deps:8.0-noble-chiseled</ContainerBaseImage>
-    <ContainerFamily>noble-chiseled</ContainerFamily>
+    <!-- TODO Switch to noble once available for .NET 9 -->
+    <ContainerFamily>jammy-chiseled</ContainerFamily>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
