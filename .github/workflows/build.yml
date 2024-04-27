@@ -154,7 +154,7 @@ jobs:
       if: env.PUBLISH_CONTAINER == 'true'
       shell: pwsh
       run: |
-        dotnet publish ./src/API --arch x64 --os linux -p:PublishProfile=DefaultContainer
+        dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
         $containerImage = "${env:CONTAINER_REGISTRY}/${env:GITHUB_REPOSITORY}"
         "container-image=${containerImage}" >> "${env:GITHUB_OUTPUT}"
         "container-tag=${containerImage}:github-${env:GITHUB_RUN_NUMBER}" >> "${env:GITHUB_OUTPUT}"
