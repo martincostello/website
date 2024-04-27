@@ -13,6 +13,22 @@
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(CI)' == 'true' ">
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime-deps:8.0-noble-chiseled</ContainerBaseImage>
+    <ContainerImageTags>github-$(GITHUB_RUN_NUMBER);latest</ContainerImageTags>
+    <ContainerRegistry>$(GITHUB_REPOSITORY_OWNER).azurecr.io</ContainerRegistry>
+    <ContainerRepository>$(GITHUB_REPOSITORY)</ContainerRepository>
+    <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
+    <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
+    <ContainerVersion>$(GITHUB_SHA)</ContainerVersion>
+    <PublishSelfContained>true</PublishSelfContained>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(CI)' == 'true' ">
+    <ContainerLabel Include="com.docker.extension.changelog" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/commit/$(GITHUB_SHA)" />
+    <ContainerLabel Include="com.docker.extension.publisher-url" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY_OWNER)" />
+    <ContainerPort Include="8080" Type="tcp" />
+  </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
