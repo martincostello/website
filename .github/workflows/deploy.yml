@@ -117,7 +117,7 @@ jobs:
       shell: bash
       run: |
         application_name="website-martincostello"
-        container_tag = "${GITHUB_REPOSITORY_OWNER}.azurecr.io/${GITHUB_REPOSITORY}:github-${ARTIFACT_RUN_ID}"
+        container_tag="${GITHUB_REPOSITORY_OWNER}.azurecr.io/${GITHUB_REPOSITORY}:github-${ARTIFACT_RUN_ID}"
         environment_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/deployments/${ENVIRONMENT_NAME}"
         workflow_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
