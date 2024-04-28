@@ -193,13 +193,42 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         slot-name: dev
 
-    #- name: Deploy container to Azure App Service
-    #  uses: azure/webapps-deploy@v3
-    #  if: needs.build.outputs.container-tag != ''
-    #  with:
-    #    app-name: 'website-martincostello'
-    #    images: ${{ needs.build.outputs.container-tag }}
-    #    slot-name: dev
+    - name: Deploy container to Azure App Service
+      uses: azure/webapps-deploy@v3
+      if: needs.build.outputs.container-tag != ''
+      with:
+        app-name: 'website-martincostello'
+        images: ${{ needs.build.outputs.container-tag }}
+        slot-name: dev
+
+    - name: Check application health
+      shell: pwsh
+      env:
+        APPLICATION_URL: ${{ env.APPLICATION_URL_DEV }}
+      run: |
+        $delay = 10
+        $limit = 10
+        $success = $false
+        for ($i = 0; $i -lt $limit; $i++) {
+          $response = $null
+          try {
+            $response = Invoke-WebRequest -Uri "${env:APPLICATION_URL}/version" -Method Get -UseBasicParsing
+          } catch {
+            $response = $_.Exception.Response
+          }
+          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
+            $json = $response.Content | ConvertFrom-Json
+            $version = $json.applicationVersion
+            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
+              $success = $true
+              break
+            }
+          }
+          Start-Sleep -Seconds $delay
+        }
+        if (-Not $success) {
+          throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
+        }
 
   test-dev:
     name: test-dev
@@ -230,31 +259,6 @@ jobs:
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-
-    - name: Check application health
-      shell: pwsh
-      env:
-        APPLICATION_URL: ${{ env.APPLICATION_URL_DEV }}
-      run: |
-        $delay = 10
-        $limit = 10
-        $success = $false
-        for ($i = 0; $i -lt $limit; $i++) {
-          $response = $null
-          try {
-            $response = Invoke-WebRequest -Uri $env:APPLICATION_URL -Method Get -UseBasicParsing
-          } catch {
-            $response = $_.Exception.Response
-          }
-          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
-            $success = $true
-            break
-          }
-          Start-Sleep -Seconds $delay
-        }
-        if (-Not $success) {
-          throw "$($env:APPLICATION_URL) did not return a successful status code within the time limit after $limit attempts."
-        }
 
     - name: Run end-to-end tests
       shell: pwsh
@@ -325,6 +329,35 @@ jobs:
         app-name: 'website-martincostello'
         images: ${{ needs.build.outputs.container-tag }}
 
+    - name: Check application health
+      shell: pwsh
+      env:
+        APPLICATION_URL: ${{ env.APPLICATION_URL_PROD }}
+      run: |
+        $delay = 10
+        $limit = 10
+        $success = $false
+        for ($i = 0; $i -lt $limit; $i++) {
+          $response = $null
+          try {
+            $response = Invoke-WebRequest -Uri "${env:APPLICATION_URL}/version" -Method Get -UseBasicParsing
+          } catch {
+            $response = $_.Exception.Response
+          }
+          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
+            $json = $response.Content | ConvertFrom-Json
+            $version = $json.applicationVersion
+            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
+              $success = $true
+              break
+            }
+          }
+          Start-Sleep -Seconds $delay
+        }
+        if (-Not $success) {
+          throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
+        }
+
   test-prod:
     name: test-prod
     needs: deploy-prod
@@ -354,31 +387,6 @@ jobs:
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-
-    - name: Check application health
-      shell: pwsh
-      env:
-        APPLICATION_URL: ${{ env.APPLICATION_URL_PROD }}
-      run: |
-        $delay = 10
-        $limit = 10
-        $success = $false
-        for ($i = 0; $i -lt $limit; $i++) {
-          $response = $null
-          try {
-            $response = Invoke-WebRequest -Uri $env:APPLICATION_URL -Method Get -UseBasicParsing
-          } catch {
-            $response = $_.Exception.Response
-          }
-          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
-            $success = $true
-            break
-          }
-          Start-Sleep -Seconds $delay
-        }
-        if (-Not $success) {
-          throw "$($env:APPLICATION_URL) did not return a successful status code within the time limit after $limit attempts."
-        }
 
     - name: Run end-to-end tests
       shell: pwsh
