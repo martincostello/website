@@ -41,7 +41,6 @@ jobs:
       PUBLISH_CONTAINER: ${{ github.event.repository.fork == false && ((github.ref_name == github.event.repository.default_branch) || (github.actor == github.repository_owner)) && matrix.os == 'ubuntu-latest' }}
 
     outputs:
-      container-image: ${{ steps.publish-container.outputs.container-image }}
       container-tag: ${{ steps.publish-container.outputs.container-tag }}
 
     strategy:
@@ -149,9 +148,8 @@ jobs:
       run: |
         dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
         if (-Not [string]::IsNullOrWhiteSpace(${env:CONTAINER_REGISTRY})) {
-          $containerImage = "${env:CONTAINER_REGISTRY}/${env:GITHUB_REPOSITORY}"
-          "container-image=${containerImage}" >> "${env:GITHUB_OUTPUT}"
-          "container-tag=${containerImage}:github-${env:GITHUB_RUN_NUMBER}" >> "${env:GITHUB_OUTPUT}"
+          $containerTag = "${env:CONTAINER_REGISTRY}/${env:GITHUB_REPOSITORY}:github-${env:GITHUB_RUN_NUMBER}".ToLowerInvariant()
+          "container-tag=${containerTag}" >> "${env:GITHUB_OUTPUT}"
         }
 
   deploy-dev:
