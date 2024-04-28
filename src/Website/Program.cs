@@ -136,7 +136,7 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
     DefaultContentType = "text/plain",
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/.well-known")),
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.WebRootPath, ".well-known")),
     RequestPath = "/.well-known",
     ServeUnknownFileTypes = true,
 });
