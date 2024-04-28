@@ -31,6 +31,7 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
     [InlineData("/not-found.html", "text/html")]
     [InlineData("/projects", "text/html")]
     [InlineData("/robots.txt", "text/plain")]
+    [InlineData("/robots933456.txt", "text/plain")]
     [InlineData("/service-worker.js", "text/javascript")]
     [InlineData("/sitemap.xml", "text/xml")]
     [InlineData("/tools", "text/html")]
