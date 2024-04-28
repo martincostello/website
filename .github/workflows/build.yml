@@ -20,7 +20,7 @@ permissions:
 env:
   APPLICATION_URL_DEV: https://dev.martincostello.com
   APPLICATION_URL_PROD: https://martincostello.com
-  AZURE_WEBAPP_NAME: martincostello
+  AZURE_WEBAPP_NAME: website-martincostello
   CONTAINER_REGISTRY: '${{ github.repository_owner }}.azurecr.io'
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
@@ -30,7 +30,6 @@ env:
   DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
   FORCE_COLOR: 1
   NUGET_XMLDOC_MODE: skip
-  PUBLISH_RUNTIME: win-x64
   TERM: xterm
 
 jobs:
@@ -39,7 +38,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      PUBLISH_CONTAINER: ${{ github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch && matrix.os == 'ubuntu-latest' }}
+      PUBLISH_CONTAINER: ${{ github.event.repository.fork == false && ((github.ref_name == github.event.repository.default_branch) || (github.actor == github.repository_owner)) && matrix.os == 'ubuntu-latest' }}
 
     outputs:
       container-image: ${{ steps.publish-container.outputs.container-image }}
@@ -100,7 +99,7 @@ jobs:
 
     - name: Build, test and publish
       shell: pwsh
-      run: ./build.ps1 -Runtime ${env:PUBLISH_RUNTIME}
+      run: ./build.ps1
 
     - uses: codecov/codecov-action@v4
       name: Upload coverage to Codecov
@@ -108,14 +107,6 @@ jobs:
         files: ./artifacts/coverage/coverage.cobertura.xml,./src/Website/coverage/lcov.info
         flags: ${{ matrix.os-name }}
         token: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Publish artifacts
-      uses: actions/upload-artifact@v4
-      if: runner.os == 'Windows'
-      with:
-        name: webapp
-        path: ./artifacts/publish/Website/release_${{ env.PUBLISH_RUNTIME }}
-        if-no-files-found: error
 
     - name: Publish screenshots
       uses: actions/upload-artifact@v4
@@ -167,7 +158,7 @@ jobs:
     if: github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch
     name: dev
     needs: build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     concurrency: development_environment
 
     environment:
@@ -179,11 +170,6 @@ jobs:
 
     steps:
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: webapp
-
     - name: Azure log in
       uses: azure/login@v2
       with:
@@ -191,17 +177,10 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Deploy application to Azure App Service
+    - name: Deploy container to Azure App Service
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        slot-name: dev
-
-    - name: Deploy container to Azure App Service
-      uses: azure/webapps-deploy@v3
-      if: needs.build.outputs.container-tag != ''
-      with:
-        app-name: 'website-martincostello'
         images: ${{ needs.build.outputs.container-tag }}
         slot-name: dev
 
@@ -297,7 +276,7 @@ jobs:
   deploy-prod:
     name: production
     needs: [build, test-dev]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     concurrency: production_environment
 
     environment:
@@ -309,11 +288,6 @@ jobs:
 
     steps:
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: webapp
-
     - name: Azure log in
       uses: azure/login@v2
       with:
@@ -321,16 +295,10 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Deploy application to Azure App Service
+    - name: Deploy container to Azure App Service
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-
-    - name: Deploy container to Azure App Service
-      uses: azure/webapps-deploy@v3
-      if: needs.build.outputs.container-tag != ''
-      with:
-        app-name: 'website-martincostello'
         images: ${{ needs.build.outputs.container-tag }}
 
     - name: Check application health

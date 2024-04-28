@@ -23,6 +23,7 @@ jobs:
       application-name: ${{ steps.set-outputs.outputs.application-name }}
       application-slot: ${{ steps.set-outputs.outputs.application-slot }}
       application-url: ${{ steps.set-outputs.outputs.application-url }}
+      container-tag: ${{ steps.set-outputs.outputs.container-tag }}
       comment-id: ${{ steps.post-comment.outputs.result }}
       environment-name: ${{ steps.set-outputs.outputs.environment-name }}
       environment-url: ${{ steps.set-outputs.outputs.environment-url }}
@@ -115,7 +116,8 @@ jobs:
         ENVIRONMENT_NAME: ${{ steps.get-environment-name.outputs.result }}
       shell: bash
       run: |
-        application_name="martincostello"
+        application_name="website-martincostello"
+        container_tag="${GITHUB_REPOSITORY_OWNER}.azurecr.io/${GITHUB_REPOSITORY}:github-${ARTIFACT_RUN_ID}"
         environment_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/deployments/${ENVIRONMENT_NAME}"
         workflow_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
@@ -132,6 +134,7 @@ jobs:
           echo "application-name=${application_name}"
           echo "application-slot=${application_slot}"
           echo "application-url=${application_url}"
+          echo "container-tag=${container_tag}"
           echo "environment-name=${ENVIRONMENT_NAME}"
           echo "environment-url=${environment_url}"
           echo "run-id=${ARTIFACT_RUN_ID}"
@@ -168,7 +171,7 @@ jobs:
     name: ${{ needs.setup.outputs.environment-name }}
     needs: [ setup ]
     concurrency: ${{ needs.setup.outputs.environment-name }}_environment
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     environment:
       name: ${{ needs.setup.outputs.environment-name }}
@@ -180,13 +183,6 @@ jobs:
 
     steps:
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        name: webapp
-        run-id: ${{ needs.setup.outputs.run-id }}
-
     - name: Azure log in
       uses: azure/login@v2
       with:
@@ -194,11 +190,41 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Deploy to Azure App Service
+    - name: Deploy container to Azure App Service
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ needs.setup.outputs.application-name }}
+        images: ${{ needs.setup.outputs.container-tag }}
         slot-name: ${{ needs.setup.outputs.application-slot }}
+
+    - name: Check application health
+      shell: pwsh
+      env:
+        APPLICATION_URL: ${{ needs.setup.outputs.application-url }}
+      run: |
+        $delay = 10
+        $limit = 10
+        $success = $false
+        for ($i = 0; $i -lt $limit; $i++) {
+          $response = $null
+          try {
+            $response = Invoke-WebRequest -Uri "${env:APPLICATION_URL}/version" -Method Get -UseBasicParsing
+          } catch {
+            $response = $_.Exception.Response
+          }
+          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
+            $json = $response.Content | ConvertFrom-Json
+            $version = $json.applicationVersion
+            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
+              $success = $true
+              break
+            }
+          }
+          Start-Sleep -Seconds $delay
+        }
+        if (-Not $success) {
+          throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
+        }
 
     - name: Post comment
       uses: actions/github-script@v7
@@ -272,31 +298,6 @@ jobs:
           ~/AppData/Local/ms-playwright
           ~/.cache/ms-playwright
           ~/Library/Caches/ms-playwright
-
-    - name: Check application health
-      shell: pwsh
-      env:
-        APPLICATION_URL: ${{ needs.setup.outputs.application-url }}
-      run: |
-        $delay = 10
-        $limit = 10
-        $success = $false
-        for ($i = 0; $i -lt $limit; $i++) {
-          $response = $null
-          try {
-            $response = Invoke-WebRequest -Uri $env:APPLICATION_URL -Method Get -UseBasicParsing
-          } catch {
-            $response = $_.Exception.Response
-          }
-          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
-            $success = $true
-            break
-          }
-          Start-Sleep -Seconds $delay
-        }
-        if (-Not $success) {
-          throw "$($env:APPLICATION_URL) did not return a successful status code within the time limit after $limit attempts."
-        }
 
     - name: Run end-to-end tests
       shell: pwsh
