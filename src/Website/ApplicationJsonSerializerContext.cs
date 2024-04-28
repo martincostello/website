@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MartinCostello.Website.Models;
 
@@ -12,6 +13,7 @@ namespace MartinCostello.Website;
 [JsonSerializable(typeof(GuidResponse))]
 [JsonSerializable(typeof(HashRequest))]
 [JsonSerializable(typeof(HashResponse))]
+[JsonSerializable(typeof(JsonObject))]
 [JsonSerializable(typeof(MachineKeyResponse))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
 internal sealed partial class ApplicationJsonSerializerContext : JsonSerializerContext

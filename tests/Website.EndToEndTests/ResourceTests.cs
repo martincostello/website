@@ -34,6 +34,7 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
     [InlineData("/service-worker.js", "text/javascript")]
     [InlineData("/sitemap.xml", "text/xml")]
     [InlineData("/tools", "text/html")]
+    [InlineData("/version", "application/json")]
     public async Task Can_Load_Resource_As_Get(string requestUri, string contentType)
     {
         // Arrange
