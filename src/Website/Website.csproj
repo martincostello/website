@@ -4,6 +4,7 @@
     <Description>https://martincostello.com/</Description>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+    <InvariantGlobalization>true</InvariantGlobalization>
     <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
@@ -13,21 +14,26 @@
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(CI)' == 'true' ">
-    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+  <PropertyGroup>
+    <!-- TODO Remove if https://github.com/dotnet/sdk/issues/40500 implemented or when no longer only in nightly -->
     <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime-deps:8.0-noble-chiseled</ContainerBaseImage>
+    <ContainerFamily>noble-chiseled</ContainerFamily>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <PublishSelfContained>true</PublishSelfContained>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(CI)' == 'true' ">
     <ContainerImageTags>github-$(GITHUB_RUN_NUMBER);latest</ContainerImageTags>
-    <ContainerRegistry>$(GITHUB_REPOSITORY_OWNER).azurecr.io</ContainerRegistry>
     <ContainerRepository>$(GITHUB_REPOSITORY)</ContainerRepository>
     <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
     <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
     <ContainerVersion>$(GITHUB_SHA)</ContainerVersion>
-    <PublishSelfContained>true</PublishSelfContained>
   </PropertyGroup>
+  <ItemGroup>
+    <ContainerPort Include="8080" Type="tcp" />
+  </ItemGroup>
   <ItemGroup Condition=" '$(CI)' == 'true' ">
     <ContainerLabel Include="com.docker.extension.changelog" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/commit/$(GITHUB_SHA)" />
     <ContainerLabel Include="com.docker.extension.publisher-url" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY_OWNER)" />
-    <ContainerPort Include="8080" Type="tcp" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />

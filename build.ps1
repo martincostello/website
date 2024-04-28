@@ -93,7 +93,6 @@ function DotNetPublish {
     $additionalArgs = @()
 
     if (![string]::IsNullOrEmpty($Runtime)) {
-        $additionalArgs += "--self-contained"
         $additionalArgs += "--runtime"
         $additionalArgs += $Runtime
     }
