@@ -128,7 +128,15 @@ app.UseHttpsRedirection()
 
 app.UseResponseCompression();
 
-app.UseStaticFiles();
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".webmanifest"] = "application/manifest+json";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider,
+    DefaultContentType = "application/json",
+    ServeUnknownFileTypes = true, // Required to serve the files in the .well-known folder
+});
 
 app.UseRouting();
 
