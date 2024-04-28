@@ -142,22 +142,26 @@ jobs:
         if-no-files-found: ignore
 
     - name: Docker log in
-      uses: azure/docker-login@v1
+      uses: docker/login-action@v3
       if: env.PUBLISH_CONTAINER == 'true'
       with:
-        login-server: ${{ env.CONTAINER_REGISTRY }}
+        registry: ${{ env.CONTAINER_REGISTRY }}
         username: ${{ secrets.ACR_REGISTRY_USERNAME }}
         password: ${{ secrets.ACR_REGISTRY_PASSWORD }}
 
     - name: Publish container
       id: publish-container
-      if: env.PUBLISH_CONTAINER == 'true'
+      if: ${{ runner.os == 'Linux' }}
       shell: pwsh
+      env:
+        ContainerRegistry: ${{ env.PUBLISH_CONTAINER == 'true' && env.CONTAINER_REGISTRY || '' }}
       run: |
         dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
-        $containerImage = "${env:CONTAINER_REGISTRY}/${env:GITHUB_REPOSITORY}"
-        "container-image=${containerImage}" >> "${env:GITHUB_OUTPUT}"
-        "container-tag=${containerImage}:github-${env:GITHUB_RUN_NUMBER}" >> "${env:GITHUB_OUTPUT}"
+        if (-Not [string]::IsNullOrWhiteSpace(${env:CONTAINER_REGISTRY})) {
+          $containerImage = "${env:CONTAINER_REGISTRY}/${env:GITHUB_REPOSITORY}"
+          "container-image=${containerImage}" >> "${env:GITHUB_OUTPUT}"
+          "container-tag=${containerImage}:github-${env:GITHUB_RUN_NUMBER}" >> "${env:GITHUB_OUTPUT}"
+        }
 
   deploy-dev:
     if: github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch
