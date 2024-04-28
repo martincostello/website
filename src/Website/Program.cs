@@ -13,7 +13,9 @@ using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -128,14 +130,15 @@ app.UseHttpsRedirection()
 
 app.UseResponseCompression();
 
-var provider = new FileExtensionContentTypeProvider();
-provider.Mappings[".webmanifest"] = "application/manifest+json";
+app.UseRewriter(new RewriteOptions().AddRedirectToNonWww());
 
-app.UseStaticFiles(new StaticFileOptions
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
 {
-    ContentTypeProvider = provider,
-    DefaultContentType = "application/json",
-    ServeUnknownFileTypes = true, // Required to serve the files in the .well-known folder
+    DefaultContentType = "text/plain",
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/.well-known")),
+    RequestPath = "/.well-known",
+    ServeUnknownFileTypes = true,
 });
 
 app.UseRouting();
