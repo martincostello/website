@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -133,13 +132,6 @@ app.UseResponseCompression();
 app.UseRewriter(new RewriteOptions().AddRedirectToNonWww());
 
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions()
-{
-    DefaultContentType = "text/plain",
-    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.WebRootPath, ".well-known")),
-    RequestPath = "/.well-known",
-    ServeUnknownFileTypes = true,
-});
 
 app.UseRouting();
 
