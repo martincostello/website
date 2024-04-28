@@ -212,7 +212,7 @@ jobs:
         APPLICATION_URL: ${{ needs.setup.outputs.application-url }}
       run: |
         $delay = 10
-        $limit = 10
+        $limit = 15
         $success = $false
         for ($i = 0; $i -lt $limit; $i++) {
           $response = $null
