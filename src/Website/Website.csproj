@@ -22,7 +22,8 @@
     <PublishSelfContained>true</PublishSelfContained>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CI)' == 'true' ">
-    <ContainerImageTags>github-$(GITHUB_RUN_NUMBER);latest</ContainerImageTags>
+    <ContainerImageTags>github-$(GITHUB_RUN_NUMBER)</ContainerImageTags>
+    <ContainerImageTags Condition=" '$(GITHUB_HEAD_REF)' == '' ">$(ContainerImageTags);latest</ContainerImageTags>
     <ContainerRepository>$(GITHUB_REPOSITORY)</ContainerRepository>
     <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
     <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
