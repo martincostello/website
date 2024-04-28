@@ -2,6 +2,10 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.IO.Compression;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text.Json.Nodes;
 using MartinCostello.Website;
 using MartinCostello.Website.Middleware;
 using MartinCostello.Website.Models;
@@ -145,6 +149,37 @@ app.MapPost("/tools/hash", (HashRequest request, IToolsService service) =>
 app.MapGet("/tools/machinekey", (IToolsService service, string? decryptionAlgorithm, string? validationAlgorithm) =>
 {
     return service.GenerateMachineKey(decryptionAlgorithm, validationAlgorithm);
+});
+
+app.MapGet("/version", static () =>
+{
+    return new JsonObject()
+    {
+        ["applicationVersion"] = GitMetadata.Version,
+        ["frameworkDescription"] = RuntimeInformation.FrameworkDescription,
+        ["operatingSystem"] = new JsonObject()
+        {
+            ["description"] = RuntimeInformation.OSDescription,
+            ["architecture"] = RuntimeInformation.OSArchitecture.ToString(),
+            ["version"] = Environment.OSVersion.VersionString,
+            ["is64Bit"] = Environment.Is64BitOperatingSystem,
+        },
+        ["process"] = new JsonObject()
+        {
+            ["architecture"] = RuntimeInformation.ProcessArchitecture.ToString(),
+            ["is64BitProcess"] = Environment.Is64BitProcess,
+            ["isNativeAoT"] = !RuntimeFeature.IsDynamicCodeSupported,
+            ["isPrivilegedProcess"] = Environment.IsPrivilegedProcess,
+        },
+        ["dotnetVersions"] = new JsonObject()
+        {
+            ["runtime"] = GetVersion<object>(),
+            ["aspNetCore"] = GetVersion<HttpContext>(),
+        },
+    };
+
+    static string GetVersion<T>()
+        => typeof(T).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
 });
 
 app.UseCookiePolicy(new()
