@@ -188,7 +188,7 @@ jobs:
         APPLICATION_URL: ${{ env.APPLICATION_URL_DEV }}
       run: |
         $delay = 10
-        $limit = 10
+        $limit = 15
         $success = $false
         for ($i = 0; $i -lt $limit; $i++) {
           $response = $null
@@ -305,7 +305,7 @@ jobs:
         APPLICATION_URL: ${{ env.APPLICATION_URL_PROD }}
       run: |
         $delay = 10
-        $limit = 10
+        $limit = 15
         $success = $false
         for ($i = 0; $i -lt $limit; $i++) {
           $response = $null
