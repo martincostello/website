@@ -6,6 +6,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+    <PublishSelfContained>true</PublishSelfContained>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Martin Costello's website</Summary>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,27 +18,7 @@
     <!-- TODO Remove if https://github.com/dotnet/sdk/issues/40500 implemented or when no longer only in nightly -->
     <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime-deps:8.0-noble-chiseled</ContainerBaseImage>
     <ContainerFamily>noble-chiseled</ContainerFamily>
-    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
-    <PublishSelfContained>true</PublishSelfContained>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(CI)' == 'true' ">
-    <ContainerImageTags>github-$(GITHUB_RUN_NUMBER)</ContainerImageTags>
-    <ContainerImageTags Condition=" '$(GITHUB_HEAD_REF)' == '' ">$(ContainerImageTags);latest</ContainerImageTags>
-    <ContainerRepository>$(GITHUB_REPOSITORY)</ContainerRepository>
-    <ContainerTitle>$(GITHUB_REPOSITORY)</ContainerTitle>
-    <ContainerVendor>$(GITHUB_REPOSITORY_OWNER)</ContainerVendor>
-    <ContainerVersion>$(GITHUB_SHA)</ContainerVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <ContainerPort Include="8080" Type="tcp" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(CI)' == 'true' ">
-    <ContainerLabel Include="com.docker.extension.changelog" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/commit/$(GITHUB_SHA)" />
-    <ContainerLabel Include="com.docker.extension.publisher-url" Value="$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY_OWNER)" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" />
@@ -50,6 +31,8 @@
     <PackageReference Include="OpenTelemetry.ResourceDetectors.Azure" />
   </ItemGroup>
   <ItemGroup>
+    <ContainerPort Include="8080" Type="tcp" />
+    <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Update=".npmrc;.prettierignore;coverage\**;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
     <None Remove="assets\scripts\**\*.ts" />
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
