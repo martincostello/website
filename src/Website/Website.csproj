@@ -50,7 +50,7 @@
     <PackageReference Include="OpenTelemetry.ResourceDetectors.Azure" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="coverage\**;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
+    <Content Update=".npmrc;.prettierignore;coverage\**;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
     <None Remove="assets\scripts\**\*.ts" />
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
