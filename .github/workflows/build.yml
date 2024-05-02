@@ -112,30 +112,6 @@ jobs:
         flags: ${{ matrix.os-name }}
         token: ${{ secrets.CODECOV_TOKEN }}
 
-    - name: Publish screenshots
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: screenshots-${{ matrix.os }}
-        path: ./artifacts/screenshots/*
-        if-no-files-found: ignore
-
-    - name: Publish traces
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: traces-${{ matrix.os }}
-        path: ./artifacts/traces/*
-        if-no-files-found: ignore
-
-    - name: Publish videos
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: videos-${{ matrix.os }}
-        path: ./artifacts/videos/*
-        if-no-files-found: ignore
-
     - name: Docker log in
       uses: docker/login-action@v3
       if: env.PUBLISH_CONTAINER == 'true'
@@ -176,6 +152,30 @@ jobs:
         sbom-path: ./artifacts/sbom-container.json
         subject-digest: ${{ steps.publish-container.outputs.container-digest }}
         subject-name: ${{ steps.publish-container.outputs.container-image }}
+
+    - name: Publish screenshots
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: screenshots-${{ matrix.os }}
+        path: ./artifacts/screenshots/*
+        if-no-files-found: ignore
+
+    - name: Publish traces
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: traces-${{ matrix.os }}
+        path: ./artifacts/traces/*
+        if-no-files-found: ignore
+
+    - name: Publish videos
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: videos-${{ matrix.os }}
+        path: ./artifacts/videos/*
+        if-no-files-found: ignore
 
   deploy-dev:
     if: github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch
