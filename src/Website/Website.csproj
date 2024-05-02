@@ -52,7 +52,7 @@
       <_ContainerImage>$(ContainerRegistry)/$(ContainerRepository)</_ContainerImage>
       <_ContainerImage>$(_ContainerImage).ToLowerInvariant()</_ContainerImage>
       <_ContainerTag>$(_ContainerImage):github-$(GITHUB_RUN_NUMBER)</_ContainerTag>
-    <PropertyGroup>
+    </PropertyGroup>
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-digest=$(GeneratedContainerDigest)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-image=$(_ContainerImage)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="container-tag=$(_ContainerTag)" />
