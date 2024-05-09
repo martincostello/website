@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Azure.Monitor.OpenTelemetry.Exporter;
 using MartinCostello.Website;
 using OpenTelemetry.Instrumentation.Http;
 using OpenTelemetry.Metrics;
@@ -27,6 +27,12 @@ public static class TelemetryExtensions
             .AddService(ApplicationTelemetry.ServiceName, serviceVersion: ApplicationTelemetry.ServiceVersion)
             .AddDetector(new AppServiceResourceDetector());
 
+        if (IsAzureMonitorConfigured())
+        {
+            services.Configure<AzureMonitorExporterOptions>(
+                (p) => p.ConnectionString = AzureMonitorConnectionString());
+        }
+
         var telemetry = services
             .AddOpenTelemetry()
             .WithMetrics((builder) =>
@@ -35,6 +41,11 @@ public static class TelemetryExtensions
                        .AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        .AddRuntimeInstrumentation();
+
+                if (IsAzureMonitorConfigured())
+                {
+                    builder.AddAzureMonitorMetricExporter();
+                }
 
                 if (IsOtlpCollectorConfigured())
                 {
@@ -53,16 +64,16 @@ public static class TelemetryExtensions
                     builder.SetSampler(new AlwaysOnSampler());
                 }
 
+                if (IsAzureMonitorConfigured())
+                {
+                    builder.AddAzureMonitorTraceExporter();
+                }
+
                 if (IsOtlpCollectorConfigured())
                 {
                     builder.AddOtlpExporter();
                 }
             });
-
-        if (IsAzureMonitorConfigured())
-        {
-            telemetry.UseAzureMonitor();
-        }
 
         services.AddOptions<HttpClientTraceInstrumentationOptions>()
                 .Configure<IServiceProvider>((options, _) => options.RecordException = true);
@@ -75,7 +86,7 @@ public static class TelemetryExtensions
     /// <see langword="true"/> if Azure Monitor is configured; otherwise <see langword="false"/>.
     /// </returns>
     internal static bool IsAzureMonitorConfigured()
-        => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING"));
+        => !string.IsNullOrEmpty(AzureMonitorConnectionString());
 
     /// <summary>
     /// Returns whether an OTLP collector is configured.
@@ -85,4 +96,7 @@ public static class TelemetryExtensions
     /// </returns>
     internal static bool IsOtlpCollectorConfigured()
         => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT"));
+
+    private static string? AzureMonitorConnectionString()
+        => Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
 }

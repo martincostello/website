@@ -20,7 +20,7 @@
     <ContainerFamily>noble-chiseled</ContainerFamily>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
