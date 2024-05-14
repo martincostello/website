@@ -14,11 +14,6 @@
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
-  <PropertyGroup>
-    <!-- TODO Remove if https://github.com/dotnet/sdk/issues/40500 implemented or when no longer only in nightly -->
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime-deps:8.0-noble-chiseled</ContainerBaseImage>
-    <ContainerFamily>noble-chiseled</ContainerFamily>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" />
@@ -31,6 +26,7 @@
     <PackageReference Include="OpenTelemetry.ResourceDetectors.Azure" />
   </ItemGroup>
   <ItemGroup>
+    <ContainerFamily>noble-chiseled</ContainerFamily>
     <ContainerPort Include="8080" Type="tcp" />
     <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Update=".npmrc;.prettierignore;coverage\**;package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
