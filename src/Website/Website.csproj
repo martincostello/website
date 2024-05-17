@@ -25,6 +25,7 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
     <PackageReference Include="OpenTelemetry.ResourceDetectors.Azure" />
+    <PackageReference Include="OpenTelemetry.ResourceDetectors.Container" />
   </ItemGroup>
   <ItemGroup>
     <ContainerPort Include="8080" Type="tcp" />
