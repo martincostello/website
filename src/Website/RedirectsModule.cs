@@ -19,6 +19,7 @@ public static class RedirectsModule
         ["https://blog.martincostello.com/"] = ["/blog", "/blog/{*catchall}"],
         ["https://github.com/martincostello"] = ["/gh", "/github"],
         ["https://github.com/martincostello/presentations"] = ["/presentations", "/slides", "/talks"],
+        ["https://github.com/sponsors/martincostello"] = ["/sponsor"],
         ["https://mvp.microsoft.com/PublicProfile/5003438"] = ["/mvp"],
         ["https://sessionize.com/martincostello/"] = ["/sessionize"],
         ["https://stackoverflow.com/users/1064169/martin-costello"] = ["/so", "/stack", "/stackoverflow", "/stack-overflow"],
