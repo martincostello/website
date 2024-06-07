@@ -1,0 +1,34 @@
+@inherits RazorSlice<string>
+
+@{
+    var canonical = Model;
+    var options = Options.Value;
+    var request = HttpContext!.Request;
+}
+<link rel="canonical" href="@canonical" />
+<link rel="manifest" href="@(request.Content("~/manifest.webmanifest"))" />
+<link rel="sitemap" type="application/xml" href="@(request.Content("~/sitemap.xml"))" />
+<link rel="shortcut icon" type="image/x-icon" href="@(request.CdnContent("~/favicon.ico", options))" />
+<link rel="apple-touch-icon" sizes="57x57" href="@(request.CdnContent("~/apple-touch-icon-57x57.png", options))" />
+<link rel="apple-touch-icon" sizes="60x60" href="@(request.CdnContent("~/apple-touch-icon-60x60.png", options))" />
+<link rel="apple-touch-icon" sizes="72x72" href="@(request.CdnContent("~/apple-touch-icon-72x72.png", options))" />
+<link rel="apple-touch-icon" sizes="76x76" href="@(request.CdnContent("~/apple-touch-icon-76x76.png", options))" />
+<link rel="apple-touch-icon" sizes="114x114" href="@(request.CdnContent("~/apple-touch-icon-114x114.png", options))" />
+<link rel="apple-touch-icon" sizes="120x120" href="@(request.CdnContent("~/apple-touch-icon-120x120.png", options))" />
+<link rel="apple-touch-icon" sizes="144x144" href="@(request.CdnContent("~/apple-touch-icon-144x144.png", options))" />
+<link rel="apple-touch-icon" sizes="152x152" href="@(request.CdnContent("~/apple-touch-icon-152x152.png", options))" />
+<link rel="apple-touch-icon" sizes="180x180" href="@(request.CdnContent("~/apple-touch-icon-180x180.png", options))" />
+<link rel="icon" type="image/png" href="@(request.CdnContent("~/android-chrome-192x192.png", options))" sizes="192x192" />
+<link rel="icon" type="image/png" href="@(request.CdnContent("~/favicon-32x32.png", options))" sizes="32x32" />
+<link rel="icon" type="image/png" href="@(request.CdnContent("~/favicon-96x96.png", options))" sizes="96x96" />
+<link rel="icon" type="image/png" href="@(request.CdnContent("~/favicon-16x16.png", options))" sizes="16x16" />
+<link rel="dns-prefetch" href="https://@(options?.ExternalLinks?.Cdn?.Host)" />
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://@(options?.ExternalLinks?.Cdn?.Host)" />
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">

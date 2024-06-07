@@ -1,14 +1,14 @@
+@inherits RazorSlice
 @inject IConfiguration Config
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @{
-    bool renderGA = string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase);
-    SiteOptions options = Options.Value;
+    var options = Options.Value;
 }
-@if (renderGA)
+@if (string.Equals(Config.AzureEnvironment(), "production", StringComparison.OrdinalIgnoreCase))
 {
     <script src="https://www.googletagmanager.com/gtag/js?id=@(options.Analytics?.Google)" defer></script>
     <script>
-        var trackingId = document.querySelector('meta[name="google-analytics"]').getAttribute('content');
+        let trackingId = document.querySelector('meta[name="google-analytics"]').getAttribute('content');
         if (trackingId) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -17,4 +17,4 @@
         }
     </script>
 }
-<script src="~/assets/js/main.js" asp-append-version="true" defer></script>
+<script src="@(HttpContext!.Request.Content("/assets/js/main.js"))" defer></script>

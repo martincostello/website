@@ -1,0 +1,18 @@
+@inherits RazorSlice<string>
+@{
+    string[] split = Model.Split('/');
+    string owner;
+    string repo;
+
+    if (split.Length == 2)
+    {
+        owner = split[0];
+        repo = split[1];
+    }
+    else
+    {
+        owner = "martincostello";
+        repo = Model;
+    }
+}
+<a class="github-button" href="https://github.com/@(owner)/@(repo)" data-icon="octicon-star" data-show-count="true" data-size="large" aria-label="Star @(owner)/@(repo) on GitHub">Star</a>

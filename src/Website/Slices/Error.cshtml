@@ -1,0 +1,17 @@
+@inherits RazorSlice
+@implements IUsesLayout<_Layout, LayoutModel>
+
+@{
+    var statusCode = HttpContext!.Response.StatusCode;
+}
+
+<h1 class="text-danger">Error (HTTP @(statusCode))</h1>
+<h2 class="text-danger">@(Microsoft.AspNetCore.WebUtilities.ReasonPhrases.GetReasonPhrase(statusCode))</h2>
+
+@functions {
+    public LayoutModel LayoutModel => new("Error")
+    {
+        Description = string.Empty,
+        Robots = "NOINDEX",
+    };
+}
