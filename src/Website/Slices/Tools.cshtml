@@ -1,10 +1,6 @@
 @inherits RazorSlice
 @implements IUsesLayout<_Layout, LayoutModel>
 
-@{
-    var request = HttpContext!.Request;
-}
-
 <h1>@(LayoutModel.Title)</h1>
 <div class="card">
     <div class="card-body">This page contains tools and links to common development tools.</div>
