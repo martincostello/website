@@ -29,10 +29,9 @@
     @(await RenderPartialAsync<_Navbar>())
     <main class="container body-content">
         @await RenderBodyAsync()
-        @(await RenderPartialAsync<_Footer, SiteOptions>(Options.Value))
+        @(await RenderPartialAsync<_Footer>())
     </main>
     @(await RenderPartialAsync<_StylesBody>())
-    @await RenderSectionAsync("stylesBody")
     @(await RenderPartialAsync<_Scripts>())
     @(await RenderSectionAsync("scripts"))
 </body>
