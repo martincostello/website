@@ -11,6 +11,7 @@ using MartinCostello.Website.Middleware;
 using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Services;
+using MartinCostello.Website.Slices;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Rewrite;
@@ -71,8 +72,6 @@ builder.Services.AddAntiforgery((options) =>
 });
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddRazorPages();
 
 builder.Services.AddRouting((options) =>
 {
@@ -142,8 +141,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapRazorPages();
-
 app.MapRedirects();
 
 app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
@@ -209,6 +206,26 @@ app.UseCookiePolicy(new()
 {
     HttpOnly = HttpOnlyPolicy.Always,
     Secure = app.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always,
+});
+
+string[] methods = [HttpMethod.Get.Method, HttpMethod.Head.Method];
+
+app.MapMethods("/", methods, () => Results.Extensions.RazorSlice<Home>());
+app.MapMethods("/home/about", methods, () => Results.Extensions.RazorSlice<About>());
+app.MapMethods("/projects", methods, () => Results.Extensions.RazorSlice<Projects>());
+app.MapMethods("/tools", methods, () => Results.Extensions.RazorSlice<Tools>());
+
+app.MapMethods("/error", methods, (int? id) =>
+{
+    int statusCode = StatusCodes.Status500InternalServerError;
+
+    if (id is { } status &&
+        status >= 400 && status < 599)
+    {
+        statusCode = status;
+    }
+
+    return Results.Extensions.RazorSlice<Error>(statusCode);
 });
 
 app.Run();

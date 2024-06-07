@@ -1,0 +1,47 @@
+@inherits RazorSlice
+@implements IUsesLayout<_Layout, LayoutModel>
+
+<h1>@(LayoutModel.Title)</h1>
+<div class="card">
+    <div class="card-body">This page contains tools and links to common development tools.</div>
+</div>
+<noscript>
+    <hr />
+    <div class="alert alert-warning" role="alert">JavaScript must be enabled in your browser to use these tools.</div>
+</noscript>
+<hr />
+<div>
+    @(await RenderPartialAsync<_GenerateGuid>())
+</div>
+<hr />
+<div>
+    @(await RenderPartialAsync<_GenerateHash>())
+</div>
+<hr />
+<div>
+    @(await RenderPartialAsync<_GenerateMachineKey>())
+</div>
+
+@functions {
+    public LayoutModel LayoutModel { get; } = new(".NET Development Tools")
+    {
+        Description = ".NET Development Tools for generating GUIDs, ASP.NET machine keys and hashing text.",
+    };
+
+    protected override Task ExecuteSectionAsync(string name)
+    {
+        if (name is "meta")
+        {
+            var request = HttpContext!.Request;
+            <link name="api-guid" rel="nofollow" href="@(request.Content("~/tools/guid", false))" />
+            <link name="api-hash" rel="nofollow" href="@(request.Content("~/tools/hash", false))" />
+            <link name="api-machine-key" rel="nofollow" href="@(request.Content("~/tools/machinekey", false))" />
+        }
+        else if (name is "scripts")
+        {
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" defer></script>
+        }
+
+        return Task.CompletedTask;
+    }
+}

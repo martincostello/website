@@ -1,0 +1,46 @@
+@inherits RazorLayoutSlice<LayoutModel>
+@inject IConfiguration Config
+
+<!DOCTYPE html>
+<html lang="en-gb">
+<head prefix="og:http://ogp.me/ns#">
+@{
+    var canonicalUri = HttpContext!.Request.Canonical();
+    var meta = MetaModel.Create(
+        Options.Value.Metadata,
+        canonicalUri: canonicalUri,
+        description: Model.Description,
+        robots: Model.Robots,
+        title: Model.Title);
+}
+    @(await RenderPartialAsync<_Meta, MetaModel>(meta))
+    @(await RenderPartialAsync<_Links, string>(canonicalUri))
+    @await RenderSectionAsync("meta")
+    <script type="text/javascript">
+        if (self == top) {
+            document.documentElement.className = document.documentElement.className.replace(/\bjs-flash\b/, '');
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+</head>
+<body>
+    @(await RenderPartialAsync<_Navbar>())
+    <main class="container body-content">
+        @await RenderBodyAsync()
+        @(await RenderPartialAsync<_Footer, SiteOptions>(Options.Value))
+    </main>
+    @(await RenderPartialAsync<_StylesBody>())
+    @await RenderSectionAsync("stylesBody")
+    @(await RenderPartialAsync<_Scripts>())
+    @(await RenderSectionAsync("scripts"))
+</body>
+<!--
+    Environment: @(Config.AzureEnvironment())
+    Instance:    @(Environment.MachineName)
+    Commit:      @(GitMetadata.Commit)
+    Timestamp:   @(GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture))
+    Version:     @(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
+-->
+</html>

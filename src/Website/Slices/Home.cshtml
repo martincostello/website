@@ -1,7 +1,8 @@
-@page "/"
-@model MartinCostello.Website.Pages.Home.IndexModel
+@inherits RazorSlice
+@implements IUsesLayout<_Layout, LayoutModel>
+
 @{
-    ViewBag.Title = "Home Page";
+    var request = HttpContext!.Request;
 }
 <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
@@ -14,7 +15,7 @@
         <h2 class="h3">Projects</h2>
         <p>Information about development projects I manage and/or work on.</p>
         <p>
-            <a asp-page="/Projects/Index" class="btn btn-lg btn-primary" role="button">
+            <a href="@(request.Content("~/projects", false))" class="btn btn-lg btn-primary" role="button">
                Learn more &raquo;
             </a>
         </p>
@@ -23,7 +24,7 @@
         <h2 class="h3">Blog</h2>
         <p>I occasionally blog about topics related to .NET development.</p>
         <p>
-            <a href="~/home/blog" class="btn btn-lg btn-primary" rel="noopener" role="button" target="_blank">
+            <a href="@(request.Content("~/home/blog", false))" class="btn btn-lg btn-primary" rel="noopener" role="button" target="_blank">
                Visit blog &raquo;
             </a>
         </p>
@@ -32,9 +33,13 @@
         <h2 class="h3">Tools</h2>
         <p>A few simple tools I use regularly to develop .NET applications.</p>
         <p>
-            <a asp-page="/Tools/Index" class="btn btn-lg btn-primary" role="button">
+            <a href="@(request.Content("~/tools", false))" class="btn btn-lg btn-primary" role="button">
                Visit tools &raquo;
             </a>
         </p>
     </div>
 </div>
+
+@functions {
+    public LayoutModel LayoutModel { get; } = new("Home Page");
+}

@@ -1,0 +1,69 @@
+@inherits RazorSlice
+@implements IUsesLayout<_Layout, LayoutModel>
+
+@{
+    var options = Options.Value;
+    var image = HttpContext!.Request.CdnContent("martin_small-v2.png", options);
+    var yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
+}
+<div class="row">
+    <div class="col-md-4">
+        <br />
+        <noscript>
+            <img class="img-fluid mx-auto d-block" height="300" width="288" src="@(image)" alt="@(options.Metadata?.Author?.Name)" title="@(options.Metadata?.Author?.Name)" />
+        </noscript>
+        <img class="img-fluid mx-auto d-block lazy" height="300" width="288" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="@(image)" alt="@(options.Metadata?.Author?.Name)" title="@(options.Metadata?.Author?.Name)" />
+    </div>
+    <div class="col-md-8">
+        <h1>About Martin</h1>
+        <p>@(options.Metadata?.Author?.Name) is a C# .NET developer and tester and <a href="https://mvp.microsoft.com/en-us/PublicProfile/5003438" rel="noopener" target="_blank">Microsoft MVP in Developer Technologies</a>.</p>
+        <p>He has over @(yearsExperience) years of experience testing and developing high-quality software and is based in London, UK.</p>
+        <p>His experience includes various parts of the Microsoft technology stack and cloud hosting, including:</p>
+        <ul>
+            <li>Amazon Web Services</li>
+            <li>ASP.NET (Core and Framework)</li>
+            <li>Azure DevOps (VSTS/TFS)</li>
+            <li>C# (2.0+)</li>
+            <li>Git/GitHub</li>
+            <li>HTML</li>
+            <li>JavaScript/TypeScript</li>
+            <li>Microsoft Azure</li>
+            <li>SQL Server</li>
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <h2 class="d-none d-md-block h5">GitHub</h2>
+        <a class="github-button d-none d-md-block" href="https://github.com/martincostello" rel="noopener" target="_blank" data-show-count="true" data-size="large" aria-label="Follow @@martincostello on GitHub">Follow @@martincostello</a>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+        <h2 class="d-none d-md-block h5">Twitter</h2>
+        <a class="twitter-follow-button" href="https://twitter.com/@(options.Metadata?.Author?.SocialMedia?.Twitter)" data-size="large" data-show-count="false" title="@(options.Metadata?.Author?.SocialMedia?.Twitter) on Twitter">Follow @(options.Metadata?.Author?.SocialMedia?.Twitter)</a>
+    </div>
+    <div class="col-md-4 d-none d-md-block">
+        <h2 class="h5">Stack Overflow</h2>
+        <a href="https://stackoverflow.com/users/1064169/martin-costello">
+            <img src="https://stackoverflow.com/users/flair/1064169.png?theme=clean" width="208" height="58" alt="View Martin's Stack Overflow developer story" title="View Martin's Stack Overflow profile">
+        </a>
+    </div>
+</div>
+
+@functions {
+    public LayoutModel LayoutModel => new("About Martin")
+    {
+        Description = $"Information about {HttpContext!.RequestServices.GetRequiredService<IOptions<SiteOptions>>().Value.Metadata?.Author?.Name}, a software developer and tester.",
+    };
+
+    protected override Task ExecuteSectionAsync(string name)
+    {
+        if (name is "scripts")
+        {
+            <script async defer src="https://buttons.github.io/buttons.js"></script>
+            <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        }
+
+        return Task.CompletedTask;
+    }
+}
