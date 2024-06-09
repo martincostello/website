@@ -98,7 +98,6 @@ public static class RedirectsModule
         [
             ".env",
             ".git/{*catchall}",
-            "admin.php",
             "admin-console/{*catchall}",
             "admin/{*catchall}",
             "administration/{*catchall}",
@@ -108,12 +107,8 @@ public static class RedirectsModule
             "bin/{*catchall}",
             "bitrix/admin/{*catchall}",
             "cms/{*catchall}",
-            "index.php",
             "invoker/JMXInvokerServlet",
             "jmx-console/HtmlAdaptor",
-            "license.php",
-            "magmi/web/magmi.php",
-            "manager/index.php",
             "modules/{*catchall}",
             "obj/{*catchall}",
             "package.json",
@@ -132,9 +127,7 @@ public static class RedirectsModule
             "wp-admin/{*catchall}",
             "wp-content/{*catchall}",
             "wp-includes/{*catchall}",
-            "wp-links-opml.php",
-            "wp-login.php",
-            "xmlrpc.php",
+            "{catchall:regex(\\.(alfa|aspx?|jsp|php)$)}",
         ];
 
         foreach (string path in crawlerPaths)
