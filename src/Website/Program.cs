@@ -139,8 +139,6 @@ app.UseRewriter(new RewriteOptions().AddRedirectToNonWww());
 
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.MapRedirects();
 
 app.MapGet("/tools/guid", (IToolsService service, string? format, bool? uppercase) =>
