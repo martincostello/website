@@ -10,6 +10,7 @@ using OpenTelemetry.ResourceDetectors.Container;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
+#pragma warning disable IDE0130
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
