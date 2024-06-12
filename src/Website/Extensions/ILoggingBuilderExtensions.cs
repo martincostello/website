@@ -4,7 +4,6 @@
 using Azure.Monitor.OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 
-#pragma warning disable IDE0130
 namespace Microsoft.Extensions.Logging;
 
 /// <summary>

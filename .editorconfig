@@ -32,6 +32,7 @@ dotnet_diagnostic.IDE0046.severity = silent
 dotnet_diagnostic.IDE0058.severity = silent
 dotnet_diagnostic.IDE0072.severity = silent
 dotnet_diagnostic.IDE0079.severity = silent
+dotnet_diagnostic.IDE0130.severity = silent
 
 # HACK Workaround for https://github.com/dotnet/runtime/issues/100474
 dotnet_diagnostic.IL2026.severity = silent
