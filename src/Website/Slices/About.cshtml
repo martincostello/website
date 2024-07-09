@@ -2,7 +2,7 @@
 
 @{
     var options = Options.Value;
-    var image = HttpContext!.Request.CdnContent("martin_small-v2.png", options);
+    var image = HttpContext!.Request.CdnContent("martin_small-v3.png", options);
     var yearsExperience = (int)Math.Floor((DateTimeOffset.UtcNow - new DateTimeOffset(2006, 9, 4, 0, 0, 0, TimeSpan.Zero)).TotalDays / 365);
 }
 <div class="row">
