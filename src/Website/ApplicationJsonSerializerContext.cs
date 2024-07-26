@@ -9,12 +9,7 @@ using MartinCostello.Website.Models;
 namespace MartinCostello.Website;
 
 [ExcludeFromCodeCoverage]
-[JsonSerializable(typeof(ErrorResponse))]
-[JsonSerializable(typeof(GuidResponse))]
-[JsonSerializable(typeof(HashRequest))]
-[JsonSerializable(typeof(HashResponse))]
 [JsonSerializable(typeof(JsonObject))]
-[JsonSerializable(typeof(MachineKeyResponse))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
 internal sealed partial class ApplicationJsonSerializerContext : JsonSerializerContext
 {

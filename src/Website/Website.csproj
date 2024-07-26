@@ -12,6 +12,7 @@
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>Martin Costello's website</Summary>
     <TargetFramework>net8.0</TargetFramework>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
@@ -36,7 +37,7 @@
     <None Remove="assets\scripts\**\*.ts" />
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
-  <Target Name="PrepublishScript" BeforeTargets="BeforeBuild">
+  <Target Name="BundleAssets" BeforeTargets="BeforeBuild">
     <Exec Command="npm ci" Condition=" '$(CI)' != '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm install" Condition=" '$(CI)' == '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\main.js') " />
