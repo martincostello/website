@@ -31,10 +31,11 @@
     {
         if (name is "meta")
         {
-            var request = HttpContext!.Request;
-            <link name="api-guid" rel="nofollow" href="@(request.Content("~/tools/guid", false))" />
-            <link name="api-hash" rel="nofollow" href="@(request.Content("~/tools/hash", false))" />
-            <link name="api-machine-key" rel="nofollow" href="@(request.Content("~/tools/machinekey", false))" />
+            var options = HttpContext?.RequestServices.GetRequiredService<IOptions<SiteOptions>>();
+            var baseAddress = options?.Value.ExternalLinks?.Api ?? new("https://api.martincostello.com/", UriKind.Absolute);
+            <link name="api-guid" rel="nofollow" href="@(new Uri(baseAddress, "/tools/guid"))" />
+            <link name="api-hash" rel="nofollow" href="@(new Uri(baseAddress, "/tools/hash"))" />
+            <link name="api-machine-key" rel="nofollow" href="@(new Uri(baseAddress, "/tools/machinekey"))" />
         }
         else if (name is "scripts")
         {

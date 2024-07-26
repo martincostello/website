@@ -17,7 +17,7 @@
     },
     "ContentSecurityPolicyOrigins": {},
     "ExternalLinks": {
-      "Api": "/",
+      "Api": "https://api.martincostello.com/",
       "Blog": "https://blog.martincostello.com/",
       "Cdn": "https://cdn.martincostello.com/",
       "Reports": {
