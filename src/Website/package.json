@@ -37,7 +37,7 @@
     "stylelint": "^16.8.1",
     "stylelint-config-standard": "^36.0.1",
     "ts-loader": "^9.5.1",
-    "ts-jest": "^29.2.3",
+    "ts-jest": "^29.2.4",
     "tsify": "^5.0.4",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0",
