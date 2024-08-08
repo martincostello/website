@@ -64,8 +64,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # HACK Workaround for https://github.com/dotnet/sdk/issues/42211
+    - name: Set DOTNET_INSTALL_DIR
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        "DOTNET_INSTALL_DIR=${env:GITHUB_WORKSPACE}\.dotnet" >> ${env:GITHUB_ENV}
+
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
+      env:
+        DOTNET_INSTALL_DIR: ${{ env.DOTNET_INSTALL_DIR }}
 
     - name: Setup Node
       uses: actions/setup-node@v4
