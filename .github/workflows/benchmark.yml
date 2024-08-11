@@ -1,0 +1,70 @@
+name: benchmark
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
+  NUGET_XMLDOC_MODE: skip
+  TERM: xterm
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**/*.gitattributes'
+      - '**/*.gitignore'
+      - '**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: benchmark
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: false
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Run benchmarks
+      shell: pwsh
+      run: ./benchmark.ps1
+
+    - name: Publish results
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        auto-push: true
+        alert-comment-cc-users: '@${{ github.repository_owner }}'
+        benchmark-data-dir-path: 'website'
+        comment-on-alert: true
+        fail-on-alert: true
+        gh-pages-branch: main
+        gh-repository: 'github.com/${{ github.repository_owner }}/benchmarks'
+        github-token: ${{ secrets.BENCHMARKS_TOKEN }}
+        name: API
+        output-file-path: BenchmarkDotNet.Artifacts/results/MartinCostello.Website.Benchmarks.WebsiteBenchmarks-report-full-compressed.json
+        tool: 'benchmarkdotnet'
+
+    - name: Output summary
+      shell: pwsh
+      run: |
+        $repoName = ${env:GITHUB_REPOSITORY}.Split("/")[-1]
+        $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.Website.Benchmarks.WebsiteBenchmarks-report-github.md") -Raw
+        $summary += "`n`n"
+        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${repoName})."
+        $summary >> ${env:GITHUB_STEP_SUMMARY}

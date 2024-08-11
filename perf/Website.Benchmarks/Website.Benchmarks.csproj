@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Benchmarks for the website.</Description>
+    <NoWarn>$(NoWarn);SA1600</NoWarn>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MartinCostello.Website.Benchmarks</RootNamespace>
+    <Summary>$(Description)</Summary>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Website\Website.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+</Project>
