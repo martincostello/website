@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Website.Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}
