@@ -55,6 +55,7 @@ jobs:
       uses: martincostello/benchmarkdotnet-results-publisher@v1
       with:
         branch: ${{ github.ref_name }}
+        comment-on-threshold: true
         name: Website
         output-file-path: '${{ steps.get-repo-name.outputs.repo-name }}/data.json'
         repo: '${{ github.repository_owner }}/benchmarks'
@@ -65,7 +66,6 @@ jobs:
       env:
         REPO_NAME: ${{ steps.get-repo-name.outputs.repo-name }}
       run: |
-        $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.Website.Benchmarks.WebsiteBenchmarks-report-github.md") -Raw
         $summary += "`n`n"
         $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME}?branch=${env:GITHUB_REF_NAME})."
         $summary >> ${env:GITHUB_STEP_SUMMARY}
