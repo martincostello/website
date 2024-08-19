@@ -45,7 +45,7 @@ jobs:
       run: ./benchmark.ps1
 
     - name: Publish BenchmarkDotNet artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: artifacts
