@@ -44,6 +44,14 @@ jobs:
       shell: pwsh
       run: ./benchmark.ps1
 
+    - name: Publish BenchmarkDotNet artifacts
+      uses: actions/upload-artifact@v3
+      if: ${{ !cancelled() }}
+      with:
+        name: artifacts
+        path: ./BenchmarkDotNet.Artifacts/results/*
+        if-no-files-found: error
+
     - name: Get repository name
       id: get-repo-name
       shell: pwsh
