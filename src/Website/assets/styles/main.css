@@ -15,11 +15,11 @@
 }
 
 a {
-    color: #0F7661;
+    color: #0f7661;
 }
 
-body {
-    padding-top: 85px;
+.body-content {
+    padding-top: 5rem;
 }
 
 .card-header {
@@ -31,7 +31,7 @@ body {
 }
 
 .form-control {
-    color: #596364;
+    color: var(--bs-secondary-color);
 }
 
 .no-resize {
