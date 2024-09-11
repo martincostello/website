@@ -16,6 +16,8 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
+    <!-- HACK Workaround for https://github.com/dotnet/runtime/issues/106566 -->
+    <UseSystemZlib>false</UseSystemZlib>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
