@@ -60,15 +60,15 @@ jobs:
             throw new Error(`Error: @${username} is not a repository collaborator.`);
           }
 
-          const regex = /\/deploy ([a-zA-Z\d\-\_]+)/;
-          const arguments = regex.exec(context.payload.comment.body);
+          const comment = context.payload.comment.body;
+          const regex = /^\/deploy(\s+([a-zA-Z\d\-\_]+))?\s*$/;
+          const arguments = regex.exec(comment);
 
-          if (arguments === null || arguments.length < 2) {
-            throw new Error('Invalid command');
+          if (!arguments || arguments.length < 1) {
+            throw new Error(`Invalid command: ${comment}`);
           }
 
-          const environment = arguments[1].trim();
-          return environment;
+          return arguments[2] || 'dev';
 
     - name: 'Find run for #${{ github.event.issue.number }}'
       uses: actions/github-script@v7
