@@ -4,6 +4,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$InformationPreference = "Continue"
 $ProgressPreference = "SilentlyContinue"
 
 $solutionPath = $PSScriptRoot
@@ -14,7 +15,7 @@ $dotnetVersion = (Get-Content $sdkFile | Out-String | ConvertFrom-Json).sdk.vers
 $installDotNetSdk = $false;
 
 if (($null -eq (Get-Command "dotnet" -ErrorAction SilentlyContinue)) -and ($null -eq (Get-Command "dotnet.exe" -ErrorAction SilentlyContinue))) {
-    Write-Host "The .NET SDK is not installed."
+    Write-Information "The .NET SDK is not installed."
     $installDotNetSdk = $true
 }
 else {
@@ -26,12 +27,12 @@ else {
     }
 
     if ($installedDotNetVersion -ne $dotnetVersion) {
-        Write-Host "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
+        Write-Information "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
         $installDotNetSdk = $true
     }
 }
 
-if ($installDotNetSdk -eq $true) {
+if ($installDotNetSdk) {
 
     $env:DOTNET_INSTALL_DIR = Join-Path $PSScriptRoot ".dotnetcli"
     $sdkPath = Join-Path $env:DOTNET_INSTALL_DIR "sdk\$dotnetVersion"
@@ -61,7 +62,7 @@ else {
 
 $dotnet = Join-Path "$env:DOTNET_INSTALL_DIR" "dotnet"
 
-if ($installDotNetSdk -eq $true) {
+if ($installDotNetSdk) {
     $env:PATH = "$env:DOTNET_INSTALL_DIR;$env:PATH"
 }
 
@@ -93,21 +94,21 @@ function DotNetPublish {
 }
 
 $testProjects = @(
-    (Join-Path $solutionPath "tests\Website.Tests\Website.Tests.csproj"),
-    (Join-Path $solutionPath "tests\Website.EndToEndTests\Website.EndToEndTests.csproj")
+    (Join-Path $solutionPath "tests" "Website.Tests" "Website.Tests.csproj"),
+    (Join-Path $solutionPath "tests" "Website.EndToEndTests" "Website.EndToEndTests.csproj")
 )
 
 $publishProjects = @(
-    (Join-Path $solutionPath "src\Website\Website.csproj")
+    (Join-Path $solutionPath "src" "Website" "Website.csproj")
 )
 
-Write-Host "Publishing solution..." -ForegroundColor Green
+Write-Information "Publishing solution..."
 ForEach ($project in $publishProjects) {
     DotNetPublish $project $PrereleaseSuffix
 }
 
-if ($SkipTests -eq $false) {
-    Write-Host "Testing $($testProjects.Count) project(s)..." -ForegroundColor Green
+if (-Not $SkipTests) {
+    Write-Information "Testing $($testProjects.Count) project(s)..."
     ForEach ($project in $testProjects) {
         DotNetTest $project
     }
