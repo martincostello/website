@@ -9,6 +9,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$InformationPreference = "Continue"
 $ProgressPreference = "SilentlyContinue"
 
 $solutionPath = $PSScriptRoot
@@ -19,7 +20,7 @@ $dotnetVersion = (Get-Content $sdkFile | Out-String | ConvertFrom-Json).sdk.vers
 $installDotNetSdk = $false
 
 if (($null -eq (Get-Command "dotnet" -ErrorAction SilentlyContinue)) -and ($null -eq (Get-Command "dotnet.exe" -ErrorAction SilentlyContinue))) {
-    Write-Host "The .NET SDK is not installed."
+    Write-Information "The .NET SDK is not installed."
     $installDotNetSdk = $true
 }
 else {
@@ -31,7 +32,7 @@ else {
     }
 
     if ($installedDotNetVersion -ne $dotnetVersion) {
-        Write-Host "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
+        Write-Information "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
         $installDotNetSdk = $true
     }
 }
@@ -59,7 +60,7 @@ else {
 
 $benchmarks = (Join-Path $solutionPath "perf" "Website.Benchmarks" "Website.Benchmarks.csproj")
 
-Write-Host "Running benchmarks..." -ForegroundColor Green
+Write-Information "Running benchmarks..."
 
 $additionalArgs = @(
     "--artifacts",
