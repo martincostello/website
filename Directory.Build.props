@@ -7,6 +7,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <AnalysisMode>All</AnalysisMode>
     <Authors>martin_costello</Authors>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     <ChecksumAlgorithm>SHA256</ChecksumAlgorithm>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Website.ruleset</CodeAnalysisRuleSet>
     <Company>https://github.com/martincostello/website</Company>
