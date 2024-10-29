@@ -27,9 +27,4 @@ public sealed class ReportOptions
     /// Gets or sets the URI to use for <c>Expect-CT</c> when not enforced.
     /// </summary>
     public Uri? ExpectCTReportOnly { get; set; }
-
-    /// <summary>
-    /// Gets or sets the URI to use for <c>Expect-Staple</c>.
-    /// </summary>
-    public Uri? ExpectStaple { get; set; }
 }

@@ -180,9 +180,9 @@ public sealed class CustomHttpHeadersMiddleware
             builder.Append("upgrade-insecure-requests;");
         }
 
-        if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy != null)
+        if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy is { } reportUri)
         {
-            builder.Append(CultureInfo.InvariantCulture, $"report-uri {options.ExternalLinks.Reports.ContentSecurityPolicy};");
+            builder.Append(CultureInfo.InvariantCulture, $"report-uri {reportUri};");
         }
 
         return builder.ToString();
@@ -213,16 +213,16 @@ public sealed class CustomHttpHeadersMiddleware
 
         if (enforce)
         {
-            if (options?.ExternalLinks?.Reports?.ExpectCTEnforce != null)
+            if (options?.ExternalLinks?.Reports?.ExpectCTEnforce is { } enforceUri)
             {
-                builder.Append(CultureInfo.InvariantCulture, $" report-uri {options.ExternalLinks.Reports.ExpectCTEnforce}");
+                builder.Append(CultureInfo.InvariantCulture, $" report-uri {enforceUri}");
             }
         }
         else
         {
-            if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly != null)
+            if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly is { } reportUri)
             {
-                builder.Append(CultureInfo.InvariantCulture, $" report-uri {options.ExternalLinks.Reports.ExpectCTReportOnly}");
+                builder.Append(CultureInfo.InvariantCulture, $" report-uri {reportUri}");
             }
         }
 
