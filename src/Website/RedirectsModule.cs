@@ -17,6 +17,7 @@ public static class RedirectsModule
     private static readonly Dictionary<string, string[]> Redirects = new()
     {
         ["https://blog.martincostello.com/"] = ["/blog", "/blog/{*catchall}"],
+        ["https://bsky.app/profile/martincostello.bsky.social"] = ["/bluesky", "/bsky", "/skeet"],
         ["https://github.com/martincostello"] = ["/gh", "/github"],
         ["https://github.com/martincostello/presentations"] = ["/presentations", "/slides", "/talks"],
         ["https://github.com/sponsors/martincostello"] = ["/sponsor"],
