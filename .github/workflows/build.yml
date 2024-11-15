@@ -104,7 +104,7 @@ jobs:
       shell: pwsh
       run: ./build.ps1
 
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v5
       name: Upload coverage to Codecov
       with:
         files: ./artifacts/coverage/coverage.cobertura.xml,./src/Website/coverage/lcov.info
