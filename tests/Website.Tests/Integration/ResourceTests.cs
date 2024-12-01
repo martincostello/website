@@ -106,6 +106,9 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         [
             "content-security-policy",
             "content-security-policy-report-only",
+            "Cross-Origin-Embedder-Policy",
+            "Cross-Origin-Opener-Policy",
+            "Cross-Origin-Resource-Policy",
             "Permissions-Policy",
             "Referrer-Policy",
             "X-Content-Type-Options",
