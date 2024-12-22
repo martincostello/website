@@ -3,27 +3,32 @@
     <Description>Unit and integration tests for https://martincostello.com/</Description>
     <IsTestProject>true</IsTestProject>
     <NoWarn>$(NoWarn);CA1308;CA1711;CA2000;CA2007;SA1600</NoWarn>
+    <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>$(Description)</Summary>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
     <Content Include="testsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="localhost-dev.pfx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
-    <ProjectReference Include="..\Website.Tests.Shared\Website.Tests.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="coverlet.msbuild" />
     <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
+    <PackageReference Include="MartinCostello.Logging.XUnit.v3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Playwright" />
     <PackageReference Include="ReportGenerator" />
+    <PackageReference Include="Shouldly" />
     <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.v3" />
   </ItemGroup>
   <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>

@@ -14,7 +14,7 @@ namespace MartinCostello.Website.Integration;
 /// </remarks>
 /// <param name="fixture">The fixture to use.</param>
 /// <param name="outputHelper">The test output helper to use.</param>
-[Collection(TestServerCollection.Name)]
+[Collection<TestServerCollection>]
 public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHelper) : IntegrationTest(fixture, outputHelper)
 {
     [Theory]
@@ -52,7 +52,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync(requestUri);
+        using var response = await client.GetAsync(requestUri, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -71,7 +71,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var message = new HttpRequestMessage(HttpMethod.Head, requestUri);
 
         // Act
-        using var response = await client.SendAsync(message);
+        using var response = await client.SendAsync(message, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -89,7 +89,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync(requestUri);
+        using var response = await client.GetAsync(requestUri, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
@@ -120,7 +120,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync("/");
+        using var response = await client.GetAsync("/", CancellationToken);
 
         // Assert
         foreach (string expected in expectedHeaders)
@@ -141,7 +141,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var client = Fixture.CreateClient(new WebApplicationFactoryClientOptions() { AllowAutoRedirect = false });
 
         // Act
-        using var response = await client.GetAsync(requestUri);
+        using var response = await client.GetAsync(requestUri, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(expected, $"Incorrect status code for {requestUri}");
@@ -180,7 +180,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync(requestUri);
+        using var response = await client.GetAsync(requestUri, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Redirect);
@@ -238,7 +238,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
             }
 
             // Act
-            using var response = await client.SendAsync(message);
+            using var response = await client.SendAsync(message, CancellationToken);
 
             // Assert
             response.StatusCode.ShouldBe(HttpStatusCode.Redirect);

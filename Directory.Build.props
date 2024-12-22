@@ -49,7 +49,6 @@
   <ItemGroup Condition="$(MSBuildProjectName.Contains('Tests'))">
     <Using Include="Shouldly" />
     <Using Include="Xunit" />
-    <Using Include="Xunit.Abstractions" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(CI)' == 'true' ">
     <ContainerImageTags>github-$(GITHUB_RUN_NUMBER)</ContainerImageTags>

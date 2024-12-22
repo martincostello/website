@@ -7,7 +7,7 @@ namespace MartinCostello.Website.EndToEnd;
 
 public sealed class ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outputHelper) : EndToEndTest(fixture, outputHelper)
 {
-    [SkippableTheory]
+    [Theory]
     [InlineData("Default", false)]
     [InlineData("Default", true)]
     [InlineData("Numeric", false)]
@@ -41,7 +41,7 @@ public sealed class ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outp
             });
     }
 
-    [SkippableTheory]
+    [Theory]
     [InlineData("MD5", "Hexadecimal", "foo", "acbd18db4cc2f85cedef654fccc4a4d8")]
     [InlineData("SHA-1", "Base 64", "bar", "Ys23Ag/5IOWqZCw9QGaVDdHwH00=")]
     [InlineData("SHA-256", "Hexadecimal", "martincostello.com", "3b8143aa8119eaf0910aef5cade45dd0e6bb7b70e8d1c8c057bf3fc125248642")]
@@ -64,7 +64,7 @@ public sealed class ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outp
             });
     }
 
-    [SkippableTheory]
+    [Theory]
     [InlineData("AES (256 bits)", "SHA-1", "AES", "SHA1")]
     [InlineData("3DES", "HMAC SHA-512", "3DES", "HMACSHA512")]
     public async Task Can_Generate_Machine_Key(

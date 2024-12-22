@@ -6,7 +6,7 @@ namespace MartinCostello.Website.Integration.UI;
 /// <summary>
 /// The base class for browser integration tests.
 /// </summary>
-[Collection(HttpServerCollection.Name)]
+[Collection<HttpServerCollection>]
 public abstract class BrowserTest : UITest
 {
     private bool _disposed;
