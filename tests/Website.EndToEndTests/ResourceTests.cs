@@ -7,7 +7,7 @@ namespace MartinCostello.Website.EndToEnd;
 
 public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelper) : EndToEndTest(fixture, outputHelper)
 {
-    [SkippableTheory]
+    [Theory]
     [InlineData("/", "text/html")]
     [InlineData("/apple-app-site-association", "application/json")]
     [InlineData("/assets/css/main.css", "text/css")]
@@ -42,7 +42,7 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync(requestUri);
+        using var response = await client.GetAsync(requestUri, CancellationToken);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -52,7 +52,7 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
         response.Content.Headers.ContentType.MediaType.ShouldBe(contentType);
     }
 
-    [SkippableFact]
+    [Fact]
     public async Task Response_Headers_Contains_Expected_Headers()
     {
         // Arrange
@@ -74,7 +74,7 @@ public class ResourceTests(WebsiteFixture fixture, ITestOutputHelper outputHelpe
         using var client = Fixture.CreateClient();
 
         // Act
-        using var response = await client.GetAsync("/");
+        using var response = await client.GetAsync("/", CancellationToken);
 
         // Assert
         foreach (string expected in expectedHeaders)

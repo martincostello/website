@@ -6,10 +6,15 @@ namespace MartinCostello.Website.EndToEnd;
 /// <summary>
 /// The base class for end-to-end tests.
 /// </summary>
-[Collection(WebsiteCollection.Name)]
+[Collection<WebsiteCollection>]
 [Trait("Category", "EndToEnd")]
 public abstract class EndToEndTest(WebsiteFixture fixture, ITestOutputHelper outputHelper) : UITest(outputHelper)
 {
+    /// <summary>
+    /// Gets the <see cref="CancellationToken"/> to use.
+    /// </summary>
+    protected virtual CancellationToken CancellationToken => TestContext.Current.CancellationToken;
+
     /// <summary>
     /// Gets the <see cref="WebsiteFixture"/> to use.
     /// </summary>

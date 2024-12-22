@@ -14,10 +14,7 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
     /// <summary>
     /// Finalizes an instance of the <see cref="UITest"/> class.
     /// </summary>
-    ~UITest()
-    {
-        Dispose(false);
-    }
+    ~UITest() => Dispose(false);
 
     /// <summary>
     /// Gets the base address of the website under test.
@@ -39,14 +36,19 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
     }
 
     /// <inheritdoc/>
-    public Task InitializeAsync()
+    public ValueTask InitializeAsync()
     {
         InstallPlaywright();
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
+    }
 
     /// <summary>
     /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
