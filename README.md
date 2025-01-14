@@ -1,6 +1,6 @@
 # Martin Costello's website
 
-[![Build status](https://github.com/martincostello/website/workflows/build/badge.svg?branch=main&event=push)](https://github.com/martincostello/website/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush)
+[![Build status](https://github.com/martincostello/website/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/martincostello/website/actions/workflows/build.yml?query=branch%3Amain+event%3Apush)
 [![codecov](https://codecov.io/gh/martincostello/website/branch/main/graph/badge.svg)](https://codecov.io/gh/martincostello/website)
 
 ## Overview
