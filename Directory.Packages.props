@@ -23,7 +23,7 @@
     <PackageVersion Include="OpenTelemetry.Resources.Container" Version="1.10.0-beta.1" />
     <PackageVersion Include="RazorSlices" Version="0.9.1" />
     <PackageVersion Include="ReportGenerator" Version="5.4.3" />
-    <PackageVersion Include="Shouldly" Version="4.2.1" />
+    <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="System.Text.Encodings.Web" Version="9.0.0" />
     <PackageVersion Include="System.Text.Json" Version="9.0.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
