@@ -157,7 +157,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: screenshots-${{ matrix.os }}
+        name: screenshots-${{ matrix.os-name }}
         path: ./artifacts/screenshots/*
         if-no-files-found: ignore
 
@@ -165,7 +165,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: traces-${{ matrix.os }}
+        name: traces-${{ matrix.os-name }}
         path: ./artifacts/traces/*
         if-no-files-found: ignore
 
@@ -173,7 +173,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: videos-${{ matrix.os }}
+        name: videos-${{ matrix.os-name }}
         path: ./artifacts/videos/*
         if-no-files-found: ignore
 
