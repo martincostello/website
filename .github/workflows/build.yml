@@ -230,8 +230,7 @@ jobs:
     secrets: inherit
     with:
       application-name: ${{ needs.build.outputs.application-name }}
-      container-registry: ${{ needs.build.outputs.container-registry }}
-      container-tag: ${{ needs.build.outputs.container-tag }}
+      container-image: ${{ needs.build.outputs.container-tag }}
       environment-name: dev
       environment-url: https://dev.martincostello.com
       ref: ${{ github.sha }}
@@ -246,8 +245,7 @@ jobs:
     secrets: inherit
     with:
       application-name: ${{ needs.build.outputs.application-name }}
-      container-registry: ${{ needs.build.outputs.container-registry }}
-      container-tag: ${{ needs.build.outputs.container-tag }}
+      container-image: ${{ needs.build.outputs.container-tag }}
       environment-name: production
       environment-url: https://martincostello.com
       ref: ${{ github.sha }}

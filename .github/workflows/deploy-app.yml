@@ -7,12 +7,8 @@ on:
         description: 'The name of the Azure App Service to deploy the container to.'
         required: true
         type: string
-      container-registry:
-        description: 'The name of the Azure Container Registry that contains the container image.'
-        required: true
-        type: string
-      container-tag:
-        description: 'The tag of the container image to deploy.'
+      container-image:
+        description: 'The container image to deploy.'
         required: true
         type: string
       environment-name:
@@ -23,6 +19,10 @@ on:
         description: 'The URL of the deployed application.'
         required: true
         type: string
+      issue-number:
+        description: 'The number of the issue that triggered the deployment, if any.'
+        required: false
+        type: number
       ref:
         description: 'The Git reference to check out when running tests.'
         required: true
@@ -31,6 +31,11 @@ on:
         description: 'The name of the Azure App Service deployment slot to deploy the container to.'
         required: true
         type: string
+      workflow-url:
+        description: 'The URL of the workflow that triggered the deployment.'
+        required: false
+        type: string
+        default: ''
 
 env:
   FORCE_COLOR: 1
@@ -53,7 +58,38 @@ jobs:
     permissions:
       id-token: write
 
+    outputs:
+      comment-id: ${{ steps.post-start-comment.outputs.result }}
+
     steps:
+
+    - name: Post deployment starting comment
+      uses: actions/github-script@v7
+      id: post-start-comment
+      if: inputs.issue-number && inputs.workflow-url
+      env:
+        ENVIRONMENT_NAME: ${{ inputs.environment-name }}
+        ENVIRONMENT_URL: ${{ inputs.environment-url }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
+        WORKFLOW_URL: ${{ inputs.workflow-url }}
+      with:
+        result-encoding: string
+        script: |
+          const owner = context.payload.repository.owner.login;
+          const repo = context.payload.repository.name;
+          const issue_number = context.issue.number;
+          const environment = process.env.ENVIRONMENT_NAME;
+          const environment_url = process.env.ENVIRONMENT_URL;
+          const workflow_url = process.env.WORKFLOW_URL;
+
+          const { data: comment } = await github.rest.issues.createComment({
+            owner,
+            repo,
+            issue_number,
+            body: `Starting [deployment](${workflow_url}) to [${environment}](${environment_url}) :rocket:`,
+          });
+
+          return comment.id;
 
     - name: Azure log in
       uses: azure/login@v2
@@ -66,12 +102,13 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ inputs.application-name }}
-        images: ${{ inputs.container-tag }}
+        images: ${{ inputs.container-image }}
         slot-name: ${{ inputs.slot-name }}
 
     - name: Check application health
       shell: pwsh
       env:
+        APPLICATION_SHA: ${{ inputs.ref }}
         APPLICATION_URL: ${{ inputs.environment-url }}
       run: |
         $delay = 10
@@ -87,7 +124,7 @@ jobs:
           if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
             $json = $response.Content | ConvertFrom-Json
             $version = $json.applicationVersion
-            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
+            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:APPLICATION_SHA})) {
               $success = $true
               break
             }
@@ -97,6 +134,35 @@ jobs:
         if (-Not $success) {
           throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
         }
+
+    - name: Post deployment finished comment
+      uses: actions/github-script@v7
+      if: ${{ !cancelled() && steps.post-start-comment.outputs.result && inputs.workflow-url }}
+      env:
+        COMMENT_ID: ${{ steps.post-start-comment.outputs.result }}
+        ENVIRONMENT_NAME: ${{ inputs.environment-name }}
+        ENVIRONMENT_URL: ${{ inputs.environment-url }}
+        OUTCOME: ${{ job.status }}
+        WORKFLOW_URL: ${{ inputs.workflow-url }}
+      with:
+        script: |
+          const owner = context.payload.repository.owner.login;
+          const repo = context.payload.repository.name;
+          const comment_id = process.env.COMMENT_ID;
+          const environment = process.env.ENVIRONMENT_NAME;
+          const environment_url = process.env.ENVIRONMENT_URL;
+          const workflow_url = process.env.WORKFLOW_URL;
+
+          const succeeded = process.env.OUTCOME === 'success';
+          const outcome = succeeded ? 'successful' : 'failed';
+          const emoji = succeeded ? ':white_check_mark:' : ':x:';
+
+          await github.rest.issues.updateComment({
+            owner,
+            repo,
+            comment_id,
+            body: `[Deployment](${workflow_url}) to [${environment}](${environment_url}) ${outcome} ${emoji}`,
+          });
 
   test:
     name: test-${{ inputs.environment-name }}
@@ -110,6 +176,9 @@ jobs:
       DOTNET_NOLOGO: true
       DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
       NUGET_XMLDOC_MODE: skip
+
+    permissions:
+      contents: read
 
     steps:
 
@@ -168,3 +237,32 @@ jobs:
         name: videos-e2e-${{ inputs.environment-name }}
         path: ./artifacts/videos/*
         if-no-files-found: ignore
+
+    - name: Post tests finished comment
+      uses: actions/github-script@v7
+      if: ${{ !cancelled() && needs.deploy.outputs.comment-id }}
+      env:
+        COMMENT_ID: ${{ needs.deploy.outputs.comment-id }}
+        ENVIRONMENT_NAME: ${{ inputs.environment-name }}
+        ENVIRONMENT_URL: ${{ inputs.environment-url }}
+        OUTCOME: ${{ job.status }}
+        WORKFLOW_URL: ${{ inputs.workflow-url }}
+      with:
+        script: |
+          const owner = context.payload.repository.owner.login;
+          const repo = context.payload.repository.name;
+          const comment_id = process.env.COMMENT_ID;
+          const environment = process.env.ENVIRONMENT_NAME;
+          const environment_url = process.env.ENVIRONMENT_URL;
+          const workflow_url = process.env.WORKFLOW_URL;
+
+          const succeeded = process.env.OUTCOME === 'success';
+          const outcome = succeeded ? 'passed' : 'failed';
+          const emoji = succeeded ? ':white_check_mark:' : ':x:';
+
+          await github.rest.issues.updateComment({
+            owner,
+            repo,
+            comment_id,
+            body: `:test_tube: [Tests](${workflow_url}) for deployment to [${environment}](${environment_url}) ${outcome} ${emoji}`,
+          });
