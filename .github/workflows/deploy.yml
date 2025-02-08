@@ -32,7 +32,6 @@ jobs:
     permissions:
       actions: read
       contents: read
-      pull-requests: write
 
     steps:
 
@@ -149,7 +148,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-      issues: write
+      pull-requests: write
     secrets: inherit
     with:
       application-name: ${{ needs.setup.outputs.application-name }}
