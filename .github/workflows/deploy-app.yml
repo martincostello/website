@@ -22,7 +22,7 @@ on:
       issue-number:
         description: 'The number of the issue that triggered the deployment, if any.'
         required: false
-        type: number
+        type: string
       ref:
         description: 'The Git reference to check out when running tests.'
         required: true
