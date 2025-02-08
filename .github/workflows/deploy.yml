@@ -149,7 +149,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-      pull-requests: write
+      issues: write
     secrets: inherit
     with:
       application-name: ${{ needs.setup.outputs.application-name }}

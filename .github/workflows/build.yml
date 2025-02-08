@@ -227,6 +227,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      issues: write
     secrets: inherit
     with:
       application-name: ${{ needs.build.outputs.application-name }}
@@ -243,6 +244,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      issues: write
     secrets: inherit
     with:
       application-name: ${{ needs.build.outputs.application-name }}
