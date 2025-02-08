@@ -7,8 +7,7 @@ on:
 env:
   TERM: xterm
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   setup:
@@ -148,6 +147,7 @@ jobs:
     needs: [ setup ]
     uses: ./.github/workflows/deploy-app.yml
     permissions:
+      contents: read
       id-token: write
       pull-requests: write
     secrets: inherit
