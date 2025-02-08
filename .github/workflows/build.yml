@@ -18,10 +18,6 @@ permissions:
   contents: read
 
 env:
-  APPLICATION_URL_DEV: https://dev.martincostello.com
-  APPLICATION_URL_PROD: https://martincostello.com
-  AZURE_WEBAPP_NAME: website-martincostello
-  CONTAINER_REGISTRY: '${{ github.repository_owner }}.azurecr.io'
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_GENERATE_ASPNET_CERTIFICATE: false
   DOTNET_NOLOGO: true
@@ -37,9 +33,13 @@ jobs:
     timeout-minutes: 20
 
     env:
+      AZURE_WEBAPP_NAME: website-martincostello
+      CONTAINER_REGISTRY: ${{ github.repository_owner }}.azurecr.io
       PUBLISH_CONTAINER: ${{ github.event.repository.fork == false && ((github.ref_name == github.event.repository.default_branch) || (github.actor == github.repository_owner)) && matrix.os-name == 'linux' }}
 
     outputs:
+      application-name: ${{ env.AZURE_WEBAPP_NAME }}
+      container-registry: ${{ env.CONTAINER_REGISTRY }}
       container-tag: ${{ steps.publish-container.outputs.container-tag }}
 
     permissions:
@@ -223,241 +223,32 @@ jobs:
   deploy-dev:
     if: github.event.repository.fork == false && github.ref_name == github.event.repository.default_branch
     name: dev
-    needs: build
-    runs-on: ubuntu-latest
-    concurrency: development_environment
-
-    environment:
-      name: dev
-      url: ${{ env.APPLICATION_URL_DEV }}
-
+    needs: [ build ]
+    uses: ./.github/workflows/deploy-app.yml
     permissions:
       id-token: write
-
-    steps:
-
-    - name: Azure log in
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    - name: Deploy container to Azure App Service
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        images: ${{ needs.build.outputs.container-tag }}
-        slot-name: dev
-
-    - name: Check application health
-      shell: pwsh
-      env:
-        APPLICATION_URL: ${{ env.APPLICATION_URL_DEV }}
-      run: |
-        $delay = 10
-        $limit = 15
-        $success = $false
-        for ($i = 0; $i -lt $limit; $i++) {
-          $response = $null
-          try {
-            $response = Invoke-WebRequest -Uri "${env:APPLICATION_URL}/version" -Method Get -UseBasicParsing
-          } catch {
-            $response = $_.Exception.Response
-          }
-          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
-            $json = $response.Content | ConvertFrom-Json
-            $version = $json.applicationVersion
-            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
-              $success = $true
-              break
-            }
-          }
-          Start-Sleep -Seconds $delay
-        }
-        if (-Not $success) {
-          throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
-        }
-
-  test-dev:
-    name: test-dev
-    needs: deploy-dev
-    runs-on: ubuntu-latest
-    concurrency: development_environment
-
-    steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        filter: 'tree:0'
-        show-progress: false
-
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-
-    - name: Setup NuGet cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
-        restore-keys: ${{ runner.os }}-nuget-
-
-    - name: Setup Playwright cache
-      uses: actions/cache@v4
-      with:
-        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
-        path: |
-          ~/AppData/Local/ms-playwright
-          ~/.cache/ms-playwright
-          ~/Library/Caches/ms-playwright
-
-    - name: Run end-to-end tests
-      shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
-      env:
-        WEBSITE_URL: ${{ env.APPLICATION_URL_DEV }}
-
-    - name: Publish screenshots
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: screenshots-e2e-dev
-        path: ./artifacts/screenshots/*
-        if-no-files-found: ignore
-
-    - name: Publish traces
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: traces-e2e-dev
-        path: ./artifacts/traces/*
-        if-no-files-found: ignore
-
-    - name: Publish videos
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: videos-e2e-dev
-        path: ./artifacts/videos/*
-        if-no-files-found: ignore
+    secrets: inherit
+    with:
+      application-name: ${{ needs.build.outputs.application-name }}
+      container-registry: ${{ needs.build.outputs.container-registry }}
+      container-tag: ${{ needs.build.outputs.container-tag }}
+      environment-name: dev
+      environment-url: https://dev.martincostello.com
+      ref: ${{ github.sha }}
+      slot-name: dev
 
   deploy-prod:
     name: production
-    needs: [build, test-dev]
-    runs-on: ubuntu-latest
-    concurrency: production_environment
-
-    environment:
-      name: production
-      url: ${{ env.APPLICATION_URL_PROD }}
-
+    needs: [ build, deploy-dev ]
+    uses: ./.github/workflows/deploy-app.yml
     permissions:
       id-token: write
-
-    steps:
-
-    - name: Azure log in
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    - name: Deploy container to Azure App Service
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        images: ${{ needs.build.outputs.container-tag }}
-
-    - name: Check application health
-      shell: pwsh
-      env:
-        APPLICATION_URL: ${{ env.APPLICATION_URL_PROD }}
-      run: |
-        $delay = 10
-        $limit = 15
-        $success = $false
-        for ($i = 0; $i -lt $limit; $i++) {
-          $response = $null
-          try {
-            $response = Invoke-WebRequest -Uri "${env:APPLICATION_URL}/version" -Method Get -UseBasicParsing
-          } catch {
-            $response = $_.Exception.Response
-          }
-          if (($null -ne $response) -And ($response.StatusCode -eq 200)) {
-            $json = $response.Content | ConvertFrom-Json
-            $version = $json.applicationVersion
-            if ((-Not [string]::IsNullOrWhiteSpace($version)) -And $version.Contains(${env:GITHUB_SHA})) {
-              $success = $true
-              break
-            }
-          }
-          Start-Sleep -Seconds $delay
-        }
-        if (-Not $success) {
-          throw "${env:APPLICATION_URL} did not return a successful status code and the expected version within the time limit after $limit attempts."
-        }
-
-  test-prod:
-    name: test-prod
-    needs: deploy-prod
-    runs-on: ubuntu-latest
-    concurrency: production_environment
-
-    steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        filter: 'tree:0'
-        show-progress: false
-
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-
-    - name: Setup NuGet cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props') }}
-        restore-keys: ${{ runner.os }}-nuget-
-
-    - name: Setup Playwright cache
-      uses: actions/cache@v4
-      with:
-        key: ${{ runner.os }}-playwright-${{ hashFiles('Directory.Packages.props') }}
-        path: |
-          ~/AppData/Local/ms-playwright
-          ~/.cache/ms-playwright
-          ~/Library/Caches/ms-playwright
-
-    - name: Run end-to-end tests
-      shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
-      env:
-        WEBSITE_URL: ${{ env.APPLICATION_URL_PROD }}
-
-    - name: Publish screenshots
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: screenshots-e2e-production
-        path: ./artifacts/screenshots/*
-        if-no-files-found: ignore
-
-    - name: Publish traces
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: traces-e2e-production
-        path: ./artifacts/traces/*
-        if-no-files-found: ignore
-
-    - name: Publish videos
-      uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: videos-e2e-production
-        path: ./artifacts/videos/*
-        if-no-files-found: ignore
+    secrets: inherit
+    with:
+      application-name: ${{ needs.build.outputs.application-name }}
+      container-registry: ${{ needs.build.outputs.container-registry }}
+      container-tag: ${{ needs.build.outputs.container-tag }}
+      environment-name: production
+      environment-url: https://martincostello.com
+      ref: ${{ github.sha }}
+      slot-name: ''
