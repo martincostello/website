@@ -25,8 +25,9 @@ on:
         type: string
       ref:
         description: 'The Git reference to check out when running tests.'
-        required: true
+        required: false
         type: string
+        default: ${{ github.sha }}
       slot-name:
         description: 'The name of the Azure App Service deployment slot to deploy the container to.'
         required: true

@@ -234,7 +234,6 @@ jobs:
       container-image: ${{ needs.build.outputs.container-tag }}
       environment-name: dev
       environment-url: https://dev.martincostello.com
-      ref: ${{ github.sha }}
       slot-name: dev
 
   deploy-prod:
@@ -251,5 +250,4 @@ jobs:
       container-image: ${{ needs.build.outputs.container-tag }}
       environment-name: production
       environment-url: https://martincostello.com
-      ref: ${{ github.sha }}
       slot-name: ''
