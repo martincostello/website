@@ -24,7 +24,7 @@
     <PackageVersion Include="RazorSlices" Version="0.9.1" />
     <PackageVersion Include="ReportGenerator" Version="5.4.4" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
-    <PackageVersion Include="xunit.v3" Version="1.0.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
+    <PackageVersion Include="xunit.v3" Version="1.1.0" />
   </ItemGroup>
 </Project>
