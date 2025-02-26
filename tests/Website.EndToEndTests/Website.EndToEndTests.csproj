@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <Summary>End-to-end tests for Martin Costello's website</Summary>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
