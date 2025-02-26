@@ -20,19 +20,21 @@ public static class ILoggingBuilderExtensions
     /// </returns>
     public static ILoggingBuilder AddTelemetry(this ILoggingBuilder builder)
     {
-        return builder.AddOpenTelemetry((p) =>
+        return builder.AddOpenTelemetry((options) =>
         {
-            p.IncludeFormattedMessage = true;
-            p.IncludeScopes = true;
+            options.IncludeFormattedMessage = true;
+            options.IncludeScopes = true;
+
+            options.SetResourceBuilder(TelemetryExtensions.ResourceBuilder);
 
             if (TelemetryExtensions.IsAzureMonitorConfigured())
             {
-                p.AddAzureMonitorLogExporter();
+                options.AddAzureMonitorLogExporter();
             }
 
             if (TelemetryExtensions.IsOtlpCollectorConfigured())
             {
-                p.AddOtlpExporter();
+                options.AddOtlpExporter();
             }
         });
     }

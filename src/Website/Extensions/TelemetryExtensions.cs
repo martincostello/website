@@ -16,17 +16,20 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class TelemetryExtensions
 {
     /// <summary>
+    /// Gets the <see cref="ResourceBuilder"/> to use for telemetry.
+    /// </summary>
+    public static ResourceBuilder ResourceBuilder { get; } = ResourceBuilder.CreateDefault()
+        .AddService(ApplicationTelemetry.ServiceName, serviceVersion: ApplicationTelemetry.ServiceVersion)
+        .AddAzureAppServiceDetector()
+        .AddContainerDetector();
+
+    /// <summary>
     /// Adds telemetry services to the specified <see cref="IServiceCollection"/>.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure telemetry for.</param>
     /// <param name="environment">The current <see cref="IWebHostEnvironment"/>.</param>
     public static void AddTelemetry(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        var resourceBuilder = ResourceBuilder.CreateDefault()
-            .AddService(ApplicationTelemetry.ServiceName, serviceVersion: ApplicationTelemetry.ServiceVersion)
-            .AddAzureAppServiceDetector()
-            .AddContainerDetector();
-
         if (IsAzureMonitorConfigured())
         {
             services.Configure<AzureMonitorExporterOptions>(
@@ -37,7 +40,7 @@ public static class TelemetryExtensions
             .AddOpenTelemetry()
             .WithMetrics((builder) =>
             {
-                builder.SetResourceBuilder(resourceBuilder)
+                builder.SetResourceBuilder(ResourceBuilder)
                        .AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        .AddRuntimeInstrumentation();
@@ -54,7 +57,7 @@ public static class TelemetryExtensions
             })
             .WithTracing((builder) =>
             {
-                builder.SetResourceBuilder(resourceBuilder)
+                builder.SetResourceBuilder(ResourceBuilder)
                        .AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        .AddSource(ApplicationTelemetry.ServiceName);
