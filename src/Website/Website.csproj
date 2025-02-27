@@ -19,7 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
-    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" />
+    <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" NoWarn="RT0003" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
@@ -38,8 +38,8 @@
     <TypeScriptCompile Include="assets\scripts\**\*.ts" />
   </ItemGroup>
   <Target Name="BundleAssets" BeforeTargets="BeforeBuild">
-    <Exec Command="npm ci" Condition=" '$(CI)' != '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
-    <Exec Command="npm install" Condition=" '$(CI)' == '' and !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
+    <Exec Command="npm ci" Condition=" '$(CI)' != '' AND !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
+    <Exec Command="npm install" Condition=" '$(CI)' == '' AND !Exists('$(MSBuildThisFileDirectory)\node_modules') " />
     <Exec Command="npm run build" Condition=" !Exists('$(MSBuildThisFileDirectory)\wwwroot\assets\js\main.js') " />
   </Target>
   <Target Name="AddGeneratedContentItems" BeforeTargets="AssignTargetPaths" Condition="'$(CI)' != ''">
