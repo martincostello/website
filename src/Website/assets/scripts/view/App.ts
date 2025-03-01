@@ -35,6 +35,7 @@ export class App {
                 let url = image.getAttribute('data-original');
                 url = encodeURI(url);
                 image.setAttribute('src', url);
+                image.removeAttribute('data-original');
             }
         }, 500);
 

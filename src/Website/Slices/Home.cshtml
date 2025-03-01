@@ -1,10 +1,16 @@
 @implements IUsesLayout<_Layout, LayoutModel>
 
 @{
+    var coverImage = "https://cdn.martincostello.com/cover.png";
     var request = HttpContext!.Request;
 }
 <div class="card bg-dark text-white">
-    <img src="https://cdn.martincostello.com/cover.png" class="card-img" alt="...">
+    <noscript>
+        <img src="@(coverImage)" class="card-img" aria-hidden="true">
+    </noscript>
+    <div class="cover-image-wrapper">
+        <img class="card-img cover-image lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="@(coverImage)" aria-hidden="true">
+    </div>
     <div class="card-img-overlay">
         <h1 class="card-title">Martin Costello</h1>
         <p class="card-text fw-bold">

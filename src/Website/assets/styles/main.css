@@ -31,10 +31,30 @@
     word-break: unset;
 }
 
+.cover-image {
+    position: absolute;
+    width: 100%;
+}
+
+.cover-image-wrapper {
+    height: 0;
+    padding-bottom: 31.25%;
+    width: 90%;
+}
+
 .form-control {
     color: var(--bs-secondary-color);
 }
 
 .no-resize {
-   resize: none;
+    resize: none;
+}
+
+img.lazy[data-original] {
+    opacity: 0;
+}
+
+img.lazy:not([data-original]) {
+    opacity: 1;
+    transition: opacity .5s linear 0.2s;
 }
