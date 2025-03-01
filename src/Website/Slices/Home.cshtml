@@ -1,15 +1,14 @@
 @implements IUsesLayout<_Layout, LayoutModel>
 
 @{
-    var coverImage = "https://cdn.martincostello.com/cover.png";
     var request = HttpContext!.Request;
 }
 <div class="card bg-dark text-white">
     <noscript>
-        <img src="@(coverImage)" class="card-img" aria-hidden="true">
+        <img src="@(CoverImage)" class="card-img" aria-hidden="true">
     </noscript>
     <div class="cover-image-wrapper">
-        <img class="card-img cover-image lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="@(coverImage)" aria-hidden="true">
+        <img class="card-img cover-image lazy" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original="@(CoverImage)" aria-hidden="true">
     </div>
     <div class="card-img-overlay">
         <h1 class="card-title">Martin Costello</h1>
@@ -60,5 +59,17 @@
 </div>
 
 @functions {
+    private const string CoverImage = "https://cdn.martincostello.com/cover.png";
+
     public LayoutModel LayoutModel { get; } = new("Home Page");
+
+    protected override Task ExecuteSectionAsync(string name)
+    {
+        if (name is "meta")
+        {
+            <link rel="preload" fetchpriority="high" as="image" href="@(CoverImage)" type="image/webp">
+        }
+
+        return Task.CompletedTask;
+    }
 }
