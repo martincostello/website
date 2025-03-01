@@ -85,43 +85,9 @@ public static class RedirectsModule
             }
         }
 
-        string[] crawlerPaths =
-        [
-            ".env",
-            ".git/{*catchall}",
-            "admin-console/{*catchall}",
-            "admin/{*catchall}",
-            "administration/{*catchall}",
-            "administrator/{*catchall}",
-            "appsettings.json",
-            "ajaxproxy/{*catchall}",
-            "bin/{*catchall}",
-            "bitrix/admin/{*catchall}",
-            "cms/{*catchall}",
-            "invoker/JMXInvokerServlet",
-            "jmx-console/HtmlAdaptor",
-            "modules/{*catchall}",
-            "obj/{*catchall}",
-            "package.json",
-            "package-lock.json",
-            "parameters.xml",
-            "readme.htm",
-            "readme.html",
-            "site/{*catchall}",
-            "sites/{*catchall}",
-            "tiny_mce/{*catchall}",
-            "uploadify/{*catchall}",
-            "web.config",
-            "web-console/Invoker",
-            "wordpress/{*catchall}",
-            "wp/{*catchall}",
-            "wp-admin/{*catchall}",
-            "wp-content/{*catchall}",
-            "wp-includes/{*catchall}",
-            "{catchall:regex(\\.(alfa|aspx?|jsp|php)$)}",
-        ];
+        var options = app.ServiceProvider.GetRequiredService<IOptions<SiteOptions>>();
 
-        foreach (string path in crawlerPaths)
+        foreach (string path in options.Value.CrawlerPaths)
         {
             app.MapMethods(path, HttpMethods, RandomYouTubeVideo);
         }
