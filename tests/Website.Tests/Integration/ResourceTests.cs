@@ -155,6 +155,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     [InlineData("/blog/foo", "blog.martincostello.com")]
     [InlineData("/bsky", "bsky.app")]
     [InlineData("/bluesky", "bsky.app")]
+    [InlineData("/cv", "www.linkedin.com")]
     [InlineData("/gh", "github.com")]
     [InlineData("/github", "github.com")]
     [InlineData("/home/blog", "blog.martincostello.com")]

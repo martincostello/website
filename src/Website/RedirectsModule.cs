@@ -25,7 +25,7 @@ public static class RedirectsModule
         ["https://sessionize.com/martincostello/"] = ["/sessionize"],
         ["https://stackoverflow.com/users/1064169/martin-costello"] = ["/so", "/stack", "/stackoverflow", "/stack-overflow"],
         ["https://twitter.com/martin_costello"] = ["/tweet", "/tweets", "/twitter", "/x"],
-        ["https://www.linkedin.com/in/martin-costello/"] = ["/in", "/linked-in", "/linkedin"],
+        ["https://www.linkedin.com/in/martin-costello/"] = ["/cv", "/in", "/linked-in", "/linkedin"],
         ["https://www.youtube.com/playlist?list=PLG-3gLA2F6RiKi-H4E3-QroJGhn9iRTwU"] = ["/youtube"],
     };
 
