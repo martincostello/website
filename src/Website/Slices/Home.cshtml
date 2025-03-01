@@ -3,11 +3,24 @@
 @{
     var request = HttpContext!.Request;
 }
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Martin Costello</h1>
-        <p class="col-md-8 fs-4">.NET Software Developer &amp; Tester</p>
-    </div>
+<div class="card mb-3">
+  <img class="card-img-top" src="https://cdn.martincostello.com/cover.png" alt="Martin Costello" aria-hidden="true">
+  <h1 class="card-header">Martin Costello</h1>
+  <div class="card-body">
+    <p class="card-text fw-bold">
+        .NET Software Developer &amp; Tester
+    </p>
+    <a href="@(request.Content("~/github", false))" class="btn btn-primary" rel="noopener" role="button" target="_blank">
+        @@martincostello
+        <span class="fa-brands fa-github fa-fw" aria-hidden="true"></span>
+        <span class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></span>
+    </a>
+    <a href="@(request.Content("~/bsky", false))" class="btn btn-primary" rel="noopener" role="button" target="_blank">
+        @@martincostello.com
+        <span class="fa-brands fa-bluesky fa-fw" aria-hidden="true"></span>
+        <span class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></span>
+    </a>
+  </div>
 </div>
 <div class="row">
     <div class="col-md-4">
