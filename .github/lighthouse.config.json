@@ -1,0 +1,9 @@
+{
+  "config": {
+    "settings": {
+      "skipAudits": [
+        "uses-long-cache-ttl"
+      ]
+    }
+  }
+}
