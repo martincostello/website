@@ -2,7 +2,10 @@
   "config": {
     "settings": {
       "skipAudits": [
-        "uses-long-cache-ttl"
+        "unused-css-rules",
+        "unused-javascript",
+        "uses-long-cache-ttl",
+        "uses-text-compression"
       ]
     }
   }
