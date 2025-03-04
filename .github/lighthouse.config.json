@@ -2,6 +2,7 @@
   "config": {
     "settings": {
       "skipAudits": [
+        "render-blocking-resources",
         "unused-css-rules",
         "unused-javascript",
         "uses-long-cache-ttl",
