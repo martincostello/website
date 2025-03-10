@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>End-to-end tests for https://martincostello.com/</Description>
+    <Description>End-to-end tests for Martin Costello's website</Description>
     <IsTestProject>true</IsTestProject>
-    <NoWarn>$(NoWarn);CA1308;CA1711;CA2000;CA2007;SA1600</NoWarn>
+    <NoWarn>$(NoWarn);CA2000</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.Website</RootNamespace>
-    <Summary>End-to-end tests for Martin Costello's website</Summary>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
