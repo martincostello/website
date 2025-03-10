@@ -15,6 +15,7 @@ Bin
 BuildOutput
 coverage
 coverage*
+MSBuild_Logs/
 node_modules
 obj
 packages
