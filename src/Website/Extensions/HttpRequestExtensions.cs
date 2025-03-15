@@ -66,8 +66,7 @@ public static class HttpRequestExtensions
             return string.Empty;
         }
 
-        // Azure Blob storage is case-sensitive, so force all URLs to lowercase
-        return value.ToAbsolute(cdn.Host, contentPath.ToLowerInvariant());
+        return $"{cdn}{value.Content(contentPath)}";
     }
 
     /// <summary>
@@ -104,7 +103,4 @@ public static class HttpRequestExtensions
 
         return result;
     }
-
-    private static string ToAbsolute(this HttpRequest request, string host, string contentPath)
-        => new Uri(new Uri(request.Scheme + "://" + host), request.Content(contentPath)).ToString();
 }
