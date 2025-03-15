@@ -66,7 +66,7 @@ public static class HttpRequestExtensions
             return string.Empty;
         }
 
-        return $"{cdn}{value.Content(contentPath)}";
+        return $"{cdn}{value.Content(contentPath)?.TrimStart('/')}";
     }
 
     /// <summary>
