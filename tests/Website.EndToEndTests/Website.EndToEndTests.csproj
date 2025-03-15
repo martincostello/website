@@ -5,7 +5,7 @@
     <NoWarn>$(NoWarn);CA2000</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.Website</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
