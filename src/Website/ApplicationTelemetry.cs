@@ -24,4 +24,13 @@ public static class ApplicationTelemetry
     /// The custom activity source for the service.
     /// </summary>
     public static readonly ActivitySource ActivitySource = new(ServiceName, ServiceVersion);
+
+    /// <summary>
+    /// Returns whether an OTLP collector is configured.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if an OTLP collector is configured; otherwise <see langword="false"/>.
+    /// </returns>
+    public static bool IsOtlpCollectorConfigured()
+        => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT"));
 }

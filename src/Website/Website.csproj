@@ -16,7 +16,6 @@
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" />
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" NoWarn="RT0003" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
