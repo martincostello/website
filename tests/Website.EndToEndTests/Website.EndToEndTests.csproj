@@ -6,10 +6,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
-    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />

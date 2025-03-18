@@ -6,10 +6,11 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
-    <Content Include="testsettings.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="testsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="localhost-dev.pfx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
