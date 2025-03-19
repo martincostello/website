@@ -30,16 +30,16 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         filter: 'tree:0'
         show-progress: false
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
 
     - name: Setup Node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
       with:
         node-version: '22'
 
@@ -48,7 +48,7 @@ jobs:
       run: ./benchmark.ps1
 
     - name: Publish BenchmarkDotNet artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
       if: ${{ !cancelled() }}
       with:
         name: artifacts
@@ -63,7 +63,7 @@ jobs:
         "repo-name=${repoName}" >> ${env:GITHUB_OUTPUT}
 
     - name: Publish results
-      uses: martincostello/benchmarkdotnet-results-publisher@v1
+      uses: martincostello/benchmarkdotnet-results-publisher@2090db9dca99a23ff464351db28aa6c6bf1a4746 # v1.0.1
       with:
         branch: ${{ github.ref_name }}
         comment-on-threshold: true
