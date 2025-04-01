@@ -38,7 +38,7 @@
     "style-loader": "^4.0.0",
     "stylelint": "^16.17.0",
     "stylelint-config-standard": "^37.0.0",
-    "ts-jest": "^29.3.0",
+    "ts-jest": "^29.3.1",
     "ts-loader": "^9.5.2",
     "tsify": "^5.0.4",
     "typescript": "^5.8.2",
