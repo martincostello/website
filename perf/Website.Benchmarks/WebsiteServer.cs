@@ -86,7 +86,7 @@ internal sealed class WebsiteServer : IAsyncDisposable
 
         do
         {
-            string? solutionPath = Directory.EnumerateFiles(directoryInfo.FullName, "Website.sln").FirstOrDefault();
+            string? solutionPath = Directory.EnumerateFiles(directoryInfo.FullName, "Website.slnx").FirstOrDefault();
 
             if (solutionPath is not null)
             {

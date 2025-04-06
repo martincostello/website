@@ -51,7 +51,7 @@ public class TestServerFixture : WebApplicationFactory<Models.MetaModel>, ITestO
     {
         builder.ConfigureAppConfiguration(ConfigureTests)
                .ConfigureLogging((loggingBuilder) => loggingBuilder.ClearProviders().AddXUnit(this))
-               .UseSolutionRelativeContentRoot(Path.Combine("src", "Website"));
+               .UseSolutionRelativeContentRoot(Path.Combine("src", "Website"), "*.slnx");
     }
 
     /// <summary>
