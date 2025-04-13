@@ -29,6 +29,7 @@
     <PackageReference Include="OpenTelemetry.Resources.OperatingSystem" />
     <PackageReference Include="OpenTelemetry.Resources.ProcessRuntime" />
     <PackageReference Include="RazorSlices" />
+    <PackageReference Include="Sentry.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <ContainerPort Include="8080" Type="tcp" />
