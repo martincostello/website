@@ -46,4 +46,8 @@
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
   </Target>
+  <!-- HACK Workaround for TODO -->
+  <ItemGroup>
+    <LinkerArg Include="/NODEFAULTLIB:MSVCRT" />
+  </ItemGroup>
 </Project>
