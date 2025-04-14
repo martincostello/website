@@ -47,7 +47,7 @@
     </ItemGroup>
   </Target>
   <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/3928 -->
-  <ItemGroup>
+  <ItemGroup Condition=" $([System.OperatingSystem]::IsWindows()) ">
     <LinkerArg Include="/NODEFAULTLIB:MSVCRT" />
   </ItemGroup>
 </Project>
