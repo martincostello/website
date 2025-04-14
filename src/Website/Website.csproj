@@ -46,7 +46,7 @@
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
   </Target>
-  <!-- HACK Workaround for TODO -->
+  <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/3928 -->
   <ItemGroup>
     <LinkerArg Include="/NODEFAULTLIB:MSVCRT" />
   </ItemGroup>
