@@ -75,6 +75,7 @@ jobs:
           "NUGET_PACKAGES=$nugetHome" >> ${env:GITHUB_ENV}
         }
 
+    # HACK Workaround https://github.com/getsentry/sentry-dotnet/issues/4116
     - name: Install native dependencies for Sentry
       shell: bash
       if: runner.os == 'Linux'
