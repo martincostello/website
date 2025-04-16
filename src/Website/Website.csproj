@@ -29,6 +29,7 @@
     <PackageReference Include="OpenTelemetry.Resources.OperatingSystem" />
     <PackageReference Include="OpenTelemetry.Resources.ProcessRuntime" />
     <PackageReference Include="RazorSlices" />
+    <PackageReference Include="Sentry.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <ContainerPort Include="8080" Type="tcp" />
@@ -45,4 +46,8 @@
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
   </Target>
+  <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/3928 -->
+  <ItemGroup Condition=" $([System.OperatingSystem]::IsWindows()) ">
+    <LinkerArg Include="/NODEFAULTLIB:MSVCRT" />
+  </ItemGroup>
 </Project>
