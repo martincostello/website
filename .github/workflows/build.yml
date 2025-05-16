@@ -125,7 +125,7 @@ jobs:
       run: ./build.ps1
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
+      uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
       with:
         flags: ${{ matrix.os-name }}
         token: ${{ secrets.CODECOV_TOKEN }}
@@ -156,14 +156,14 @@ jobs:
         dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
 
     - name: Generate SBOM for container
-      uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
+      uses: anchore/sbom-action@e11c554f704a0b820cbf8c51673f6945e0731532 # v0.20.0
       if: steps.publish-container.outputs.container-tag != ''
       with:
         image: ${{ steps.publish-container.outputs.container-tag }}
         output-file: ./artifacts/sbom-container.json
 
     - name: Attest container image
-      uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
+      uses: actions/attest-build-provenance@db473fddc028af60658334401dc6fa3ffd8669fd # v2.3.0
       if: steps.publish-container.outputs.container-digest != ''
       with:
         push-to-registry: true
