@@ -27,9 +27,11 @@
     <File Path=".github/workflows/benchmark.yml" />
     <File Path=".github/workflows/build.yml" />
     <File Path=".github/workflows/codeql.yml" />
+    <File Path=".github/workflows/component-detection.yml" />
     <File Path=".github/workflows/container-scan.yml" />
     <File Path=".github/workflows/dependency-review.yml" />
     <File Path=".github/workflows/deploy.yml" />
+    <File Path=".github/workflows/deploy-app.yml" />
     <File Path=".github/workflows/lighthouse.yml" />
     <File Path=".github/workflows/lint.yml" />
   </Folder>
