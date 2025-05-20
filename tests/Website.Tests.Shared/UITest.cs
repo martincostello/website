@@ -9,6 +9,7 @@ namespace MartinCostello.Website;
 /// <summary>
 /// The base class for browser tests.
 /// </summary>
+[Category("UI")]
 public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, IDisposable
 {
     /// <summary>
