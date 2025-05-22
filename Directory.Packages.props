@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <GlobalPackageReference Include="MartinCostello.BuildKit" Version="0.6.3" />
+    <GlobalPackageReference Include="MartinCostello.BuildKit" Version="0.6.4" />
     <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.11" PrivateAssets="All" />
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
   </ItemGroup>
@@ -9,7 +9,7 @@
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
     <PackageVersion Include="JunitXml.TestLogger" Version="6.1.0" />
-    <PackageVersion Include="MartinCostello.Logging.XUnit.v3" Version="0.5.1" />
+    <PackageVersion Include="MartinCostello.Logging.XUnit.v3" Version="0.6.0" />
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="9.0.5" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.5" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
