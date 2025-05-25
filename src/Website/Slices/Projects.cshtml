@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Html
 @implements IUsesLayout<_Layout, LayoutModel>
 
 <h1>@(LayoutModel.Title)</h1>
@@ -6,189 +7,56 @@
 </p>
 <br />
 <div class="row">
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">SQL LocalDB Wrapper</div>
-            <div class="card-body">
-                <p>
-                    A .NET assembly for using the Microsoft SQL Server Express
-                    <a id="link-localdb" href="https://learn.microsoft.com/sql/relational-databases/express-localdb-instance-apis/sql-server-express-localdb-reference-instance-apis" title="Learn about the SQL Server Express LocalDB API">
-                        LocalDB Instance API
-                    </a>.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("sqllocaldb"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("sqllocaldb"))
-                </p>
-                <p>
-                    <a id="link-repo-localdb" href="https://github.com/martincostello/sqllocaldb" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">HttpClient Interception</div>
-            <div class="card-body">
-                <p>
-                    A .NET Standard library for
-                    <a id="link-httpinterception" href="https://tech.just-eat.com/2017/10/02/reliably-testing-http-integrations-in-a-dotnet-application/" title="Reliably Testing HTTP Integrations in a .NET Application">
-                        intercepting server-side HTTP dependencies
-                    </a>.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("justeat/httpclient-interception"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("justeat/httpclient-interception"))
-                </p>
-                <p>
-                    <a id="link-repo-httpinterception" href="https://github.com/justeat/httpclient-interception" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Lambda Test Server</div>
-            <div class="card-body">
-                <p>
-                    A .NET class library to use with integration tests of .NET functions in AWS Lambda.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("lambda-test-server"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("lambda-test-server"))
-                </p>
-                <p>
-                    <a id="link-repo-lambda-test-server" href="https://github.com/martincostello/lambda-test-server" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Apple Pay JS Sample Code</div>
-            <div class="card-body">
-                <p>
-                    Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/reference/applepayjs/" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("justeat/ApplePayJSSample"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("justeat/ApplePayJSSample"))
-                </p>
-                <p>
-                    <a id="link-repo-apple-pay-sample" href="https://github.com/justeat/ApplePayJSSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Sign in with Apple Sample Code</div>
-            <div class="card-body">
-                <p>
-                    A sample implementation of <a id="link-sign-in-with-apple-docs" href="https://developer.apple.com/documentation/signinwithapplerestapi" rel="noopener" target="_blank" title="View the Sign in with Apple documentation">Sign in with Apple</a> for ASP.NET Core.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("SignInWithAppleSample"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("SignInWithAppleSample"))
-                </p>
-                <p>
-                    <a id="link-repo-sign-in-with-apple" href="https://github.com/martincostello/SignInWithAppleSample" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Blog</div>
-            <div class="card-body">
-                <p>
-                    Martin's
-                    <a id="link-blog-project" href="@(Options.Value?.ExternalLinks?.Blog?.AbsoluteUri)" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
-                    a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("blog"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("blog"))
-                </p>
-                <p>
-                    <a id="link-repo-blog" href="https://github.com/martincostello/blog" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Alexa London Travel</div>
-            <div class="card-body">
-                <p>
-                    An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>. You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("alexa-london-travel"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("alexa-london-travel"))
-                </p>
-                <p>
-                    <a id="link-repo-alexa" href="https://github.com/martincostello/alexa-london-travel" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">Alexa London Travel Site</div>
-            <div class="card-body">
-                <p>
-                    A companion website for the London Travel Alexa skill using ASP.NET Core Identity.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("alexa-london-travel-site"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("alexa-london-travel-site"))
-                </p>
-                <p>
-                    <a id="link-repo-alexa-site" href="https://github.com/martincostello/alexa-london-travel-site" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 mb-3">
-        <div class="card">
-            <div class="card-header">This website</div>
-            <div class="card-body">
-                <p>
-                    The very website you're looking at
-                    <a id="link-self-source" href="https://github.com/martincostello/website/blob/@(GitMetadata.Commit)/src/Website/Slices/Projects.cshtml#L@(CurrentLineNumber())" title="View the source for this page">
-                        right now
-                    </a>
-                    which is implemented using ASP.NET Core.
-                </p>
-                <p>
-                    @(await RenderPartialAsync<_GitHubStar, string>("website"))
-                    @(await RenderPartialAsync<_GitHubFork, string>("website"))
-                </p>
-                <p>
-                    <a id="link-repo-website" href="https://github.com/martincostello/website" rel="noopener" target="_blank" title="View the project on GitHub" class="btn btn-lg btn-primary">
-                        Visit project site &raquo;
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
+    @{
+        await ProjectCardAsync("martincostello/sqllocaldb", "SQL LocalDB Wrapper", @<p>
+            A .NET library for using the Microsoft SQL Server Express
+            <a id="link-localdb" href="https://learn.microsoft.com/sql/relational-databases/express-localdb-instance-apis/sql-server-express-localdb-reference-instance-apis" rel="noopener" target="_blank" title="Learn about the SQL Server Express LocalDB API">
+                LocalDB Instance API
+            </a>.
+        </p>);
+
+        await ProjectCardAsync("justeat/httpclient-interception", "HttpClient Interception", @<p>
+            A .NET library for
+            <a id="link-httpinterception" href="https://blog.martincostello.com/reliably-testing-http-integrations-in-dotnet-applications/" rel="noopener" target="_blank" title="Reliably Testing HTTP Integrations in a .NET Application">
+                intercepting server-side HTTP dependencies
+            </a>.
+        </p>);
+
+        await ProjectCardAsync( "martincostello/lambda-test-server", "Lambda Test Server", @<p>
+            A .NET class library to use with integration tests of .NET functions in AWS Lambda.
+        </p>);
+
+        await ProjectCardAsync("justeat/ApplePayJSSample", "Apple Pay JS Sample Code", @<p>
+            Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/documentation/applepayontheweb" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
+        </p>);
+
+        await ProjectCardAsync("martincostello/SignInWithAppleSample", "Sign in with Apple Sample Code", @<p>
+            A sample implementation of <a id="link-sign-in-with-apple-docs" href="https://developer.apple.com/documentation/signinwithapplerestapi" rel="noopener" target="_blank" title="View the Sign in with Apple documentation">Sign in with Apple</a> for ASP.NET Core.
+        </p>);
+
+        await ProjectCardAsync("martincostello/blog", "Blog", @<p>
+            Martin&apos;s
+            <a id="link-blog-project" href="@(Options.Value?.ExternalLinks?.Blog?.AbsoluteUri)" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
+            a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
+        </p>);
+
+        await ProjectCardAsync("martincostello/alexa-london-travel", "Alexa London Travel", @<p>
+            An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>.
+            You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
+        </p>);
+
+        await ProjectCardAsync("martincostello/alexa-london-travel-site", "Alexa London Travel Site", @<p>
+            A companion website for the London Travel Alexa skill using ASP.NET Core Identity.
+        </p>);
+
+        await ProjectCardAsync("martincostello/website", "This website", @<p>
+            The very website you&apos;re looking at
+            <a id="link-self-source" href="https://github.com/martincostello/website/blob/@(GitMetadata.Commit)/src/Website/Slices/Projects.cshtml#L@(CurrentLineNumber())" title="View the source for this page">
+                right now
+            </a>
+            which is implemented using ASP.NET Core.
+        </p>);
+    }
 </div>
 
 @functions {
@@ -208,7 +76,43 @@
     }
 
     private static int CurrentLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
+        => lineNumber;
+
+    private async Task<IHtmlContent> ProjectCardAsync(
+        string repository,
+        string title,
+        Func<HtmlContentBuilder?, IHtmlContent> description)
     {
-        return lineNumber;
+        return await ProjectCardAsync(
+            repository,
+            title,
+            description(null));
+    }
+
+    private async Task<IHtmlContent> ProjectCardAsync(
+        string repository,
+        string title,
+        IHtmlContent description)
+    {
+        <div class="col-lg-4 mb-3">
+            <div class="card">
+                <div class="card-header">@(title)</div>
+                <div class="card-body">
+                    <p>
+                        @(description)
+                    </p>
+                    <p>
+                        @(await RenderPartialAsync<_GitHubStar, string>(repository))
+                        @(await RenderPartialAsync<_GitHubFork, string>(repository))
+                    </p>
+                    <p>
+                        <a id="link-repo-@(repository)" href="https://github.com/@(repository)" rel="noopener" target="_blank" title="View the project in GitHub" class="btn btn-lg btn-primary">
+                            Visit project site &raquo;
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        return HtmlString.Empty;
     }
 }
