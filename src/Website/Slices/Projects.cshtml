@@ -8,7 +8,7 @@
 <br />
 <div class="row">
     @{
-        await ProjectCardAsync("martincostello/sqllocaldb", "SQL LocalDB Wrapper", "fa-solid fa-database",
+        ProjectCard("martincostello/sqllocaldb", "SQL LocalDB Wrapper", "fa-solid fa-database",
         @<p>
             A .NET library for using the Microsoft SQL Server Express
             <a id="link-localdb" href="https://learn.microsoft.com/sql/relational-databases/express-localdb-instance-apis/sql-server-express-localdb-reference-instance-apis" rel="noopener" target="_blank" title="Learn about the SQL Server Express LocalDB API">
@@ -16,7 +16,7 @@
             </a>.
         </p>);
 
-        await ProjectCardAsync("justeat/httpclient-interception", "HttpClient Interception", "fa-solid fa-code",
+        ProjectCard("justeat/httpclient-interception", "HttpClient Interception", "fa-solid fa-code",
         @<p>
             A .NET library for
             <a id="link-httpinterception" href="https://blog.martincostello.com/reliably-testing-http-integrations-in-dotnet-applications/" rel="noopener" target="_blank" title="Reliably Testing HTTP Integrations in a .NET Application">
@@ -24,55 +24,55 @@
             </a>.
         </p>);
 
-        await ProjectCardAsync("martincostello/lambda-test-server", "Lambda Test Server", "fa-solid fa-bolt",
+        ProjectCard("martincostello/lambda-test-server", "Lambda Test Server", "fa-solid fa-bolt",
         @<p>
             A .NET class library to use with integration tests of .NET functions in AWS Lambda.
         </p>);
 
-        await ProjectCardAsync("App-vNext/Polly", "Polly", "fa-solid fa-crow",
+        ProjectCard("App-vNext/Polly", "Polly", "fa-solid fa-crow",
         @<p>
             A .NET resilience and transient-fault-handling library for applications of any size.
         </p>);
 
-        await ProjectCardAsync("domaindrivendev/Swashbuckle.AspNetCore", "Swashbuckle.AspNetCore", "fa-solid fa-skull-crossbones",
+        ProjectCard("domaindrivendev/Swashbuckle.AspNetCore", "Swashbuckle.AspNetCore", "fa-solid fa-skull-crossbones",
         @<p>
             Swagger/OpenAPI tools for documenting APIs built with ASP.NET Core.
         </p>);
 
-        await ProjectCardAsync("aspnet-contrib/AspNet.Security.OAuth.Providers", "AspNet.Security.OAuth.Providers", "fa-solid fa-door-open",
+        ProjectCard("aspnet-contrib/AspNet.Security.OAuth.Providers", "AspNet.Security.OAuth.Providers", "fa-solid fa-door-open",
         @<p>
             OAuth 2.0 social authentication providers for ASP.NET Core.
         </p>);
 
-        await ProjectCardAsync("justeat/ApplePayJSSample", "Apple Pay JS Sample Code", "fa-brands fa-apple-pay",
+        ProjectCard("justeat/ApplePayJSSample", "Apple Pay JS Sample Code", "fa-brands fa-apple-pay",
         @<p>
             Sample code for integrating <a id="link-apple-pay-sample" href="https://developer.apple.com/documentation/applepayontheweb" rel="noopener" target="_blank" title="View the Apple Pay JS documentation">Apple Pay JS</a> into an ASP.NET Core website.
         </p>);
 
-        await ProjectCardAsync("martincostello/SignInWithAppleSample", "Sign in with Apple Sample Code", "fa-brands fa-apple",
+        ProjectCard("martincostello/SignInWithAppleSample", "Sign in with Apple Sample Code", "fa-brands fa-apple",
         @<p>
             A sample implementation of <a id="link-sign-in-with-apple-docs" href="https://developer.apple.com/documentation/signinwithapplerestapi" rel="noopener" target="_blank" title="View the Sign in with Apple documentation">Sign in with Apple</a> for ASP.NET Core.
         </p>);
 
-        await ProjectCardAsync("martincostello/blog", "Blog", "fa-solid fa-blog",
+        ProjectCard("martincostello/blog", "Blog", "fa-solid fa-blog",
         @<p>
             Martin&apos;s
             <a id="link-blog-project" href="@(Options.Value?.ExternalLinks?.Blog?.AbsoluteUri)" title="Visit Martin's blog" rel="noopener" target="_blank">blog</a>,
             a static site implemented using <a href="https://middlemanapp.com/" title="View the Middleman website" rel="noopener" target="_blank">Middleman</a>.
         </p>);
 
-        await ProjectCardAsync("martincostello/alexa-london-travel", "Alexa London Travel", "fa-solid fa-train-subway",
+        ProjectCard("martincostello/alexa-london-travel", "Alexa London Travel", "fa-solid fa-train-subway",
         @<p>
             An Alexa skill that uses the <a id="link-tfl-api" href="https://api.tfl.gov.uk/" rel="noopener" target="_blank" title="View the TfL API">TfL API</a>.
             You can find the skill on <a id="link-amazon-skill" href="https://www.amazon.co.uk/dp/B01NB0T86R" rel="noopener" target="_blank" title="London Travel on amazon.co.uk">amazon.co.uk</a>.
         </p>);
 
-        await ProjectCardAsync("martincostello/alexa-london-travel-site", "Alexa London Travel Site", "fa-brands fa-html5",
+        ProjectCard("martincostello/alexa-london-travel-site", "Alexa London Travel Site", "fa-brands fa-html5",
         @<p>
             A companion website for the London Travel Alexa skill using ASP.NET Core Identity.
         </p>);
 
-        await ProjectCardAsync("martincostello/website", "This website", "fa-brands fa-html5",
+        ProjectCard("martincostello/website", "This website", "fa-brands fa-html5",
         @<p>
             The very website you&apos;re looking at
             <a id="link-self-source" href="https://github.com/martincostello/website/blob/@(GitMetadata.Commit)/src/Website/Slices/Projects.cshtml#L@(CurrentLineNumber())" title="View the source for this page">
@@ -102,7 +102,7 @@
     private static int CurrentLineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
         => lineNumber;
 
-    private async Task<IHtmlContent> ProjectCardAsync(
+    private IHtmlContent ProjectCard(
         string repository,
         string title,
         string iconClasses,
@@ -119,8 +119,12 @@
                         @(description(null))
                     </p>
                     <p>
-                        @(await RenderPartialAsync<_GitHubStar, string>(repository))
-                        @(await RenderPartialAsync<_GitHubFork, string>(repository))
+                        <a class="github-button" href="https://github.com/@(repository)" data-icon="octicon-star" data-show-count="true" data-size="large" aria-label="Star @(repository) on GitHub">
+                            Stars
+                        </a>
+                        <a class="github-button" href="https://github.com/@(repository)/fork" data-icon="octicon-repo-forked" data-show-count="true" data-size="large" aria-label="Fork @(repository) on GitHub">
+                            Forks
+                        </a>
                     </p>
                     <p>
                         <a id="link-repo-@(repository)" href="https://github.com/@(repository)" rel="noopener" target="_blank" title="View the project in GitHub" class="btn btn-lg btn-primary">
