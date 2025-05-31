@@ -151,6 +151,7 @@ jobs:
       shell: pwsh
       env:
         ContainerRegistry: ${{ env.PUBLISH_CONTAINER == 'true' && env.CONTAINER_REGISTRY || '' }}
+        SentryAuthToken: ${{ secrets.SENTRY_TOKEN }}
       run: |
         dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
 
