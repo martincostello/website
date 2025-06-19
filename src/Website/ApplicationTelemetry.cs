@@ -2,6 +2,8 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Diagnostics;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
 
 namespace MartinCostello.Website;
 
@@ -24,6 +26,17 @@ public static class ApplicationTelemetry
     /// The custom activity source for the service.
     /// </summary>
     public static readonly ActivitySource ActivitySource = new(ServiceName, ServiceVersion);
+
+    /// <summary>
+    /// Gets the <see cref="ResourceBuilder"/> to use for telemetry.
+    /// </summary>
+    public static ResourceBuilder ResourceBuilder { get; } = ResourceBuilder.CreateDefault()
+        .AddService(ServiceName, serviceVersion: ServiceVersion)
+        .AddAzureAppServiceDetector()
+        .AddContainerDetector()
+        .AddHostDetector()
+        .AddOperatingSystemDetector()
+        .AddProcessRuntimeDetector();
 
     /// <summary>
     /// Returns whether an OTLP collector is configured.
