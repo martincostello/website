@@ -10,7 +10,7 @@
     <PublishAot>true</PublishAot>
     <PublishSelfContained>true</PublishSelfContained>
     <RootNamespace>MartinCostello.Website</RootNamespace>
-    <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/4296 -->Add commentMore actions
+    <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/4296 -->
     <SentryNative>false</SentryNative>
     <TargetFramework>net9.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
