@@ -4,7 +4,6 @@
 using MartinCostello.Website;
 using OpenTelemetry.Instrumentation.Http;
 using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -14,16 +13,6 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class TelemetryExtensions
 {
-    /// <summary>
-    /// Gets the <see cref="ResourceBuilder"/> to use for telemetry.
-    /// </summary>
-    public static ResourceBuilder ResourceBuilder { get; } = ResourceBuilder.CreateDefault()
-        .AddService(ApplicationTelemetry.ServiceName, serviceVersion: ApplicationTelemetry.ServiceVersion)
-        .AddAzureAppServiceDetector()
-        .AddContainerDetector()
-        .AddOperatingSystemDetector()
-        .AddProcessRuntimeDetector();
-
     /// <summary>
     /// Adds telemetry services to the specified <see cref="IServiceCollection"/>.
     /// </summary>
@@ -35,7 +24,7 @@ public static class TelemetryExtensions
             .AddOpenTelemetry()
             .WithMetrics((builder) =>
             {
-                builder.SetResourceBuilder(ResourceBuilder)
+                builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
                        .AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        .AddProcessInstrumentation()
@@ -48,7 +37,7 @@ public static class TelemetryExtensions
             })
             .WithTracing((builder) =>
             {
-                builder.SetResourceBuilder(ResourceBuilder)
+                builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
                        .AddAspNetCoreInstrumentation()
                        .AddHttpClientInstrumentation()
                        .AddSource(ApplicationTelemetry.ServiceName);
