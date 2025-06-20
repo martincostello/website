@@ -12,7 +12,7 @@
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/4296 -->
     <SentryNative>false</SentryNative>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
