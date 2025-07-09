@@ -9,6 +9,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <PublishAot>true</PublishAot>
     <PublishSelfContained>true</PublishSelfContained>
+    <PyroscopeApplicationName>website-martincostello</PyroscopeApplicationName>
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
