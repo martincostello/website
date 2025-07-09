@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" />
+  <PropertyGroup>
+    <IsAspireHost>true</IsAspireHost>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <UserSecretsId>martincostello.com-AppHost</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Website\Website.csproj" />
+  </ItemGroup>
+</Project>

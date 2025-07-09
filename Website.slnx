@@ -39,6 +39,7 @@
     <File Path=".vscode/tasks.json" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Website.AppHost/Website.AppHost.csproj" />
     <Project Path="src/Website/Website.csproj" />
   </Folder>
   <Folder Name="/tests/">
