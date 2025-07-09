@@ -31,7 +31,7 @@ public static class ApplicationTelemetry
     /// Gets the <see cref="ResourceBuilder"/> to use for telemetry.
     /// </summary>
     public static ResourceBuilder ResourceBuilder { get; } = ResourceBuilder.CreateDefault()
-        .AddService(ServiceName, serviceVersion: ServiceVersion)
+        .AddService(ServiceName, ServiceName, ServiceVersion)
         .AddAzureAppServiceDetector()
         .AddContainerDetector()
         .AddHostDetector()
