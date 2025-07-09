@@ -31,7 +31,7 @@ public static class ApplicationTelemetry
     /// </summary>
     public static ResourceBuilder ResourceBuilder { get; } = ResourceBuilder.CreateDefault()
         .AddService(ServiceName, ServiceName, ServiceVersion)
-        .AddAttributes([new KeyValuePair<string, object>("deployment.environment.name", Environment.GetEnvironmentVariable("Azure__Environment") ?? string.Empty)])
+        .AddAttributes([new KeyValuePair<string, object>("deployment.environment.name", Environment.GetEnvironmentVariable("Azure__Environment") ?? "production")])
         .AddAzureAppServiceDetector()
         .AddContainerDetector()
         .AddHostDetector()
