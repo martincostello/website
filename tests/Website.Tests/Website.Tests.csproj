@@ -7,11 +7,13 @@
     <RootNamespace>MartinCostello.Website</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
     <UseDefaultCodeAnalysisRuleSet>true</UseDefaultCodeAnalysisRuleSet>
+    <UseLocalDevelopmentCertificate>true</UseLocalDevelopmentCertificate>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyMetadata Include="DevCertificateFileName" Value="$([System.IO.Path]::GetFileName('$(LocalDevelopmentCertificatePath)'))" />
+    <AssemblyMetadata Include="DevCertificatePassword" Value="$(LocalDevelopmentCertificatePassword)" />
     <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
     <Content Include="testsettings.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="localhost-dev.pfx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Website\Website.csproj" />
