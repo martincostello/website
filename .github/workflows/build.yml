@@ -249,7 +249,7 @@ jobs:
     needs: [ build ]
     uses: ./.github/workflows/deploy-app.yml
     permissions:
-      contents: read
+      contents: write
       id-token: write
       pull-requests: write
     secrets: inherit
@@ -265,7 +265,7 @@ jobs:
     needs: [ build, deploy-dev ]
     uses: ./.github/workflows/deploy-app.yml
     permissions:
-      contents: read
+      contents: write
       id-token: write
       pull-requests: write
     secrets: inherit
