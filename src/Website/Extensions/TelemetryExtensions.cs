@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using MartinCostello.Website;
+using OpenTelemetry;
 using OpenTelemetry.Instrumentation.Http;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -20,38 +21,33 @@ public static class TelemetryExtensions
     /// <param name="environment">The current <see cref="IWebHostEnvironment"/>.</param>
     public static void AddTelemetry(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        services
-            .AddOpenTelemetry()
-            .WithMetrics((builder) =>
-            {
-                builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
-                       .AddAspNetCoreInstrumentation()
-                       .AddHttpClientInstrumentation()
-                       .AddProcessInstrumentation()
-                       .AddMeter("System.Runtime");
+        var builder = services.AddOpenTelemetry();
 
-                if (ApplicationTelemetry.IsOtlpCollectorConfigured())
-                {
-                    builder.AddOtlpExporter();
-                }
-            })
-            .WithTracing((builder) =>
-            {
-                builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
-                       .AddAspNetCoreInstrumentation()
-                       .AddHttpClientInstrumentation()
-                       .AddSource(ApplicationTelemetry.ServiceName);
+        if (ApplicationTelemetry.IsOtlpCollectorConfigured())
+        {
+            builder.UseOtlpExporter();
+        }
 
-                if (environment.IsDevelopment())
-                {
-                    builder.SetSampler(new AlwaysOnSampler());
-                }
+        builder.WithMetrics((builder) =>
+               {
+                   builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
+                          .AddAspNetCoreInstrumentation()
+                          .AddHttpClientInstrumentation()
+                          .AddProcessInstrumentation()
+                          .AddMeter("System.Runtime");
+               })
+               .WithTracing((builder) =>
+               {
+                   builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
+                          .AddAspNetCoreInstrumentation()
+                          .AddHttpClientInstrumentation()
+                          .AddSource(ApplicationTelemetry.ServiceName);
 
-                if (ApplicationTelemetry.IsOtlpCollectorConfigured())
-                {
-                    builder.AddOtlpExporter();
-                }
-            });
+                   if (environment.IsDevelopment())
+                   {
+                       builder.SetSampler(new AlwaysOnSampler());
+                   }
+               });
 
         services.AddOptions<HttpClientTraceInstrumentationOptions>()
                 .Configure<IServiceProvider>((options, _) => options.RecordException = true);
