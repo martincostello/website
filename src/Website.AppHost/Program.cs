@@ -3,7 +3,8 @@
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.Website>("Website");
+builder.AddProject<Projects.Website>("Website")
+       .WithHttpHealthCheck("/version");
 
 var app = builder.Build();
 
