@@ -30,7 +30,6 @@
     <File Path=".github/workflows/container-scan.yml" />
     <File Path=".github/workflows/dependency-review.yml" />
     <File Path=".github/workflows/deploy.yml" />
-    <File Path=".github/workflows/lighthouse.yml" />
     <File Path=".github/workflows/lint.yml" />
   </Folder>
   <Folder Name="/Solution Items/.vscode/">
