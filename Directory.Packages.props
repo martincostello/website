@@ -26,7 +26,7 @@
     <PackageVersion Include="OpenTelemetry.Resources.Host" Version="1.12.0-beta.1" />
     <PackageVersion Include="OpenTelemetry.Resources.OperatingSystem" Version="1.12.0-beta.1" />
     <PackageVersion Include="OpenTelemetry.Resources.ProcessRuntime" Version="1.12.0-beta.1" />
-    <PackageVersion Include="RazorSlices" Version="0.9.4" />
+    <PackageVersion Include="RazorSlices" Version="0.9.5" />
     <PackageVersion Include="ReportGenerator" Version="5.4.11" />
     <PackageVersion Include="Sentry.AspNetCore" Version="5.13.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
