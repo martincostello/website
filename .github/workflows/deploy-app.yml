@@ -144,7 +144,7 @@ jobs:
       env:
         CERTIFICATE_IDENTITY: ${{ format('{0}/{1}/.github/workflows/build.yml@{2}', github.server_url, github.repository, inputs.ref) }}
         CONTAINER_IMAGE: ${{ inputs.container-image }}
-      run: cosign verify "${CONTAINER_IMAGE}" --certificate-identity "${CERTIFICATE_IDENTITY}" --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+      run: az acr login --name "${GITHUB_REPOSITORY_OWNER}" && cosign verify "${CONTAINER_IMAGE}" --certificate-identity "${CERTIFICATE_IDENTITY}" --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
     - name: Deploy container to Azure App Service
       uses: azure/webapps-deploy@657f0700ea5214d56a0400d8ac5e8023c963d25d # v3.0.6
