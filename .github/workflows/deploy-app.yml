@@ -139,12 +139,16 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    - name: Log in to Azure Container Registry
+      shell: bash
+      run: az acr login --name "${GITHUB_REPOSITORY_OWNER}"
+
     - name: Verify container image
       shell: bash
       env:
         CERTIFICATE_IDENTITY: ${{ format('{0}/{1}/.github/workflows/build.yml@{2}', github.server_url, github.repository, inputs.ref) }}
         CONTAINER_IMAGE: ${{ inputs.container-image }}
-      run: az acr login --name "${GITHUB_REPOSITORY_OWNER}" && cosign verify "${CONTAINER_IMAGE}" --certificate-identity "${CERTIFICATE_IDENTITY}" --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+      run: cosign verify "${CONTAINER_IMAGE}" --certificate-identity "${CERTIFICATE_IDENTITY}" --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
     - name: Deploy container to Azure App Service
       uses: azure/webapps-deploy@657f0700ea5214d56a0400d8ac5e8023c963d25d # v3.0.6
