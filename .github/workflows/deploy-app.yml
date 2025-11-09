@@ -139,6 +139,10 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    - name: Log in to Azure Container Registry
+      shell: bash
+      run: az acr login --name "${GITHUB_REPOSITORY_OWNER}"
+
     - name: Verify container image
       shell: bash
       env:
