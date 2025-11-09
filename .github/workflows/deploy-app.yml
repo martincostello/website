@@ -140,7 +140,7 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Verify container image
-      shell: pwsh
+      shell: bash
       env:
         CERTIFICATE_IDENTITY: ${{ format('{0}/{1}/.github/workflows/build.yml@{2}', github.server_url, github.repository, inputs.ref) }}
         CONTAINER_IMAGE: ${{ inputs.container-image }}
