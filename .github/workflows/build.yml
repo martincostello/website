@@ -194,7 +194,7 @@ jobs:
       env:
         DIGEST: ${{ steps.publish-container.outputs.container-digest }}
         TAGS: ${{ steps.publish-container.outputs.container-tag }}
-      run: echo "${TAGS}" | xargs -I {} cosign sign --yes "{}@${DIGEST}"
+      run: echo "${TAGS}" | xargs -I {} cosign sign --yes "{}@${DIGEST}" --annotations "ref=${GITHUB_SHA}" --annotations "repo=${GITHUB_REPOSITORY}" --annotations "workflow=${GITHUB_WORKFLOW}"
 
     - name: Publish screenshots
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
