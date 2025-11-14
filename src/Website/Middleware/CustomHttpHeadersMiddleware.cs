@@ -160,7 +160,7 @@ public sealed class CustomHttpHeadersMiddleware
 
             IList<string> origins = pair.Value;
 
-            if (options?.ContentSecurityPolicyOrigins != null &&
+            if (options.ContentSecurityPolicyOrigins != null &&
                 options.ContentSecurityPolicyOrigins.TryGetValue(pair.Key, out IList<string>? configOrigins))
             {
                 origins = [.. origins.Concat(configOrigins)];
@@ -182,7 +182,7 @@ public sealed class CustomHttpHeadersMiddleware
             builder.Append("upgrade-insecure-requests;");
         }
 
-        if (options?.ExternalLinks?.Reports?.ContentSecurityPolicy is { } reportUri)
+        if (options.ExternalLinks?.Reports?.ContentSecurityPolicy is { } reportUri)
         {
             builder.Append(CultureInfo.InvariantCulture, $"report-uri {reportUri};");
         }
@@ -199,11 +199,6 @@ public sealed class CustomHttpHeadersMiddleware
     /// </returns>
     private static string BuildExpectCT(SiteOptions options)
     {
-        if (options == null)
-        {
-            return string.Empty;
-        }
-
         var builder = new StringBuilder();
 
         bool enforce = options.CertificateTransparency?.Enforce == true;
@@ -227,7 +222,7 @@ public sealed class CustomHttpHeadersMiddleware
         }
         else
         {
-            if (options?.ExternalLinks?.Reports?.ExpectCTReportOnly is { } reportUri)
+            if (options.ExternalLinks?.Reports?.ExpectCTReportOnly is { } reportUri)
             {
                 builder.Append(CultureInfo.InvariantCulture, $" report-uri {reportUri}");
             }
