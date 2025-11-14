@@ -199,6 +199,11 @@ public sealed class CustomHttpHeadersMiddleware
     /// </returns>
     private static string BuildExpectCT(SiteOptions options)
     {
+        if (options == null)
+        {
+            return string.Empty;
+        }
+
         var builder = new StringBuilder();
 
         bool enforce = options.CertificateTransparency?.Enforce == true;
