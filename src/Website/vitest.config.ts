@@ -7,7 +7,7 @@ export default defineConfig({
             enabled: true,
             provider: 'v8',
             include: ['assets/scripts/**/*.ts'],
-            reporter: ['text', 'html'],
+            reporter: ['html', 'text'],
         },
         reporters: ['default', 'github-actions'],
     },
