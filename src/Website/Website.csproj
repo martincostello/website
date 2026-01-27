@@ -4,6 +4,8 @@
     <Description>Martin Costello's website</Description>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+    <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+    <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <InvariantGlobalization>true</InvariantGlobalization>
     <OutputType>Exe</OutputType>
     <PreserveCompilationContext>true</PreserveCompilationContext>
