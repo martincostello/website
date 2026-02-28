@@ -137,7 +137,7 @@ jobs:
         output-file: ./artifacts/sbom-container.json
 
     - name: Attest container image
-      uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+      uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
       if: steps.publish-container.outputs.container-digest != ''
       with:
         create-storage-record: false
@@ -146,7 +146,7 @@ jobs:
         subject-name: ${{ steps.publish-container.outputs.container-image }}
 
     - name: Attest SBOM for container
-      uses: actions/attest-sbom@07e74fc4e78d1aad915e867f9a094073a9f71527 # v4.0.0
+      uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
       if: steps.publish-container.outputs.container-digest != ''
       with:
         push-to-registry: true
