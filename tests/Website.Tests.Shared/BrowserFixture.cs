@@ -100,6 +100,13 @@ public class BrowserFixture(
             options.Headless = false;
             options.SlowMo = 100;
         }
+        else if (OperatingSystem.IsLinux() && Options.BrowserType is BrowserType.Chromium && Environment.GetEnvironmentVariable("GITHUB_ACTIONS") is true)
+        {
+            // HACK Workaround for Chromium-based browser crashes on Linux in CI environments.
+            // GitHub Actions Ubuntu runners have a limited /dev/shm (shared memory) size,
+            // which can cause Chromium renderer processes to crash during tests.
+            options.Args = ["--disable-dev-shm-usage"];
+        }
 
         return await playwright[Options.BrowserType].LaunchAsync(options);
     }
