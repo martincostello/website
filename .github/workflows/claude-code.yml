@@ -41,7 +41,7 @@ jobs:
           show-progress: false
 
       - name: Run Claude Code
-        uses: anthropics/claude-code-action@64c7a0ef71df67b14cb4471f4d9c8565c61042bf # v1.0.66
+        uses: anthropics/claude-code-action@e763fe78de2db7389e04818a00b5ff8ba13d1360 # v1.0.68
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           use_commit_signing: true
