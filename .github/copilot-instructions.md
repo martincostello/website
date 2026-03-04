@@ -6,4 +6,4 @@ This file provides guidance to GitHub Copilot (copilot.github.com) when working 
 
 For additional agent instructions, see [AGENTS][agents-md].
 
-[agents-md]: AGENTS.md
+[agents-md]: ../AGENTS.md
