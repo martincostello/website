@@ -19,8 +19,7 @@ public abstract class ToolComponent(ApplicationNavigator navigator)
 
         await Navigator.Page.ClickAsync(GeneratorSelector);
 
-        // Give the UI time to update, using a longer timeout to account for
-        // slower CI environments where external API calls may take more time
+        // Give the UI time to update
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
         while (!cts.IsCancellationRequested)
