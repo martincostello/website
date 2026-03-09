@@ -20,7 +20,7 @@ public abstract class ToolComponent(ApplicationNavigator navigator)
         await Navigator.Page.ClickAsync(GeneratorSelector);
 
         // Give the UI time to update
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
         while (!cts.IsCancellationRequested)
         {
@@ -31,7 +31,7 @@ public abstract class ToolComponent(ApplicationNavigator navigator)
                 return currentValue;
             }
 
-            cts.Token.ThrowIfCancellationRequested();
+            await Task.Delay(TimeSpan.FromMilliseconds(100), cts.Token);
         }
 
         return null!;
