@@ -135,7 +135,7 @@ jobs:
         dotnet publish ./src/Website --arch x64 --os linux -p:PublishProfile=DefaultContainer
 
     - name: Generate SBOM for container
-      uses: anchore/sbom-action@17ae1740179002c89186b61233e0f892c3118b11 # v0.23.0
+      uses: anchore/sbom-action@57aae528053a48a3f6235f2d9461b05fbcb7366d # v0.23.1
       if: steps.publish-container.outputs.container-tag != ''
       with:
         image: ${{ steps.publish-container.outputs.container-tag }}
