@@ -11,7 +11,7 @@ env:
   FORCE_COLOR: 3
   TERM: xterm
   # renovate: datasource=github-releases depName=trivy packageName=aquasecurity/trivy
-  TRIVY_VERSION: 'v0.69.2'
+  TRIVY_VERSION: 'v0.69.3'
 
 jobs:
   scan-image:
@@ -27,6 +27,11 @@ jobs:
       security-events: write
 
     steps:
+
+      - name: Harden runner
+        uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc # v2.15.1
+        with:
+          egress-policy: audit
 
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -44,7 +49,7 @@ jobs:
           "container-image=${image}" >> ${env:GITHUB_OUTPUT}
 
       - name: Run Trivy (SARIF)
-        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 # 0.34.1
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # 0.35.0
         env:
           TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
           TRIVY_USERNAME: ${{ secrets.TRIVY_USERNAME }}
@@ -59,13 +64,13 @@ jobs:
           version: ${{ env.TRIVY_VERSION }}
 
       - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162 # v4.32.5
+        uses: github/codeql-action/upload-sarif@0d579ffd059c29b07949a3cce3983f0780820c98 # v4.32.6
         if: ${{ !cancelled() }}
         with:
           sarif_file: 'trivy.sarif'
 
       - name: Run Trivy (JSON)
-        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 # 0.34.1
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # 0.35.0
         env:
           TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
           TRIVY_USERNAME: ${{ secrets.TRIVY_USERNAME }}
