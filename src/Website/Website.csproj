@@ -19,7 +19,7 @@
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
   <!-- HACK https://github.com/dotnet/runtime/issues/125435 -->
-  <ItemGroup>
+  <ItemGroup Condition="$([System.OperatingSystem]::IsLinux())">
     <LinkerArg Include="-Wl,--no-warn-execstack" />
   </ItemGroup>
   <ItemGroup>
