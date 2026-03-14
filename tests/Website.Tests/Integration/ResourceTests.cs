@@ -132,6 +132,22 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         }
     }
 
+    [Fact]
+    public async Task Disallowed_Host_Is_Rejected()
+    {
+        // Arrange
+        using var client = Fixture.CreateClient();
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/");
+
+        request.Headers.Host = "disallowed-host.martinc0stello.com";
+
+        // Act
+        using var response = await client.SendAsync(request, CancellationToken);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+    }
+
     [Theory]
     [InlineData("/foo", HttpStatusCode.NotFound)]
     [InlineData("/error", HttpStatusCode.InternalServerError)]
