@@ -18,7 +18,7 @@ internal sealed class WebsiteServer : IAsyncDisposable
 
     public WebsiteServer()
     {
-        var builder = WebApplication.CreateBuilder([$"--contentRoot={GetContentRoot()}"]);
+        var builder = WebApplication.CreateBuilder([$"--contentRoot={GetContentRoot()}", "--AllowedHosts=127.0.0.1"]);
 
         builder.Logging.ClearProviders();
         builder.WebHost.UseUrls("https://127.0.0.1:0");
