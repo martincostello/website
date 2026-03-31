@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "inlineSources": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
