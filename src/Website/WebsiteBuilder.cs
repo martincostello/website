@@ -204,10 +204,10 @@ public static class WebsiteBuilder
 
         string[] methods = [HttpMethod.Get.Method, HttpMethod.Head.Method];
 
-        app.MapMethods("/", methods, () => Results.Extensions.RazorSlice<Home>());
-        app.MapMethods("/home/about", methods, () => Results.Extensions.RazorSlice<About>());
-        app.MapMethods("/projects", methods, () => Results.Extensions.RazorSlice<Projects>());
-        app.MapMethods("/tools", methods, () => Results.Extensions.RazorSlice<Tools>());
+        app.MapMethods("/", methods, () => Results.RazorSlice<Home>());
+        app.MapMethods("/home/about", methods, () => Results.RazorSlice<About>());
+        app.MapMethods("/projects", methods, () => Results.RazorSlice<Projects>());
+        app.MapMethods("/tools", methods, () => Results.RazorSlice<Tools>());
 
         app.MapMethods("/error", methods, (int? id) =>
         {
@@ -219,7 +219,7 @@ public static class WebsiteBuilder
                 statusCode = status;
             }
 
-            return Results.Extensions.RazorSlice<Error>(statusCode);
+            return Results.RazorSlice<Error>(statusCode);
         });
 
         return app;

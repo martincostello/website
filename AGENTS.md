@@ -63,7 +63,7 @@ npm run watch        # webpack watch mode
 
 **Entry point**: `Program.cs` calls `builder.AddWebsite()` and `app.UseWebsite()` — both defined as extension methods in `WebsiteBuilder.cs`.
 
-**Routing**: All routes are mapped directly in `WebsiteBuilder.UseWebsite()`. Pages use [RazorSlices](https://github.com/DamianEdwards/RazorSlices) (`.cshtml` files in `src/Website/Slices/`) rendered via `Results.Extensions.RazorSlice<T>()`. There is no MVC controller layer.
+**Routing**: All routes are mapped directly in `WebsiteBuilder.UseWebsite()`. Pages use [RazorSlices](https://github.com/DamianEdwards/RazorSlices) (`.cshtml` files in `src/Website/Slices/`) rendered via `Results.RazorSlice<T>()`. There is no MVC controller layer.
 
 **Redirects**: `RedirectsModule.cs` maps shortlink routes (e.g. `/gh` → GitHub) and crawler-trap paths (from `SiteOptions.CrawlerPaths`) that redirect to random YouTube videos.
 
