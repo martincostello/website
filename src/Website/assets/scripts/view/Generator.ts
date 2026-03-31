@@ -2,7 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 export abstract class Generator {
-    protected endpoint: string;
+    protected endpoint: string | null = null;
 
     protected constructor() {}
 

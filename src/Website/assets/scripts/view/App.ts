@@ -15,7 +15,7 @@ export class App {
             const timestamp = element.getAttribute('data-timestamp');
             const format = element.getAttribute('data-format');
 
-            const value = moment(timestamp, format);
+            const value = moment(timestamp, format ?? undefined);
 
             if (value.isValid()) {
                 let text: string = value.fromNow();
@@ -32,10 +32,11 @@ export class App {
         setTimeout(() => {
             const images = document.querySelectorAll('img.lazy');
             for (const image of images) {
-                let url = image.getAttribute('data-original');
-                url = encodeURI(url);
-                image.setAttribute('src', url);
-                image.removeAttribute('data-original');
+                const url = image.getAttribute('data-original');
+                if (url) {
+                    image.setAttribute('src', encodeURI(url));
+                    image.removeAttribute('data-original');
+                }
             }
         }, 500);
 

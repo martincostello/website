@@ -4,9 +4,9 @@
 import { Generator } from './Generator';
 
 export class GuidGenerator extends Generator {
-    private format: HTMLInputElement;
-    private text: HTMLInputElement;
-    private uppercase: HTMLInputElement;
+    private format!: HTMLInputElement;
+    private text!: HTMLInputElement;
+    private uppercase!: HTMLInputElement;
 
     public constructor() {
         super();
@@ -24,7 +24,7 @@ export class GuidGenerator extends Generator {
             ) as HTMLInputElement;
 
             const button = document.getElementById('generate-guid');
-            button.addEventListener('click', async (event) => {
+            button!.addEventListener('click', async (event) => {
                 event.preventDefault();
                 await this.generateGuid();
             });

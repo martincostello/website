@@ -27,7 +27,7 @@ export class Tools {
 
             const clipboard: any = window['ClipboardJS' as any];
             new clipboard(selector);
-            copyButton.addEventListener('click', (event) => {
+            copyButton!.addEventListener('click', (event) => {
                 event.preventDefault();
             });
         }

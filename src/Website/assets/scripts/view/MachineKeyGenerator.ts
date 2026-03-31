@@ -4,10 +4,10 @@
 import { Generator } from './Generator';
 
 export class MachineKeyGenerator extends Generator {
-    private decryptionAlgorithm: HTMLInputElement;
-    private validationAlgorithm: HTMLInputElement;
-    private textContainer: HTMLElement;
-    private text: HTMLInputElement;
+    private decryptionAlgorithm!: HTMLInputElement;
+    private validationAlgorithm!: HTMLInputElement;
+    private textContainer!: HTMLElement;
+    private text!: HTMLInputElement;
 
     public constructor() {
         super();
@@ -25,19 +25,19 @@ export class MachineKeyGenerator extends Generator {
             ) as HTMLInputElement;
 
             const button = document.getElementById('generate-machine-key');
-            button.addEventListener('click', async (event) => {
+            button!.addEventListener('click', async (event) => {
                 event.preventDefault();
                 await this.generate();
             });
 
             const copy = document.getElementById('copy-machine-key');
-            copy.addEventListener('click', (event) => {
+            copy!.addEventListener('click', (event) => {
                 event.preventDefault();
             });
 
             this.textContainer = document.getElementById(
                 'machine-key-container'
-            );
+            )!;
             this.text = document.getElementById(
                 'machine-key-xml'
             ) as HTMLInputElement;
