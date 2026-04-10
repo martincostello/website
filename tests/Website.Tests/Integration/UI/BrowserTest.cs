@@ -122,7 +122,7 @@ public abstract class BrowserTest : UITest
 
         string result = format switch
         {
-            "hexadecimal" => Convert.ToHexString(hash).ToLowerInvariant(),
+            "hexadecimal" => Convert.ToHexStringLower(hash),
             _ => Convert.ToBase64String(hash),
         };
 
@@ -157,8 +157,8 @@ public abstract class BrowserTest : UITest
             _ => 32,
         };
 
-        string decryptionKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(decryptionKeyBytes)).ToLowerInvariant();
-        string validationKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(validationKeyBytes)).ToLowerInvariant();
+        string decryptionKey = Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(decryptionKeyBytes));
+        string validationKey = Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(validationKeyBytes));
 
         string decryptionName = decryptionAlgorithm switch
         {
