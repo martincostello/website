@@ -121,7 +121,11 @@ public static class WebsiteBuilder
 
         if (builder.Configuration["Sentry:Dsn"] is { Length: > 0 } dsn)
         {
-            builder.WebHost.UseSentry(dsn);
+            builder.WebHost.UseSentry((options) =>
+            {
+                options.DisableSentryHttpMessageHandler = true;
+                options.Dsn = dsn;
+            });
         }
 
         return builder;
