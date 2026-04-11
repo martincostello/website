@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using MartinCostello.Website.Pages;
+using Microsoft.Playwright;
 
 namespace MartinCostello.Website;
 
@@ -52,6 +53,13 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
     }
 
     /// <summary>
+    /// Configures the browser context before use.
+    /// </summary>
+    /// <param name="context">The browser context to configure.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    protected virtual Task ConfigureBrowserContextAsync(IBrowserContext context) => Task.CompletedTask;
+
+    /// <summary>
     /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
     /// </summary>
     /// <param name="browserType">The type of the browser to run the test with.</param>
@@ -77,6 +85,8 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
         await fixture.WithPageAsync(
             async (page) =>
             {
+                await ConfigureBrowserContextAsync(page.Context);
+
                 var navigator = new ApplicationNavigator(ServerAddress, page);
                 await test(navigator);
             },
