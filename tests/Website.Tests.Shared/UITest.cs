@@ -53,12 +53,11 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
     }
 
     /// <summary>
-    /// Configures the browser context before use. Override to add additional configuration.
+    /// Configures the browser context before use.
     /// </summary>
     /// <param name="context">The browser context to configure.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    protected virtual Task ConfigureBrowserContextAsync(IBrowserContext context)
-        => Task.CompletedTask;
+    protected virtual Task ConfigureBrowserContextAsync(IBrowserContext context) => Task.CompletedTask;
 
     /// <summary>
     /// Runs the specified test with a new instance of <see cref="ApplicationNavigator"/> as an asynchronous operation.
@@ -87,6 +86,7 @@ public abstract class UITest(ITestOutputHelper outputHelper) : IAsyncLifetime, I
             async (page) =>
             {
                 await ConfigureBrowserContextAsync(page.Context);
+
                 var navigator = new ApplicationNavigator(ServerAddress, page);
                 await test(navigator);
             },
