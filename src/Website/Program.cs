@@ -3,6 +3,8 @@
 
 using MartinCostello.Website;
 
+AppContext.SetSwitch("Microsoft.AspNetCore.Hosting.SuppressActivityOpenTelemetryData", false);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddWebsite();
