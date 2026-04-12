@@ -3,6 +3,7 @@
 
 using MartinCostello.Website;
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Instrumentation.Http;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -26,6 +27,7 @@ public static class TelemetryExtensions
         if (ApplicationTelemetry.IsOtlpCollectorConfigured())
         {
             builder.UseOtlpExporter();
+            services.Configure<OtlpExporterOptions>((options) => options.Compression = OtlpExportCompression.Gzip);
         }
 
         builder.WithMetrics((builder) =>
