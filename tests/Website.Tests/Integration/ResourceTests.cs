@@ -149,11 +149,14 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     }
 
     [Theory]
+    [InlineData("/apple-app-site-association/", HttpStatusCode.NotFound)]
     [InlineData("/foo", HttpStatusCode.NotFound)]
     [InlineData("/error", HttpStatusCode.InternalServerError)]
     [InlineData("/error?id=399", HttpStatusCode.InternalServerError)]
     [InlineData("/error?id=400", HttpStatusCode.BadRequest)]
     [InlineData("/error?id=600", HttpStatusCode.InternalServerError)]
+    [InlineData("/manifest.webmanifest/", HttpStatusCode.NotFound)]
+    [InlineData("/.well-known/apple-app-site-association/", HttpStatusCode.NotFound)]
     public async Task Can_Load_Resource(string requestUri, HttpStatusCode expected)
     {
         // Arrange
