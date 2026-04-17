@@ -131,7 +131,8 @@ public static class WebsiteBuilder
 
         app.UseRewriter(new RewriteOptions().AddRedirectToNonWww());
 
-        app.MapStaticAssets().ShortCircuit();
+        app.MapStaticAssets("Website.staticwebassets.endpoints.json")
+           .ShortCircuit();
 
         string[] appSiteAssociationPaths = ["/.well-known/apple-app-site-association", "apple-app-site-association"];
 
