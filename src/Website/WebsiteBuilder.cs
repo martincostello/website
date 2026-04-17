@@ -12,7 +12,6 @@ using MartinCostello.Website.Slices;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.StaticFiles;
 
 namespace MartinCostello.Website;
 
@@ -38,39 +37,6 @@ public static class WebsiteBuilder
             options.SerializerOptions.PropertyNameCaseInsensitive = false;
             options.SerializerOptions.WriteIndented = true;
             options.SerializerOptions.TypeInfoResolverChain.Add(ApplicationJsonSerializerContext.Default);
-        });
-
-        builder.Services.Configure<StaticFileOptions>((options) =>
-        {
-            var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings[".webmanifest"] = "application/manifest+json";
-
-            options.ContentTypeProvider = provider;
-            options.DefaultContentType = "application/json";
-            options.ServeUnknownFileTypes = true;
-
-            options.OnPrepareResponse = (context) =>
-            {
-                var maxAge = TimeSpan.FromDays(7);
-
-                if (context.File.Exists && builder.Environment.IsProduction())
-                {
-                    string? extension = Path.GetExtension(context.File.PhysicalPath);
-
-                    // These files are served with a content hash in the URL so can be cached for longer
-                    bool isScriptOrStyle =
-                        string.Equals(extension, ".css", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(extension, ".js", StringComparison.OrdinalIgnoreCase);
-
-                    if (isScriptOrStyle)
-                    {
-                        maxAge = TimeSpan.FromDays(365);
-                    }
-                }
-
-                var headers = context.Context.Response.GetTypedHeaders();
-                headers.CacheControl = new() { MaxAge = maxAge };
-            };
         });
 
         builder.Services.AddAntiforgery((options) =>
@@ -165,7 +131,24 @@ public static class WebsiteBuilder
 
         app.UseRewriter(new RewriteOptions().AddRedirectToNonWww());
 
-        app.UseStaticFiles();
+        app.MapStaticAssets().ShortCircuit();
+
+        string[] appSiteAssociationPaths = ["/.well-known/apple-app-site-association", "apple-app-site-association"];
+
+        foreach (string path in appSiteAssociationPaths)
+        {
+            app.MapGet(path, static (IWebHostEnvironment environment) =>
+            {
+                var file = environment.WebRootFileProvider.GetFileInfo("apple-app-site-association.json");
+
+                if (!file.Exists)
+                {
+                    return Results.NotFound();
+                }
+
+                return Results.File(file.CreateReadStream(), contentType: "application/json");
+            });
+        }
 
         app.MapRedirects();
 
