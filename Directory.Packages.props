@@ -18,14 +18,14 @@
     <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="6.0.3" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Process" Version="1.15.0-beta.1" />
-    <PackageVersion Include="OpenTelemetry.Resources.Azure" Version="1.15.0-beta.1" />
-    <PackageVersion Include="OpenTelemetry.Resources.Container" Version="1.15.0-beta.1" />
-    <PackageVersion Include="OpenTelemetry.Resources.Host" Version="1.15.0-beta.2" />
-    <PackageVersion Include="OpenTelemetry.Resources.OperatingSystem" Version="1.15.0-beta.1" />
-    <PackageVersion Include="OpenTelemetry.Resources.ProcessRuntime" Version="1.15.0-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Process" Version="1.15.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Resources.Azure" Version="1.15.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Resources.Container" Version="1.15.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Resources.Host" Version="1.15.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Resources.OperatingSystem" Version="1.15.1-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Resources.ProcessRuntime" Version="1.15.1-beta.1" />
     <PackageVersion Include="RazorSlices" Version="0.10.1" />
     <PackageVersion Include="ReportGenerator" Version="5.5.6" />
     <PackageVersion Include="Sentry.AspNetCore" Version="6.4.1" />
