@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <ContainerFamily>noble-chiseled</ContainerFamily>
+    <ContainerFamily>resolute-chiseled</ContainerFamily>
     <Description>Martin Costello's website</Description>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
