@@ -18,10 +18,6 @@
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <UserSecretsId>martincostello.com</UserSecretsId>
   </PropertyGroup>
-  <!-- HACK https://github.com/dotnet/runtime/issues/125435 -->
-  <ItemGroup Condition="$([System.OperatingSystem]::IsLinux())">
-    <LinkerArg Include="-Wl,--no-warn-execstack" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" NoWarn="RT0003" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" />
