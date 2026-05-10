@@ -47,11 +47,11 @@ jobs:
       matrix:
         include:
           - os-name: macos
-            runner: macos-latest
+            runner: macos-26
           - os-name: linux
-            runner: ubuntu-latest
+            runner: ubuntu-24.04
           - os-name: windows
-            runner: windows-latest
+            runner: windows-2025
 
     steps:
 
