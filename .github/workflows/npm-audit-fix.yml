@@ -39,12 +39,12 @@ jobs:
 
       - name: Install packages
         run: npm ci
-        working-directory: ./src/LondonTravel.Site
+        working-directory: ./src/Website
 
       - name: Apply audit fixes
         run: npm audit fix
         continue-on-error: true
-        working-directory: ./src/LondonTravel.Site
+        working-directory: ./src/Website
 
       - name: Get GitHub token
         id: get-github-token
