@@ -8,7 +8,7 @@
     <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/4801 -->
     <ControlFlowGuard>false</ControlFlowGuard>
     <Copyright>Martin Costello (c) 2016-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
-    <Features>runtime-async=on</Features>
+    <Features>$(Features);runtime-async=on</Features>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
