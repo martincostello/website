@@ -11,6 +11,11 @@ namespace MartinCostello.Website.Extensions;
 public static class HttpRequestExtensions
 {
     /// <summary>
+    /// The query string used to append a version to content URLs. This field is read-only.
+    /// </summary>
+    private static readonly string VersionQuery = $"?v={GitMetadata.Commit}";
+
+    /// <summary>
     /// Returns the canonical URI for the specified HTTP request with the optional path.
     /// </summary>
     /// <param name="request">The HTTP request to get the canonical URI from.</param>
@@ -20,17 +25,14 @@ public static class HttpRequestExtensions
     /// </returns>
     public static string Canonical(this HttpRequest request, string? path = null)
     {
-        string host = request.Host.ToString();
-        string[] hostSplit = host.Split(':');
-
         var builder = new UriBuilder()
         {
-            Host = hostSplit[0],
+            Host = request.Host.Host,
         };
 
-        if (hostSplit.Length > 1)
+        if (request.Host.Port is { } port)
         {
-            builder.Port = int.Parse(hostSplit[1], CultureInfo.InvariantCulture);
+            builder.Port = port;
         }
 
         builder.Path = path ?? request.Path;
@@ -98,7 +100,7 @@ public static class HttpRequestExtensions
 
         if (appendVersion)
         {
-            result += $"?v={GitMetadata.Commit}";
+            result += VersionQuery;
         }
 
         return result;

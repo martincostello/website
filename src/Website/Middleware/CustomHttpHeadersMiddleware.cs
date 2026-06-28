@@ -44,6 +44,11 @@ public sealed class CustomHttpHeadersMiddleware
     private readonly bool _isProduction;
 
     /// <summary>
+    /// The cached callback used to set the response headers. This field is read-only.
+    /// </summary>
+    private readonly Func<object, Task> _onStarting;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="CustomHttpHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The delegate for the next part of the pipeline.</param>
@@ -65,6 +70,8 @@ public sealed class CustomHttpHeadersMiddleware
         _contentSecurityPolicyReportOnly = BuildContentSecurityPolicy(_isProduction, true, options.Value);
 
         _expectCTValue = BuildExpectCT(options.Value);
+
+        _onStarting = SetHeaders;
     }
 
     /// <summary>
@@ -76,46 +83,7 @@ public sealed class CustomHttpHeadersMiddleware
     /// </returns>
     public Task Invoke(HttpContext context)
     {
-        context.Response.OnStarting(() =>
-            {
-                context.Response.Headers.Remove(HeaderNames.Server);
-                context.Response.Headers.Remove(HeaderNames.XPoweredBy);
-
-                context.Response.Headers.ContentSecurityPolicy = _contentSecurityPolicy;
-                context.Response.Headers.ContentSecurityPolicyReportOnly = _contentSecurityPolicyReportOnly;
-
-                context.Response.Headers.Append("Cross-Origin-Embedder-Policy", "unsafe-none");
-                context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");
-                context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-origin");
-
-                context.Response.Headers.Append("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
-                context.Response.Headers.Append("Referrer-Policy", "no-referrer-when-downgrade");
-                context.Response.Headers.XContentTypeOptions = "nosniff";
-                context.Response.Headers.Append("X-Download-Options", "noopen");
-                context.Response.Headers.XFrameOptions = "DENY";
-                context.Response.Headers.XXSSProtection = "1; mode=block";
-
-                if (context.Request.IsHttps)
-                {
-                    context.Response.Headers.Append("Expect-CT", _expectCTValue);
-                }
-
-#if DEBUG
-                context.Response.Headers.Append("X-Debug", "true");
-#endif
-
-                if (_environmentName is not null)
-                {
-                    context.Response.Headers.Append("X-Environment", _environmentName);
-                }
-
-                context.Response.Headers.Append("X-Instance", Environment.MachineName);
-                context.Response.Headers.Append("X-Request-Id", context.TraceIdentifier);
-                context.Response.Headers.Append("X-Revision", GitMetadata.Commit);
-
-                return Task.CompletedTask;
-            });
-
+        context.Response.OnStarting(_onStarting, context);
         return _next(context);
     }
 
@@ -274,10 +242,59 @@ public sealed class CustomHttpHeadersMiddleware
 
         if (!baseUri.IsDefaultPort)
         {
-            builder.Append(CultureInfo.InvariantCulture, $":{baseUri.Port}");
+            builder.Append(baseUri.Port);
         }
 
         return builder.ToString();
+    }
+
+    /// <summary>
+    /// Sets the custom HTTP response headers for the specified HTTP context.
+    /// </summary>
+    /// <param name="state">The current <see cref="HttpContext"/>.</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the actions performed.
+    /// </returns>
+    private Task SetHeaders(object state)
+    {
+        var context = (HttpContext)state;
+
+        context.Response.Headers.Remove(HeaderNames.Server);
+        context.Response.Headers.Remove(HeaderNames.XPoweredBy);
+
+        context.Response.Headers.ContentSecurityPolicy = _contentSecurityPolicy;
+        context.Response.Headers.ContentSecurityPolicyReportOnly = _contentSecurityPolicyReportOnly;
+
+        context.Response.Headers.Append("Cross-Origin-Embedder-Policy", "unsafe-none");
+        context.Response.Headers.Append("Cross-Origin-Opener-Policy", "same-origin");
+        context.Response.Headers.Append("Cross-Origin-Resource-Policy", "same-origin");
+
+        context.Response.Headers.Append("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
+        context.Response.Headers.Append("Referrer-Policy", "no-referrer-when-downgrade");
+        context.Response.Headers.XContentTypeOptions = "nosniff";
+        context.Response.Headers.Append("X-Download-Options", "noopen");
+        context.Response.Headers.XFrameOptions = "DENY";
+        context.Response.Headers.XXSSProtection = "1; mode=block";
+
+        if (context.Request.IsHttps)
+        {
+            context.Response.Headers.Append("Expect-CT", _expectCTValue);
+        }
+
+#if DEBUG
+        context.Response.Headers.Append("X-Debug", "true");
+#endif
+
+        if (_environmentName is { Length: > 0 })
+        {
+            context.Response.Headers.Append("X-Environment", _environmentName);
+        }
+
+        context.Response.Headers.Append("X-Instance", Environment.MachineName);
+        context.Response.Headers.Append("X-Request-Id", context.TraceIdentifier);
+        context.Response.Headers.Append("X-Revision", GitMetadata.Commit);
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
