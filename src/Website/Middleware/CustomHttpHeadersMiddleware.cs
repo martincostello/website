@@ -242,7 +242,8 @@ public sealed class CustomHttpHeadersMiddleware
 
         if (!baseUri.IsDefaultPort)
         {
-            builder.Append(baseUri.Port);
+            builder.Append(':')
+                   .Append(baseUri.Port);
         }
 
         return builder.ToString();
