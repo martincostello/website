@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -20,6 +21,14 @@ namespace MartinCostello.Website;
 /// </summary>
 public static class WebsiteBuilder
 {
+    private static readonly string AspNetCoreVersion =
+        typeof(HttpContext).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+
+    private static readonly string RuntimeVersion =
+        typeof(object).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+
+    private static readonly long StartedAt = Stopwatch.GetTimestamp();
+
     /// <summary>
     /// Adds website services to the specified <see cref="WebApplicationBuilder"/>.
     /// </summary>
@@ -172,16 +181,14 @@ public static class WebsiteBuilder
                     ["is64BitProcess"] = Environment.Is64BitProcess,
                     ["isNativeAoT"] = !RuntimeFeature.IsDynamicCodeSupported,
                     ["isPrivilegedProcess"] = Environment.IsPrivilegedProcess,
+                    ["uptime"] = Stopwatch.GetElapsedTime(StartedAt).ToString(@"%d\.hh\:mm\:ss", CultureInfo.InvariantCulture),
                 },
                 ["dotnetVersions"] = new JsonObject()
                 {
-                    ["runtime"] = GetVersion<object>(),
-                    ["aspNetCore"] = GetVersion<HttpContext>(),
+                    ["runtime"] = RuntimeVersion,
+                    ["aspNetCore"] = AspNetCoreVersion,
                 },
             };
-
-            static string GetVersion<T>()
-                => typeof(T).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
         });
 
         app.UseCookiePolicy(new()

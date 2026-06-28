@@ -238,15 +238,7 @@ public sealed class CustomHttpHeadersMiddleware
             return string.Empty;
         }
 
-        var builder = new StringBuilder(baseUri.Host);
-
-        if (!baseUri.IsDefaultPort)
-        {
-            builder.Append(':')
-                   .Append(baseUri.Port);
-        }
-
-        return builder.ToString();
+        return baseUri.IsDefaultPort ? baseUri.Host : $"{baseUri.Host}:{baseUri.Port}";
     }
 
     /// <summary>
