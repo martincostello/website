@@ -64,7 +64,8 @@ Write-Information "Running benchmarks..."
 
 $additionalArgs = @(
     "--artifacts",
-    (Join-Path $solutionPath "BenchmarkDotNet.Artifacts")
+    (Join-Path $solutionPath "BenchmarkDotNet.Artifacts"),
+    "--consumeTasksSynchronously" # For backwards compatibility with BenchmarkDotNet versions before 0.16.0
 )
 
 if (-Not [string]::IsNullOrEmpty($Filter)) {
