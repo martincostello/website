@@ -27,7 +27,7 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "@typescript-eslint/eslint-plugin": "8.62.1",
     "@typescript-eslint/parser": "8.62.1",
-    "@vitest/coverage-v8": "4.1.9",
+    "@vitest/coverage-v8": "4.1.10",
     "@vitest/eslint-plugin": "1.6.21",
     "css-loader": "7.1.4",
     "css-minimizer-webpack-plugin": "8.0.0",
@@ -42,7 +42,7 @@
     "ts-loader": "9.6.2",
     "tsify": "5.0.4",
     "typescript": "6.0.3",
-    "vitest": "4.1.9",
+    "vitest": "4.1.10",
     "webpack": "5.108.4",
     "webpack-cli": "7.2.1",
     "webpack-remove-empty-scripts": "1.1.1"
