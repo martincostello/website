@@ -40,8 +40,8 @@ public static class TelemetryExtensions
                .WithTracing((builder) =>
                {
                    builder.SetResourceBuilder(ApplicationTelemetry.ResourceBuilder)
-                          .AddAspNetCoreInstrumentation()
                           .AddHttpClientInstrumentation()
+                          .AddSource("Microsoft.AspNetCore")
                           .AddSource(ApplicationTelemetry.ServiceName);
 
                    if (environment.IsDevelopment())
