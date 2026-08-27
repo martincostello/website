@@ -34,6 +34,7 @@ public static class TelemetryExtensions
                           .AddAspNetCoreInstrumentation()
                           .AddHttpClientInstrumentation()
                           .AddProcessInstrumentation()
+                          .AddMeter("Microsoft.Extensions.Diagnostics.ResourceMonitoring")
                           .AddMeter("System.Runtime")
                           .SetExemplarFilter(ExemplarFilterType.TraceBased);
                })

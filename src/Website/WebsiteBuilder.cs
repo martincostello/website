@@ -75,6 +75,12 @@ public static class WebsiteBuilder
             });
         }
 
+        // Workaround for https://github.com/dotnet/extensions/issues/5962
+        if (OperatingSystem.IsLinux() || OperatingSystem.IsWindows())
+        {
+            builder.Services.AddResourceMonitoring();
+        }
+
         builder.Services.AddResponseCaching();
 
         builder.Services.AddTelemetry(builder.Environment);
