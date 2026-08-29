@@ -25,22 +25,27 @@ public static class HttpRequestExtensions
     /// </returns>
     public static string Canonical(this HttpRequest request, string? path = null)
     {
-        var builder = new UriBuilder()
-        {
-            Host = request.Host.Host,
-        };
+        string host = request.Host.Host;
+        string requestPath = path ?? request.Path;
 
-        if (request.Host.Port is { } port)
+        var builder = new StringBuilder(host.Length + requestPath.Length + 16)
+            .Append("https://")
+            .Append(host);
+
+        if (request.Host.Port is { } port && port != 443)
         {
-            builder.Port = port;
+            builder.Append(':').Append(port);
         }
 
-        builder.Path = path ?? request.Path;
-        builder.Query = string.Empty;
-        builder.Scheme = "https";
+        if (requestPath.Length == 0 || requestPath[0] != '/')
+        {
+            builder.Append('/');
+        }
+
+        builder.Append(requestPath);
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
-        string canonicalUri = builder.Uri.AbsoluteUri.ToLowerInvariant();
+        string canonicalUri = builder.ToString().ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
 
         if (!canonicalUri.EndsWith('/'))
