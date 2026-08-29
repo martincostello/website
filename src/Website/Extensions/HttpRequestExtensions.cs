@@ -32,7 +32,7 @@ public static class HttpRequestExtensions
             .Append("https://")
             .Append(host);
 
-        if (request.Host.Port is { } port && port != Uri.UriSchemeHttpsPort)
+        if (request.Host.Port is { } port && port != 443)
         {
             builder.Append(':').Append(port);
         }
