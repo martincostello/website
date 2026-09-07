@@ -77,6 +77,8 @@ public static class RedirectsModule
             return Results.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
         });
 
+        app.MapGet("/security.txt", () => Results.Redirect("/.well-known/security.txt"));
+
         foreach ((string url, string[] patterns) in Redirects)
         {
             foreach (var pattern in patterns)
