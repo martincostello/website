@@ -26,6 +26,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
     [InlineData("/assets/js/main.js.map", "text/plain")]
     [InlineData("/.well-known/apple-app-site-association", "application/json")]
     [InlineData("/.well-known/assetlinks.json", "application/json")]
+    [InlineData("/.well-known/security.txt", "text/plain")]
     [InlineData("BingSiteAuth.xml", "text/xml")]
     [InlineData("browserconfig.xml", "text/xml")]
     [InlineData("/bad-request.html", "text/html")]
@@ -83,6 +84,7 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
 
     [Theory]
     [InlineData("/Content/browserstack.svg", "https://cdn.martincostello.com/browserstack.svg")]
+    [InlineData("/security.txt", "/.well-known/security.txt")]
     public async Task Resource_Is_Redirect(string requestUri, string location)
     {
         // Arrange
