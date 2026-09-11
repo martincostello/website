@@ -5,8 +5,6 @@
   <PropertyGroup>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Website.ruleset</CodeAnalysisRuleSet>
-    <!-- HACK Workaround for https://github.com/getsentry/sentry-dotnet/issues/4801 -->
-    <ControlFlowGuard>false</ControlFlowGuard>
     <Copyright>Martin Costello (c) 2016-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
     <Features>$(Features);runtime-async=on</Features>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
