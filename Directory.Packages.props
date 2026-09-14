@@ -31,6 +31,6 @@
     <PackageVersion Include="Sentry.AspNetCore" Version="6.11.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
-    <PackageVersion Include="xunit.v3.mtp-off" Version="4.0.0" />
+    <PackageVersion Include="xunit.v3.mtp-off" Version="4.0.1" />
   </ItemGroup>
 </Project>
