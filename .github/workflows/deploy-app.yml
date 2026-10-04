@@ -275,7 +275,7 @@ jobs:
 
     - name: Run end-to-end tests
       shell: pwsh
-      run: dotnet test ./tests/Website.EndToEndTests --configuration Release --logger "GitHubActions;report-warnings=false"
+      run: dotnet test ./tests/Website.EndToEndTests --configuration Release
       env:
         WEBSITE_URL: ${{ inputs.environment-url }}
 

@@ -104,6 +104,10 @@ jobs:
       run: |
         "dir=$(npm config get cache)" >> ${env:GITHUB_OUTPUT}
 
+    - name: Install .NET Tools
+      shell: pwsh
+      run: dotnet tool restore
+
     - name: Build, test and publish
       id: build
       shell: pwsh

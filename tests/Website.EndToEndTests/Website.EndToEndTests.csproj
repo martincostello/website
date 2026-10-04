@@ -12,12 +12,11 @@
     <Compile Include="..\Website.Tests.Shared\**\*.cs" Link="%(Link)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
-    <PackageReference Include="JunitXml.TestLogger" NoWarn="RT0003" />
+    <PackageReference Include="GitHubActionsTestLogger" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Microsoft.Playwright" />
     <PackageReference Include="Shouldly" />
     <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="xunit.v3.mtp-off" />
+    <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
 </Project>
