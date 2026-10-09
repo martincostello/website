@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:latest@sha256:8ba49796e4cb84c1d7bcd676a14d6a03ec88b1afab8d75762ff9abbcbb33c707
+FROM mcr.microsoft.com/devcontainers/dotnet:latest@sha256:694076b55f447d4b9f5b49bc6616c2e904d63e1a61e43680b2bbea46011b6783
 
 # Suppress an apt-key warning about standard out not being a terminal. Use in this script is safe.
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
