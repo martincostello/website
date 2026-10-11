@@ -54,9 +54,11 @@
 </div>
 
 @functions {
-    public LayoutModel LayoutModel => new("About Martin")
+    private LayoutModel? _layoutModel;
+
+    public LayoutModel LayoutModel => _layoutModel ??= new("About Martin")
     {
-        Description = $"Information about {HttpContext!.RequestServices.GetRequiredService<IOptions<SiteOptions>>().Value.Metadata?.Author?.Name}, a software developer and tester.",
+        Description = $"Information about {Options.Value.Metadata?.Author?.Name}, a software developer and tester.",
     };
 
     protected override Task ExecuteSectionAsync(string name)

@@ -37,9 +37,9 @@
 </body>
 <!--
     Environment: @(Config.AzureEnvironment())
-    Instance:    @(Environment.MachineName)
+    Instance:    @(ApplicationMetadata.MachineName)
     Commit:      @(GitMetadata.Commit)
-    Timestamp:   @(GitMetadata.Timestamp.ToString("u", CultureInfo.InvariantCulture))
+    Timestamp:   @(ApplicationMetadata.BuildTimestamp)
     Version:     @(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
 -->
 </html>

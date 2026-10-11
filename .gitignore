@@ -1,4 +1,5 @@
-﻿.DS_Store
+﻿.bdn
+.DS_Store
 .dotnet
 .metadata
 .settings

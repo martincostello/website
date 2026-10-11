@@ -6,8 +6,8 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text.Json.Nodes;
 using MartinCostello.Website.Middleware;
+using MartinCostello.Website.Models;
 using MartinCostello.Website.Options;
 using MartinCostello.Website.Slices;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -28,6 +28,18 @@ public static class WebsiteBuilder
         typeof(object).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
 
     private static readonly long StartedAt = Stopwatch.GetTimestamp();
+
+    private static readonly OperatingSystemModel OperatingSystemInfo = new(
+        RuntimeInformation.OSDescription,
+        RuntimeInformation.OSArchitecture.ToString(),
+        Environment.OSVersion.VersionString,
+        Environment.Is64BitOperatingSystem);
+
+    private static readonly DotnetVersionsModel DotnetVersions = new(RuntimeVersion, AspNetCoreVersion);
+
+    private static readonly string ProcessArchitecture = RuntimeInformation.ProcessArchitecture.ToString();
+
+    private static readonly bool IsPrivilegedProcess = Environment.IsPrivilegedProcess;
 
     /// <summary>
     /// Adds website services to the specified <see cref="WebApplicationBuilder"/>.
@@ -57,8 +69,6 @@ public static class WebsiteBuilder
             options.HeaderName = "x-anti-forgery";
         });
 
-        builder.Services.AddHttpContextAccessor();
-
         builder.Services.AddRouting((options) =>
         {
             options.AppendTrailingSlash = true;
@@ -80,8 +90,6 @@ public static class WebsiteBuilder
         {
             builder.Services.AddResourceMonitoring();
         }
-
-        builder.Services.AddResponseCaching();
 
         builder.Services.AddTelemetry(builder.Environment);
 
@@ -170,31 +178,19 @@ public static class WebsiteBuilder
 
         app.MapGet("/version", static () =>
         {
-            return new JsonObject()
-            {
-                ["applicationVersion"] = GitMetadata.Version,
-                ["frameworkDescription"] = RuntimeInformation.FrameworkDescription,
-                ["operatingSystem"] = new JsonObject()
-                {
-                    ["description"] = RuntimeInformation.OSDescription,
-                    ["architecture"] = RuntimeInformation.OSArchitecture.ToString(),
-                    ["version"] = Environment.OSVersion.VersionString,
-                    ["is64Bit"] = Environment.Is64BitOperatingSystem,
-                },
-                ["process"] = new JsonObject()
-                {
-                    ["architecture"] = RuntimeInformation.ProcessArchitecture.ToString(),
-                    ["is64BitProcess"] = Environment.Is64BitProcess,
-                    ["isNativeAoT"] = !RuntimeFeature.IsDynamicCodeSupported,
-                    ["isPrivilegedProcess"] = Environment.IsPrivilegedProcess,
-                    ["uptime"] = Stopwatch.GetElapsedTime(StartedAt).ToString(@"%d\.hh\:mm\:ss", CultureInfo.InvariantCulture),
-                },
-                ["dotnetVersions"] = new JsonObject()
-                {
-                    ["runtime"] = RuntimeVersion,
-                    ["aspNetCore"] = AspNetCoreVersion,
-                },
-            };
+            var process = new ProcessModel(
+                ProcessArchitecture,
+                Environment.Is64BitProcess,
+                !RuntimeFeature.IsDynamicCodeSupported,
+                IsPrivilegedProcess,
+                Stopwatch.GetElapsedTime(StartedAt).ToString(@"%d\.hh\:mm\:ss", CultureInfo.InvariantCulture));
+
+            return new VersionModel(
+                GitMetadata.Version,
+                RuntimeInformation.FrameworkDescription,
+                OperatingSystemInfo,
+                process,
+                DotnetVersions);
         });
 
         app.UseCookiePolicy(new()

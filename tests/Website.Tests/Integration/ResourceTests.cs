@@ -2,6 +2,8 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace MartinCostello.Website.Integration;
@@ -98,6 +100,48 @@ public class ResourceTests(TestServerFixture fixture, ITestOutputHelper outputHe
         response.Headers.Location.ShouldNotBeNull();
         response.Headers.Location.OriginalString.ShouldNotBeNull();
         response.Headers.Location.OriginalString.ShouldStartWith(location);
+    }
+
+    [Fact]
+    public async Task Version_Returns_Expected_Json()
+    {
+        // Arrange
+        using var client = Fixture.CreateClient();
+
+        // Act
+        using var document = await client.GetFromJsonAsync<JsonDocument>("/version", CancellationToken);
+
+        // Assert
+        document.ShouldNotBeNull();
+
+        var root = document.RootElement;
+        root.ValueKind.ShouldBe(JsonValueKind.Object);
+
+        root.EnumerateObject().Select((p) => p.Name).ShouldBe(
+            ["applicationVersion", "frameworkDescription", "operatingSystem", "process", "dotnetVersions"]);
+
+        root.GetProperty("applicationVersion").GetString().ShouldNotBeNullOrWhiteSpace();
+        root.GetProperty("frameworkDescription").GetString().ShouldNotBeNullOrWhiteSpace();
+
+        var operatingSystem = root.GetProperty("operatingSystem");
+        operatingSystem.EnumerateObject().Select((p) => p.Name).ShouldBe(["description", "architecture", "version", "is64Bit"]);
+        operatingSystem.GetProperty("description").GetString().ShouldNotBeNullOrWhiteSpace();
+        operatingSystem.GetProperty("architecture").GetString().ShouldNotBeNullOrWhiteSpace();
+        operatingSystem.GetProperty("version").GetString().ShouldNotBeNullOrWhiteSpace();
+        operatingSystem.GetProperty("is64Bit").ValueKind.ShouldBeOneOf(JsonValueKind.True, JsonValueKind.False);
+
+        var process = root.GetProperty("process");
+        process.EnumerateObject().Select((p) => p.Name).ShouldBe(["architecture", "is64BitProcess", "isNativeAoT", "isPrivilegedProcess", "uptime"]);
+        process.GetProperty("architecture").GetString().ShouldNotBeNullOrWhiteSpace();
+        process.GetProperty("is64BitProcess").ValueKind.ShouldBeOneOf(JsonValueKind.True, JsonValueKind.False);
+        process.GetProperty("isNativeAoT").ValueKind.ShouldBeOneOf(JsonValueKind.True, JsonValueKind.False);
+        process.GetProperty("isPrivilegedProcess").ValueKind.ShouldBeOneOf(JsonValueKind.True, JsonValueKind.False);
+        process.GetProperty("uptime").GetString().ShouldNotBeNull().ShouldMatch(@"^\d+\.\d{2}:\d{2}:\d{2}$");
+
+        var dotnetVersions = root.GetProperty("dotnetVersions");
+        dotnetVersions.EnumerateObject().Select((p) => p.Name).ShouldBe(["runtime", "aspNetCore"]);
+        dotnetVersions.GetProperty("runtime").GetString().ShouldNotBeNullOrWhiteSpace();
+        dotnetVersions.GetProperty("aspNetCore").GetString().ShouldNotBeNullOrWhiteSpace();
     }
 
     [Fact]
