@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using System.Security.Cryptography;
+using System.Collections.Immutable;
 using MartinCostello.Website.Options;
 using Microsoft.Extensions.Options;
 
@@ -14,20 +14,20 @@ public static class RedirectsModule
 {
     private static readonly string[] HttpMethods = ["GET", "HEAD", "POST"];
 
-    private static readonly Dictionary<string, string[]> Redirects = new()
-    {
-        ["https://blog.martincostello.com/"] = ["/blog", "/blog/{*catchall}"],
-        ["https://bsky.app/profile/martincostello.com"] = ["/bluesky", "/bsky", "/skeet"],
-        ["https://github.com/martincostello"] = ["/gh", "/github"],
-        ["https://github.com/martincostello/presentations"] = ["/presentations", "/slides", "/talks"],
-        ["https://github.com/sponsors/martincostello"] = ["/sponsor"],
-        ["https://mvp.microsoft.com/PublicProfile/5003438"] = ["/mvp"],
-        ["https://sessionize.com/martincostello/"] = ["/sessionize"],
-        ["https://stackoverflow.com/users/1064169/martin-costello"] = ["/so", "/stack", "/stackoverflow", "/stack-overflow"],
-        ["https://twitter.com/martin_costello"] = ["/tweet", "/tweets", "/twitter", "/x"],
-        ["https://www.linkedin.com/in/martin-costello/"] = ["/cv", "/in", "/linked-in", "/linkedin"],
-        ["https://www.youtube.com/playlist?list=PLG-3gLA2F6RiKi-H4E3-QroJGhn9iRTwU"] = ["/youtube"],
-    };
+    private static readonly ImmutableDictionary<string, string[]> Redirects = ImmutableDictionary.CreateRange<string, string[]>(
+    [
+        new("https://blog.martincostello.com/", ["/blog", "/blog/{*catchall}"]),
+        new("https://bsky.app/profile/martincostello.com", ["/bluesky", "/bsky", "/skeet"]),
+        new("https://github.com/martincostello", ["/gh", "/github"]),
+        new("https://github.com/martincostello/presentations", ["/presentations", "/slides", "/talks"]),
+        new("https://github.com/sponsors/martincostello", ["/sponsor"]),
+        new("https://mvp.microsoft.com/PublicProfile/5003438", ["/mvp"]),
+        new("https://sessionize.com/martincostello/", ["/sessionize"]),
+        new("https://stackoverflow.com/users/1064169/martin-costello", ["/so", "/stack", "/stackoverflow", "/stack-overflow"]),
+        new("https://twitter.com/martin_costello", ["/tweet", "/tweets", "/twitter", "/x"]),
+        new("https://www.linkedin.com/in/martin-costello/", ["/cv", "/in", "/linked-in", "/linkedin"]),
+        new("https://www.youtube.com/playlist?list=PLG-3gLA2F6RiKi-H4E3-QroJGhn9iRTwU", ["/youtube"]),
+    ]);
 
     /// <summary>
     /// Gets a random set of annoying YouTube videos. This field is read-only.
@@ -61,42 +61,51 @@ public static class RedirectsModule
     /// </returns>
     public static IEndpointRouteBuilder MapRedirects(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/Content/browserstack.svg", (IOptions<SiteOptions> options) =>
+        var options = app.ServiceProvider.GetRequiredService<IOptions<SiteOptions>>().Value;
+
+        var browserStack = Results.Redirect(GetBrowserStackUrl(options));
+        var blog = Results.Redirect(options.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
+        var securityTxt = Results.Redirect("/.well-known/security.txt");
+
+        app.MapGet("/Content/browserstack.svg", () => browserStack);
+        app.MapGet("/home/blog", () => blog);
+        app.MapGet("/security.txt", () => securityTxt);
+
+        foreach ((string url, string[] patterns) in Redirects)
         {
-            var builder = new UriBuilder(options.Value!.ExternalLinks!.Cdn!)
+            var result = Results.Redirect(url);
+
+            foreach (var pattern in patterns)
+            {
+                app.MapGet(pattern, () => result);
+            }
+        }
+
+        var videos = new IResult[Videos.Length];
+
+        for (int i = 0; i < videos.Length; i++)
+        {
+            videos[i] = Results.Redirect(Videos[i]);
+        }
+
+        foreach (string path in options.CrawlerPaths)
+        {
+#pragma warning disable CA5394
+            app.MapMethods(path, HttpMethods, () => videos[Random.Shared.Next(videos.Length)]);
+#pragma warning restore CA5394
+        }
+
+        return app;
+
+        static string GetBrowserStackUrl(SiteOptions options)
+        {
+            var builder = new UriBuilder(options.ExternalLinks!.Cdn!)
             {
                 Scheme = Uri.UriSchemeHttps,
                 Path = "browserstack.svg",
             };
 
-            return Results.Redirect(builder.Uri.ToString());
-        });
-
-        app.MapGet("/home/blog", (IOptions<SiteOptions> options) =>
-        {
-            return Results.Redirect(options.Value?.ExternalLinks?.Blog?.AbsoluteUri ?? "/");
-        });
-
-        app.MapGet("/security.txt", () => Results.Redirect("/.well-known/security.txt"));
-
-        foreach ((string url, string[] patterns) in Redirects)
-        {
-            foreach (var pattern in patterns)
-            {
-                app.MapGet(pattern, () => Results.Redirect(url));
-            }
+            return builder.Uri.ToString();
         }
-
-        var options = app.ServiceProvider.GetRequiredService<IOptions<SiteOptions>>();
-
-        foreach (string path in options.Value.CrawlerPaths)
-        {
-            app.MapMethods(path, HttpMethods, RandomYouTubeVideo);
-        }
-
-        return app;
-
-        static IResult RandomYouTubeVideo()
-            => Results.Redirect(Videos[RandomNumberGenerator.GetInt32(0, Videos.Length)]);
     }
 }

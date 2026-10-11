@@ -11,6 +11,11 @@ namespace MartinCostello.Website.Extensions;
 public static class HttpRequestExtensions
 {
     /// <summary>
+    /// The scheme prefix used for canonical URIs.
+    /// </summary>
+    private const string HttpsPrefix = "https://";
+
+    /// <summary>
     /// The query string used to append a version to content URLs. This field is read-only.
     /// </summary>
     private static readonly string VersionQuery = $"?v={GitMetadata.Commit}";
@@ -25,35 +30,43 @@ public static class HttpRequestExtensions
     /// </returns>
     public static string Canonical(this HttpRequest request, string? path = null)
     {
-        string host = request.Host.Host;
+        string host = request.Host.Value ?? string.Empty;
         string requestPath = path ?? request.Path;
 
-        var builder = new StringBuilder(host.Length + requestPath.Length + 16)
-            .Append("https://")
-            .Append(host);
+        // The default HTTPS port is omitted from the canonical URI
+        int hostLength = host.AsSpan().EndsWith(":443", StringComparison.Ordinal) ? host.Length - 4 : host.Length;
 
-        if (request.Host.Port is { } port && port != 443)
+        bool prependSlash = requestPath.Length == 0 || requestPath[0] != '/';
+        bool appendSlash = requestPath.Length > 0 && requestPath[^1] != '/';
+
+        int length =
+            HttpsPrefix.Length +
+            hostLength +
+            (prependSlash ? 1 : 0) +
+            requestPath.Length +
+            (appendSlash ? 1 : 0);
+
+        return string.Create(length, (host, hostLength, requestPath, prependSlash, appendSlash), static (buffer, state) =>
         {
-            builder.Append(':').Append(port);
-        }
+            (string host, int hostLength, string path, bool prependSlash, bool appendSlash) = state;
 
-        if (requestPath.Length == 0 || requestPath[0] != '/')
-        {
-            builder.Append('/');
-        }
+            HttpsPrefix.CopyTo(buffer);
+            int written = HttpsPrefix.Length;
 
-        builder.Append(requestPath);
+            written += host.AsSpan(0, hostLength).ToLowerInvariant(buffer[written..]);
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-        string canonicalUri = builder.ToString().ToLowerInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
+            if (prependSlash)
+            {
+                buffer[written++] = '/';
+            }
 
-        if (!canonicalUri.EndsWith('/'))
-        {
-            canonicalUri += "/";
-        }
+            written += path.AsSpan().ToLowerInvariant(buffer[written..]);
 
-        return canonicalUri;
+            if (appendSlash)
+            {
+                buffer[written] = '/';
+            }
+        });
     }
 
     /// <summary>
@@ -67,13 +80,21 @@ public static class HttpRequestExtensions
     {
         var cdn = options?.ExternalLinks?.Cdn;
 
-        // Prefer empty images to a NullReferenceException
         if (cdn == null)
         {
             return string.Empty;
         }
 
-        return $"{cdn}{value.Content(contentPath)?.TrimStart('/')}";
+        ResolveContentPath(value, contentPath, out var pathBase, out var path);
+
+        pathBase = pathBase.TrimStart('/');
+
+        if (pathBase.IsEmpty)
+        {
+            path = path.TrimStart('/');
+        }
+
+        return string.Concat(cdn.ToString(), pathBase, path, VersionQuery);
     }
 
     /// <summary>
@@ -85,29 +106,47 @@ public static class HttpRequestExtensions
     /// <returns>The relatve URI to the content.</returns>
     public static string? Content(this HttpRequest request, string? contentPath, bool appendVersion = true)
     {
-        string? result = string.Empty;
-
-        if (!string.IsNullOrEmpty(contentPath))
+        if (string.IsNullOrEmpty(contentPath))
         {
-            if (contentPath[0] == '~')
-            {
-                var segment = new PathString(contentPath[1..]);
-                var applicationPath = request.PathBase;
-
-                var path = applicationPath.Add(segment);
-                result = path.Value;
-            }
-            else
-            {
-                result = contentPath;
-            }
+            return appendVersion ? VersionQuery : string.Empty;
         }
 
-        if (appendVersion)
+        if (contentPath[0] != '~')
         {
-            result += VersionQuery;
+            return appendVersion ? string.Concat(contentPath, VersionQuery) : contentPath;
         }
 
-        return result;
+        ResolveContentPath(request, contentPath, out var pathBase, out var path);
+
+        return string.Concat(pathBase, path, appendVersion ? VersionQuery : []);
+    }
+
+    /// <summary>
+    /// Resolves the specified content path into the segments that make up its relative URI.
+    /// </summary>
+    /// <param name="request">The <see cref="HttpRequest"/>.</param>
+    /// <param name="contentPath">The virtual path of the content.</param>
+    /// <param name="pathBase">When the method returns, contains the path base to prefix the path with, if any.</param>
+    /// <param name="path">When the method returns, contains the path of the content.</param>
+    private static void ResolveContentPath(
+        HttpRequest request,
+        string? contentPath,
+        out ReadOnlySpan<char> pathBase,
+        out ReadOnlySpan<char> path)
+    {
+        pathBase = default;
+        path = contentPath;
+
+        if (path.Length > 0 && path[0] == '~')
+        {
+            // A virtual path is relative to the application's path base
+            pathBase = request.PathBase.Value;
+            path = path[1..];
+
+            if (pathBase.EndsWith('/') && path.StartsWith('/'))
+            {
+                pathBase = pathBase[..^1];
+            }
+        }
     }
 }
