@@ -29,14 +29,19 @@
             A .NET class library to use with integration tests of .NET functions in AWS Lambda.
         </p>);
 
+        ProjectCard("open-telemetry/opentelemetry-dotnet", "OpenTelemetry .NET SDK", "fa-solid fa-wave-square",
+        @<p>
+            The OpenTelemetry .NET Client.
+        </p>);
+
         ProjectCard("App-vNext/Polly", "Polly", "fa-solid fa-crow",
         @<p>
-            A .NET resilience and transient-fault-handling library for applications of any size.
+            A .NET resilience and transient-fault-handling library.
         </p>);
 
         ProjectCard("domaindrivendev/Swashbuckle.AspNetCore", "Swashbuckle.AspNetCore", "fa-solid fa-skull-crossbones",
         @<p>
-            Swagger/OpenAPI tools for documenting APIs built with ASP.NET Core.
+            Swagger/OpenAPI tools for documenting APIs.
         </p>);
 
         ProjectCard("aspnet-contrib/AspNet.Security.OAuth.Providers", "AspNet.Security.OAuth.Providers", "fa-solid fa-door-open",
@@ -72,13 +77,22 @@
             A companion website for the London Travel Alexa skill using ASP.NET Core Identity.
         </p>);
 
+        ProjectCard("martincostello/dotnet-bumper", ".NET Bumper", "fa-solid fa-square-caret-up",
+        @<p>
+            Upgrades projects to a newer version of .NET.
+        </p>);
+
+        ProjectCard("martincostello/wait-for-nuget-package", "Wait for NuGet Package", "fa-solid fa-cube",
+        @<p>
+            Waits for a new version of a NuGet package.
+        </p>);
+
         ProjectCard("martincostello/website", "This website", "fa-brands fa-html5",
         @<p>
             The very website you&apos;re looking at
             <a id="link-self-source" href="https://github.com/martincostello/website/blob/@(GitMetadata.Commit)/src/Website/Slices/Projects.cshtml#L@(CurrentLineNumber())" title="View the source for this page">
                 right now
-            </a>
-            which is implemented using ASP.NET Core.
+            </a>.
         </p>);
     }
 </div>
