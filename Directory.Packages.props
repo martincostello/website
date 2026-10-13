@@ -26,7 +26,7 @@
     <PackageVersion Include="OpenTelemetry.Resources.OperatingSystem" Version="1.19.1-beta.1" />
     <PackageVersion Include="OpenTelemetry.Resources.ProcessRuntime" Version="1.19.1-beta.1" />
     <PackageVersion Include="RazorSlices" Version="0.12.1" />
-    <PackageVersion Include="Sentry.AspNetCore" Version="6.12.0" />
+    <PackageVersion Include="Sentry.AspNetCore" Version="6.12.1" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
     <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
