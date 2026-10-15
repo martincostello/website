@@ -12,7 +12,6 @@
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="11.0.0-rc.2.26504.105" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-rc.2.26504.105" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.ResourceMonitoring" Version="10.11.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.63.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.19.1" />
@@ -28,7 +27,6 @@
     <PackageVersion Include="RazorSlices" Version="0.12.1" />
     <PackageVersion Include="Sentry.AspNetCore" Version="6.12.1" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
     <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
 </Project>
