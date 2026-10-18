@@ -207,9 +207,9 @@ public sealed class CustomHttpHeadersMiddleware
     /// </returns>
     private static string GetApiOriginForContentSecurityPolicy(SiteOptions options)
     {
-        return options?.ExternalLinks?.Api?.IsAbsoluteUri is true ?
-            GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api) :
-            string.Empty;
+        return options?.ExternalLinks?.Api?.IsAbsoluteUri is true
+            ? GetOriginForContentSecurityPolicy(options?.ExternalLinks?.Api)
+            : string.Empty;
     }
 
     /// <summary>
