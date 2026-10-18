@@ -3,9 +3,6 @@
 
 namespace MartinCostello.Website.EndToEnd;
 
-/// <summary>
-/// The base class for end-to-end tests.
-/// </summary>
 [Category("EndToEnd")]
 [Collection<WebsiteCollection>]
 public abstract class EndToEndTest(WebsiteFixture fixture, ITestOutputHelper outputHelper) : UITest(outputHelper)
