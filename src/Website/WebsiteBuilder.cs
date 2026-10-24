@@ -95,13 +95,18 @@ public static class WebsiteBuilder
 
         builder.Services.Configure<GzipCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
         builder.Services.Configure<BrotliCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
+        builder.Services.Configure<ZstandardCompressionProviderOptions>((p) =>
+        {
+            p.CompressionOptions.Quality = 1;
+            p.CompressionOptions.WindowLog2 = 16;
+        });
 
         builder.Services.AddResponseCompression((options) =>
         {
             options.EnableForHttps = true;
+            options.Providers.Add<ZstandardCompressionProvider>();
             options.Providers.Add<BrotliCompressionProvider>();
             options.Providers.Add<GzipCompressionProvider>();
-            options.Providers.Add<ZstandardCompressionProvider>();
         });
 
         builder.Logging.AddTelemetry();

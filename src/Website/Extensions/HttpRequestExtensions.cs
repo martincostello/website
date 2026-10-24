@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2016. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Collections.Concurrent;
 using MartinCostello.Website.Options;
 
 namespace MartinCostello.Website.Extensions;
@@ -19,6 +20,24 @@ public static class HttpRequestExtensions
     /// The query string used to append a version to content URLs. This field is read-only.
     /// </summary>
     private static readonly string VersionQuery = $"?v={GitMetadata.Commit}";
+
+    /// <summary>
+    /// A cache of the relative URIs for content paths. This field is read-only.
+    /// </summary>
+    /// <remarks>
+    /// The content paths are literals in the Razor slices and the path base does not vary
+    /// between requests in practice, so the set of keys is small and bounded. Caching the
+    /// values avoids allocating the same strings for every request that renders a page.
+    /// </remarks>
+    private static readonly ConcurrentDictionary<(string PathBase, string ContentPath, bool AppendVersion), string> ContentCache = new();
+
+    /// <summary>
+    /// A cache of the CDN URIs for content paths. This field is read-only.
+    /// </summary>
+    /// <remarks>
+    /// See the remarks for <see cref="ContentCache"/>.
+    /// </remarks>
+    private static readonly ConcurrentDictionary<(string Cdn, string PathBase, string ContentPath), string> CdnContentCache = new();
 
     /// <summary>
     /// Returns the canonical URI for the specified HTTP request with the optional path.
@@ -85,16 +104,23 @@ public static class HttpRequestExtensions
             return string.Empty;
         }
 
-        ResolveContentPath(value, contentPath, out var pathBase, out var path);
+        return CdnContentCache.GetOrAdd(
+            (cdn.ToString(), value.PathBase.Value ?? string.Empty, contentPath),
+            static (key) =>
+            {
+                (string cdn, string requestPathBase, string contentPath) = key;
 
-        pathBase = pathBase.TrimStart('/');
+                ResolveContentPath(requestPathBase, contentPath, out var pathBase, out var path);
 
-        if (pathBase.IsEmpty)
-        {
-            path = path.TrimStart('/');
-        }
+                pathBase = pathBase.TrimStart('/');
 
-        return string.Concat(cdn.ToString(), pathBase, path, VersionQuery);
+                if (pathBase.IsEmpty)
+                {
+                    path = path.TrimStart('/');
+                }
+
+                return string.Concat(cdn, pathBase, path, VersionQuery);
+            });
     }
 
     /// <summary>
@@ -111,25 +137,37 @@ public static class HttpRequestExtensions
             return appendVersion ? VersionQuery : string.Empty;
         }
 
-        if (contentPath[0] != '~')
+        if (contentPath[0] != '~' && !appendVersion)
         {
-            return appendVersion ? string.Concat(contentPath, VersionQuery) : contentPath;
+            return contentPath;
         }
 
-        ResolveContentPath(request, contentPath, out var pathBase, out var path);
+        return ContentCache.GetOrAdd(
+            (request.PathBase.Value ?? string.Empty, contentPath, appendVersion),
+            static (key) =>
+            {
+                (string requestPathBase, string contentPath, bool appendVersion) = key;
 
-        return string.Concat(pathBase, path, appendVersion ? VersionQuery : []);
+                if (contentPath[0] != '~')
+                {
+                    return string.Concat(contentPath, VersionQuery);
+                }
+
+                ResolveContentPath(requestPathBase, contentPath, out var pathBase, out var path);
+
+                return string.Concat(pathBase, path, appendVersion ? VersionQuery : []);
+            });
     }
 
     /// <summary>
     /// Resolves the specified content path into the segments that make up its relative URI.
     /// </summary>
-    /// <param name="request">The <see cref="HttpRequest"/>.</param>
+    /// <param name="requestPathBase">The path base of the HTTP request.</param>
     /// <param name="contentPath">The virtual path of the content.</param>
     /// <param name="pathBase">When the method returns, contains the path base to prefix the path with, if any.</param>
     /// <param name="path">When the method returns, contains the path of the content.</param>
     private static void ResolveContentPath(
-        HttpRequest request,
+        string requestPathBase,
         string? contentPath,
         out ReadOnlySpan<char> pathBase,
         out ReadOnlySpan<char> path)
@@ -140,7 +178,7 @@ public static class HttpRequestExtensions
         if (path.Length > 0 && path[0] == '~')
         {
             // A virtual path is relative to the application's path base
-            pathBase = request.PathBase.Value;
+            pathBase = requestPathBase;
             path = path[1..];
 
             if (pathBase.EndsWith('/') && path.StartsWith('/'))
