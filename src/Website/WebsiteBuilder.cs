@@ -101,6 +101,7 @@ public static class WebsiteBuilder
             options.EnableForHttps = true;
             options.Providers.Add<BrotliCompressionProvider>();
             options.Providers.Add<GzipCompressionProvider>();
+            options.Providers.Add<ZstandardCompressionProvider>();
         });
 
         builder.Logging.AddTelemetry();
