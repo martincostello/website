@@ -72,14 +72,14 @@ public static class HttpRequestExtensions
             HttpsPrefix.CopyTo(buffer);
             int written = HttpsPrefix.Length;
 
-            written += host.AsSpan(0, hostLength).ToLowerInvariant(buffer[written..]);
+            written += host.AsSpan(0, hostLength).ToLowerOrdinal(buffer[written..]);
 
             if (prependSlash)
             {
                 buffer[written++] = '/';
             }
 
-            written += path.AsSpan().ToLowerInvariant(buffer[written..]);
+            written += path.AsSpan().ToLowerOrdinal(buffer[written..]);
 
             if (appendSlash)
             {

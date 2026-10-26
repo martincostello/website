@@ -32,11 +32,11 @@ public sealed class ToolPageTests(WebsiteFixture fixture, ITestOutputHelper outp
 
                 if (useUpperCase)
                 {
-                    actual.ShouldBe(actual.ToUpperInvariant());
+                    actual.ShouldBe(actual.ToUpperOrdinal());
                 }
                 else
                 {
-                    actual.ShouldBe(actual.ToLowerInvariant());
+                    actual.ShouldBe(actual.ToLowerOrdinal());
                 }
             });
     }
