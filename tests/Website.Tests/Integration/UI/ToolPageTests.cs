@@ -49,11 +49,11 @@ public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper o
 
                 if (useUpperCase)
                 {
-                    actual.ShouldBe(actual.ToUpperInvariant());
+                    actual.ShouldBe(actual.ToUpperOrdinal());
                 }
                 else
                 {
-                    actual.ShouldBe(actual.ToLowerInvariant());
+                    actual.ShouldBe(actual.ToLowerOrdinal());
                 }
             });
     }
@@ -133,7 +133,7 @@ public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper o
 
         if (uppercase)
         {
-            result = result.ToUpperInvariant();
+            result = result.ToUpperOrdinal();
         }
 
         await route.FulfillAsync(new()
