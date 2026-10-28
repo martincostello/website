@@ -91,7 +91,7 @@ public static class WebsiteBuilder
             builder.Services.AddResourceMonitoring();
         }
 
-        builder.Services.AddTelemetry(builder.Environment);
+        builder.AddTelemetry();
 
         builder.Services.Configure<GzipCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
         builder.Services.Configure<BrotliCompressionProviderOptions>((p) => p.Level = CompressionLevel.Fastest);
@@ -108,8 +108,6 @@ public static class WebsiteBuilder
             options.Providers.Add<BrotliCompressionProvider>();
             options.Providers.Add<GzipCompressionProvider>();
         });
-
-        builder.Logging.AddTelemetry();
 
         builder.WebHost.CaptureStartupErrors(true);
         builder.WebHost.ConfigureKestrel((p) => p.AddServerHeader = false);
