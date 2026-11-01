@@ -33,11 +33,22 @@
     --bs-btn-hover-border-color: #125a8f;
 }
 
+.copy-button {
+    --bs-btn-active-bg: #4f5c5d;
+    --bs-btn-active-border-color: #465253;
+    --bs-btn-bg: #667576;
+    --bs-btn-border-color: #667576;
+    --bs-btn-focus-shadow-rgb: 125, 138, 139;
+    --bs-btn-hover-bg: #5a6869;
+    --bs-btn-hover-border-color: #536061;
+}
+
 .card-header {
     font-weight: bold;
 }
 
 .code {
+    --bs-code-color: #c9266f;
     word-break: unset;
 }
 

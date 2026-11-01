@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Text;
+using System.Text.Json;
 using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
@@ -11,6 +12,10 @@ namespace MartinCostello.Website.Integration.UI;
 [Collection<HttpServerCollection>]
 public sealed class AccessibilityTests(HttpServerFixture fixture, ITestOutputHelper outputHelper) : BrowserTest(fixture, outputHelper)
 {
+    private const string GeneratedGuid = "6c0b2e1a-37a2-4f0e-9a4d-3d0f6f0f7b11";
+    private const string GeneratedHash = "LPJNul+wow4m6DsqxbninhsWHlwfp0JecwQzYpOLmCQ=";
+    private const string GeneratedMachineKeyXml = "<machineKey validationKey=\"0123456789abcdef\" decryptionKey=\"fedcba9876543210\" validation=\"SHA1\" decryption=\"AES\" />";
+
     private static readonly string[] Tags =
     [
         "best-practice",
@@ -100,13 +105,56 @@ public sealed class AccessibilityTests(HttpServerFixture fixture, ITestOutputHel
             });
     }
 
+    [Fact]
+    public async Task Tools_Page_Has_No_Accessibility_Violations_With_Generated_Output()
+    {
+        await WithNavigatorAsync(
+            "chromium",
+            null,
+            async (navigator) =>
+            {
+                // Arrange
+                var page = navigator.Page;
+
+                await ConfigureBrowserContextAsync(page.Context);
+                await navigator.NavigateToAsync("/tools");
+                await WaitForPageAsync(page);
+
+                // Act - The output of the hash and machine key generators is hidden until it is generated,
+                // and axe does not check hidden elements, so generate all of the output before scanning.
+                await page.Locator("#generate-guid").ClickAsync();
+                await page.Locator("#generate-hash").ClickAsync();
+                await page.Locator("#generate-machine-key").ClickAsync();
+
+                await page.Locator("#hash-container").WaitForAsync();
+                await page.Locator("#machine-key-container").WaitForAsync();
+
+                await page.WaitForFunctionAsync(
+                    "() => document.getElementById('text-guid').value === '" + GeneratedGuid + "' && document.getElementById('text-hash').value === '" + GeneratedHash + "'");
+
+                // Assert
+                await AssertNoViolationsAsync(page, "/tools (with generated output)");
+            });
+    }
+
     /// <inheritdoc />
     protected override async Task ConfigureBrowserContextAsync(IBrowserContext context)
     {
-        // The tools page makes calls to the API when it loads, which is not what is being tested here
+        // The API is not what is being tested here, so return fixed responses for the tools
         await context.RouteAsync(
             "https://api.martincostello.com/**",
-            (route) => route.FulfillAsync(new() { ContentType = "application/json", Body = "{}" }));
+            (route) =>
+            {
+                string body = new Uri(route.Request.Url).AbsolutePath switch
+                {
+                    "/tools/guid" => $$"""{"guid":"{{GeneratedGuid}}"}""",
+                    "/tools/hash" => $$"""{"hash":"{{GeneratedHash}}"}""",
+                    "/tools/machinekey" => $$"""{"machineKeyXml":{{JsonSerializer.Serialize(GeneratedMachineKeyXml)}}}""",
+                    _ => "{}",
+                };
+
+                return route.FulfillAsync(new() { ContentType = "application/json", Body = body });
+            });
 
         // Avoid third-party widgets (which are outside the control of the site) affecting the results
         await context.RouteAsync(
