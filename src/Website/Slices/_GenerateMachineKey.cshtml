@@ -1,7 +1,6 @@
-<form id="generate-machine-key-container" role="form">
+<form id="generate-machine-key-container" aria-labelledby="generate-machine-key-legend">
     <fieldset>
-        <legend>Machine Key Generator</legend>
-        <a name="GenerateMachineKey"></a>
+        <legend id="generate-machine-key-legend">Machine Key Generator</legend>
         <div class="row">
             <label class="col-form-label col-lg-2 text-lg-right" for="key-decryption-algorithm">Decryption algorithm?</label>
             <div class="col-lg-7">
@@ -35,15 +34,15 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <div class="input-group mb-3">
-                    <a id="generate-machine-key" class="btn btn-primary" href="#GenerateMachineKey" role="button" rel="nofollow" data-ga-category="tools" data-ga-label="Generate machine key">Generate Machine Key</a>
+                    <button id="generate-machine-key" type="button" class="btn btn-primary" data-ga-category="tools" data-ga-label="Generate machine key">Generate Machine Key</button>
                 </div>
             </div>
         </div>
         <div id="machine-key-container" class="d-none">
             <div class="row">
-                <label for="machine-key-xml" class="col-form-label col-lg-2 text-lg-right">Configuration Element</label>
+                <span id="machine-key-label" class="col-form-label col-lg-2 text-lg-right">Configuration Element</span>
                 <div class="col-lg-7">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" role="group" aria-labelledby="machine-key-label">
                         <code id="machine-key-xml" class="code"></code>
                     </div>
                 </div>
@@ -51,9 +50,9 @@
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
                     <div class="input-group mb-3">
-                        <a id="copy-machine-key" href="#" rel="nofollow" class="btn btn-secondary copy-button" data-clipboard-target="#machine-key-xml" data-ga-category="tools" data-ga-label="Copy machine key" title="Copy to clipboard">
-                            Copy to clipboard <i class="far fa-clipboard"></i>
-                        </a>
+                        <button id="copy-machine-key" type="button" class="btn btn-secondary copy-button" data-clipboard-target="#machine-key-xml" data-ga-category="tools" data-ga-label="Copy machine key">
+                            Copy to clipboard <i class="far fa-clipboard" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,17 @@ export abstract class Generator {
 
     public abstract initialize(): void;
 
+    protected announce(message: string): void {
+        const region = document.getElementById('tool-status');
+
+        if (region) {
+            region.textContent = '';
+            setTimeout(() => {
+                region.textContent = message;
+            }, 50);
+        }
+    }
+
     protected getEndpoint(name: string): string | null {
         const link = document.querySelector(`link[name='${name}']`);
 

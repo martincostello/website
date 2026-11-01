@@ -45,5 +45,7 @@ export class GuidGenerator extends Generator {
 
         this.text.value = response.guid;
         this.text.setAttribute('value', response.guid);
+
+        this.announce(`New GUID generated: ${response.guid}`);
     }
 }

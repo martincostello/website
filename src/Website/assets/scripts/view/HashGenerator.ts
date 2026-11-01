@@ -58,5 +58,7 @@ export class HashGenerator extends Generator {
         this.text.value = response.hash;
         this.text.setAttribute('value', response.hash);
         this.textContainer.classList.remove('d-none');
+
+        this.announce(`Hash generated: ${response.hash}`);
     }
 }
