@@ -1,14 +1,13 @@
-<form id="generate-guid-container" role="form">
+<form id="generate-guid-container" aria-labelledby="generate-guid-legend">
     <fieldset>
-        <legend>GUID Generator</legend>
-        <a name="GenerateGuid"></a>
+        <legend id="generate-guid-legend">GUID Generator</legend>
         <div class="row">
             <label class="col-form-label col-lg-2" for="text-guid">GUID</label>
             <div class="col-lg-7">
                 <div class="input-group mb-3">
-                    <input class="form-control form-control-lg code" id="text-guid" label="The generated GUID" name="text-guid" readonly="" type="text" value="@(Guid.NewGuid().ToString())">
-                    <button id="copy-guid" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard" aria-label="Copy GUID to clipboard">
-                        <span class="far fa-clipboard"></span>
+                    <input class="form-control form-control-lg code" id="text-guid" name="text-guid" readonly="" type="text" value="@(Guid.NewGuid().ToString())">
+                    <button id="copy-guid" type="button" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-guid" data-ga-category="tools" data-ga-label="Copy GUID" title="Copy to clipboard" aria-label="Copy GUID to clipboard">
+                        <span class="far fa-clipboard" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -40,7 +39,7 @@
         <div class="row">
             <div class="col-lg-2 offset-lg-2">
                 <div class="input-group mb-3">
-                    <a id="generate-guid" class="btn btn-primary" role="button" href="#GenerateGuid" rel="nofollow" title="Generate a new GUID" data-ga-category="tools" data-ga-label="Generate GUID">New GUID</a>
+                    <button id="generate-guid" type="button" class="btn btn-primary" title="Generate a new GUID" data-ga-category="tools" data-ga-label="Generate GUID">New GUID</button>
                 </div>
             </div>
         </div>

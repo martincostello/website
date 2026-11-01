@@ -47,6 +47,9 @@ public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper o
                 secondGuid.ShouldNotBe(Guid.Empty);
                 secondGuid.ShouldNotBe(firstGuid);
 
+                string? status = await page.WaitForStatusAsync(actual);
+                status.ShouldBe($"New GUID generated: {actual}");
+
                 if (useUpperCase)
                 {
                     actual.ShouldBe(actual.ToUpperOrdinal());
@@ -78,6 +81,9 @@ public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper o
 
                 // Assert
                 actual.ShouldBe(expected);
+
+                string? status = await page.WaitForStatusAsync(expected);
+                status.ShouldBe($"Hash generated: {expected}");
             });
     }
 
@@ -109,6 +115,9 @@ public sealed class ToolPageTests(HttpServerFixture fixture, ITestOutputHelper o
                 actual.ShouldContain($"validation=\"{expectedValidation}\"");
                 actual.ShouldContain($"decryption=\"{expectedDecryption}\"");
                 actual.ShouldEndWith(" />");
+
+                string? status = await page.WaitForStatusAsync("Machine key generated");
+                status.ShouldBe("Machine key generated. The configuration element is shown below.");
             });
     }
 

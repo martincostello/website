@@ -1,7 +1,6 @@
-<form id="generate-hash-container" role="form">
+<form id="generate-hash-container" aria-labelledby="generate-hash-legend">
     <fieldset>
-        <legend>Hash Generator</legend>
-        <a name="GenerateHash"></a>
+        <legend id="generate-hash-legend">Hash Generator</legend>
         <div class="row">
             <label class="col-form-label col-lg-2 text-lg-right" for="hash-algorithm">Algorithm?</label>
             <div class="col-lg-7">
@@ -38,7 +37,7 @@
         <div class="row">
             <div class="offset-lg-2 col-lg-6">
                 <div class="input-group mb-3">
-                    <a id="generate-hash" class="btn btn-primary" href="#GenerateHash" role="button" rel="nofollow" data-ga-category="tools" data-ga-label="Generate hash">Generate Hash</a>
+                    <button id="generate-hash" type="button" class="btn btn-primary" data-ga-category="tools" data-ga-label="Generate hash">Generate Hash</button>
                 </div>
             </div>
         </div>
@@ -48,8 +47,8 @@
                 <div class="col-lg-7">
                     <div class="input-group">
                         <input class="form-control form-control-lg code" id="text-hash" name="text-hash" readonly="" type="text" value="">
-                        <button id="copy-hash" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-hash" title="Copy to clipboard" data-ga-category="tools" data-ga-label="Copy hash">
-                            <span class="far fa-clipboard"></span>
+                        <button id="copy-hash" type="button" aria-label="Copy hash to clipboard" class="btn btn-lg btn-secondary copy-button" data-clipboard-target="#text-hash" title="Copy to clipboard" data-ga-category="tools" data-ga-label="Copy hash">
+                            <span class="far fa-clipboard" aria-hidden="true"></span>
                         </button>
                     </div>
                 </div>

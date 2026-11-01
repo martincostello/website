@@ -53,5 +53,9 @@ export class MachineKeyGenerator extends Generator {
         this.text.textContent = response.machineKeyXml;
         this.text.setAttribute('value', response.machineKeyXml);
         this.textContainer.classList.remove('d-none');
+
+        this.announce(
+            'Machine key generated. The configuration element is shown below.'
+        );
     }
 }

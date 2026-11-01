@@ -23,6 +23,16 @@
     padding-top: 5rem;
 }
 
+.bluesky-follow-button {
+    --bs-btn-active-bg: #115181;
+    --bs-btn-active-border-color: #0f4872;
+    --bs-btn-bg: #1976b8;
+    --bs-btn-border-color: #1976b8;
+    --bs-btn-focus-shadow-rgb: 71, 145, 201;
+    --bs-btn-hover-bg: #14629b;
+    --bs-btn-hover-border-color: #125a8f;
+}
+
 .card-header {
     font-weight: bold;
 }
@@ -57,4 +67,10 @@ img.lazy[data-original] {
 img.lazy:not([data-original]) {
     opacity: 1;
     transition: opacity 1s ease-in-out 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    img.lazy:not([data-original]) {
+        transition: none;
+    }
 }

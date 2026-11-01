@@ -12,4 +12,13 @@ public sealed class ToolsPage(ApplicationNavigator navigator) : PageBase(navigat
     public HashComponent HashGenerator() => new(Navigator);
 
     public MachineKeyComponent MachineKeyGenerator() => new(Navigator);
+
+    public async Task<string?> WaitForStatusAsync(string expectedText)
+    {
+        await Navigator.Page.WaitForFunctionAsync(
+            "text => document.getElementById('tool-status')?.textContent?.includes(text)",
+            expectedText);
+
+        return await Navigator.Page.TextContentAsync("id=tool-status");
+    }
 }
