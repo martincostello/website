@@ -23,7 +23,6 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.ResourceMonitoring" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Process" />
     <PackageReference Include="OpenTelemetry.Resources.Azure" />
@@ -48,8 +47,4 @@
       <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(Content)" />
     </ItemGroup>
   </Target>
-  <!-- See https://learn.microsoft.com/aspnet/core/release-notes/aspnetcore-11#native-opentelemetry-tracing-for-aspnet-core -->
-  <ItemGroup>
-    <RuntimeHostConfigurationOption Include="Microsoft.AspNetCore.Hosting.SuppressActivityOpenTelemetryData" Value="false" />
-  </ItemGroup>
 </Project>
