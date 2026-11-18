@@ -33,17 +33,17 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      uses: actions/checkout@v7.0.1
       with:
         filter: 'tree:0'
         persist-credentials: false
         show-progress: false
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+      uses: actions/setup-dotnet@v6.1.0
 
     - name: Setup Node
-      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      uses: actions/setup-node@v7.1.0
       with:
         node-version: '26.x'
 
@@ -52,7 +52,7 @@ jobs:
       run: ./benchmark.ps1
 
     - name: Publish BenchmarkDotNet artifacts
-      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      uses: actions/upload-artifact@v7.0.2
       if: ${{ !cancelled() }}
       with:
         name: artifacts
@@ -69,12 +69,12 @@ jobs:
     - name: Get GitHub token
       id: get-github-token
       if: github.event.repository.fork == false
-      uses: martincostello/github-automation/actions/get-github-token@279f5d3cc244dfdd9bb1197d2ab6996c37cb4486 # get-github-token/v4.3.3
+      uses: martincostello/github-automation/actions/get-github-token@get-github-token/v4.3.3
       with:
         profile-name: benchmarks
 
     - name: Publish results
-      uses: martincostello/benchmarkdotnet-results-publisher@9c523527deddd31d7e022f5db65ccdf3954d32c5 # v2.1.1
+      uses: martincostello/benchmarkdotnet-results-publisher@v2.1.1
       if: github.event.repository.fork == false
       with:
         branch: ${{ github.ref_name }}

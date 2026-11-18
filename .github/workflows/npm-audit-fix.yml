@@ -27,14 +27,14 @@ jobs:
 
       - name: Checkout code
         id: checkout-code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           filter: 'tree:0'
           persist-credentials: false
           show-progress: false
 
       - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: '26.x'
 
@@ -63,7 +63,7 @@ jobs:
       - name: Get GitHub token
         id: get-github-token
         if: steps.check-for-changes.outputs.has-changes == 'true'
-        uses: martincostello/github-automation/actions/get-github-token@279f5d3cc244dfdd9bb1197d2ab6996c37cb4486 # get-github-token/v4.3.3
+        uses: martincostello/github-automation/actions/get-github-token@get-github-token/v4.3.3
         with:
           profile-name: write
 

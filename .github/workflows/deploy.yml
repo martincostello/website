@@ -40,12 +40,12 @@ jobs:
     steps:
 
     - name: Harden runner
-      uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
+      uses: step-security/harden-runner@v2.23.0
       with:
         egress-policy: audit
 
     - name: Get environment name
-      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      uses: actions/github-script@v9.0.0
       id: get-environment-name
       with:
         result-encoding: string
@@ -73,7 +73,7 @@ jobs:
           return arguments[2] || 'dev';
 
     - name: 'Find run for #${{ env.ISSUE_NUMBER }}'
-      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      uses: actions/github-script@v9.0.0
       id: get-run
       env:
         WORKFLOW_NAME: 'build'
