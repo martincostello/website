@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="Aspire.AppHost.Sdk" />
   <PropertyGroup>
     <AspireUseCliBundle>true</AspireUseCliBundle>
     <IsAspireHost>true</IsAspireHost>
@@ -9,8 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Website\Website.csproj" />
+    <PackageReference Include="Aspire.Hosting.Dotnet" />
   </ItemGroup>
 </Project>
