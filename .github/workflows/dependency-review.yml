@@ -15,16 +15,16 @@ jobs:
     steps:
 
       - name: Harden runner
-        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
+        uses: step-security/harden-runner@v2.23.0
         with:
           egress-policy: audit
 
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           filter: 'tree:0'
           persist-credentials: false
           show-progress: false
 
       - name: Review dependencies
-        uses: actions/dependency-review-action@bbc44d14a204704ccc493733616cd1e93a0321ec # v5.0.1
+        uses: actions/dependency-review-action@v5.0.1
