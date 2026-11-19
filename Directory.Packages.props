@@ -14,7 +14,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="11.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.ResourceMonitoring" Version="10.11.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.65.0" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.65.1" />
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.21.0" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.21.0" />
