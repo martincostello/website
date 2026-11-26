@@ -133,7 +133,7 @@ jobs:
       uses: sigstore/cosign-installer@v4.1.4
       env:
         # renovate: datasource=github-releases depName=cosign packageName=sigstore/cosign
-        COSIGN_VERSION: v3.1.5
+        COSIGN_VERSION: v3.1.6
       with:
         cosign-release: ${{ env.COSIGN_VERSION }}
 
